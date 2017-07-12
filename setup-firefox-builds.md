@@ -1,3 +1,6 @@
+0. Install GIT client:
+https://git-scm.com/
+
 1. Setup Mercurial: 
 https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Source_Code/Mercurial
 
