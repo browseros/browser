@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { routes } from './barrel.routes';
 import { BarrelComponent } from './barrel.component';
+import { WebviewDirective } from '../../electron/webview.directive';
 
 console.log('`Barrel` bundle loaded asynchronously');
 
@@ -12,6 +13,7 @@ console.log('`Barrel` bundle loaded asynchronously');
   declarations: [
     // Components / Directives/ Pipes
     BarrelComponent,
+    WebviewDirective
   ],
   imports: [
     CommonModule,

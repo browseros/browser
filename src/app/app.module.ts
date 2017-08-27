@@ -40,6 +40,7 @@ import { XLargeDirective } from './home/x-large';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
+import { WebviewDirective } from "../electron/webview.directive";
 
 declare const ENV: string;
 

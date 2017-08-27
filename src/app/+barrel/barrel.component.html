@@ -1,0 +1,10 @@
+<h1>Hello from Barrel 123456</h1>
+<webview #webview src='http://gooogle.com' style='width: 50%; height: 500px;'></webview>
+<span>
+  <a [routerLink]=" ['./child-barrel'] ">
+    Child Barrel
+  </a>
+  <button (click)='navigate("http://gooogle.com")'>Google</button>
+  <button (click)='navigate("http://github.com")'>Github</button>
+</span>
+<router-outlet></router-outlet>

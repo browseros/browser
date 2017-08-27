@@ -1,7 +1,10 @@
 import {
   Component,
   OnInit,
+  ViewChild,
+  AfterViewInit,
 } from '@angular/core';
+import { WebviewDirective } from '../../electron/webview.directive';
 /*
  * We're loading this component asynchronously
  * We are using some magic with es6-promise-loader that will wrap the module with a Promise
@@ -12,20 +15,20 @@ console.log('`Barrel` component loaded asynchronously');
 
 @Component({
   selector: 'barrel',
-  template: `
-    <h1>Hello from Barrel</h1>
-    <span>
-      <a [routerLink]=" ['./child-barrel'] ">
-        Child Barrel
-      </a>
-    </span>
-    <router-outlet></router-outlet>
-  `,
+  templateUrl: './barrel.component.html',
 })
-export class BarrelComponent implements OnInit {
+export class BarrelComponent implements OnInit, AfterViewInit {
 
   public ngOnInit() {
     console.log('hello `Barrel` component');
+  }
+
+  // tslint:disable-next-line:no-empty
+  public ngAfterViewInit() {}
+
+  private navigate(url: string) {
+    const webview = document.querySelector('webview');
+    webview['loadURL'](url);
   }
 
 }

@@ -68,8 +68,8 @@ import { HomeActions } from './home/home.actions';
 })
 export class AppComponent implements OnInit {
   public angularclassLogo = 'assets/img/angular-electron.svg';
-  public name = 'Angular Electron Dream Starter';
-  public url = 'https://github.com/colinskow/angular-electron-dream-starter';
+  public name = 'Browser OS';
+  public url = 'https://github.com/browseros/browser';
   public state$: Observable<HomeState>;
 
   constructor(

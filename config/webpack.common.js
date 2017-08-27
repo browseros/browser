@@ -29,7 +29,7 @@ const SpecifyTsFilesPlugin = require('./specify-ts-files-plugin');
 const HMR = helpers.hasProcessFlag('hot');
 const AOT = helpers.hasNpmFlag('aot');
 const METADATA = {
-  title: 'Angular Electron Dream Starter by Colin Skow & @AngularClass',
+  title: 'Browser OS',
   baseUrl: '',
   isDevServer: helpers.isWebpackDevServer()
 };
@@ -377,6 +377,12 @@ module.exports = function (options) {
         otherFilesToCompile: otherFilesToCompile,
         tsConfigBase: tsConfigBase,
         customTsConfigFileName: customTsConfigFileName
+      }),
+
+      new webpack.ProvidePlugin({
+        jQuery: 'jquery',
+        $: 'jquery',
+        jquery: 'jquery'
       })
 
     ],
