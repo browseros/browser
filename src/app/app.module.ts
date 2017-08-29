@@ -40,7 +40,7 @@ import { XLargeDirective } from './home/x-large';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
-import { WebviewDirective } from "../electron/webview.directive";
+import { WebviewDirective } from '../electron/webview.directive';
 
 declare const ENV: string;
 
@@ -79,7 +79,8 @@ if (ENV === 'development') {
     AboutComponent,
     HomeComponent,
     NoContentComponent,
-    XLargeDirective
+    XLargeDirective,
+    WebviewDirective
   ],
   imports: [ // import Angular's modules
     BrowserModule,

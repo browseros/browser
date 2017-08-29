@@ -18,6 +18,7 @@ console.log('`Barrel` component loaded asynchronously');
   templateUrl: './barrel.component.html',
 })
 export class BarrelComponent implements OnInit, AfterViewInit {
+  private tab = 'google';
 
   public ngOnInit() {
     console.log('hello `Barrel` component');
@@ -26,9 +27,8 @@ export class BarrelComponent implements OnInit, AfterViewInit {
   // tslint:disable-next-line:no-empty
   public ngAfterViewInit() {}
 
-  private navigate(url: string) {
-    const webview = document.querySelector('webview');
-    webview['loadURL'](url);
+  private navigate(tab: string) {
+    this.tab = tab;
   }
 
 }

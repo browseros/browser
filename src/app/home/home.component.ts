@@ -10,6 +10,7 @@ import { HomeState } from './home.reducer';
 import { HomeActions } from './home.actions';
 import { Title } from './title';
 import { XLargeDirective } from './x-large';
+import { ITab } from "../models/tab.model";
 
 @Component({
   // The selector is what angular internally uses
@@ -21,23 +22,30 @@ import { XLargeDirective } from './x-large';
     Title
   ],
   // Our list of styles in our component. We may add more to compose many styles together
-  styleUrls: [ './home.component.css' ],
+  styleUrls: ['./home.component.css'],
   // Every Angular template is first compiled by the browser before Angular runs it's compiler
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
+
   // Set our default values
   public localState = { value: '' };
+
+  private tabs: ITab[] = [];
+  private currentTabId = 1;
+  private currentInputValue = '';
+
   // TypeScript public modifiers
   constructor(
     private store: Store<AppState>,
     private homeActions: HomeActions,
     public title: Title
-  ) {}
+  ) { }
 
   public ngOnInit() {
     console.log('hello `Home` component');
     // this.title.getData().subscribe(data => this.data = data);
+    this.tabs.push({title: 'About', url: 'about:blank', id: this.currentTabId});
   }
 
   public submitState(value: string) {
@@ -48,5 +56,23 @@ export class HomeComponent implements OnInit {
 
   public showDialog() {
     ipcRenderer.send('show-dialog');
+  }
+
+  private onEntered(url: string) {
+    let tab = this.tabs.find(t => t.id === this.currentTabId);
+    const webview = document.getElementById('webview-' + this.currentTabId);
+    webview['loadURL'](url);
+    this.currentInputValue = '';
+  }
+
+  private showTab(tab: ITab) {
+    this.currentTabId = tab.id;
+  }
+
+  private addUrl() {
+    let tabId = this.currentTabId + 1;
+    let tab: ITab = {id: tabId, title: 'Tab ' + tabId, url: 'about: blank'};
+    this.tabs.push(tab);
+    this.currentTabId = tabId;
   }
 }
