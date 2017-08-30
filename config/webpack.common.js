@@ -44,6 +44,7 @@ module.exports = function (options) {
 
   const entry =  {
     'polyfills': './src/polyfills.browser.ts',
+    'vendor': './src/vendor.browser.ts',
     'main':      AOT ? './src/main.browser.aot.ts' :
                 './src/main.browser.ts'
   };
