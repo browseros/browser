@@ -203,10 +203,7 @@ module.exports = function (options) {
 
         /* File loader for supporting fonts, for example, in CSS files.
         */
-        { 
-          test: /\.(eot|woff2?|svg|ttf)([\?]?.*)$/,
-          use: 'file-loader'
-        }
+        { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' }
 
       ],
 

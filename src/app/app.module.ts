@@ -38,9 +38,8 @@ import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
 
-import '../styles/styles.scss';
-import '../styles/headings.css';
 import { WebviewDirective } from '../electron/webview.directive';
+import { AppSearchComponent } from './home/app-search/app-search.component';
 
 declare const ENV: string;
 
@@ -80,7 +79,8 @@ if (ENV === 'development') {
     HomeComponent,
     NoContentComponent,
     XLargeDirective,
-    WebviewDirective
+    WebviewDirective,
+    AppSearchComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

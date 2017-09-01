@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import { ipcRenderer } from 'electron';
 
@@ -10,7 +11,8 @@ import { HomeState } from './home.reducer';
 import { HomeActions } from './home.actions';
 import { Title } from './title';
 import { XLargeDirective } from './x-large';
-import { ITab } from "../models/tab.model";
+import { ITab } from '../models/tab.model';
+import { AppSearchComponent } from './app-search/app-search.component';
 
 @Component({
   // The selector is what angular internally uses
@@ -35,6 +37,8 @@ export class HomeComponent implements OnInit {
   private currentTabId = 1;
   private currentInputValue = '';
 
+  @ViewChild('appSearch') private appSearch: AppSearchComponent;
+
   // TypeScript public modifiers
   constructor(
     private store: Store<AppState>,
@@ -45,7 +49,7 @@ export class HomeComponent implements OnInit {
   public ngOnInit() {
     console.log('hello `Home` component');
     // this.title.getData().subscribe(data => this.data = data);
-    this.tabs.push({title: 'About', url: 'about:blank', id: this.currentTabId});
+    this.tabs.push({ title: 'About', url: 'about:blank', id: this.currentTabId });
   }
 
   public submitState(value: string) {
@@ -70,9 +74,6 @@ export class HomeComponent implements OnInit {
   }
 
   private addUrl() {
-    let tabId = this.currentTabId + 1;
-    let tab: ITab = {id: tabId, title: 'Tab ' + tabId, url: 'about: blank'};
-    this.tabs.push(tab);
-    this.currentTabId = tabId;
+    this.appSearch.show();
   }
 }

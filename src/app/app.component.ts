@@ -51,19 +51,6 @@ import { HomeActions } from './home/home.actions';
     <main>
       <router-outlet></router-outlet>
     </main>
-
-    <pre class="app-state">this.state$ = {{ state$ | async | json }}</pre>
-
-    <footer>
-      <span>
-        Angular Electron Dream Starter by <a (click)="openURL(url)" href="#">@ColinSkow</a>
-      </span>
-      <div>
-        <a [href]="url">
-          <img [src]="angularclassLogo" width="25%">
-        </a>
-      </div>
-    </footer>
   `
 })
 export class AppComponent implements OnInit {

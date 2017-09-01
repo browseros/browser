@@ -1,6 +1,6 @@
 <div>
   <h1 x-large class="sample-content">Your Content Here</h1>
-  <button class="btn btn-primary" (click)="addUrl()">Add URL</button>
+  <button class="btn btn-primary" (click)="addUrl()">+</button>
   <input [(ngModel)]='currentInputValue' type="text" style="width: 100%;" (keyup.enter)='onEntered($event.target.value)' />
 
   <span *ngFor='let tab of tabs'>
@@ -9,3 +9,4 @@
   <div *ngFor='let tab of tabs' [hidden]='tab.id != currentTabId' >
     <webview id='webview-{{tab.id}}' #webview attr.src='{{tab.url}}' style='width: 100%; height: 500px;'></webview>
   </div>
+  <app-search #appSearch></app-search>
