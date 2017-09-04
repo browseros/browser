@@ -1,12 +1,12 @@
+<app-nav></app-nav>
+<div *ngFor='let tab of tabs' [hidden]='tab.id != currentTabId'>
+  <webview id='webview-{{tab.id}}' #webview attr.src='{{tab.url}}' style='width: 100%; height: 680px;'></webview>
+</div>
 <div>
-  <h1 x-large class="sample-content">Your Content Here</h1>
-  <button class="btn btn-primary" (click)="addUrl()">+</button>
-  <input [(ngModel)]='currentInputValue' type="text" style="width: 100%;" (keyup.enter)='onEntered($event.target.value)' />
-
-  <span *ngFor='let tab of tabs'>
-    <button (click)="showTab(tab)">{{tab.title}}</button>
-  </span>
-  <div *ngFor='let tab of tabs' [hidden]='tab.id != currentTabId' >
-    <webview id='webview-{{tab.id}}' #webview attr.src='{{tab.url}}' style='width: 100%; height: 500px;'></webview>
+  <div *ngFor='let tab of tabs' class='app-on-tab' (click)="showTab(tab)" [style.backgroundColor]='tab.id == currentTabId ? "#eee": "#ddd"'>
+    <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px;" (click)='closeTab(tab)'></i>
+    {{tab.title}}
   </div>
-  <app-search #appSearch></app-search>
+  <button class="btn btn-default btn-sm" (click)="addUrl()" style="margin-top: 6px;">+</button>
+</div>
+<app-search #appSearch (onSearch)='doSearch($event)'></app-search>

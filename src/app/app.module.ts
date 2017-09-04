@@ -40,6 +40,7 @@ import { XLargeDirective } from './home/x-large';
 
 import { WebviewDirective } from '../electron/webview.directive';
 import { AppSearchComponent } from './home/app-search/app-search.component';
+import { AppNavComponent } from './home/app-nav/app-nav.component';
 
 declare const ENV: string;
 
@@ -80,7 +81,8 @@ if (ENV === 'development') {
     NoContentComponent,
     XLargeDirective,
     WebviewDirective,
-    AppSearchComponent
+    AppSearchComponent,
+    AppNavComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

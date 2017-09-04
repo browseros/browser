@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
   public localState = { value: '' };
 
   private tabs: ITab[] = [];
-  private currentTabId = 1;
+  private currentTabId = 0;
   private currentInputValue = '';
 
   @ViewChild('appSearch') private appSearch: AppSearchComponent;
@@ -48,8 +48,9 @@ export class HomeComponent implements OnInit {
 
   public ngOnInit() {
     console.log('hello `Home` component');
-    // this.title.getData().subscribe(data => this.data = data);
-    this.tabs.push({ title: 'About', url: 'about:blank', id: this.currentTabId });
+    this.doSearch('http://vnexpress.net');
+    this.doSearch('http://linkhay.com');
+    this.doSearch('http://dantri.com');
   }
 
   public submitState(value: string) {
@@ -75,5 +76,43 @@ export class HomeComponent implements OnInit {
 
   private addUrl() {
     this.appSearch.show();
+  }
+
+  private doSearch(app: string) {
+    let currentTabId = this.tabs.length + 1;
+    this.appSearch.hide();
+
+    let tab = { title: this.extractHostname(app), url: app, id: currentTabId };
+    this.tabs.push(tab);
+    this.currentTabId = currentTabId;
+    setTimeout(() => {
+      let webview = document.getElementById('webview-' + currentTabId);
+      webview.addEventListener('page-title-updated', (result) => {
+        // console.log(result);
+        // tab.title = result['title'];
+      });
+    }, 200);
+  }
+
+  private extractHostname(url: string): string {
+    let hostname;
+
+    if (url.indexOf('://') > -1) {
+      hostname = url.split('/')[2];
+    } else {
+      hostname = url.split('/')[0];
+    }
+
+    hostname = hostname.split(':')[0];
+    hostname = hostname.split('?')[0];
+
+    return hostname;
+  }
+
+  private closeTab(tab: ITab) {
+    let id = this.tabs.findIndex(i => i.id === tab.id);
+    if (id >= 0) {
+      this.tabs.splice(id, 1);
+    }
   }
 }

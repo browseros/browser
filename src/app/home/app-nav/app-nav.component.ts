@@ -2,12 +2,12 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
-    selector: 'app-search',
-    styleUrls: ['./app-search.component.css'],
-    templateUrl: './app-search.component.html'
+    selector: 'app-nav',
+    styleUrls: ['./app-nav.component.css'],
+    templateUrl: './app-nav.component.html'
 })
 
-export class AppSearchComponent {
+export class AppNavComponent {
 
     @Output() public onSearch: EventEmitter<string> = new EventEmitter<string>();
 
