@@ -4,8 +4,7 @@
 </div>
 <div>
   <div *ngFor='let tab of tabs' class='app-on-tab' (click)="showTab(tab)" [style.backgroundColor]='tab.id == currentTabId ? "#eee": "#ddd"'>
-    <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px;" (click)='closeTab(tab)'></i>
-    {{tab.title}}
+    <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px;" (click)='closeTab(tab)'></i> {{tab.title}}
   </div>
   <button class="btn btn-default btn-sm" (click)="addUrl()" style="margin-top: 6px;">+</button>
 </div>

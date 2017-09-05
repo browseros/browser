@@ -113,6 +113,19 @@ export class HomeComponent implements OnInit {
     let id = this.tabs.findIndex(i => i.id === tab.id);
     if (id >= 0) {
       this.tabs.splice(id, 1);
+      let newTab = this.tabs[id];
+      if (newTab) {
+        this.currentTabId = newTab.id;
+      } else if (id === this.tabs.length) {
+        newTab = this.tabs[this.tabs.length - 1];
+        if (newTab) {
+          this.currentTabId = newTab.id;
+        } else {
+          this.currentTabId = -1;
+        }
+      } else {
+        this.currentTabId = -1;
+      }
     }
   }
 }
