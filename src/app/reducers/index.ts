@@ -1,37 +1,61 @@
-/*
- * Reducers: this file contains boilerplate code to handle debugging
- * in development mode, as well as integrate the store with HMR.
- * Customize your own reducers in `root.ts`.
- */
+import { ActionReducer } from '@ngrx/store';
+import { createSelector } from 'reselect';
+import * as fromRouter from '@ngrx/router-store';
+
 import { compose } from '@ngrx/core/compose';
-import { ActionReducer, combineReducers } from '@ngrx/store';
+
 import { storeFreeze } from 'ngrx-store-freeze';
-import { storeLogger } from 'ngrx-store-logger';
-import { reducers } from './root';
 
-export { reducers, AppState } from './root';
+import { combineReducers } from '@ngrx/store';
 
-declare const ENV: string;
+import * as fromApp from './app';
 
-// Generate a reducer to set the root state in dev mode for HMR
-function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
-  return function(state, action) {
-    if (action.type === 'SET_ROOT_STATE') {
-      return action.payload;
-    }
-    return reducer(state, action);
-  };
+export interface State {
+  app: fromApp.State;
 }
 
-const DEV_REDUCERS = [stateSetter, storeFreeze, storeLogger()];
+const reducers = {
+  app: fromApp.reducer,
+};
 
-const developmentReducer = compose(...DEV_REDUCERS, combineReducers)(reducers);
-const productionReducer = compose(combineReducers)(reducers);
+const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
+const productionReducer: ActionReducer<State> = combineReducers(reducers);
 
-export function rootReducer(state: any, action: any) {
+export function reducer(state: any, action: any) {
   if (ENV !== 'development') {
     return productionReducer(state, action);
   } else {
     return developmentReducer(state, action);
   }
 }
+
+/**
+ * A selector function is a map function factory. We pass it parameters and it
+ * returns a function that maps from the larger state tree into a smaller
+ * piece of state. This selector simply selects the `books` state.
+ *
+ * Selectors are used with the `select` operator.
+ *
+ * ```ts
+ * class MyComponent {
+ * 	constructor(state$: Observable<State>) {
+ * 	  this.booksState$ = state$.select(getBooksState);
+ * 	}
+ * }
+ * ```
+ */
+export const getAppState = (state: State) => state.app;
+
+/**
+ * Every reducer module exports selector functions, however child reducers
+ * have no knowledge of the overall state tree. To make them useable, we
+ * need to make new selectors that wrap them.
+ *
+ * The createSelector function from the reselect library creates
+ * very efficient selectors that are memoized and only recompute when arguments change.
+ * The created selectors can also be composed together to select different
+ * pieces of state.
+ */
+export const getApps = createSelector(getAppState, fromApp.getApps);
+export const getCurrentApp = createSelector(getAppState, fromApp.getCurrentApp);
+export const getCurrentTab = createSelector(getAppState, fromApp.getCurrentTab);

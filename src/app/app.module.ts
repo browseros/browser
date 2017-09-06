@@ -26,14 +26,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
  */
 import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
-import { rootReducer } from './reducers';
 // App is our top level component
 import { AppComponent } from './app.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
-import { AppState } from './reducers';
 import { HomeComponent } from './home';
-import { HomeActions } from './home/home.actions';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
@@ -42,12 +39,13 @@ import { WebviewDirective } from '../electron/webview.directive';
 import { AppSearchComponent } from './home/app-search/app-search.component';
 import { AppNavComponent } from './home/app-nav/app-nav.component';
 
+import { reducer } from './reducers';
+
 declare const ENV: string;
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
-  HomeActions,
   { provide: APP_BASE_HREF, useValue : '/' }
 ];
 
@@ -88,7 +86,7 @@ if (ENV === 'development') {
     BrowserModule,
     FormsModule,
     HttpModule,
-    StoreModule.provideStore(rootReducer),
+    StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
     ...CONDITIONAL_IMPORTS
@@ -101,8 +99,7 @@ if (ENV === 'development') {
 export class AppModule {
 
   constructor(
-    public appRef: ApplicationRef,
-    private _store: Store<AppState>
+    public appRef: ApplicationRef
   ) {}
 
   public hmrOnInit(store: StoreType) {
@@ -110,13 +107,6 @@ export class AppModule {
       return;
     }
     console.log('HMR store', JSON.stringify(store, null, 2));
-    // set state
-    if (store.rootState) {
-      this._store.dispatch({
-        type: 'SET_ROOT_STATE',
-        payload: store.rootState
-      });
-    }
     // set input values
     if ('restoreInputValues' in store) {
       let restoreInputValues = store.restoreInputValues;
@@ -129,7 +119,6 @@ export class AppModule {
   public hmrOnDestroy(store: StoreType) {
     const cmpLocation = this.appRef.components.map((cmp) => cmp.location.nativeElement);
     // save state
-    this._store.take(1).subscribe(s => store.rootState = s);
     // recreate root elements
     store.disposeOldHosts = createNewHosts(cmpLocation);
     // save input values

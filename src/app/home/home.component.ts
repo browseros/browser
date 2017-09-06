@@ -6,13 +6,15 @@ import {
 import { ipcRenderer } from 'electron';
 
 import { Store } from '@ngrx/store';
-import { AppState } from '../reducers';
-import { HomeState } from './home.reducer';
-import { HomeActions } from './home.actions';
 import { Title } from './title';
 import { XLargeDirective } from './x-large';
 import { ITab } from '../models/tab.model';
 import { AppSearchComponent } from './app-search/app-search.component';
+
+import * as fromRoot from '../reducers';
+import * as appActions from '../actions/app.actions';
+import { Observable } from 'rxjs/Observable';
+import { IApp } from '../models/app.model';
 
 @Component({
   // The selector is what angular internally uses
@@ -33,7 +35,7 @@ export class HomeComponent implements OnInit {
   // Set our default values
   public localState = { value: '' };
 
-  private tabs: ITab[] = [];
+  private apps: Observable<IApp[]>;
   private currentTabId = 0;
   private currentInputValue = '';
 
@@ -41,21 +43,23 @@ export class HomeComponent implements OnInit {
 
   // TypeScript public modifiers
   constructor(
-    private store: Store<AppState>,
-    private homeActions: HomeActions,
-    public title: Title
+    public title: Title,
+    public store: Store<fromRoot.State>
   ) { }
 
   public ngOnInit() {
     console.log('hello `Home` component');
-    this.doSearch('http://vnexpress.net');
-    this.doSearch('http://linkhay.com');
-    this.doSearch('http://dantri.com');
+    this.store.dispatch(new appActions.AddTabAction(
+      {
+        hostName: 'vnexpress.net',
+        title: 'VNExpress',
+        url: 'http://vnexpress.net'
+      }));
+    this.apps = this.store.select(fromRoot.getApps);
   }
 
   public submitState(value: string) {
     console.log('submitState', value);
-    this.store.dispatch(this.homeActions.setValue(value));
     this.localState.value = '';
   }
 
@@ -82,7 +86,7 @@ export class HomeComponent implements OnInit {
     let currentTabId = this.tabs.length + 1;
     this.appSearch.hide();
 
-    let tab = { title: this.extractHostname(app), url: app, id: currentTabId };
+    let tab = { title: this.extractHostname(app), url: app, id: currentTabId, hostName: '' };
     this.tabs.push(tab);
     this.currentTabId = currentTabId;
     setTimeout(() => {

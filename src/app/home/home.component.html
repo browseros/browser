@@ -1,5 +1,5 @@
 <app-nav></app-nav>
-<div *ngFor='let tab of tabs' [hidden]='tab.id != currentTabId'>
+<div *ngFor='let app of apps' [hidden]='tab.id != currentTabId'>
   <webview id='webview-{{tab.id}}' #webview attr.src='{{tab.url}}' style='width: 100%; height: 680px;'></webview>
 </div>
 <div>

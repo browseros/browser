@@ -9,10 +9,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import { shell } from 'electron';
-import { AppState } from './reducers';
 import { Store } from '@ngrx/store';
-import { HomeState } from './home/home.reducer';
-import { HomeActions } from './home/home.actions';
 
 /*
  * App Component
@@ -32,21 +29,13 @@ export class AppComponent implements OnInit {
   public angularclassLogo = 'assets/img/angular-electron.svg';
   public name = 'Browser OS';
   public url = 'https://github.com/browseros/browser';
-  public state$: Observable<HomeState>;
 
   constructor(
-    private store: Store<AppState>,
-    private homeActions: HomeActions,
-  ) {
-    this.state$ = this.store.select(state => state.home);
-  }
+  // tslint:disable-next-line:no-empty
+  ) {}
 
-  public ngOnInit() {
-    this.state$.take(1)
-      .subscribe(state => {
-        console.log('Initial App State', state);
-      });
-  }
+  // tslint:disable-next-line:no-empty
+  public ngOnInit() {}
 
   public openURL(url) {
     shell.openExternal(url);
