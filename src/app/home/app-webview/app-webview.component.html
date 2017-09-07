@@ -1,5 +1,7 @@
-<div *ngIf='currentApp && currentApp.tabs'>
-    <div *ngFor='let tab of currentApp.tabs; let i = index' [hidden]='i != currentTabId'>
-        <webview id='webview-{{i}}' #webview attr.src='{{tab.url}}' style='width: 100%; height: 680px;'></webview>
+<div *ngFor='let app of apps'>
+    <div [hidden]='currentApp.hostName != app.hostName'>
+        <div *ngFor='let tab of app.tabs; let i = index' [hidden]='i != currentTabId'>
+            <webview id='webview-{{i}}' #webview attr.src='{{tab.url}}' style='width: 100%; height: 680px;'></webview>
+        </div>
     </div>
 </div>

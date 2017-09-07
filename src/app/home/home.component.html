@@ -1,5 +1,8 @@
 <app-nav></app-nav>
-<app-webview [currentApp]='currentApp | async'></app-webview>
+<app-webview 
+  [apps]='apps | async' 
+  [currentApp]='currentApp | async'>
+</app-webview>
 <app-bar 
   [apps]='apps | async' 
   [currentApp]='currentApp | async'  

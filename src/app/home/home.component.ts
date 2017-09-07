@@ -1,4 +1,3 @@
-import { IApp } from './../models/app.model';
 import { getCurrentApp } from './../reducers/app';
 import {
   Component,

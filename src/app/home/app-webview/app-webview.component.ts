@@ -10,5 +10,6 @@ import { IApp } from '../../models/app.model';
 
 export class AppWebviewComponent {
     @Input() public currentApp: IApp;
+    @Input() public apps: IApp[];
     private currentTabId: number = 0;
 }
