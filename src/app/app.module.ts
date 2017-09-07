@@ -1,3 +1,4 @@
+import { AppWebviewComponent } from './home/app-webview/app-webview.component';
 import { AppBarComponent } from './home/app-bar/app-bar.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -82,6 +83,7 @@ if (ENV === 'development') {
     WebviewDirective,
     AppSearchComponent,
     AppNavComponent,
+    AppWebviewComponent,
     AppBarComponent
   ],
   imports: [ // import Angular's modules

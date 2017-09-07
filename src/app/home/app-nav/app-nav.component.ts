@@ -12,10 +12,10 @@ export class AppNavComponent {
     @Output() public onSearch: EventEmitter<string> = new EventEmitter<string>();
 
     public show(): void {
-        $('#app-search').modal('show');
+        $('#app-search')['modal']('show');
     }
 
     public hide(): void {
-        $('#app-search').modal('hide');
+        $('#app-search')['modal']('hide');
     }
 }

@@ -1,0 +1,11 @@
+/*styles for home content only*/
+.app-on-tab {
+    padding: 6px 3px 3px 3px;
+    display: inline-block; 
+    width: 150px;
+    height: 30px;
+    text-align: center;
+    vertical-align: bottom;
+    border-left: 1px solid #ccc;
+    cursor: pointer;    
+}

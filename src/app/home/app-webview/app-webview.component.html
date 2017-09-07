@@ -1,0 +1,5 @@
+<div *ngIf='currentApp && currentApp.tabs'>
+    <div *ngFor='let tab of currentApp.tabs; let i = index' [hidden]='i != currentTabId'>
+        <webview id='webview-{{i}}' #webview attr.src='{{tab.url}}' style='width: 100%; height: 680px;'></webview>
+    </div>
+</div>
