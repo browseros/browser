@@ -58,4 +58,3 @@ export const getAppState = (state: State) => state.app;
  */
 export const getApps = createSelector(getAppState, fromApp.getApps);
 export const getCurrentApp = createSelector(getAppState, fromApp.getCurrentApp);
-export const getCurrentTab = createSelector(getAppState, fromApp.getCurrentTab);

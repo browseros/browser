@@ -1,5 +1,6 @@
 
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { IApp } from '../../models/app.model';
 
 @Component({
     selector: 'app-nav',
@@ -9,6 +10,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 
 export class AppNavComponent {
 
+    @Input() public currentApp: IApp;
     @Output() public onSearch: EventEmitter<string> = new EventEmitter<string>();
 
     public show(): void {

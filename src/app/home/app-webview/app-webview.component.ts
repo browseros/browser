@@ -1,6 +1,7 @@
 
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { IApp } from '../../models/app.model';
+import { ITab } from '../../models/tab.model';
 
 @Component({
     selector: 'app-webview',
@@ -10,6 +11,7 @@ import { IApp } from '../../models/app.model';
 
 export class AppWebviewComponent {
     @Input() public currentApp: IApp;
+    @Input() public currentTab: ITab;
     @Input() public apps: IApp[];
     private currentTabId: number = 0;
 }

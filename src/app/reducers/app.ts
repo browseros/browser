@@ -7,7 +7,6 @@ import { ITab } from '../models/tab.model';
 export interface State {
     apps: IApp[];
     currentApp: IApp;
-    currentTab: ITab;
     isGoingtoApp: boolean;
     isAddingApp: boolean;
     isAddingTab: boolean;
@@ -17,7 +16,6 @@ export interface State {
 export const initialState: State = {
     apps: [],
     currentApp: null,
-    currentTab: null,
     isGoingtoApp: false,
     isAddingApp: false,
     isAddingTab: false,
@@ -31,6 +29,7 @@ export function reducer(state = initialState, action: app.Actions): State {
             newApp.tabs = [];
             let newTab: ITab = { hostName: newApp.hostName, title: newApp.title, url: newApp.url };
             newApp.tabs.push(newTab);
+            newApp.currentTab = newTab;
             return Object.assign({}, state, {
                 apps: [...state.apps, newApp],
                 currentApp: newApp,
@@ -46,9 +45,12 @@ export function reducer(state = initialState, action: app.Actions): State {
 
         case app.ADD_TAB: {
             const tab = action.payload as ITab;
-            let appId = state.apps.findIndex(item => item.url === tab.hostName);
+            let appId = state.apps.findIndex(item => item.hostName === tab.hostName);
             if (appId < 0) {
-                let newApp: IApp = { url: tab.url, hostName: tab.hostName, icon: '', tabs: [], title: tab.title };
+                let newApp: IApp = {
+                    url: tab.url, hostName: tab.hostName, icon: '', tabs: [], title: tab.title,
+                    currentTab: tab
+                };
                 newApp.tabs.push(tab);
                 return Object.assign({}, state, {
                     apps: [...state.apps, newApp],
@@ -57,16 +59,16 @@ export function reducer(state = initialState, action: app.Actions): State {
                     isGoingtoApp: true
                 });
             }
-            let appToAdd = state.apps[appId];
-            appToAdd.tabs.push(tab);
+            let stateAppToAdd = state.apps[appId];
+            let appToAdd = Object.assign({}, stateAppToAdd, {
+                tabs: [...stateAppToAdd.tabs, tab],
+                currentTab: tab
+            });
 
             return Object.assign({}, state, {
-                apps: Object.assign({}, state.apps, {
-                    [appId]: appToAdd
-                }),
+                apps: [...state.apps.slice(0, appId), appToAdd, ...state.apps.slice(appId + 1)],
                 currentApp: appToAdd,
-                isAddingTab: true,
-                isGoingtoApp: true
+                isAddingTab: true
             });
         }
 
@@ -135,5 +137,3 @@ export function reducer(state = initialState, action: app.Actions): State {
 export const getApps = (state: State) => state.apps;
 
 export const getCurrentApp = (state: State) => state.currentApp;
-
-export const getCurrentTab = (state: State) => state.currentTab;
