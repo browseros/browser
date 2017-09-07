@@ -102,19 +102,7 @@ export class HomeComponent implements OnInit {
         title: hostName,
         url: app
       }));
-    /* let currentTabId = this.tabs.length + 1;
     this.appSearch.hide();
-
-    let tab = { title: this.extractHostname(app), url: app, id: currentTabId, hostName: '' };
-    this.tabs.push(tab);
-    this.currentTabId = currentTabId;
-    setTimeout(() => {
-      let webview = document.getElementById('webview-' + currentTabId);
-      webview.addEventListener('page-title-updated', (result) => {
-        // console.log(result);
-        // tab.title = result['title'];
-      });
-    }, 200); */
   }
 
   private extractHostname(url: string): string {
