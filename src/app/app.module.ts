@@ -1,3 +1,4 @@
+import { AppBarComponent } from './home/app-bar/app-bar.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -80,7 +81,8 @@ if (ENV === 'development') {
     XLargeDirective,
     WebviewDirective,
     AppSearchComponent,
-    AppNavComponent
+    AppNavComponent,
+    AppBarComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

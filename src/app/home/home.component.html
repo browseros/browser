@@ -1,11 +1,6 @@
 <app-nav></app-nav>
-<div *ngFor='let app of apps' [hidden]='tab.id != currentTabId'>
+<!-- <div *ngFor='let tab of tabs' [hidden]='tab.id != currentTabId'>
   <webview id='webview-{{tab.id}}' #webview attr.src='{{tab.url}}' style='width: 100%; height: 680px;'></webview>
-</div>
-<div>
-  <div *ngFor='let tab of tabs' class='app-on-tab' (click)="showTab(tab)" [style.backgroundColor]='tab.id == currentTabId ? "#eee": "#ddd"'>
-    <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px;" (click)='closeTab(tab)'></i> {{tab.title}}
-  </div>
-  <button class="btn btn-default btn-sm" (click)="addUrl()" style="margin-top: 6px;">+</button>
-</div>
+</div> -->
+<app-bar [apps]='apps | async' [currentApp]='currentApp | async'></app-bar>
 <app-search #appSearch (onSearch)='doSearch($event)'></app-search>

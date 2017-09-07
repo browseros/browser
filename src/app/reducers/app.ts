@@ -20,10 +20,11 @@ export function reducer(state = initialState, action: app.Actions): State {
         case app.ADD_APP: {
             const newApp = action.payload as IApp;
             newApp.tabs = [];
-            let newTab: ITab = { hostName: newApp.hostName, id: 0, title: '', url: newApp.url };
+            let newTab: ITab = { hostName: newApp.hostName, title: newApp.title, url: newApp.url };
             newApp.tabs.push(newTab);
             return Object.assign({}, state, {
-                apps: [...state.apps, newApp]
+                apps: [...state.apps, newApp],
+                currentApp: newApp
             });
         }
 
@@ -31,11 +32,11 @@ export function reducer(state = initialState, action: app.Actions): State {
             const tab = action.payload as ITab;
             let appId = state.apps.findIndex(item => item.url === tab.hostName);
             if (appId < 0) {
-                const newApp = action.payload as IApp;
-                newApp.tabs = [];
+                let newApp: IApp = { url: tab.url, hostName: tab.hostName, icon: '', tabs: [], title: tab.title };
                 newApp.tabs.push(tab);
                 return Object.assign({}, state, {
-                    apps: [...state.apps, newApp]
+                    apps: [...state.apps, newApp],
+                    currentApp: newApp
                 });
             }
             let appToAdd = state.apps[appId];
@@ -45,6 +46,7 @@ export function reducer(state = initialState, action: app.Actions): State {
                 apps: Object.assign({}, state.apps, {
                     [appId]: appToAdd
                 }),
+                currentApp: appToAdd
             });
         }
 

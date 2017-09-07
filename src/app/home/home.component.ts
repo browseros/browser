@@ -1,3 +1,4 @@
+import { getCurrentApp } from './../reducers/app';
 import {
   Component,
   OnInit,
@@ -36,7 +37,7 @@ export class HomeComponent implements OnInit {
   public localState = { value: '' };
 
   private apps: Observable<IApp[]>;
-  private currentTabId = 0;
+  private currentApp: Observable<IApp>;
   private currentInputValue = '';
 
   @ViewChild('appSearch') private appSearch: AppSearchComponent;
@@ -56,6 +57,7 @@ export class HomeComponent implements OnInit {
         url: 'http://vnexpress.net'
       }));
     this.apps = this.store.select(fromRoot.getApps);
+    this.currentApp = this.store.select(fromRoot.getCurrentApp);
   }
 
   public submitState(value: string) {
@@ -68,14 +70,14 @@ export class HomeComponent implements OnInit {
   }
 
   private onEntered(url: string) {
-    let tab = this.tabs.find(t => t.id === this.currentTabId);
+    /* let tab = this.tabs.find(t => t.id === this.currentTabId);
     const webview = document.getElementById('webview-' + this.currentTabId);
     webview['loadURL'](url);
-    this.currentInputValue = '';
+    this.currentInputValue = ''; */
   }
 
   private showTab(tab: ITab) {
-    this.currentTabId = tab.id;
+    // this.currentTabId = tab.id;
   }
 
   private addUrl() {
@@ -83,7 +85,7 @@ export class HomeComponent implements OnInit {
   }
 
   private doSearch(app: string) {
-    let currentTabId = this.tabs.length + 1;
+    /* let currentTabId = this.tabs.length + 1;
     this.appSearch.hide();
 
     let tab = { title: this.extractHostname(app), url: app, id: currentTabId, hostName: '' };
@@ -95,7 +97,7 @@ export class HomeComponent implements OnInit {
         // console.log(result);
         // tab.title = result['title'];
       });
-    }, 200);
+    }, 200); */
   }
 
   private extractHostname(url: string): string {
@@ -114,7 +116,7 @@ export class HomeComponent implements OnInit {
   }
 
   private closeTab(tab: ITab) {
-    let id = this.tabs.findIndex(i => i.id === tab.id);
+    /* let id = this.tabs.findIndex(i => i.id === tab.id);
     if (id >= 0) {
       this.tabs.splice(id, 1);
       let newTab = this.tabs[id];
@@ -130,6 +132,6 @@ export class HomeComponent implements OnInit {
       } else {
         this.currentTabId = -1;
       }
-    }
+    } */
   }
 }

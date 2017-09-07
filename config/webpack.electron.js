@@ -19,7 +19,7 @@ const SpecifyTsFilesPlugin = require('./specify-ts-files-plugin');
 const PROD = helpers.hasNpmFlag('prod');
 const ENV = JSON.stringify(process.env.NODE_ENV = process.env.ENV = PROD? 'production' : 'development');
 const HOST = JSON.stringify(process.env.HOST || 'localhost');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 module.exports = function(options) {
 
