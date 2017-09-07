@@ -8,6 +8,8 @@ export const ADD_TAB =              '[App] Add Tab';
 export const ADD_TAB_COMPLETE =     '[App] Add Tab Complete';
 export const GOTO_APP =             '[App] Go To App';
 export const GOTO_APP_COMPLETE =    '[App] Go To App Complete';
+export const CLOSE_APP =            '[App] Close App';
+export const CLOSE_APP_COMPLETE =   '[App] Close App Complete';
 
 export class AddAppAction implements Action {
   public readonly type = ADD_APP;
@@ -50,6 +52,20 @@ export class GotoTabCompleteAction implements Action {
   constructor(public payload: IApp) { }
 }
 
+// tslint:disable-next-line:max-classes-per-file
+export class CloseAppAction implements Action {
+  public readonly type = CLOSE_APP;
+
+  constructor(public payload: IApp) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class CloseAppCompleteAction implements Action {
+  public readonly type = CLOSE_APP_COMPLETE;
+
+  constructor(public payload: IApp) { }
+}
+
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -60,4 +76,6 @@ export type Actions
 | AddTabCompleteAction
 | GotoTabAction
 | GotoTabCompleteAction
+| CloseAppAction
+| CloseAppCompleteAction
 | AddTabAction;

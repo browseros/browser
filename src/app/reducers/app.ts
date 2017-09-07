@@ -11,6 +11,7 @@ export interface State {
     isGoingtoApp: boolean;
     isAddingApp: boolean;
     isAddingTab: boolean;
+    isClosingApp: boolean;
 }
 
 export const initialState: State = {
@@ -19,7 +20,8 @@ export const initialState: State = {
     currentTab: null,
     isGoingtoApp: false,
     isAddingApp: false,
-    isAddingTab: false
+    isAddingTab: false,
+    isClosingApp: false
 };
 
 export function reducer(state = initialState, action: app.Actions): State {
@@ -76,13 +78,42 @@ export function reducer(state = initialState, action: app.Actions): State {
 
         case app.GOTO_APP: {
             return Object.assign({}, state, {
-                currentApp: action.payload
+                currentApp: action.payload,
+                isGoingtoApp: true
             });
         }
 
         case app.GOTO_APP_COMPLETE: {
             return Object.assign({}, state, {
                 isGoingtoApp: false
+            });
+        }
+
+        case app.CLOSE_APP: {
+            const app = action.payload;
+            let newCurrentApp: IApp = state.currentApp;
+            let newApps = state.apps.filter(a => a.hostName !== app.hostName);
+            if (state.currentApp && app.hostName === state.currentApp.hostName) {
+                let appId = state.apps.findIndex(a => a.hostName === app.hostName);
+
+                if (appId === state.apps.length - 1) {
+                    appId--;
+                }
+                if (appId >= 0) {
+                    newCurrentApp = newApps[appId];
+                }
+            }
+
+            return Object.assign({}, state, {
+                apps: newApps,
+                currentApp: newCurrentApp,
+                isClosingApp: true
+            });
+        }
+
+        case app.CLOSE_APP_COMPLETE: {
+            return Object.assign({}, state, {
+                isClosingApp: false
             });
         }
 

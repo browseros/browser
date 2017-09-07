@@ -10,9 +10,14 @@ import { Component, Output, EventEmitter } from '@angular/core';
 export class AppSearchComponent {
 
     @Output() public onSearch: EventEmitter<string> = new EventEmitter<string>();
+    private appSearch: string;
 
     public show(): void {
+        this.appSearch = '';
         $('#app-search')['modal']('show');
+        $('#app-search').on('shown.bs.modal', () => {
+            $('#app-search-input').focus();
+        });
     }
 
     public hide(): void {

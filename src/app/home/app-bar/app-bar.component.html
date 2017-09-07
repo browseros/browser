@@ -1,6 +1,6 @@
-<div *ngIf='apps && currentApp'>
+<span *ngIf='apps && currentApp'>
     <div *ngFor='let app of apps' class='app-on-tab' (click)="onAppSelect.emit(app)" [style.backgroundColor]='app.hostName == currentApp.hostName ? "#eee": "#ddd"'>
         <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px;" (click)='onAppClose.emit(app)'></i> {{app.title}}
     </div>
-    <button class="btn btn-default btn-sm" (click)="onBtnAddApp.emit($event)" style="margin-top: 6px;">+</button>
-</div>
+</span>
+<button class="btn btn-default btn-sm" (click)="onBtnAddApp.emit($event)" style="margin-top: 6px;">+</button>

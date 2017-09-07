@@ -50,44 +50,12 @@ export class HomeComponent implements OnInit {
 
   public ngOnInit() {
     console.log('hello `Home` component');
-    this.store.dispatch(new appActions.AddTabAction(
-      {
-        hostName: 'vnexpress.net',
-        title: 'vnexpress.net',
-        url: 'http://vnexpress.net'
-      }));
-    this.store.dispatch(new appActions.AddTabAction(
-      {
-        hostName: 'dantri.com',
-        title: 'dantri.com',
-        url: 'http://dantri.com'
-      }));
     this.apps = this.store.select(fromRoot.getApps);
     this.currentApp = this.store.select(fromRoot.getCurrentApp);
   }
 
-  public submitState(value: string) {
-    console.log('submitState', value);
-    this.localState.value = '';
-  }
-
   public showDialog() {
     ipcRenderer.send('show-dialog');
-  }
-
-  private onEntered(url: string) {
-    /* let tab = this.tabs.find(t => t.id === this.currentTabId);
-    const webview = document.getElementById('webview-' + this.currentTabId);
-    webview['loadURL'](url);
-    this.currentInputValue = ''; */
-  }
-
-  private showTab(tab: ITab) {
-    // this.currentTabId = tab.id;
-  }
-
-  private addUrl() {
-    this.appSearch.show();
   }
 
   private gotoApp(app: IApp) {
@@ -120,23 +88,7 @@ export class HomeComponent implements OnInit {
     return hostname;
   }
 
-  private closeTab(tab: ITab) {
-    /* let id = this.tabs.findIndex(i => i.id === tab.id);
-    if (id >= 0) {
-      this.tabs.splice(id, 1);
-      let newTab = this.tabs[id];
-      if (newTab) {
-        this.currentTabId = newTab.id;
-      } else if (id === this.tabs.length) {
-        newTab = this.tabs[this.tabs.length - 1];
-        if (newTab) {
-          this.currentTabId = newTab.id;
-        } else {
-          this.currentTabId = -1;
-        }
-      } else {
-        this.currentTabId = -1;
-      }
-    } */
+  private closeApp(app: IApp) {
+    this.store.dispatch(new appActions.CloseAppAction(app));
   }
 }
