@@ -92,7 +92,7 @@
     "@angularclass/hmr": "~1.2.2",
     "@angularclass/hmr-loader": "~3.0.2",
     "@ngrx/core": "^1.2.0",
-    "@ngrx/effects": "^2.0.3",
+    "@ngrx/effects": "^2.0.4",
     "@ngrx/router-store": "^1.2.6",
     "@ngrx/store": "^2.2.2",
     "@ngrx/store-devtools": "^3.2.4",

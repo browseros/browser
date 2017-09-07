@@ -1,4 +1,9 @@
 <app-nav></app-nav>
 <app-webview [currentApp]='currentApp | async'></app-webview>
-<app-bar [apps]='apps | async' [currentApp]='currentApp | async'></app-bar>
+<app-bar 
+  [apps]='apps | async' 
+  [currentApp]='currentApp | async'  
+  (onAppSelect)='gotoApp($event)'
+  (onBtnAddApp)='appSearch.show()'>  
+</app-bar>
 <app-search #appSearch (onSearch)='doSearch($event)'></app-search>

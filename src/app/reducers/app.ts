@@ -1,3 +1,4 @@
+import { ADD_APP_COMPLETE, GOTO_APP_COMPLETE } from './../actions/app.actions';
 
 import { IApp } from '../models/app.model';
 import * as app from '../actions/app.actions';
@@ -7,12 +8,18 @@ export interface State {
     apps: IApp[];
     currentApp: IApp;
     currentTab: ITab;
+    isGoingtoApp: boolean;
+    isAddingApp: boolean;
+    isAddingTab: boolean;
 }
 
 export const initialState: State = {
     apps: [],
     currentApp: null,
-    currentTab: null
+    currentTab: null,
+    isGoingtoApp: false,
+    isAddingApp: false,
+    isAddingTab: false
 };
 
 export function reducer(state = initialState, action: app.Actions): State {
@@ -24,7 +31,14 @@ export function reducer(state = initialState, action: app.Actions): State {
             newApp.tabs.push(newTab);
             return Object.assign({}, state, {
                 apps: [...state.apps, newApp],
-                currentApp: newApp
+                currentApp: newApp,
+                isAddingApp: true
+            });
+        }
+
+        case app.ADD_APP_COMPLETE: {
+            return Object.assign({}, state, {
+                isAddingApp: false
             });
         }
 
@@ -36,7 +50,9 @@ export function reducer(state = initialState, action: app.Actions): State {
                 newApp.tabs.push(tab);
                 return Object.assign({}, state, {
                     apps: [...state.apps, newApp],
-                    currentApp: newApp
+                    currentApp: newApp,
+                    isAddingApp: true,
+                    isGoingtoApp: true
                 });
             }
             let appToAdd = state.apps[appId];
@@ -46,7 +62,27 @@ export function reducer(state = initialState, action: app.Actions): State {
                 apps: Object.assign({}, state.apps, {
                     [appId]: appToAdd
                 }),
-                currentApp: appToAdd
+                currentApp: appToAdd,
+                isAddingTab: true,
+                isGoingtoApp: true
+            });
+        }
+
+        case app.ADD_TAB_COMPLETE: {
+            return Object.assign({}, state, {
+                isAddingTab: false
+            });
+        }
+
+        case app.GOTO_APP: {
+            return Object.assign({}, state, {
+                currentApp: action.payload
+            });
+        }
+
+        case app.GOTO_APP_COMPLETE: {
+            return Object.assign({}, state, {
+                isGoingtoApp: false
             });
         }
 

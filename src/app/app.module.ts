@@ -1,3 +1,4 @@
+import { AppEffects } from './effects/app';
 import { AppWebviewComponent } from './home/app-webview/app-webview.component';
 import { AppBarComponent } from './home/app-bar/app-bar.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -92,6 +93,7 @@ if (ENV === 'development') {
     HttpModule,
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
+    EffectsModule.run(AppEffects),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
     ...CONDITIONAL_IMPORTS
   ],

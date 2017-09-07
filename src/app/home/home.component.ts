@@ -1,3 +1,4 @@
+import { IApp } from './../models/app.model';
 import { getCurrentApp } from './../reducers/app';
 import {
   Component,
@@ -53,8 +54,14 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(new appActions.AddTabAction(
       {
         hostName: 'vnexpress.net',
-        title: 'VNExpress',
+        title: 'vnexpress.net',
         url: 'http://vnexpress.net'
+      }));
+    this.store.dispatch(new appActions.AddTabAction(
+      {
+        hostName: 'dantri.com',
+        title: 'dantri.com',
+        url: 'http://dantri.com'
       }));
     this.apps = this.store.select(fromRoot.getApps);
     this.currentApp = this.store.select(fromRoot.getCurrentApp);
@@ -84,7 +91,18 @@ export class HomeComponent implements OnInit {
     this.appSearch.show();
   }
 
+  private gotoApp(app: IApp) {
+    this.store.dispatch(new appActions.GotoTabAction(app));
+  }
+
   private doSearch(app: string) {
+    let hostName = this.extractHostname(app);
+    this.store.dispatch(new appActions.AddTabAction(
+      {
+        hostName,
+        title: hostName,
+        url: app
+      }));
     /* let currentTabId = this.tabs.length + 1;
     this.appSearch.hide();
 
