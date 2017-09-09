@@ -1,12 +1,13 @@
-<app-nav [currentApp]='currentApp | async'
+<app-nav [currentApp]='eventCurrentApp | async'
 ></app-nav>
 <app-webview 
   [apps]='apps | async' 
-  [currentApp]='currentApp | async'>
+  [currentApp]='currentApp | async'
+  (onTitleChanged)='onTitleChanged($event)'>
 </app-webview>
 <app-bar 
-  [apps]='apps | async' 
-  [currentApp]='currentApp | async'  
+  [apps]='eventApps | async' 
+  [currentApp]='eventCurrentApp | async'  
   (onAppSelect)='gotoApp($event)'
   (onAppClose)='closeApp($event)'
   (onBtnAddApp)='appSearch.show()'>  

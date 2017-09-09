@@ -1,7 +1,8 @@
 
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, AfterViewInit } from '@angular/core';
 import { IApp } from '../../models/app.model';
 import { ITab } from '../../models/tab.model';
+import { IWebEvent } from '../../models/web-event.model';
 
 @Component({
     selector: 'app-webview',
@@ -13,5 +14,5 @@ export class AppWebviewComponent {
     @Input() public currentApp: IApp;
     @Input() public currentTab: ITab;
     @Input() public apps: IApp[];
-    private currentTabId: number = 0;
+    @Output() public onTitleChanged: EventEmitter<IWebEvent> = new EventEmitter<IWebEvent>();
 }

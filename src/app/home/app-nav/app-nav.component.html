@@ -1,5 +1,5 @@
 <span *ngIf='currentApp'>
     <div *ngFor='let tab of currentApp.tabs; let i = index' class='tab-on-nav' [style.backgroundColor]='currentApp.currentTab && tab.url == currentApp.currentTab.url ? "#eee": "#ddd"'>
-        <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px;"></i> {{tab.url}}
+        <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px;"></i> {{tab.title}}
     </div>
 </span>

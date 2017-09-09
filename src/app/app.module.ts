@@ -43,6 +43,7 @@ import { AppSearchComponent } from './home/app-search/app-search.component';
 import { AppNavComponent } from './home/app-nav/app-nav.component';
 
 import { reducer } from './reducers';
+import { WebviewComponent } from './home/app-webview/web-view.component';
 
 declare const ENV: string;
 
@@ -85,7 +86,8 @@ if (ENV === 'development') {
     AppSearchComponent,
     AppNavComponent,
     AppWebviewComponent,
-    AppBarComponent
+    AppBarComponent,
+    WebviewComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

@@ -14,8 +14,10 @@ import { AppSearchComponent } from './app-search/app-search.component';
 
 import * as fromRoot from '../reducers';
 import * as appActions from '../actions/app.actions';
+import * as eventActions from '../actions/event.actions';
 import { Observable } from 'rxjs/Observable';
 import { IApp } from '../models/app.model';
+import { IWebEvent } from '../models/web-event.model';
 
 @Component({
   // The selector is what angular internally uses
@@ -37,7 +39,10 @@ export class HomeComponent implements OnInit {
   public localState = { value: '' };
 
   private apps: Observable<IApp[]>;
+  private eventApps: Observable<IApp[]>;
+  private clonedApps: IApp[] = [];
   private currentApp: Observable<IApp>;
+  private eventCurrentApp: Observable<IApp>;
   private currentInputValue = '';
 
   @ViewChild('appSearch') private appSearch: AppSearchComponent;
@@ -52,6 +57,11 @@ export class HomeComponent implements OnInit {
     console.log('hello `Home` component');
     this.apps = this.store.select(fromRoot.getApps);
     this.currentApp = this.store.select(fromRoot.getCurrentApp);
+    this.eventApps = this.store.select(fromRoot.getEventApps);
+    this.eventCurrentApp = this.store.select(fromRoot.getEventCurrentApp);
+    this.apps.subscribe((newApps) => {
+      this.clonedApps = JSON.parse(JSON.stringify(newApps));
+    });
   }
 
   public showDialog() {
@@ -90,5 +100,9 @@ export class HomeComponent implements OnInit {
 
   private closeApp(app: IApp) {
     this.store.dispatch(new appActions.CloseAppAction(app));
+  }
+
+  private onTitleChanged($event: IWebEvent) {
+    this.store.dispatch(new eventActions.ChangeTabTitleAction($event));
   }
 }

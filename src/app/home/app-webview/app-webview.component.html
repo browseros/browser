@@ -1,8 +1,8 @@
 <div *ngFor='let app of apps'>
     <div [hidden]='currentApp.hostName != app.hostName'>
-        <div *ngFor='let tab of app.tabs; let i = index'>
+        <div *ngFor='let tab of app.tabs'>
             <div [hidden]='!currentApp.currentTab || tab.url != currentApp.currentTab.url'>
-                <webview id='webview-{{i}}' #webview attr.src='{{tab.url}}' style='width: 100%; height: 680px;'></webview>
+                <web-view [tab]='tab' (onTitleChanged)='onTitleChanged.emit({eventValue: $event, eventName: "titlechanged", tab: tab, app: app})'></web-view>
             </div>
         </div>
     </div>
