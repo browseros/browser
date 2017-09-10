@@ -1,4 +1,6 @@
 <app-nav [currentApp]='eventCurrentApp | async'
+  (onNextClick)='onNextClick($event)'
+  (onBackClick)='onBackClick($event)'
 ></app-nav>
 <app-webview 
   [apps]='apps | async' 

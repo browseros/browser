@@ -105,4 +105,8 @@ export class HomeComponent implements OnInit {
   private onTitleChanged($event: IWebEvent) {
     this.store.dispatch(new eventActions.ChangeTabTitleAction($event));
   }
+
+  private onNextClick($event: IApp) {
+    this.store.dispatch(new eventActions.ChangeTabTitleAction($event));
+  }
 }

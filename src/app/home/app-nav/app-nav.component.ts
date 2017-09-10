@@ -12,6 +12,8 @@ export class AppNavComponent {
 
     @Input() public currentApp: IApp;
     @Output() public onSearch: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public onNextClick: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public onBackClick: EventEmitter<string> = new EventEmitter<string>();
 
     public show(): void {
         $('#app-search')['modal']('show');
