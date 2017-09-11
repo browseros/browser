@@ -1,12 +1,10 @@
-import { ADD_APP_COMPLETE, GOTO_APP_COMPLETE } from './../actions/app.actions';
-
 import { IApp } from '../models/app.model';
 import * as app from '../actions/app.actions';
+import * as event from '../actions/event.actions';
 import { ITab } from '../models/tab.model';
 
 export interface State {
     apps: IApp[];
-    currentApp: IApp;
     isGoingtoApp: boolean;
     isAddingApp: boolean;
     isAddingTab: boolean;
@@ -15,14 +13,13 @@ export interface State {
 
 export const initialState: State = {
     apps: [],
-    currentApp: null,
     isGoingtoApp: false,
     isAddingApp: false,
     isAddingTab: false,
     isClosingApp: false
 };
 
-export function reducer(state = initialState, action: app.Actions): State {
+export function reducer(state = initialState, action: app.Actions | event.Actions): State {
     switch (action.type) {
         case app.ADD_APP: {
             const newApp = action.payload as IApp;
@@ -54,7 +51,6 @@ export function reducer(state = initialState, action: app.Actions): State {
                 newApp.tabs.push(tab);
                 return Object.assign({}, state, {
                     apps: [...state.apps, newApp],
-                    currentApp: newApp,
                     isAddingApp: true,
                     isGoingtoApp: true
                 });
@@ -67,7 +63,6 @@ export function reducer(state = initialState, action: app.Actions): State {
 
             return Object.assign({}, state, {
                 apps: [...state.apps.slice(0, appId), appToAdd, ...state.apps.slice(appId + 1)],
-                currentApp: appToAdd,
                 isAddingTab: true
             });
         }
@@ -93,22 +88,9 @@ export function reducer(state = initialState, action: app.Actions): State {
 
         case app.CLOSE_APP: {
             const app = action.payload;
-            let newCurrentApp: IApp = state.currentApp;
             let newApps = state.apps.filter(a => a.hostName !== app.hostName);
-            if (state.currentApp && app.hostName === state.currentApp.hostName) {
-                let appId = state.apps.findIndex(a => a.hostName === app.hostName);
-
-                if (appId === state.apps.length - 1) {
-                    appId--;
-                }
-                if (appId >= 0) {
-                    newCurrentApp = newApps[appId];
-                }
-            }
-
             return Object.assign({}, state, {
                 apps: newApps,
-                currentApp: newCurrentApp,
                 isClosingApp: true
             });
         }
@@ -135,5 +117,3 @@ export function reducer(state = initialState, action: app.Actions): State {
  */
 
 export const getApps = (state: State) => state.apps;
-
-export const getCurrentApp = (state: State) => state.currentApp;

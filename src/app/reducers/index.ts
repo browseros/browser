@@ -35,7 +35,6 @@ export function reducer(state: any, action: any) {
 // app
 export const getAppState = (state: State) => state.app;
 export const getApps = createSelector(getAppState, fromApp.getApps);
-export const getCurrentApp = createSelector(getAppState, fromApp.getCurrentApp);
 
 // event
 export const getEventState = (state: State) => state.event;

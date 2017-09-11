@@ -40,7 +40,6 @@ export class HomeComponent implements OnInit {
   private apps: Observable<IApp[]>;
   private eventApps: Observable<IApp[]>;
   private clonedApps: IApp[] = [];
-  private currentApp: Observable<IApp>;
   private eventCurrentApp: Observable<IApp>;
   private currentInputValue = '';
 
@@ -55,7 +54,6 @@ export class HomeComponent implements OnInit {
   public ngOnInit() {
     console.log('hello `Home` component');
     this.apps = this.store.select(fromRoot.getApps);
-    this.currentApp = this.store.select(fromRoot.getCurrentApp);
     this.eventApps = this.store.select(fromRoot.getEventApps);
     this.eventCurrentApp = this.store.select(fromRoot.getEventCurrentApp);
     this.apps.subscribe((newApps) => {
@@ -111,5 +109,14 @@ export class HomeComponent implements OnInit {
 
   private onBackClick($event: IApp) {
     this.store.dispatch(new eventActions.DoBackAction($event));
+  }
+
+  private onGotoTab($event: ITab) {
+    this.store.dispatch(new eventActions.GotoTabAction($event));
+  }
+
+  private onCloseTab($event: ITab) {
+    console.log($event);
+    this.store.dispatch(new eventActions.CloseTabAction($event));
   }
 }

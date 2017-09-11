@@ -5,7 +5,13 @@
     <i class="glyphicon glyphicon glyphicon-menu-right" style="margin-top: 2px;"></i>
 </button>
 <span *ngIf='currentApp'>
-    <div *ngFor='let tab of currentApp.tabs; let i = index' class='tab-on-nav' [style.backgroundColor]='currentApp.currentTab && tab.url == currentApp.currentTab.url ? "#eee": "#ddd"'>
-        <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px;"></i> {{tab.title}}
+    <div *ngFor='let tab of currentApp.tabs; let i = index' 
+        class='tab-on-nav' 
+        [style.backgroundColor]='currentApp.currentTab && tab.url == currentApp.currentTab.url ? "#eee": "#ddd"'
+        (click)='onGotoTab.emit(tab)'
+    >
+        <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px;"
+            (click)='onCloseTab.emit(tab)'
+        ></i> {{tab.title}}
     </div>
 </span>

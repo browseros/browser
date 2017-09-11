@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { IApp } from '../models/app.model';
 import { IWebEvent } from '../models/web-event.model';
+import { ITab } from '../models/tab.model';
 
 export const CHANGE_TAB_TITLE =            '[Event] Change Tab Title';
 export const CHANGE_TAB_TITLE_COMPLETE =   '[Event] Change Tab Title Complete';
@@ -8,6 +9,10 @@ export const DO_NEXT =                     '[Event] Do Next';
 export const DO_NEXT_COMPLETE =            '[Event] Do Next Complete';
 export const DO_BACK =                     '[Event] Do Back';
 export const DO_BACK_COMPLETE =            '[Event] Do Back Complete';
+export const GOTO_TAB =                    '[Event] Goto Tab';
+export const GOTO_TAB_COMPLETE =           '[Event] Goto Tab Complete';
+export const CLOSE_TAB =                   '[Event] Close Tab';
+export const CLOSE_TAB_COMPLETE =          '[Event] Close Tab Complete';
 
 // tslint:disable-next-line:max-classes-per-file
 export class ChangeTabTitleAction implements Action {
@@ -51,6 +56,34 @@ export class DoBackCompleteAction implements Action {
   constructor(public payload: IApp) { }
 }
 
+// tslint:disable-next-line:max-classes-per-file
+export class GotoTabAction implements Action {
+  public readonly type = GOTO_TAB;
+
+  constructor(public payload: ITab) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class GotoTabCompleteAction implements Action {
+  public readonly type = GOTO_TAB_COMPLETE;
+
+  constructor(public payload: ITab) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class CloseTabAction implements Action {
+  public readonly type = CLOSE_TAB;
+
+  constructor(public payload: ITab) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class CloseTabCompleteAction implements Action {
+  public readonly type = CLOSE_TAB_COMPLETE;
+
+  constructor(public payload: ITab) { }
+}
+
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -62,4 +95,8 @@ export type Actions
   | DoNextCompleteAction
   | DoBackAction
   | DoBackCompleteAction
+  | GotoTabAction
+  | GotoTabCompleteAction
+  | CloseTabAction
+  | CloseTabCompleteAction
 ;
