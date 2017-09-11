@@ -1,4 +1,3 @@
-import { getCurrentApp } from './../reducers/app';
 import {
   Component,
   OnInit,
@@ -107,6 +106,10 @@ export class HomeComponent implements OnInit {
   }
 
   private onNextClick($event: IApp) {
-    this.store.dispatch(new eventActions.ChangeTabTitleAction($event));
+    this.store.dispatch(new eventActions.DoNextAction($event));
+  }
+
+  private onBackClick($event: IApp) {
+    this.store.dispatch(new eventActions.DoBackAction($event));
   }
 }

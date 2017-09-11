@@ -5,9 +5,9 @@ import { IWebEvent } from '../models/web-event.model';
 export const CHANGE_TAB_TITLE =            '[Event] Change Tab Title';
 export const CHANGE_TAB_TITLE_COMPLETE =   '[Event] Change Tab Title Complete';
 export const DO_NEXT =                     '[Event] Do Next';
-export const DO_NEXT_COMPLETE =            '[Event] Do Next';
+export const DO_NEXT_COMPLETE =            '[Event] Do Next Complete';
 export const DO_BACK =                     '[Event] Do Back';
-export const DO_BACK_COMPLETE =            '[Event] Do Back';
+export const DO_BACK_COMPLETE =            '[Event] Do Back Complete';
 
 // tslint:disable-next-line:max-classes-per-file
 export class ChangeTabTitleAction implements Action {

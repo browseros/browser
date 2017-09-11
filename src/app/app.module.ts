@@ -1,6 +1,3 @@
-import { AppEffects } from './effects/app';
-import { AppWebviewComponent } from './home/app-webview/app-webview.component';
-import { AppBarComponent } from './home/app-bar/app-bar.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -44,6 +41,10 @@ import { AppNavComponent } from './home/app-nav/app-nav.component';
 
 import { reducer } from './reducers';
 import { WebviewComponent } from './home/app-webview/web-view.component';
+import { EventEffects } from './effects/event';
+import { AppEffects } from './effects/app';
+import { AppWebviewComponent } from './home/app-webview/app-webview.component';
+import { AppBarComponent } from './home/app-bar/app-bar.component';
 
 declare const ENV: string;
 
@@ -96,6 +97,7 @@ if (ENV === 'development') {
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
     EffectsModule.run(AppEffects),
+    EffectsModule.run(EventEffects),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
     ...CONDITIONAL_IMPORTS
   ],

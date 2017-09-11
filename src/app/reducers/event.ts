@@ -1,3 +1,4 @@
+import { IWebAction } from './../models/web-action.model';
 import { IApp } from '../models/app.model';
 import * as event from '../actions/event.actions';
 import * as app from '../actions/app.actions';
@@ -10,6 +11,8 @@ export interface State {
     isAddingApp: boolean;
     isAddingTab: boolean;
     isClosingApp: boolean;
+    isNavigatingNext: IWebAction;
+    isNavigatingBack: IWebAction;
 }
 
 export const initialState: State = {
@@ -18,7 +21,9 @@ export const initialState: State = {
     isGoingtoApp: false,
     isAddingApp: false,
     isAddingTab: false,
-    isClosingApp: false
+    isClosingApp: false,
+    isNavigatingNext: null,
+    isNavigatingBack: null
 };
 
 export function reducer(state = initialState, action: event.Actions | app.Actions): State {
@@ -95,6 +100,34 @@ export function reducer(state = initialState, action: event.Actions | app.Action
             return newState;
         }
 
+        case event.DO_BACK: {
+            let appAction: IWebAction = {tab: null, app: action.payload, isCalling: true};
+            return Object.assign({}, state, {
+                isNavigatingBack: appAction
+            });
+        }
+
+        case event.DO_BACK_COMPLETE: {
+            let appAction: IWebAction = {tab: null, app: action.payload, isCalling: false};
+            return Object.assign({}, state, {
+                isNavigatingBack: appAction
+            });
+        }
+
+        case event.DO_NEXT: {
+            let appAction: IWebAction = {tab: null, app: action.payload, isCalling: true};
+            return Object.assign({}, state, {
+                isNavigatingNext: appAction
+            });
+        }
+
+        case event.DO_NEXT_COMPLETE: {
+            let appAction: IWebAction = {tab: null, app: action.payload, isCalling: false};
+            return Object.assign({}, state, {
+                isNavigatingNext: appAction
+            });
+        }
+
         default: {
             return state;
         }
@@ -113,3 +146,7 @@ export function reducer(state = initialState, action: event.Actions | app.Action
 export const getApps = (state: State) => state.apps;
 
 export const getCurrentApp = (state: State) => state.currentApp;
+
+export const getIsNavigatingBack = (state: State) => state.isNavigatingBack;
+
+export const getIsNavigatingNext = (state: State) => state.isNavigatingNext;

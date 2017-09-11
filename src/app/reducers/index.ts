@@ -41,3 +41,5 @@ export const getCurrentApp = createSelector(getAppState, fromApp.getCurrentApp);
 export const getEventState = (state: State) => state.event;
 export const getEventApps = createSelector(getEventState, fromEvent.getApps);
 export const getEventCurrentApp = createSelector(getEventState, fromEvent.getCurrentApp);
+export const getIsNavigatingBack = createSelector(getEventState, fromEvent.getIsNavigatingBack);
+export const getIsNavigatingNext = createSelector(getEventState, fromEvent.getIsNavigatingNext);
