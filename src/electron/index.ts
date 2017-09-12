@@ -6,10 +6,10 @@ import './dev-extensions';
 declare const DEV_SERVER: boolean;
 
 const indexUrl = url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  });
+  pathname: path.join(__dirname, 'index.html'),
+  protocol: 'file:',
+  slashes: true
+});
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -17,8 +17,9 @@ let win;
 
 function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({width: 800, height: 600});
-
+  win = new BrowserWindow({ width: 800, height: 600, frame: false });
+  win.maximize();
+  win.setMenu(null);
   // and load the index.html of the app.
   win.loadURL(indexUrl);
 

@@ -1,5 +1,7 @@
 <webview
     #webview 
     attr.src='{{tab.url}}' 
-    style='width: 100%; height: 680px;'>
+    [style.width]='screenWidth + "px"'
+    [style.height]='getHeight() + "px"'
+>
 </webview>

@@ -2,10 +2,11 @@
 .tab-on-nav {
     padding: 6px 3px 3px 3px;
     display: inline-block; 
-    width: 150px;
+    max-width: 250px;
     height: 30px;
     text-align: center;
     vertical-align: bottom;
     border-left: 1px solid #ccc;
+    border-radius: 6px 6px 0px 0px;
     cursor: pointer;    
 }

@@ -1,8 +1,10 @@
-<div *ngFor='let app of apps'>
-    <div [hidden]='currentApp.hostName != app.hostName'>
-        <div *ngFor='let tab of app.tabs'>
-            <div [hidden]='!currentApp.currentTab || tab.url != currentApp.currentTab.url'>
+<div *ngFor='let app of apps' [style.width]='screenWidth + "px"'>
+    <div [hidden]='currentApp.hostName != app.hostName' [style.width]='screenWidth + "px"'>
+        <div *ngFor='let tab of app.tabs' [style.width]='screenWidth + "px"'>
+            <div [hidden]='!currentApp.currentTab || tab.url != currentApp.currentTab.url' [style.width]='screenWidth + "px"'>
                 <web-view [tab]='tab' 
+                    [screenHeight]='screenHeight'
+                    [screenWidth]='screenWidth'
                     (onNewUrl)='onNewUrl.emit({eventValue: $event, eventName: "newurl", tab: tab, app: app})'
                     (onTitleChanged)='onTitleChanged.emit({eventValue: $event, eventName: "titlechanged", tab: tab, app: app})'
                     (onIconChanged)='onIconChanged.emit({eventValue: $event, eventName: "iconchanged", tab: tab, app: app})'

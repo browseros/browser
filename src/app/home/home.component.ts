@@ -47,6 +47,8 @@ export class HomeComponent implements OnInit {
   private isShowingContextMenu = false;
   private contextTop: string;
   private contextLeft: string;
+  private screenWidth: number;
+  private screenHeight: number;
 
   @ViewChild('appSearch') private appSearch: AppSearchComponent;
 
@@ -70,6 +72,15 @@ export class HomeComponent implements OnInit {
         title: 'vnexpress.net',
         url: 'https://vnexpress.net'
       }));
+    this.screenWidth = $(window).width();
+    this.screenHeight = $(window).height();
+    let self = this;
+    window.addEventListener('resize', (e) => {
+      setTimeout(() => {
+        self.screenWidth = $(window).width();
+        self.screenHeight = $(window).height();
+      }, 200);
+    });
   }
 
   public showDialog() {

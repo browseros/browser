@@ -13,6 +13,8 @@ import { IWebAction } from './../../models/web-action.model';
 
 export class WebviewComponent implements AfterViewInit {
     @Input() public tab: ITab;
+    @Input() public screenHeight: number;
+    @Input() public screenWidth: number;
     @Output() public onTitleChanged: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onIconChanged: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onNewUrl: EventEmitter<string> = new EventEmitter<string>();
@@ -78,5 +80,9 @@ export class WebviewComponent implements AfterViewInit {
     public goForward() {
         let webviewElm = this.webview.nativeElement;
         webviewElm.goForward();
+    }
+
+    private getHeight() {
+        return this.screenHeight - 80;
     }
 }
