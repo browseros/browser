@@ -1,7 +1,15 @@
-<span *ngIf='apps && currentApp'>
-    <div *ngFor='let app of apps' class='app-on-tab' (click)="onAppSelect.emit(app)" [style.backgroundColor]='app.hostName == currentApp.hostName ? "#eee": "#ddd"'>
-        <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px;" (click)='onAppClose.emit(app)'></i> 
-        <img [src]='app.icon' style="max-width: 20px; max-height: 20px;"/> {{app.title}}
-    </div>
-</span>
-<button class="btn btn-default btn-sm" (click)="onBtnAddApp.emit($event)" style="margin-top: 6px;">+</button>
+<div style='background-color:chocolate;'>
+    <span *ngIf='apps && currentApp'>
+        <div *ngFor='let app of apps' class='app-on-tab' (click)="onAppSelect.emit(app)" [style.backgroundColor]='app.hostName == currentApp.hostName ? "#eee": "#ddd"'>
+            <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px;" (click)='onAppClose.emit(app)'></i> 
+            <img [src]='app.icon' style="max-width: 20px; max-height: 20px;"/> {{app.title}}
+        </div>
+    </span>
+    <button class="btn btn-default btn-sm pull-right" (click)="onBtnAddApp.emit($event)" style="margin-top: 0px;">+</button>
+    <input class='form-control pull-right input-sm' type='text' 
+        style="width: 300px; margin-top: 0px; margin-right: 2px;" 
+        (click)="onBtnAddApp.emit($event)"
+        [value]='currentApp && currentApp.currentTab ? currentApp.currentTab.url: ""'
+        placeholder="Search URL or App"/>
+</div>
+<div class="clearfix"></div>

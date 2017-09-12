@@ -1,3 +1,6 @@
+<app-bar [apps]='eventApps | async' [currentApp]='eventCurrentApp | async' (onAppSelect)='gotoApp($event)' (onAppClose)='closeApp($event)'
+(onBtnAddApp)='appSearch.show()'>
+</app-bar>
 <app-nav [currentApp]='eventCurrentApp | async' (onNextClick)='onNextClick($event)' (onBackClick)='onBackClick($event)' (onGotoTab)='onGotoTab($event)'
   (onCloseTab)='onCloseTab($event)'></app-nav>
 <app-webview [apps]='apps | async' [currentApp]='eventCurrentApp | async' (onNewUrl)='onNewUrl($event)' 
@@ -7,7 +10,4 @@
   (onIconChanged)='onIconChanged($event)' 
   (onContextMenu)='onContextMenu($event)'>
 </app-webview>
-<app-bar [apps]='eventApps | async' [currentApp]='eventCurrentApp | async' (onAppSelect)='gotoApp($event)' (onAppClose)='closeApp($event)'
-(onBtnAddApp)='appSearch.show()'>
-</app-bar>
 <app-search #appSearch (onSearch)='doSearch($event)'></app-search>

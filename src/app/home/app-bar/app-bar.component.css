@@ -3,8 +3,9 @@
     padding: 6px 3px 3px 3px;
     display: inline-block; 
     width: 150px;
-    height: 30px;
+    height: 29px;
     text-align: center;
+    margin-top: 1px;
     vertical-align: bottom;
     border-left: 1px solid #ccc;
     cursor: pointer;    
