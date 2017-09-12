@@ -1,3 +1,4 @@
+import { IWebEvent } from './../models/web-event.model';
 import { Action } from '@ngrx/store';
 import { IApp } from '../models/app.model';
 import { IWebEvent } from '../models/web-event.model';
@@ -13,6 +14,8 @@ export const GOTO_TAB =                    '[Event] Goto Tab';
 export const GOTO_TAB_COMPLETE =           '[Event] Goto Tab Complete';
 export const CLOSE_TAB =                   '[Event] Close Tab';
 export const CLOSE_TAB_COMPLETE =          '[Event] Close Tab Complete';
+export const CHANGE_TAB_ICON =             '[Event] Change Tab Icon';
+export const CHANGE_TAB_ICON_COMPLETE =    '[Event] Change Tab Icon Complete';
 
 // tslint:disable-next-line:max-classes-per-file
 export class ChangeTabTitleAction implements Action {
@@ -84,6 +87,20 @@ export class CloseTabCompleteAction implements Action {
   constructor(public payload: ITab) { }
 }
 
+// tslint:disable-next-line:max-classes-per-file
+export class ChangeTabIconAction implements Action {
+  public readonly type = CHANGE_TAB_ICON;
+
+  constructor(public payload: IWebEvent) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class ChangeTabIconCompleteAction implements Action {
+  public readonly type = CHANGE_TAB_ICON_COMPLETE;
+
+  constructor(public payload: IWebEvent) { }
+}
+
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -99,4 +116,6 @@ export type Actions
   | GotoTabCompleteAction
   | CloseTabAction
   | CloseTabCompleteAction
+  | ChangeTabIconAction
+  | ChangeTabIconCompleteAction
 ;

@@ -17,6 +17,8 @@ import * as eventActions from '../actions/event.actions';
 import { Observable } from 'rxjs/Observable';
 import { IApp } from '../models/app.model';
 import { IWebEvent } from '../models/web-event.model';
+const { remote } = require('electron');
+const { Menu, MenuItem, clipboard } = remote;
 
 @Component({
   // The selector is what angular internally uses
@@ -42,6 +44,9 @@ export class HomeComponent implements OnInit {
   private clonedApps: IApp[] = [];
   private eventCurrentApp: Observable<IApp>;
   private currentInputValue = '';
+  private isShowingContextMenu = false;
+  private contextTop: string;
+  private contextLeft: string;
 
   @ViewChild('appSearch') private appSearch: AppSearchComponent;
 
@@ -59,6 +64,12 @@ export class HomeComponent implements OnInit {
     this.apps.subscribe((newApps) => {
       this.clonedApps = JSON.parse(JSON.stringify(newApps));
     });
+    this.store.dispatch(new appActions.AddTabAction(
+      {
+        hostName: 'vnexpress.net',
+        title: 'vnexpress.net',
+        url: 'https://vnexpress.net'
+      }));
   }
 
   public showDialog() {
@@ -103,6 +114,10 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(new eventActions.ChangeTabTitleAction($event));
   }
 
+  private onIconChanged($event: IWebEvent) {
+    this.store.dispatch(new eventActions.ChangeTabIconAction($event));
+  }
+
   private onNextClick($event: IApp) {
     this.store.dispatch(new eventActions.DoNextAction($event));
   }
@@ -116,7 +131,53 @@ export class HomeComponent implements OnInit {
   }
 
   private onCloseTab($event: ITab) {
-    console.log($event);
     this.store.dispatch(new eventActions.CloseTabAction($event));
+  }
+
+  private onNewUrl($event: IWebEvent) {
+    let hostName = this.extractHostname($event.eventValue);
+    this.store.dispatch(new appActions.AddTabAction(
+      {
+        hostName,
+        title: hostName,
+        url: $event.eventValue
+      }));
+  }
+
+  private onContextMenu(params) {
+    let self = this;
+    const menu = new Menu();
+    if (params.linkURL) {
+      menu.append(new MenuItem(
+        {
+          label: 'Open link in new tab', click() {
+            let hostName = self.extractHostname(params.linkURL);
+            self.store.dispatch(new appActions.AddTabAction(
+              {
+                hostName,
+                title: hostName,
+                url: params.linkURL
+              }));
+          }
+        }
+      ));
+      menu.append(new MenuItem(
+        {
+          label: 'Copy link address', click() {
+            clipboard.writeText(params.linkURL);
+          }
+        }
+      ));
+    }
+    if (params.selectionText) {
+      menu.append(new MenuItem(
+        {
+          label: 'Copy', click() {
+            clipboard.writeText(params.selectionText);
+          }
+        }
+      ));
+    }
+    menu.popup(remote.getCurrentWindow());
   }
 }

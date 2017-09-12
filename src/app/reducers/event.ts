@@ -156,6 +156,28 @@ export function reducer(state = initialState, action: event.Actions | app.Action
             return newState;
         }
 
+        case event.CHANGE_TAB_ICON: {
+            let changedAppIndex = state.apps.findIndex(a => a.hostName === action.payload.app.hostName);
+            let changedApp = state.apps[changedAppIndex];
+            if (action.payload.eventValue === changedApp.icon) {
+                return state;
+            }
+            let newChangedApp = Object.assign({}, changedApp, {
+                icon: action.payload.eventValue
+            });
+            let newCurrentApp = state.currentApp;
+            if (newCurrentApp.hostName === newChangedApp.hostName) {
+                newCurrentApp = newChangedApp;
+            }
+            let newState = Object.assign({}, state, {
+                apps: [...state.apps.slice(0, changedAppIndex),
+                    newChangedApp,
+                ...state.apps.slice(changedAppIndex + 1)],
+                currentApp: newCurrentApp
+            });
+            return newState;
+        }
+
         case event.DO_BACK: {
             let appAction: IWebAction = { tab: null, app: action.payload, isCalling: true };
             return Object.assign({}, state, {

@@ -14,6 +14,9 @@ import { IWebAction } from './../../models/web-action.model';
 export class WebviewComponent implements AfterViewInit {
     @Input() public tab: ITab;
     @Output() public onTitleChanged: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public onIconChanged: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public onNewUrl: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public onContextMenu: EventEmitter<any> = new EventEmitter<any>();
     @ViewChild('webview') private webview: ElementRef;
 
     constructor(public store: Store<fromRoot.State>) {
@@ -37,6 +40,23 @@ export class WebviewComponent implements AfterViewInit {
         let webviewElm = this.webview.nativeElement;
         webviewElm.addEventListener('page-title-updated', (e) => {
             this.onTitleChanged.emit(e.title);
+        });
+        webviewElm.addEventListener('page-favicon-updated', (e) => {
+            if (e.favicons && e.favicons.length > 0) {
+                this.onIconChanged.emit(e.favicons[0]);
+            }
+        });
+        webviewElm.addEventListener('new-window', (e) => {
+            const protocol = require('url').parse(e.url).protocol;
+            if (protocol === 'http:' || protocol === 'https:') {
+                this.onNewUrl.emit(e.url);
+            }
+        });
+        webviewElm.addEventListener('dom-ready', (e) => {
+            let wc = webviewElm.getWebContents();
+            wc.on('context-menu', (e1, params) => {
+                this.onContextMenu.emit(params);
+            });
         });
     }
 

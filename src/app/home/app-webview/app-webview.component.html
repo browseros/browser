@@ -2,7 +2,12 @@
     <div [hidden]='currentApp.hostName != app.hostName'>
         <div *ngFor='let tab of app.tabs'>
             <div [hidden]='!currentApp.currentTab || tab.url != currentApp.currentTab.url'>
-                <web-view [tab]='tab' (onTitleChanged)='onTitleChanged.emit({eventValue: $event, eventName: "titlechanged", tab: tab, app: app})'></web-view>
+                <web-view [tab]='tab' 
+                    (onNewUrl)='onNewUrl.emit({eventValue: $event, eventName: "newurl", tab: tab, app: app})'
+                    (onTitleChanged)='onTitleChanged.emit({eventValue: $event, eventName: "titlechanged", tab: tab, app: app})'
+                    (onIconChanged)='onIconChanged.emit({eventValue: $event, eventName: "iconchanged", tab: tab, app: app})'
+                    (onContextMenu)='onContextMenu.emit($event)'>
+                </web-view>
             </div>
         </div>
     </div>
