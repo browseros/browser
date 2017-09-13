@@ -43,7 +43,7 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                 tab.id = newTabId;
                 tab.appId = newAppId;
                 let newApp: IApp = {
-                    id: newAppId,
+                    id: newAppId, currentTabId: newTabId,
                     url: tab.url, hostName: tab.hostName, icon: '', title: tab.title
                 };
                 return Object.assign({}, state, {
@@ -94,14 +94,23 @@ export function reducer(state = initialState, action: event.Actions | app.Action
 
         case app.GOTO_APP: {
             let newCurrentApp = state.apps.find(a => a.id === action.payload.id);
+            let currentTab = state.tabs.find(t => t.id === newCurrentApp.currentTabId);
             return Object.assign({}, state, {
                 currentApp: newCurrentApp,
+                currentTab,
                 isGoingtoApp: true
             });
         }
 
         case event.GOTO_TAB: {
+            let changedAppIndex = state.apps.findIndex(a => a.id === action.payload.appId);
+            let changedApp = state.apps[changedAppIndex];
+            let newChangedApp = Object.assign({}, changedApp, {
+               currentTabId: action.payload.id
+            });
             return Object.assign({}, state, {
+                apps: [...state.apps.slice(0, changedAppIndex), newChangedApp,
+                    ...state.apps.slice(changedAppIndex + 1)],
                 currentTab: action.payload
             });
         }

@@ -51,7 +51,7 @@ export function reducer(state = initialState, action: app.Actions | event.Action
                 tab.id = newTabId;
                 tab.appId = newAppId;
                 let newApp: IApp = {
-                    id: newAppId,
+                    id: newAppId, currentTabId: newTabId,
                     url: tab.url, hostName: tab.hostName, icon: '', title: tab.title
                 };
                 return Object.assign({}, state, {
