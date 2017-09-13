@@ -20,4 +20,5 @@ export class AppWebviewComponent {
     @Output() public onIconChanged: EventEmitter<IWebEvent> = new EventEmitter<IWebEvent>();
     @Output() public onNewUrl: EventEmitter<IWebEvent> = new EventEmitter<IWebEvent>();
     @Output() public onContextMenu: EventEmitter<any> = new EventEmitter<any>();
+    @Output() public onUrlChanged: EventEmitter<string> = new EventEmitter<string>();
 }

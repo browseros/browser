@@ -8,6 +8,7 @@
   [screenHeight]='screenHeight'
   (onTitleChanged)='onTitleChanged($event)'
   (onIconChanged)='onIconChanged($event)' 
+  (onUrlChanged)='onUrlChanged($event)'
   (onContextMenu)='onContextMenu($event)'>
 </app-webview>
 <app-search #appSearch (onSearch)='doSearch($event)'></app-search>

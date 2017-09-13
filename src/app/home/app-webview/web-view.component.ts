@@ -18,21 +18,22 @@ export class WebviewComponent implements AfterViewInit {
     @Output() public onTitleChanged: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onIconChanged: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onNewUrl: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public onUrlChanged: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onContextMenu: EventEmitter<any> = new EventEmitter<any>();
     @ViewChild('webview') private webview: ElementRef;
 
     constructor(public store: Store<fromRoot.State>) {
         this.store.select(fromRoot.getIsNavigatingBack).subscribe((action: IWebAction) => {
             if (action && action.isCalling
-                && action.app.hostName === this.tab.hostName
-                && action.app.currentTab.url === this.tab.url) {
+                && action.app.id === this.tab.id
+                && action.app.currentTab.id === this.tab.id) {
                 this.goBack();
             }
         });
         this.store.select(fromRoot.getIsNavigatingNext).subscribe((action: IWebAction) => {
             if (action && action.isCalling
-                && action.app.hostName === this.tab.hostName
-                && action.app.currentTab.url === this.tab.url) {
+                && action.app.id === this.tab.id
+                && action.app.currentTab.id === this.tab.id) {
                 this.goForward();
             }
         });
@@ -52,6 +53,15 @@ export class WebviewComponent implements AfterViewInit {
             const protocol = require('url').parse(e.url).protocol;
             if (protocol === 'http:' || protocol === 'https:') {
                 this.onNewUrl.emit(e.url);
+            }
+        });
+        webviewElm.addEventListener('did-get-redirect-request', (e) => {
+            if (e.isMainFrame) {
+                console.log(e);
+                const protocol = require('url').parse(e.newURL).protocol;
+                if (protocol === 'http:' || protocol === 'https:') {
+                    this.onUrlChanged.emit(e.newURL);
+                }
             }
         });
         webviewElm.addEventListener('dom-ready', (e) => {

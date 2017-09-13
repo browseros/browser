@@ -68,6 +68,8 @@ export class HomeComponent implements OnInit {
     });
     this.store.dispatch(new appActions.AddTabAction(
       {
+        id: 0,
+        appId: 0,
         hostName: 'vnexpress.net',
         title: 'vnexpress.net',
         url: 'https://vnexpress.net'
@@ -92,14 +94,40 @@ export class HomeComponent implements OnInit {
   }
 
   private doSearch(app: string) {
-    let hostName = this.extractHostname(app);
+    let link = this.prepareAppLink(app);
+    let hostName = this.extractHostname(link);
     this.store.dispatch(new appActions.AddTabAction(
       {
+        id: 0,
+        appId: 0,
         hostName,
         title: hostName,
-        url: app
+        url: link
       }));
     this.appSearch.hide();
+  }
+
+  private prepareAppLink(app: string) {
+    let appLower = app.toLowerCase().trim();
+    // check is http
+    let id = appLower.indexOf('http://');
+    if (id === 0) {
+      return appLower;
+    }
+    id = appLower.indexOf('https://');
+    if (id === 0) {
+      return appLower;
+    }
+    id = appLower.indexOf('ftp://');
+    if (id === 0) {
+      return appLower;
+    }
+    id = appLower.indexOf('//');
+    if (id === 0) {
+      return 'http:' + appLower;
+    }
+    return 'http://' + appLower;
+
   }
 
   private extractHostname(url: string): string {
@@ -149,10 +177,16 @@ export class HomeComponent implements OnInit {
     let hostName = this.extractHostname($event.eventValue);
     this.store.dispatch(new appActions.AddTabAction(
       {
+        id: 0,
+        appId: 0,
         hostName,
         title: hostName,
         url: $event.eventValue
       }));
+  }
+
+  private onUrlChanged($event: IWebEvent) {
+    this.store.dispatch(new eventActions.ChangeTabUrlAction($event));
   }
 
   private onContextMenu(params) {
@@ -165,6 +199,8 @@ export class HomeComponent implements OnInit {
             let hostName = self.extractHostname(params.linkURL);
             self.store.dispatch(new appActions.AddTabAction(
               {
+                id: 0,
+                appId: 0,
                 hostName,
                 title: hostName,
                 url: params.linkURL
