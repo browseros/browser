@@ -40,9 +40,12 @@ export class HomeComponent implements OnInit {
   public localState = { value: '' };
 
   private apps: Observable<IApp[]>;
+  private tabs: Observable<ITab[]>;
   private eventApps: Observable<IApp[]>;
+  private eventTabs: Observable<ITab[]>;
   private clonedApps: IApp[] = [];
   private eventCurrentApp: Observable<IApp>;
+  private eventCurrentTab: Observable<ITab>;
   private currentInputValue = '';
   private isShowingContextMenu = false;
   private contextTop: string;
@@ -61,11 +64,11 @@ export class HomeComponent implements OnInit {
   public ngOnInit() {
     console.log('hello `Home` component');
     this.apps = this.store.select(fromRoot.getApps);
+    this.tabs = this.store.select(fromRoot.getTabs);
     this.eventApps = this.store.select(fromRoot.getEventApps);
+    this.eventTabs = this.store.select(fromRoot.getEventTabs);
     this.eventCurrentApp = this.store.select(fromRoot.getEventCurrentApp);
-    this.apps.subscribe((newApps) => {
-      this.clonedApps = JSON.parse(JSON.stringify(newApps));
-    });
+    this.eventCurrentTab = this.store.select(fromRoot.getEventCurrentTab);
     this.store.dispatch(new appActions.AddTabAction(
       {
         id: 0,

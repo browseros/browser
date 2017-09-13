@@ -9,7 +9,7 @@
     <input class='form-control pull-right input-sm' type='text' 
         style="width: 300px; margin-top: 0px; margin-right: 2px;" 
         (click)="onBtnAddApp.emit($event)"
-        [value]='currentApp && currentApp.currentTab ? currentApp.currentTab.url: ""'
+        [value]='currentTab ? currentTab.url: ""'
         placeholder="Search URL or App"/>
 </div>
 <div class="clearfix"></div>

@@ -35,10 +35,13 @@ export function reducer(state: any, action: any) {
 // app
 export const getAppState = (state: State) => state.app;
 export const getApps = createSelector(getAppState, fromApp.getApps);
+export const getTabs = createSelector(getAppState, fromApp.getTabs);
 
 // event
 export const getEventState = (state: State) => state.event;
 export const getEventApps = createSelector(getEventState, fromEvent.getApps);
+export const getEventTabs = createSelector(getEventState, fromEvent.getTabs);
 export const getEventCurrentApp = createSelector(getEventState, fromEvent.getCurrentApp);
+export const getEventCurrentTab = createSelector(getEventState, fromEvent.getCurrentTab);
 export const getIsNavigatingBack = createSelector(getEventState, fromEvent.getIsNavigatingBack);
 export const getIsNavigatingNext = createSelector(getEventState, fromEvent.getIsNavigatingNext);

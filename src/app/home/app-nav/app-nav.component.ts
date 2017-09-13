@@ -12,6 +12,8 @@ import { ITab } from '../../models/tab.model';
 export class AppNavComponent {
 
     @Input() public currentApp: IApp;
+    @Input() public tabs: ITab[];
+    @Input() public currentTab: ITab;
     @Output() public onSearch: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onNextClick: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onBackClick: EventEmitter<string> = new EventEmitter<string>();

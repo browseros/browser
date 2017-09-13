@@ -25,15 +25,13 @@ export class WebviewComponent implements AfterViewInit {
     constructor(public store: Store<fromRoot.State>) {
         this.store.select(fromRoot.getIsNavigatingBack).subscribe((action: IWebAction) => {
             if (action && action.isCalling
-                && action.app.id === this.tab.id
-                && action.app.currentTab.id === this.tab.id) {
+                && action.tab.id === this.tab.id) {
                 this.goBack();
             }
         });
         this.store.select(fromRoot.getIsNavigatingNext).subscribe((action: IWebAction) => {
             if (action && action.isCalling
-                && action.app.id === this.tab.id
-                && action.app.currentTab.id === this.tab.id) {
+                && action.tab.id === this.tab.id) {
                 this.goForward();
             }
         });
