@@ -162,27 +162,32 @@ export function reducer(state = initialState, action: event.Actions | app.Action
             let newChangedTab = Object.assign({}, changedTab, {
                 url: action.payload.eventValue
             });
+            let currentTab = state.currentTab;
+            if (currentTab.id === newChangedTab.id) {
+                currentTab = newChangedTab;
+            }
             let newState = Object.assign({}, state, {
                 tabs: [...state.tabs.slice(0, changedTabIndex),
                     newChangedTab,
-                ...state.tabs.slice(changedTabIndex + 1)]
+                ...state.tabs.slice(changedTabIndex + 1)],
+                currentTab
             });
             return newState;
         }
 
         case event.CHANGE_TAB_ICON: {
-            let changedTabIndex = state.tabs.findIndex(t => t.id === action.payload.tab.id);
-            let changedTab = state.tabs[changedTabIndex];
-            if (action.payload.eventValue === changedTab.title) {
+            let changedAppIndex = state.apps.findIndex(t => t.id === action.payload.tab.appId);
+            let changedApp = state.apps[changedAppIndex];
+            if (action.payload.eventValue === changedApp.title) {
                 return state;
             }
-            let newChangedTab = Object.assign({}, changedTab, {
+            let newChangedApp = Object.assign({}, changedApp, {
                 icon: action.payload.eventValue
             });
             let newState = Object.assign({}, state, {
-                tabs: [...state.tabs.slice(0, changedTabIndex),
-                    newChangedTab,
-                ...state.tabs.slice(changedTabIndex + 1)]
+                apps: [...state.apps.slice(0, changedAppIndex),
+                    newChangedApp,
+                ...state.apps.slice(changedAppIndex + 1)]
             });
             return newState;
         }

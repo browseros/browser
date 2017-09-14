@@ -1,4 +1,4 @@
-<app-bar [apps]='eventApps | async' [currentApp]='eventCurrentApp | async' (onAppSelect)='gotoApp($event)' (onAppClose)='closeApp($event)'
+<app-bar [apps]='eventApps | async' [currentApp]='eventCurrentApp | async' [currentTab]='eventCurrentTab | async' (onAppSelect)='gotoApp($event)' (onAppClose)='closeApp($event)'
 (onBtnAddApp)='appSearch.show()'>
 </app-bar>
 <app-nav [currentApp]='eventCurrentApp | async' [tabs]='eventTabs | async' [currentTab]='eventCurrentTab | async' (onNextClick)='onNextClick($event)' (onBackClick)='onBackClick($event)' (onGotoTab)='onGotoTab($event)'
