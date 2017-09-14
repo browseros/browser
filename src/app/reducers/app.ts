@@ -95,8 +95,10 @@ export function reducer(state = initialState, action: app.Actions | event.Action
         case app.CLOSE_APP: {
             let app = action.payload;
             let newApps = state.apps.filter(a => a.id !== app.id);
+            let newTabs = state.tabs.filter(a => a.appId !== app.id);
             return Object.assign({}, state, {
                 apps: newApps,
+                tabs: newTabs,
                 isClosingApp: true
             });
         }

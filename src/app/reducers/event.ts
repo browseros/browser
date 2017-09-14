@@ -74,6 +74,7 @@ export function reducer(state = initialState, action: event.Actions | app.Action
             let app = action.payload;
             let newCurrentApp: IApp = state.currentApp;
             let newApps = state.apps.filter(a => a.id !== app.id);
+            let newTabs = state.tabs.filter(a => a.appId !== app.id);
             if (state.currentApp && app.id === state.currentApp.id) {
                 let appId = state.apps.findIndex(a => a.id === app.id);
 
@@ -84,19 +85,21 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                     newCurrentApp = newApps[appId];
                 }
             }
-
+            let currentTab = state.tabs.find(t => t.id === newCurrentApp.currentTabId);
             return Object.assign({}, state, {
                 apps: newApps,
+                tabs: newTabs,
                 currentApp: newCurrentApp,
+                currentTab,
                 isClosingApp: true
             });
         }
 
         case app.GOTO_APP: {
-            let newCurrentApp = state.apps.find(a => a.id === action.payload.id);
-            let currentTab = state.tabs.find(t => t.id === newCurrentApp.currentTabId);
+            let currentApp = state.apps.find(a => a.id === action.payload.id);
+            let currentTab = state.tabs.find(t => t.id === currentApp.currentTabId);
             return Object.assign({}, state, {
-                currentApp: newCurrentApp,
+                currentApp,
                 currentTab,
                 isGoingtoApp: true
             });
@@ -193,28 +196,28 @@ export function reducer(state = initialState, action: event.Actions | app.Action
         }
 
         case event.DO_BACK: {
-            let appAction: IWebAction = { tab: null, app: action.payload, isCalling: true };
+            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: true };
             return Object.assign({}, state, {
                 isNavigatingBack: appAction
             });
         }
 
         case event.DO_BACK_COMPLETE: {
-            let appAction: IWebAction = { tab: null, app: action.payload, isCalling: false };
+            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
             return Object.assign({}, state, {
                 isNavigatingBack: appAction
             });
         }
 
         case event.DO_NEXT: {
-            let appAction: IWebAction = { tab: null, app: action.payload, isCalling: true };
+            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: true };
             return Object.assign({}, state, {
                 isNavigatingNext: appAction
             });
         }
 
         case event.DO_NEXT_COMPLETE: {
-            let appAction: IWebAction = { tab: null, app: action.payload, isCalling: false };
+            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
             return Object.assign({}, state, {
                 isNavigatingNext: appAction
             });
