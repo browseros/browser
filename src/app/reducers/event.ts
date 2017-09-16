@@ -242,9 +242,9 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                         let oldAppChanged = Object.assign({}, state.currentApp, {
                             currentTabId: newCurrentTabForOld.id
                         });
-                        newApps = [...state.apps.slice(0, oldAppIndex),
+                        newApps = [...newApps.slice(0, oldAppIndex),
                             oldAppChanged,
-                        ...state.apps.slice(oldAppIndex + 1)];
+                        ...newApps.slice(oldAppIndex + 1)];
                     }
                     return Object.assign({}, state, {
                         apps: newApps,
@@ -268,9 +268,7 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                         hostName: action.payload.app.hostName
                     });
                     let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
-                    let newApps = [...state.apps.slice(0, changedAppIndex),
-                        newApp,
-                    ...state.apps.slice(changedAppIndex + 1)];
+                    let newApps = [...state.apps, newApp];
                     let newTabs = [...state.tabs.slice(0, changedTabIndex),
                         newChangedTab,
                     ...state.tabs.slice(changedTabIndex + 1)];
@@ -285,9 +283,9 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                         let oldAppChanged = Object.assign({}, state.currentApp, {
                             currentTabId: newCurrentTabForOld.id
                         });
-                        newApps = [...state.apps.slice(0, oldAppIndex),
+                        newApps = [...newApps.slice(0, oldAppIndex),
                             oldAppChanged,
-                        ...state.apps.slice(oldAppIndex + 1)];
+                        ...newApps.slice(oldAppIndex + 1)];
                     }
                     return Object.assign({}, state, {
                         apps: newApps,
