@@ -20,6 +20,7 @@ export class AppSearchComponent {
     private newSearch: boolean = true;
 
     public show(oldUrl: string): void {
+        this.newSearch = true;
         if (oldUrl) {
             this.newSearch = false;
         }

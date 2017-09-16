@@ -1,9 +1,10 @@
 import { Store } from '@ngrx/store';
 
-import { Component, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { ITab } from '../../models/tab.model';
 import * as fromRoot from '../../reducers';
 import { IWebAction } from './../../models/web-action.model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'web-view',
@@ -11,7 +12,7 @@ import { IWebAction } from './../../models/web-action.model';
     templateUrl: './web-view.component.html'
 })
 
-export class WebviewComponent implements AfterViewInit {
+export class WebviewComponent implements AfterViewInit, OnDestroy {
     @Input() public tab: ITab;
     @Input() public screenHeight: number;
     @Input() public screenWidth: number;
@@ -20,27 +21,36 @@ export class WebviewComponent implements AfterViewInit {
     @Output() public onNewUrl: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onUrlChanged: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onContextMenu: EventEmitter<any> = new EventEmitter<any>();
+    private backSub: Subscription;
+    private nextSub: Subscription;
+    private changeSub: Subscription;
     @ViewChild('webview') private webview: ElementRef;
 
     constructor(public store: Store<fromRoot.State>) {
-        this.store.select(fromRoot.getIsNavigatingBack).subscribe((action: IWebAction) => {
+        this.backSub = this.store.select(fromRoot.getIsNavigatingBack).subscribe((action: IWebAction) => {
             if (action && action.isCalling && this.tab
                 && action.tab.id === this.tab.id) {
                 this.goBack();
             }
         });
-        this.store.select(fromRoot.getIsNavigatingNext).subscribe((action: IWebAction) => {
+        this.nextSub = this.store.select(fromRoot.getIsNavigatingNext).subscribe((action: IWebAction) => {
             if (action && action.isCalling && this.tab
                 && action.tab.id === this.tab.id) {
                 this.goForward();
             }
         });
-        this.store.select(fromRoot.getIsChangingUrl).subscribe((action: IWebAction) => {
+        this.changeSub = this.store.select(fromRoot.getIsChangingUrl).subscribe((action: IWebAction) => {
             if (action && action.isCalling && action.tab && this.tab
                 && action.tab.id === this.tab.id) {
                 this.loadURL(action.value as string);
             }
         });
+    }
+
+    public ngOnDestroy() {
+        this.backSub.unsubscribe();
+        this.nextSub.unsubscribe();
+        this.changeSub.unsubscribe();
     }
 
     public ngAfterViewInit() {

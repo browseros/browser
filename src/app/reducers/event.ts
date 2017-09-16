@@ -220,7 +220,9 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                         currentTabId: state.currentTab.id
                     });
                     let newChangedTab = Object.assign({}, state.currentTab, {
-                        appId: newChangedApp.id
+                        appId: newChangedApp.id,
+                        url: action.payload.eventValue,
+                        hostName: action.payload.app.hostName
                     });
                     let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
                     let newApps = [...state.apps.slice(0, changedAppIndex),
@@ -232,13 +234,24 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                     let countTabsOfOldApp = newTabs.filter(a => a.appId === state.currentApp.id).length;
                     if (countTabsOfOldApp === 0) {
                         newApps = newApps.filter(a => a.id !== state.currentApp.id);
+                    } else {
+                        let oldAppIndex = newApps.findIndex(a => a.id === state.currentApp.id);
+                        let newCurrentTabForOldApps = newTabs.filter(a => a.appId === state.currentApp.id);
+                        let newCurrentTabForOld = newCurrentTabForOldApps[0];
+
+                        let oldAppChanged = Object.assign({}, state.currentApp, {
+                            currentTabId: newCurrentTabForOld.id
+                        });
+                        newApps = [...state.apps.slice(0, oldAppIndex),
+                            oldAppChanged,
+                        ...state.apps.slice(oldAppIndex + 1)];
                     }
                     return Object.assign({}, state, {
                         apps: newApps,
                         currentTab: newChangedTab,
                         currentApp: newChangedApp,
                         tabs: newTabs,
-                        isChangingUrl: appAction
+                        // isChangingUrl: appAction
                     });
                 } else {
                     let tab = state.currentTab;
@@ -250,7 +263,9 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                         title: action.payload.app.hostName
                     };
                     let newChangedTab = Object.assign({}, state.currentTab, {
-                        appId: newApp.id
+                        appId: newApp.id,
+                        url: action.payload.eventValue,
+                        hostName: action.payload.app.hostName
                     });
                     let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
                     let newApps = [...state.apps.slice(0, changedAppIndex),
@@ -262,13 +277,24 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                     let countTabsOfOldApp = newTabs.filter(a => a.appId === state.currentApp.id).length;
                     if (countTabsOfOldApp === 0) {
                         newApps = newApps.filter(a => a.id !== state.currentApp.id);
+                    } else {
+                        let oldAppIndex = newApps.findIndex(a => a.id === state.currentApp.id);
+                        let newCurrentTabForOldApps = newTabs.filter(a => a.appId === state.currentApp.id);
+                        let newCurrentTabForOld = newCurrentTabForOldApps[0];
+
+                        let oldAppChanged = Object.assign({}, state.currentApp, {
+                            currentTabId: newCurrentTabForOld.id
+                        });
+                        newApps = [...state.apps.slice(0, oldAppIndex),
+                            oldAppChanged,
+                        ...state.apps.slice(oldAppIndex + 1)];
                     }
                     return Object.assign({}, state, {
                         apps: newApps,
                         currentTab: newChangedTab,
                         currentApp: newApp,
                         tabs: newTabs,
-                        isChangingUrl: appAction
+                        // isChangingUrl: appAction
                     });
                 }
             }
