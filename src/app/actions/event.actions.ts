@@ -5,6 +5,8 @@ import { ITab } from '../models/tab.model';
 
 export const CHANGE_TAB_TITLE =            '[Event] Change Tab Title';
 export const CHANGE_TAB_URL =              '[Event] Change Tab Url';
+export const CHANGE_TAB_URL_FORCE =        '[Event] Change Tab Url Force';
+export const CHANGE_TAB_URL_FORCE_COMPLETE =        '[Event] Change Tab Url Force Complete';
 export const CHANGE_TAB_TITLE_COMPLETE =   '[Event] Change Tab Title Complete';
 export const DO_NEXT =                     '[Event] Do Next';
 export const DO_NEXT_COMPLETE =            '[Event] Do Next Complete';
@@ -108,6 +110,20 @@ export class ChangeTabIconCompleteAction implements Action {
   constructor(public payload: IWebEvent) { }
 }
 
+// tslint:disable-next-line:max-classes-per-file
+export class DoChangeUrlAction implements Action {
+  public readonly type = CHANGE_TAB_URL_FORCE;
+
+  constructor(public payload: IWebEvent) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class DoChangeUrlCompleteAction implements Action {
+  public readonly type = CHANGE_TAB_URL_FORCE_COMPLETE;
+
+  constructor(public payload: IWebEvent) { }
+}
+
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -126,4 +142,6 @@ export type Actions
   | ChangeTabIconAction
   | ChangeTabIconCompleteAction
   | ChangeTabUrlAction
+  | DoChangeUrlAction
+  | DoChangeUrlCompleteAction
 ;

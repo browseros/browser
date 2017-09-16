@@ -45,3 +45,4 @@ export const getEventCurrentApp = createSelector(getEventState, fromEvent.getCur
 export const getEventCurrentTab = createSelector(getEventState, fromEvent.getCurrentTab);
 export const getIsNavigatingBack = createSelector(getEventState, fromEvent.getIsNavigatingBack);
 export const getIsNavigatingNext = createSelector(getEventState, fromEvent.getIsNavigatingNext);
+export const getIsChangingUrl = createSelector(getEventState, fromEvent.getIsChangingUrl);

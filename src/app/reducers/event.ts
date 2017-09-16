@@ -15,6 +15,7 @@ export interface State {
     isClosingApp: boolean;
     isNavigatingNext: IWebAction;
     isNavigatingBack: IWebAction;
+    isChangingUrl: IWebAction;
 }
 
 export const initialState: State = {
@@ -27,14 +28,15 @@ export const initialState: State = {
     isAddingTab: false,
     isClosingApp: false,
     isNavigatingNext: null,
-    isNavigatingBack: null
+    isNavigatingBack: null,
+    isChangingUrl: null
 };
 
 export function reducer(state = initialState, action: event.Actions | app.Actions): State {
     switch (action.type) {
 
         case app.ADD_TAB: {
-            let tab = JSON.parse(JSON.stringify(action.payload));
+            let tab = JSON.parse(JSON.stringify(action.payload)) as ITab;
             let appId = state.apps.findIndex(item => item.hostName === tab.hostName);
             if (appId < 0) {
                 let maxId = Math.max(...state.apps.map(a => a.id)) + 1;
@@ -109,11 +111,11 @@ export function reducer(state = initialState, action: event.Actions | app.Action
             let changedAppIndex = state.apps.findIndex(a => a.id === action.payload.appId);
             let changedApp = state.apps[changedAppIndex];
             let newChangedApp = Object.assign({}, changedApp, {
-               currentTabId: action.payload.id
+                currentTabId: action.payload.id
             });
             return Object.assign({}, state, {
                 apps: [...state.apps.slice(0, changedAppIndex), newChangedApp,
-                    ...state.apps.slice(changedAppIndex + 1)],
+                ...state.apps.slice(changedAppIndex + 1)],
                 currentTab: action.payload
             });
         }
@@ -141,6 +143,9 @@ export function reducer(state = initialState, action: event.Actions | app.Action
 
         case event.CHANGE_TAB_TITLE: {
             let changedTabIndex = state.tabs.findIndex(t => t.id === action.payload.tab.id);
+            if (changedTabIndex < 0) {
+                return state;
+            }
             let changedTab = state.tabs[changedTabIndex];
             if (action.payload.eventValue === changedTab.title) {
                 return state;
@@ -158,8 +163,11 @@ export function reducer(state = initialState, action: event.Actions | app.Action
 
         case event.CHANGE_TAB_URL: {
             let changedTabIndex = state.tabs.findIndex(t => t.id === action.payload.tab.id);
+            if (changedTabIndex < 0) {
+                return state;
+            }
             let changedTab = state.tabs[changedTabIndex];
-            if (action.payload.eventValue === changedTab.title) {
+            if (action.payload.eventValue === changedTab.url) {
                 return state;
             }
             let newChangedTab = Object.assign({}, changedTab, {
@@ -180,8 +188,11 @@ export function reducer(state = initialState, action: event.Actions | app.Action
 
         case event.CHANGE_TAB_ICON: {
             let changedAppIndex = state.apps.findIndex(t => t.id === action.payload.tab.appId);
+            if (changedAppIndex < 0) {
+                return state;
+            }
             let changedApp = state.apps[changedAppIndex];
-            if (action.payload.eventValue === changedApp.title) {
+            if (action.payload.eventValue === changedApp.icon) {
                 return state;
             }
             let newChangedApp = Object.assign({}, changedApp, {
@@ -193,6 +204,88 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                 ...state.apps.slice(changedAppIndex + 1)]
             });
             return newState;
+        }
+
+        case event.CHANGE_TAB_URL_FORCE: {
+            let appAction: IWebAction = {
+                tab: state.currentTab,
+                app: state.currentApp,
+                isCalling: true, value: action.payload.eventValue
+            };
+            if (state.currentApp.hostName !== action.payload.app.hostName) {
+                let changedAppIndex = state.apps.findIndex(a => a.hostName === action.payload.app.hostName);
+                if (changedAppIndex >= 0) {
+                    let changedApp = state.apps[changedAppIndex];
+                    let newChangedApp = Object.assign({}, changedApp, {
+                        currentTabId: state.currentTab.id
+                    });
+                    let newChangedTab = Object.assign({}, state.currentTab, {
+                        appId: newChangedApp.id
+                    });
+                    let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
+                    let newApps = [...state.apps.slice(0, changedAppIndex),
+                        newChangedApp,
+                    ...state.apps.slice(changedAppIndex + 1)];
+                    let newTabs = [...state.tabs.slice(0, changedTabIndex),
+                        newChangedTab,
+                    ...state.tabs.slice(changedTabIndex + 1)];
+                    let countTabsOfOldApp = newTabs.filter(a => a.appId === state.currentApp.id).length;
+                    if (countTabsOfOldApp === 0) {
+                        newApps = newApps.filter(a => a.id !== state.currentApp.id);
+                    }
+                    return Object.assign({}, state, {
+                        apps: newApps,
+                        currentTab: newChangedTab,
+                        currentApp: newChangedApp,
+                        tabs: newTabs,
+                        isChangingUrl: appAction
+                    });
+                } else {
+                    let tab = state.currentTab;
+                    let maxId = Math.max(...state.apps.map(a => a.id)) + 1;
+                    let newAppId = state.apps.length === 0 ? 1 : maxId;
+                    let newApp: IApp = {
+                        id: newAppId, currentTabId: tab.id,
+                        url: tab.url, hostName: action.payload.app.hostName, icon: '',
+                        title: action.payload.app.hostName
+                    };
+                    let newChangedTab = Object.assign({}, state.currentTab, {
+                        appId: newApp.id
+                    });
+                    let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
+                    let newApps = [...state.apps.slice(0, changedAppIndex),
+                        newApp,
+                    ...state.apps.slice(changedAppIndex + 1)];
+                    let newTabs = [...state.tabs.slice(0, changedTabIndex),
+                        newChangedTab,
+                    ...state.tabs.slice(changedTabIndex + 1)];
+                    let countTabsOfOldApp = newTabs.filter(a => a.appId === state.currentApp.id).length;
+                    if (countTabsOfOldApp === 0) {
+                        newApps = newApps.filter(a => a.id !== state.currentApp.id);
+                    }
+                    return Object.assign({}, state, {
+                        apps: newApps,
+                        currentTab: newChangedTab,
+                        currentApp: newApp,
+                        tabs: newTabs,
+                        isChangingUrl: appAction
+                    });
+                }
+            }
+            return Object.assign({}, state, {
+                isChangingUrl: appAction
+            });
+        }
+
+        case event.CHANGE_TAB_URL_FORCE_COMPLETE: {
+            let appAction: IWebAction = {
+                tab: state.currentTab,
+                app: state.currentApp,
+                isCalling: false, value: action.payload.eventValue
+            };
+            return Object.assign({}, state, {
+                isChangingUrl: appAction
+            });
         }
 
         case event.DO_BACK: {
@@ -249,3 +342,5 @@ export const getCurrentTab = (state: State) => state.currentTab;
 export const getIsNavigatingBack = (state: State) => state.isNavigatingBack;
 
 export const getIsNavigatingNext = (state: State) => state.isNavigatingNext;
+
+export const getIsChangingUrl = (state: State) => state.isChangingUrl;

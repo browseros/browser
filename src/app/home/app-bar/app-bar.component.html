@@ -10,7 +10,7 @@
     </button>
     <input class='form-control pull-right input-sm' type='text' 
         style="width: 300px; margin-top: 1px; margin-right: 2px; height: 25px;" 
-        (click)="onBtnAddApp.emit($event)"
+        (click)="onEnteredSearchBox.emit(currentTab ? currentTab.url: '')"
         [value]='currentTab ? currentTab.url: ""'
         placeholder="Search URL or App"/>
 </div>

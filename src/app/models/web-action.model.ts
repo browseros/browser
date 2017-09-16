@@ -5,4 +5,5 @@ export interface IWebAction {
     tab: ITab;
     app: IApp;
     isCalling: boolean;
+    value?: any;
 }

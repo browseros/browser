@@ -110,6 +110,19 @@ export class HomeComponent implements OnInit {
     this.appSearch.hide();
   }
 
+  private doSearchReplacing(webEvent: IWebEvent) {
+    let appSearchValue = webEvent.eventValue;
+    let link = this.prepareAppLink(appSearchValue);
+    let hostName = this.extractHostname(link);
+    webEvent.eventValue = link;
+    if (hostName !== webEvent.app.hostName) {
+      webEvent.app.hostName = hostName;
+      webEvent.tab.hostName = hostName;
+    }
+    this.store.dispatch(new eventActions.DoChangeUrlAction(webEvent));
+    this.appSearch.hide();
+  }
+
   private prepareAppLink(app: string) {
     let appLower = app.toLowerCase().trim();
     // check is http

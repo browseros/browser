@@ -14,6 +14,7 @@ export class AppBarComponent {
     @Input() public currentTab: ITab;
     @Input() public apps: IApp[];
     @Output() public onBtnAddApp: EventEmitter<any> = new EventEmitter<any>();
+    @Output() public onEnteredSearchBox: EventEmitter<any> = new EventEmitter<any>();
     @Output() public onAppSelect: EventEmitter<IApp> = new EventEmitter<IApp>();
     @Output() public onAppClose: EventEmitter<IApp> = new EventEmitter<IApp>();
 }

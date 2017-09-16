@@ -13,6 +13,7 @@ export const CLOSE_APP =            '[App] Close App';
 export const CLOSE_APP_COMPLETE =   '[App] Close App Complete';
 export const CHANGE_TAB_TITLE =     '[App] Change Tab Title';
 export const CHANGE_TAB_TITLE_COMPLETE =   '[App] Change Tab Title Complete';
+export const CHANGE_TAB_URL =              '[App] Change Tab Url';
 
 export class AddAppAction implements Action {
   public readonly type = ADD_APP;
@@ -83,6 +84,13 @@ export class ChangeTabTitleCompleteAction implements Action {
   constructor(public payload: IApp) { }
 }
 
+// tslint:disable-next-line:max-classes-per-file
+export class ChangeTabUrlAction implements Action {
+  public readonly type = CHANGE_TAB_URL;
+
+  constructor(public payload: IWebEvent) { }
+}
+
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -97,4 +105,5 @@ export type Actions
 | CloseAppCompleteAction
 | ChangeTabTitleAction
 | ChangeTabTitleCompleteAction
+| ChangeTabUrlAction
 | AddTabAction;

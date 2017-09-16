@@ -24,15 +24,21 @@ export class WebviewComponent implements AfterViewInit {
 
     constructor(public store: Store<fromRoot.State>) {
         this.store.select(fromRoot.getIsNavigatingBack).subscribe((action: IWebAction) => {
-            if (action && action.isCalling
+            if (action && action.isCalling && this.tab
                 && action.tab.id === this.tab.id) {
                 this.goBack();
             }
         });
         this.store.select(fromRoot.getIsNavigatingNext).subscribe((action: IWebAction) => {
-            if (action && action.isCalling
+            if (action && action.isCalling && this.tab
                 && action.tab.id === this.tab.id) {
                 this.goForward();
+            }
+        });
+        this.store.select(fromRoot.getIsChangingUrl).subscribe((action: IWebAction) => {
+            if (action && action.isCalling && action.tab && this.tab
+                && action.tab.id === this.tab.id) {
+                this.loadURL(action.value as string);
             }
         });
     }
@@ -55,7 +61,6 @@ export class WebviewComponent implements AfterViewInit {
         });
         webviewElm.addEventListener('did-get-redirect-request', (e) => {
             if (e.isMainFrame) {
-                console.log(e);
                 const protocol = require('url').parse(e.newURL).protocol;
                 if (protocol === 'http:' || protocol === 'https:') {
                     this.onUrlChanged.emit(e.newURL);
@@ -68,6 +73,13 @@ export class WebviewComponent implements AfterViewInit {
                 this.onContextMenu.emit(params);
             });
         });
+        webviewElm.addEventListener('did-navigate', (e) => {
+            const protocol = require('url').parse(e.url).protocol;
+            if (protocol === 'http:' || protocol === 'https:') {
+                this.onUrlChanged.emit(e.url);
+            }
+        });
+        // did-navigate
     }
 
     public goBack() {

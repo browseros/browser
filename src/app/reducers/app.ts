@@ -24,11 +24,11 @@ export const initialState: State = {
 export function reducer(state = initialState, action: app.Actions | event.Actions): State {
     switch (action.type) {
         case app.ADD_APP: {
-            let newApp = action.payload as IApp;
+            let newApp = JSON.parse(JSON.stringify(action.payload));
             let newAppId = state.apps.length === 0 ? 1 : (Math.max(...state.apps.map(a => a.id)) + 1);
             newApp.id = newAppId;
-            let newTab: ITab = { id: 1, appId: newAppId, hostName: newApp.hostName, title: newApp.title,
-                url: newApp.url };
+            let newTab: ITab = { id: 1, appId: newAppId, hostName: action.payload.hostName, title: '',
+                url: '' };
             return Object.assign({}, state, {
                 apps: [...state.apps, newApp],
                 tabs: [...state.tabs, newTab],
@@ -52,7 +52,7 @@ export function reducer(state = initialState, action: app.Actions | event.Action
                 tab.appId = newAppId;
                 let newApp: IApp = {
                     id: newAppId, currentTabId: newTabId,
-                    url: tab.url, hostName: tab.hostName, icon: '', title: tab.title
+                    url: '', hostName: tab.hostName, icon: '', title: ''
                 };
                 return Object.assign({}, state, {
                     apps: [...state.apps, newApp],
