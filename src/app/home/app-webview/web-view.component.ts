@@ -24,6 +24,7 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     private backSub: Subscription;
     private nextSub: Subscription;
     private changeSub: Subscription;
+    private onFirstLoad = true;
     @ViewChild('webview') private webview: ElementRef;
 
     constructor(public store: Store<fromRoot.State>) {
@@ -58,7 +59,7 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
 
         let webviewElm = this.webview.nativeElement;
         webviewElm.addEventListener('page-title-updated', (e) => {
-            self.onTitleChanged.emit(e.title);
+            //self.onTitleChanged.emit(e.title);
         });
         webviewElm.addEventListener('page-favicon-updated', (e) => {
             if (e.favicons && e.favicons.length > 0) {
@@ -84,14 +85,19 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
             wc.on('context-menu', (e1, params) => {
                 self.onContextMenu.emit(params);
             });
+            if (self.onFirstLoad) {
+                self.onFirstLoad = false;
+                webviewElm.loadURL(self.tab.url);
+            }
         });
         webviewElm.addEventListener('did-navigate', (e) => {
             const protocol = require('url').parse(e.url).protocol;
             if (protocol === 'http:' || protocol === 'https:') {
-                self.onUrlChanged.emit(e.url);
+                // self.onUrlChanged.emit(e.url);
             }
         });
         // did-navigate
+        debugger;
     }
 
     public goBack() {
