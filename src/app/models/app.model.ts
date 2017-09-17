@@ -4,6 +4,6 @@ export interface IApp {
     id: number;
     title: string;
     url: string;
-    hostName: string;
+    // hostName: string;
     icon: string;
 }

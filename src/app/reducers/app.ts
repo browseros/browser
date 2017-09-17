@@ -23,7 +23,7 @@ export const initialState: State = {
 // TODO: 1 - tabs reload after add/remove tab; link changed not saved because of reload (effect of 1)
 export function reducer(state = initialState, action: app.Actions | event.Actions): State {
     switch (action.type) {
-        case app.ADD_APP: {
+        /* case app.ADD_APP: {
             let newApp = JSON.parse(JSON.stringify(action.payload));
             let newAppId = state.apps.length === 0 ? 1 : (Math.max(...state.apps.map(a => a.id)) + 1);
             newApp.id = newAppId;
@@ -114,7 +114,7 @@ export function reducer(state = initialState, action: app.Actions | event.Action
             return Object.assign({}, state, {
                 isClosingApp: false
             });
-        }
+        } */
 
         default: {
             return state;

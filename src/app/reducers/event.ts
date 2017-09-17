@@ -7,6 +7,8 @@ import { ITab } from '../models/tab.model';
 export interface State {
     apps: IApp[];
     currentTabs: { [id: number]: number };
+    host2Apps: { [host: string]: number };
+    app2Hosts: { [id: number]: string };
     tabs: ITab[];
     currentApp: IApp;
     currentTab: ITab;
@@ -22,6 +24,8 @@ export interface State {
 export const initialState: State = {
     apps: [],
     currentTabs: {},
+    host2Apps: {},
+    app2Hosts: {},
     tabs: [],
     currentApp: null,
     currentTab: null,
@@ -39,8 +43,8 @@ export function reducer(state = initialState, action: event.Actions | app.Action
 
         case app.ADD_TAB: {
             let tab = JSON.parse(JSON.stringify(action.payload)) as ITab;
-            let appId = state.apps.findIndex(item => item.hostName === tab.hostName);
-            if (appId < 0) {
+            let appId = state.host2Apps[tab.hostName];
+            if (!appId || appId <= 0) {
                 let maxId = Math.max(...state.apps.map(a => a.id)) + 1;
                 let newAppId = state.apps.length === 0 ? 1 : maxId;
                 let newTabId = state.tabs.length === 0 ? 1 : (Math.max(...state.tabs.map(a => a.id)) + 1);
@@ -48,14 +52,22 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                 tab.appId = newAppId;
                 let newApp: IApp = {
                     id: newAppId,
-                    url: tab.url, hostName: tab.hostName, icon: '', title: tab.title
+                    url: tab.url, icon: '', title: tab.title
                 };
                 let newCurrentTabs = Object.assign({}, state.currentTabs, {
                     [newAppId]: newTabId
                 });
+                let newHost2Apps = Object.assign({}, state.host2Apps, {
+                    [tab.hostName]: newAppId
+                });
+                let newApp2Hosts = Object.assign({}, state.app2Hosts, {
+                    [newAppId]: tab.hostName
+                });
                 return Object.assign({}, state, {
                     apps: [...state.apps, newApp],
                     currentTabs: newCurrentTabs,
+                    app2Hosts: newApp2Hosts,
+                    host2Apps: newHost2Apps,
                     tabs: [...state.tabs, tab],
                     currentApp: newApp,
                     currentTab: tab,
@@ -63,7 +75,7 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                     isGoingtoApp: true
                 });
             }
-            let stateAppToAdd = state.apps[appId];
+            let stateAppToAdd = state.apps.find(a => a.id === appId);
             let newTabId = state.tabs.length === 0
                 ? 1
                 : (Math.max(...state.tabs.map(a => a.id)) + 1);
@@ -99,8 +111,17 @@ export function reducer(state = initialState, action: event.Actions | app.Action
             }
             let newCurrentTabId = state.currentTabs[newCurrentApp.id];
             let currentTab = state.tabs.find(t => t.id === newCurrentTabId);
+            let currentHost = state.app2Hosts[app.id];
+            let newHost2Apps = Object.assign({}, state.host2Apps, {
+                [currentHost]: null
+            });
+            let newApp2Hosts = Object.assign({}, state.app2Hosts, {
+                [app.id]: null
+            });
             return Object.assign({}, state, {
                 apps: newApps,
+                host2Apps: newHost2Apps,
+                app2Hosts: newApp2Hosts,
                 tabs: newTabs,
                 currentApp: newCurrentApp,
                 currentTab,
@@ -220,31 +241,41 @@ export function reducer(state = initialState, action: event.Actions | app.Action
         }
 
         case event.CHANGE_TAB_URL_FORCE: {
+            debugger;
             let appAction: IWebAction = {
                 tab: state.currentTab,
                 app: state.currentApp,
                 isCalling: true, value: action.payload.eventValue
             };
-            if (state.currentApp.hostName !== action.payload.app.hostName) {
-                let changedAppIndex = state.apps.findIndex(a => a.hostName === action.payload.app.hostName);
-                if (changedAppIndex >= 0) {
-                    let changedApp = state.apps[changedAppIndex];
+            let currentHost = state.app2Hosts[state.currentApp.id];
+            if (currentHost !== action.payload.tab.hostName) {
+                let appId = state.host2Apps[action.payload.tab.hostName];
+                if (appId && appId > 0) {
+                    let changedApp = state.apps.find(a => a.id === appId);
                     let newCurrentTabs = Object.assign({}, state.currentTabs, {
                         [changedApp.id]: state.currentTab.id
                     });
                     let newChangedTab = Object.assign({}, state.currentTab, {
                         appId: changedApp.id,
                         url: action.payload.eventValue,
-                        hostName: action.payload.app.hostName
+                        hostName: action.payload.tab.hostName
                     });
                     let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
                     let newApps = state.apps;
                     let newTabs = [...state.tabs.slice(0, changedTabIndex),
                         newChangedTab,
                     ...state.tabs.slice(changedTabIndex + 1)];
+                    let newApp2Hosts = state.app2Hosts;
+                    let newHost2Apps = state.host2Apps;
                     let countTabsOfOldApp = newTabs.filter(a => a.appId === state.currentApp.id).length;
                     if (countTabsOfOldApp === 0) {
                         newApps = newApps.filter(a => a.id !== state.currentApp.id);
+                        newApp2Hosts = Object.assign({}, newApp2Hosts, {
+                            [state.currentApp.id]: null
+                        });
+                        newHost2Apps = Object.assign({}, newHost2Apps, {
+                            [currentHost]: null
+                        });
                     } else {
                         let newCurrentTabForOldApps = newTabs.filter(a => a.appId === state.currentApp.id);
                         let newCurrentTabForOld = newCurrentTabForOldApps[0];
@@ -253,6 +284,8 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                     }
                     return Object.assign({}, state, {
                         apps: newApps,
+                        app2Hosts: newApp2Hosts,
+                        host2Apps: newHost2Apps,
                         currentTabs: newCurrentTabs,
                         currentTab: newChangedTab,
                         currentApp: changedApp,
@@ -265,13 +298,13 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                     let newAppId = state.apps.length === 0 ? 1 : maxId;
                     let newApp: IApp = {
                         id: newAppId,
-                        url: tab.url, hostName: action.payload.app.hostName, icon: '',
-                        title: action.payload.app.hostName
+                        url: tab.url, icon: '',
+                        title: action.payload.tab.hostName
                     };
                     let newChangedTab = Object.assign({}, state.currentTab, {
                         appId: newApp.id,
                         url: action.payload.eventValue,
-                        hostName: action.payload.app.hostName
+                        hostName: action.payload.tab.hostName
                     });
                     let newCurrentTabs = Object.assign({}, state.currentTabs, {
                         [newAppId]: newChangedTab.id
@@ -281,9 +314,17 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                     let newTabs = [...state.tabs.slice(0, changedTabIndex),
                         newChangedTab,
                     ...state.tabs.slice(changedTabIndex + 1)];
+                    let newApp2Hosts = state.app2Hosts;
+                    let newHost2Apps = state.host2Apps;
                     let countTabsOfOldApp = newTabs.filter(a => a.appId === state.currentApp.id).length;
                     if (countTabsOfOldApp === 0) {
                         newApps = newApps.filter(a => a.id !== state.currentApp.id);
+                        newApp2Hosts = Object.assign({}, newApp2Hosts, {
+                            [state.currentApp.id]: null
+                        });
+                        newHost2Apps = Object.assign({}, newHost2Apps, {
+                            [currentHost]: null
+                        });
                     } else {
                         let newCurrentTabForOldApps = newTabs.filter(a => a.appId === state.currentApp.id);
                         let newCurrentTabForOld = newCurrentTabForOldApps[0];
@@ -291,6 +332,8 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                     }
                     return Object.assign({}, state, {
                         apps: newApps,
+                        app2Hosts: newApp2Hosts,
+                        host2Apps: newHost2Apps,
                         currentTabs: newCurrentTabs,
                         currentTab: newChangedTab,
                         currentApp: newApp,
