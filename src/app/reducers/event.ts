@@ -6,7 +6,7 @@ import { ITab } from '../models/tab.model';
 
 export interface State {
     apps: IApp[];
-    currentTabs: { [id: string]: number };
+    currentTabs: { [id: number]: number };
     tabs: ITab[];
     currentApp: IApp;
     currentTab: ITab;
@@ -229,18 +229,16 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                 let changedAppIndex = state.apps.findIndex(a => a.hostName === action.payload.app.hostName);
                 if (changedAppIndex >= 0) {
                     let changedApp = state.apps[changedAppIndex];
-                    let newChangedApp = Object.assign({}, changedApp, {
-                        currentTabId: state.currentTab.id
+                    let newCurrentTabs = Object.assign({}, state.currentTabs, {
+                        [changedApp.id]: state.currentTab.id
                     });
                     let newChangedTab = Object.assign({}, state.currentTab, {
-                        appId: newChangedApp.id,
+                        appId: changedApp.id,
                         url: action.payload.eventValue,
                         hostName: action.payload.app.hostName
                     });
                     let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
-                    let newApps = [...state.apps.slice(0, changedAppIndex),
-                        newChangedApp,
-                    ...state.apps.slice(changedAppIndex + 1)];
+                    let newApps = state.apps;
                     let newTabs = [...state.tabs.slice(0, changedTabIndex),
                         newChangedTab,
                     ...state.tabs.slice(changedTabIndex + 1)];
@@ -248,21 +246,16 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                     if (countTabsOfOldApp === 0) {
                         newApps = newApps.filter(a => a.id !== state.currentApp.id);
                     } else {
-                        let oldAppIndex = newApps.findIndex(a => a.id === state.currentApp.id);
                         let newCurrentTabForOldApps = newTabs.filter(a => a.appId === state.currentApp.id);
                         let newCurrentTabForOld = newCurrentTabForOldApps[0];
 
-                        let oldAppChanged = Object.assign({}, state.currentApp, {
-                            currentTabId: newCurrentTabForOld.id
-                        });
-                        newApps = [...newApps.slice(0, oldAppIndex),
-                            oldAppChanged,
-                        ...newApps.slice(oldAppIndex + 1)];
+                        newCurrentTabs[state.currentApp.id] = newCurrentTabForOld.id;
                     }
                     return Object.assign({}, state, {
                         apps: newApps,
+                        currentTabs: newCurrentTabs,
                         currentTab: newChangedTab,
-                        currentApp: newChangedApp,
+                        currentApp: changedApp,
                         tabs: newTabs,
                         // isChangingUrl: appAction
                     });
@@ -280,6 +273,9 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                         url: action.payload.eventValue,
                         hostName: action.payload.app.hostName
                     });
+                    let newCurrentTabs = Object.assign({}, state.currentTabs, {
+                        [newAppId]: newChangedTab.id
+                    });
                     let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
                     let newApps = [...state.apps, newApp];
                     let newTabs = [...state.tabs.slice(0, changedTabIndex),
@@ -289,19 +285,13 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                     if (countTabsOfOldApp === 0) {
                         newApps = newApps.filter(a => a.id !== state.currentApp.id);
                     } else {
-                        let oldAppIndex = newApps.findIndex(a => a.id === state.currentApp.id);
                         let newCurrentTabForOldApps = newTabs.filter(a => a.appId === state.currentApp.id);
                         let newCurrentTabForOld = newCurrentTabForOldApps[0];
-
-                        let oldAppChanged = Object.assign({}, state.currentApp, {
-                            currentTabId: newCurrentTabForOld.id
-                        });
-                        newApps = [...newApps.slice(0, oldAppIndex),
-                            oldAppChanged,
-                        ...newApps.slice(oldAppIndex + 1)];
+                        newCurrentTabs[state.currentApp.id] = newCurrentTabForOld.id;
                     }
                     return Object.assign({}, state, {
                         apps: newApps,
+                        currentTabs: newCurrentTabs,
                         currentTab: newChangedTab,
                         currentApp: newApp,
                         tabs: newTabs,
