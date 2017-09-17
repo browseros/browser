@@ -241,7 +241,6 @@ export function reducer(state = initialState, action: event.Actions | app.Action
         }
 
         case event.CHANGE_TAB_URL_FORCE: {
-            debugger;
             let appAction: IWebAction = {
                 tab: state.currentTab,
                 app: state.currentApp,
