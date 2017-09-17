@@ -6,6 +6,7 @@ import { ITab } from '../models/tab.model';
 
 export interface State {
     apps: IApp[];
+    currentTabs: { [id: string]: number };
     tabs: ITab[];
     currentApp: IApp;
     currentTab: ITab;
@@ -20,6 +21,7 @@ export interface State {
 
 export const initialState: State = {
     apps: [],
+    currentTabs: {},
     tabs: [],
     currentApp: null,
     currentTab: null,
@@ -45,11 +47,15 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                 tab.id = newTabId;
                 tab.appId = newAppId;
                 let newApp: IApp = {
-                    id: newAppId, currentTabId: newTabId,
+                    id: newAppId,
                     url: tab.url, hostName: tab.hostName, icon: '', title: tab.title
                 };
+                let newCurrentTabs = Object.assign({}, state.currentTabs, {
+                    [newAppId]: newTabId
+                });
                 return Object.assign({}, state, {
                     apps: [...state.apps, newApp],
+                    currentTabs: newCurrentTabs,
                     tabs: [...state.tabs, tab],
                     currentApp: newApp,
                     currentTab: tab,
@@ -63,9 +69,13 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                 : (Math.max(...state.tabs.map(a => a.id)) + 1);
             tab.id = newTabId;
             tab.appId = stateAppToAdd.id;
+            let newCurrentTabs = Object.assign({}, state.currentTabs, {
+                [stateAppToAdd.id]: newTabId
+            });
 
             return Object.assign({}, state, {
                 tabs: [...state.tabs, tab],
+                currentTabs: newCurrentTabs,
                 currentApp: stateAppToAdd,
                 currentTab: tab,
                 isAddingTab: false
@@ -87,7 +97,8 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                     newCurrentApp = newApps[appId];
                 }
             }
-            let currentTab = state.tabs.find(t => t.id === newCurrentApp.currentTabId);
+            let newCurrentTabId = state.currentTabs[newCurrentApp.id];
+            let currentTab = state.tabs.find(t => t.id === newCurrentTabId);
             return Object.assign({}, state, {
                 apps: newApps,
                 tabs: newTabs,
@@ -99,7 +110,8 @@ export function reducer(state = initialState, action: event.Actions | app.Action
 
         case app.GOTO_APP: {
             let currentApp = state.apps.find(a => a.id === action.payload.id);
-            let currentTab = state.tabs.find(t => t.id === currentApp.currentTabId);
+            let newCurrentTabId = state.currentTabs[currentApp.id];
+            let currentTab = state.tabs.find(t => t.id === newCurrentTabId);
             return Object.assign({}, state, {
                 currentApp,
                 currentTab,
@@ -108,14 +120,11 @@ export function reducer(state = initialState, action: event.Actions | app.Action
         }
 
         case event.GOTO_TAB: {
-            let changedAppIndex = state.apps.findIndex(a => a.id === action.payload.appId);
-            let changedApp = state.apps[changedAppIndex];
-            let newChangedApp = Object.assign({}, changedApp, {
-                currentTabId: action.payload.id
+            let newCurrentTabs = Object.assign({}, state.currentTabs, {
+                [action.payload.appId]: action.payload.id
             });
             return Object.assign({}, state, {
-                apps: [...state.apps.slice(0, changedAppIndex), newChangedApp,
-                ...state.apps.slice(changedAppIndex + 1)],
+                currentTabs: newCurrentTabs,
                 currentTab: action.payload
             });
         }
@@ -135,7 +144,11 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                     newCurrentTab = appTabs[tabId];
                 }
             }
+            let newCurrentTabs = Object.assign({}, state.currentTabs, {
+                [state.currentApp.id]: newCurrentTab.id
+            });
             return Object.assign({}, state, {
+                currentTabs: newCurrentTabs,
                 currentTab: newCurrentTab,
                 tabs: newTabs
             });
@@ -258,7 +271,7 @@ export function reducer(state = initialState, action: event.Actions | app.Action
                     let maxId = Math.max(...state.apps.map(a => a.id)) + 1;
                     let newAppId = state.apps.length === 0 ? 1 : maxId;
                     let newApp: IApp = {
-                        id: newAppId, currentTabId: tab.id,
+                        id: newAppId,
                         url: tab.url, hostName: action.payload.app.hostName, icon: '',
                         title: action.payload.app.hostName
                     };

@@ -6,5 +6,4 @@ export interface IApp {
     url: string;
     hostName: string;
     icon: string;
-    currentTabId: number;
 }
