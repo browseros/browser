@@ -61,6 +61,7 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
         self.changeSub = this.store.select(fromRoot.getIsChangingUrl).subscribe((action: IWebAction) => {
             if (action && action.isCalling && action.tab
                 && action.tab.id === self.tabId) {
+                debugger;
                 self.loadURL(action.value as string);
             }
         });
@@ -77,14 +78,14 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
         webviewElm.addEventListener('new-window', (e) => {
             const protocol = require('url').parse(e.url).protocol;
             if (protocol === 'http:' || protocol === 'https:') {
-                //self.onNewUrl.emit(e.url);
+                self.onNewUrl.emit(e.url);
             }
         });
         webviewElm.addEventListener('did-get-redirect-request', (e) => {
             if (e.isMainFrame) {
                 const protocol = require('url').parse(e.newURL).protocol;
                 if (protocol === 'http:' || protocol === 'https:') {
-                    //self.onUrlChanged.emit(e.newURL);
+                    self.onUrlChanged.emit(e.newURL);
                 }
             }
         });
@@ -98,18 +99,17 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
                 setTimeout(() => {
                     let url = self.getTabUrl(self.tabId);
                     webviewElm.loadURL(url);
-                }, 100);
+                }, 10);
             }
         });
         webviewElm.addEventListener('did-navigate', (e) => {
             const protocol = require('url').parse(e.url).protocol;
             if (protocol === 'http:' || protocol === 'https:') {
-                //self.onUrlChanged.emit(e.url);
+                self.onUrlChanged.emit(e.url);
             }
         });
         // did-navigate
         debugger;
-        //webviewElm.loadURL(self.getTabUrl(self.tabId));
     }
 
     public goBack() {
