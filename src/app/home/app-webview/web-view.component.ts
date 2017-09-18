@@ -61,7 +61,6 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
         self.changeSub = this.store.select(fromRoot.getIsChangingUrl).subscribe((action: IWebAction) => {
             if (action && action.isCalling && action.tab
                 && action.tab.id === self.tabId) {
-                debugger;
                 self.loadURL(action.value as string);
             }
         });
@@ -108,8 +107,6 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
                 self.onUrlChanged.emit(e.url);
             }
         });
-        // did-navigate
-        debugger;
     }
 
     public goBack() {
