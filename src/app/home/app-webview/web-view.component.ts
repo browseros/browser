@@ -5,6 +5,7 @@ import { ITab } from '../../models/tab.model';
 import * as fromRoot from '../../reducers';
 import { IWebAction } from './../../models/web-action.model';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'web-view',
@@ -13,7 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 
 export class WebviewComponent implements AfterViewInit, OnDestroy {
-    @Input() public tab: ITab;
+    @Input() public tabId: number;
     @Input() public screenHeight: number;
     @Input() public screenWidth: number;
     @Output() public onTitleChanged: EventEmitter<string> = new EventEmitter<string>();
@@ -24,7 +25,9 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     private backSub: Subscription;
     private nextSub: Subscription;
     private changeSub: Subscription;
+    private tabsSub: Subscription;
     private onFirstLoad = true;
+    private tabs: ITab[] = [];
     @ViewChild('webview') private webview: ElementRef;
 
     constructor(public store: Store<fromRoot.State>) {
@@ -34,30 +37,35 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
         this.backSub.unsubscribe();
         this.nextSub.unsubscribe();
         this.changeSub.unsubscribe();
+        this.tabsSub.unsubscribe();
     }
 
     public ngAfterViewInit() {
         let self = this;
+        self.onFirstLoad = true;
+        self.tabsSub = this.store.select(fromRoot.getEventTabs).subscribe((ts) => {
+            self.tabs = JSON.parse(JSON.stringify(ts));
+        });
         self.backSub = this.store.select(fromRoot.getIsNavigatingBack).subscribe((action: IWebAction) => {
-            if (action && action.isCalling && self.tab
-                && action.tab.id === self.tab.id) {
+            if (action && action.isCalling && self.tabId
+                && action.tab.id === self.tabId) {
                 self.goBack();
             }
         });
         self.nextSub = this.store.select(fromRoot.getIsNavigatingNext).subscribe((action: IWebAction) => {
-            if (action && action.isCalling && self.tab
-                && action.tab.id === self.tab.id) {
+            if (action && action.isCalling
+                && action.tab.id === self.tabId) {
                 self.goForward();
             }
         });
         self.changeSub = this.store.select(fromRoot.getIsChangingUrl).subscribe((action: IWebAction) => {
-            if (action && action.isCalling && action.tab && self.tab
-                && action.tab.id === self.tab.id) {
+            if (action && action.isCalling && action.tab
+                && action.tab.id === self.tabId) {
                 self.loadURL(action.value as string);
             }
         });
 
-        let webviewElm = this.webview.nativeElement;
+        let webviewElm = self.webview.nativeElement;
         webviewElm.addEventListener('page-title-updated', (e) => {
             self.onTitleChanged.emit(e.title);
         });
@@ -69,14 +77,14 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
         webviewElm.addEventListener('new-window', (e) => {
             const protocol = require('url').parse(e.url).protocol;
             if (protocol === 'http:' || protocol === 'https:') {
-                self.onNewUrl.emit(e.url);
+                //self.onNewUrl.emit(e.url);
             }
         });
         webviewElm.addEventListener('did-get-redirect-request', (e) => {
             if (e.isMainFrame) {
                 const protocol = require('url').parse(e.newURL).protocol;
                 if (protocol === 'http:' || protocol === 'https:') {
-                    self.onUrlChanged.emit(e.newURL);
+                    //self.onUrlChanged.emit(e.newURL);
                 }
             }
         });
@@ -88,18 +96,20 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
             if (self.onFirstLoad) {
                 self.onFirstLoad = false;
                 setTimeout(() => {
-                    webviewElm.loadURL(self.tab.url);
+                    let url = self.getTabUrl(self.tabId);
+                    webviewElm.loadURL(url);
                 }, 100);
             }
         });
         webviewElm.addEventListener('did-navigate', (e) => {
             const protocol = require('url').parse(e.url).protocol;
             if (protocol === 'http:' || protocol === 'https:') {
-                self.onUrlChanged.emit(e.url);
+                //self.onUrlChanged.emit(e.url);
             }
         });
         // did-navigate
         debugger;
+        //webviewElm.loadURL(self.getTabUrl(self.tabId));
     }
 
     public goBack() {
@@ -133,5 +143,10 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
 
     private getHeight() {
         return this.screenHeight - 80;
+    }
+
+    private getTabUrl(tabId: number): string {
+        let tab = this.tabs.find(t => t.id === tabId);
+        return tab.url;
     }
 }

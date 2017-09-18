@@ -14,7 +14,7 @@ export class AppWebviewComponent {
     @Input() public currentApp: IApp;
     @Input() public currentTab: ITab;
     @Input() public apps: IApp[];
-    @Input() public tabs: ITab[];
+    @Input() public tabIds: number[];
     @Input() public screenHeight: number;
     @Input() public screenWidth: number;
     @Output() public onTitleChanged: EventEmitter<IWebEvent> = new EventEmitter<IWebEvent>();

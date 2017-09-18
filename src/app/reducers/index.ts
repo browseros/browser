@@ -46,3 +46,4 @@ export const getEventCurrentTab = createSelector(getEventState, fromEvent.getCur
 export const getIsNavigatingBack = createSelector(getEventState, fromEvent.getIsNavigatingBack);
 export const getIsNavigatingNext = createSelector(getEventState, fromEvent.getIsNavigatingNext);
 export const getIsChangingUrl = createSelector(getEventState, fromEvent.getIsChangingUrl);
+export const getTabIds = createSelector(getEventState, fromEvent.getTabIds);

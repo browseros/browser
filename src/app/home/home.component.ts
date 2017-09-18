@@ -40,7 +40,9 @@ export class HomeComponent implements OnInit {
   public localState = { value: '' };
 
   private eventApps: Observable<IApp[]>;
+  private eventAppIds: Observable<number[]>;
   private eventTabs: Observable<ITab[]>;
+  private tabIds: Observable<number[]>;
   private clonedApps: IApp[] = [];
   private eventCurrentApp: Observable<IApp>;
   private eventCurrentTab: Observable<ITab>;
@@ -65,6 +67,7 @@ export class HomeComponent implements OnInit {
     // this.tabs = this.store.select(fromRoot.getTabs);
     this.eventApps = this.store.select(fromRoot.getEventApps);
     this.eventTabs = this.store.select(fromRoot.getEventTabs);
+    this.tabIds = this.store.select(fromRoot.getTabIds);
     this.eventCurrentApp = this.store.select(fromRoot.getEventCurrentApp);
     this.eventCurrentTab = this.store.select(fromRoot.getEventCurrentTab);
     this.store.dispatch(new appActions.AddTabAction(
@@ -113,10 +116,6 @@ export class HomeComponent implements OnInit {
     let link = this.prepareAppLink(appSearchValue);
     let hostName = this.extractHostname(link);
     webEvent.eventValue = link;
-    if (hostName !== webEvent.app.hostName) {
-      webEvent.app.hostName = hostName;
-      webEvent.tab.hostName = hostName;
-    }
     this.store.dispatch(new eventActions.DoChangeUrlAction(webEvent));
     this.appSearch.hide();
   }

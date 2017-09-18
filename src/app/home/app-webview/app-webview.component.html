@@ -1,12 +1,12 @@
-<div *ngFor='let tab of tabs' [style.width]='screenWidth + "px"'>
-    <div [hidden]='!currentTab || tab.id != currentTab.id' [style.width]='screenWidth + "px"'>
-        <web-view [tab]='tab' 
+<div *ngFor='let tabId of tabIds' [style.width]='screenWidth + "px"'>
+    <div [hidden]='!currentTab || tabId != currentTab.id' [style.width]='screenWidth + "px"'>
+        <web-view [tabId]='tabId' 
             [screenHeight]='screenHeight'
             [screenWidth]='screenWidth'
-            (onNewUrl)='onNewUrl.emit({eventValue: $event, eventName: "newurl", tab: tab, app: null})'
-            (onTitleChanged)='onTitleChanged.emit({eventValue: $event, eventName: "titlechanged", tab: tab, app: null})'
-            (onIconChanged)='onIconChanged.emit({eventValue: $event, eventName: "iconchanged", tab: tab, app: null})'
-            (onUrlChanged)='onUrlChanged.emit({eventValue: $event, eventName: "urlchanged", tab: tab, app: null})'
+            (onNewUrl)='onNewUrl.emit({eventValue: $event, eventName: "newurl", tabId: tabId, app: null})'
+            (onTitleChanged)='onTitleChanged.emit({eventValue: $event, eventName: "titlechanged", tabId: tabId, app: null})'
+            (onIconChanged)='onIconChanged.emit({eventValue: $event, eventName: "iconchanged", tabId: tabId, app: null})'
+            (onUrlChanged)='onUrlChanged.emit({eventValue: $event, eventName: "urlchanged", tabId: tabId, app: null})'
             (onContextMenu)='onContextMenu.emit($event)'>
         </web-view>
     </div>

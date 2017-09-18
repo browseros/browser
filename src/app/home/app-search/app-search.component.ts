@@ -44,7 +44,7 @@ export class AppSearchComponent {
         let currentTab = JSON.parse(JSON.stringify(this.currentTab));
         let currentApp = JSON.parse(JSON.stringify(this.currentApp));
         let webEvent: IWebEvent = {
-            tab: currentTab,
+            tabId: currentTab.id,
             eventValue: $event,
             app: currentApp,
             eventName: 'urlchanged'
