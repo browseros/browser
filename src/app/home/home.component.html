@@ -1,4 +1,5 @@
 <app-bar [apps]='eventApps | async' [currentApp]='eventCurrentApp | async' [currentTab]='eventCurrentTab | async' (onAppSelect)='gotoApp($event)' (onAppClose)='closeApp($event)'
+  [app2Hosts]='app2Hosts | async'
   (onEnteredSearchBox)='appSearch.show($event)'
   (onBtnAddApp)='appSearch.show()'>
 </app-bar>

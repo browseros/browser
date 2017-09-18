@@ -472,3 +472,5 @@ export const getIsNavigatingNext = (state: State) => state.isNavigatingNext;
 export const getIsChangingUrl = (state: State) => state.isChangingUrl;
 
 export const getTabIds = (state: State) => state.tabIds;
+
+export const getApp2Hosts = (state: State) => state.app2Hosts;

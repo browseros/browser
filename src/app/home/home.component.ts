@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit {
   public localState = { value: '' };
 
   private eventApps: Observable<IApp[]>;
+  private app2Hosts: Observable<{[id: number]: string}>;
   private eventAppIds: Observable<number[]>;
   private eventTabs: Observable<ITab[]>;
   private tabIds: Observable<number[]>;
@@ -66,6 +67,7 @@ export class HomeComponent implements OnInit {
     // this.apps = this.store.select(fromRoot.getApps);
     // this.tabs = this.store.select(fromRoot.getTabs);
     this.eventApps = this.store.select(fromRoot.getEventApps);
+    this.app2Hosts = this.store.select(fromRoot.getApp2Hosts);
     this.eventTabs = this.store.select(fromRoot.getEventTabs);
     this.tabIds = this.store.select(fromRoot.getTabIds);
     this.eventCurrentApp = this.store.select(fromRoot.getEventCurrentApp);
