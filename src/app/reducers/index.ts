@@ -8,16 +8,13 @@ import { storeFreeze } from 'ngrx-store-freeze';
 
 import { combineReducers } from '@ngrx/store';
 
-import * as fromApp from './app';
 import * as fromEvent from './event';
 
 export interface State {
-  app: fromApp.State;
   event: fromEvent.State;
 }
 
 const reducers = {
-  app: fromApp.reducer,
   event: fromEvent.reducer
 };
 
@@ -31,11 +28,6 @@ export function reducer(state: any, action: any) {
     return developmentReducer(state, action);
   }
 }
-
-// app
-export const getAppState = (state: State) => state.app;
-export const getApps = createSelector(getAppState, fromApp.getApps);
-export const getTabs = createSelector(getAppState, fromApp.getTabs);
 
 // event
 export const getEventState = (state: State) => state.event;
