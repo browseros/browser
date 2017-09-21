@@ -48,29 +48,29 @@ export function reducer(state = initialState, action: event.Actions | app.Action
             let tab = JSON.parse(JSON.stringify(action.payload)) as ITab;
             let appId = state.host2Apps[tab.hostName];
             if (!appId || appId <= 0) {
-                return Helper.createNewTabAndNewApp(tab, state);
+                return Helper.changeStateByCreateNewTabAndNewApp(tab, state);
             }
-            return Helper.createNewTabForOldApp(appId, tab, state);
+            return Helper.changeStateByCreateNewTabForOldApp(appId, tab, state);
         }
 
         case app.CLOSE_APP: {
-            return Helper.CloseApp(action.payload, state);
+            return Helper.changeStateByCloseApp(action.payload, state);
         }
 
         case app.GOTO_APP: {
-            return Helper.GotoApp(action.payload.id, state);
+            return Helper.changeStateByGotoApp(action.payload.id, state);
         }
 
         case event.GOTO_TAB: {
-            return Helper.gotoTab(state, action.payload);
+            return Helper.changeStateByGotoTab(state, action.payload);
         }
 
         case event.CLOSE_TAB: {
-            return Helper.closeTab(action.payload.id, action.payload.appId, state);
+            return Helper.changeStateByCloseTab(action.payload.id, action.payload.appId, state);
         }
 
         case event.CHANGE_TAB_TITLE: {
-            return Helper.ChangeTabTitle(action.payload.tabId, action.payload.eventValue, state);
+            return Helper.changeStateByChangeTabTitle(action.payload.tabId, action.payload.eventValue, state);
         }
 
         case event.CHANGE_TAB_URL: {
@@ -78,110 +78,11 @@ export function reducer(state = initialState, action: event.Actions | app.Action
         }
 
         case event.CHANGE_TAB_ICON: {
-            return Helper.ChangeTabIcon(action.payload.tabId, action.payload.eventValue, state);
+            return Helper.changeStateByChangeTabIcon(action.payload.tabId, action.payload.eventValue, state);
         }
 
         case event.CHANGE_TAB_URL_FORCE: {
-            let changedFromTab = state.tabs.find(a => a.id === action.payload.tabId);
-            if (!changedFromTab) {
-                return state;
-            }
-            let appAction: IWebAction = {
-                tab: state.currentTab,
-                app: state.currentApp,
-                isCalling: true, value: action.payload.eventValue
-            };
-            let currentHost = state.app2Hosts[state.currentApp.id];
-            let hostNameChanged = Helper.extractHostname(action.payload.eventValue);
-            if (currentHost !== hostNameChanged) {
-                let appId = state.host2Apps[hostNameChanged];
-                if (appId && appId > 0) {
-                    let changedApp = state.apps.find(a => a.id === appId);
-                    let newCurrentTabs = Object.assign({}, state.currentTabs, {
-                        [changedApp.id]: state.currentTab.id
-                    });
-                    let newChangedTab = Object.assign({}, state.currentTab, {
-                        appId: changedApp.id,
-                        title: hostNameChanged,
-                        url: action.payload.eventValue,
-                        hostName: hostNameChanged
-                    });
-                    let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
-                    let newApps = state.apps;
-                    let newTabs = Helper.ModifyTab(state.tabs, newChangedTab, changedTabIndex);
-                    let newApp2Hosts = state.app2Hosts;
-                    let newHost2Apps = state.host2Apps;
-                    let countTabsOfOldApp = newTabs.filter(a => a.appId === state.currentApp.id).length;
-                    if (countTabsOfOldApp === 0) {
-                        newApps = Helper.RemoveApp(newApps, state.currentApp.id);
-                        newApp2Hosts = Object.assign({}, newApp2Hosts, {
-                            [state.currentApp.id]: null
-                        });
-                        newHost2Apps = Object.assign({}, newHost2Apps, {
-                            [currentHost]: null
-                        });
-                    } else {
-                        let newCurrentTabForOldApps = newTabs.filter(a => a.appId === state.currentApp.id);
-                        let newCurrentTabForOld = newCurrentTabForOldApps[0];
-
-                        newCurrentTabs[state.currentApp.id] = newCurrentTabForOld.id;
-                    }
-                    return Object.assign({}, state, {
-                        apps: newApps,
-                        app2Hosts: newApp2Hosts,
-                        host2Apps: newHost2Apps,
-                        currentTabs: newCurrentTabs,
-                        currentTab: newChangedTab,
-                        currentApp: changedApp,
-                        tabs: newTabs,
-                        isChangingUrl: appAction
-                    });
-                } else {
-                    let tab = state.currentTab;
-                    let newAppId = Helper.GetNewAppId(state.apps);
-                    let newApp: IApp = Helper.CreateApp(newAppId, tab.url, '', hostNameChanged);
-                    let newChangedTab = Object.assign({}, state.currentTab, {
-                        appId: newApp.id,
-                        url: action.payload.eventValue,
-                        hostName: hostNameChanged
-                    });
-                    let newCurrentTabs = Object.assign({}, state.currentTabs, {
-                        [newAppId]: newChangedTab.id
-                    });
-                    let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
-                    let newApps = Helper.AddNewApp(state.apps, newApp);
-                    let newTabs = Helper.ModifyTab(state.tabs, newChangedTab, changedTabIndex);
-                    let newApp2Hosts = state.app2Hosts;
-                    let newHost2Apps = state.host2Apps;
-                    let countTabsOfOldApp = newTabs.filter(a => a.appId === state.currentApp.id).length;
-                    if (countTabsOfOldApp === 0) {
-                        newApps = Helper.RemoveApp(newApps, state.currentApp.id);
-                        newApp2Hosts = Object.assign({}, newApp2Hosts, {
-                            [state.currentApp.id]: null
-                        });
-                        newHost2Apps = Object.assign({}, newHost2Apps, {
-                            [currentHost]: null
-                        });
-                    } else {
-                        let newCurrentTabForOldApps = newTabs.filter(a => a.appId === state.currentApp.id);
-                        let newCurrentTabForOld = newCurrentTabForOldApps[0];
-                        newCurrentTabs[state.currentApp.id] = newCurrentTabForOld.id;
-                    }
-                    return Object.assign({}, state, {
-                        apps: newApps,
-                        app2Hosts: newApp2Hosts,
-                        host2Apps: newHost2Apps,
-                        currentTabs: newCurrentTabs,
-                        currentTab: newChangedTab,
-                        currentApp: newApp,
-                        tabs: newTabs,
-                        isChangingUrl: appAction
-                    });
-                }
-            }
-            return Object.assign({}, state, {
-                isChangingUrl: appAction
-            });
+            return Helper.changeStateByForceChangeTabUrl(state, action.payload.tabId, action.payload.eventValue);
         }
 
         case event.CHANGE_TAB_URL_FORCE_COMPLETE: {

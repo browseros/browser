@@ -1,71 +1,17 @@
+import { IWebAction } from './../models/web-action.model';
 import { IApp } from '../models/app.model';
 import { ITab } from '../models/tab.model';
 
 import * as fromEvent from './event';
 
 export class Helper {
-    public static RemoveApp(apps: IApp[], appId: number): IApp[] {
-        return apps.filter(a => a.id !== appId);
-    }
 
-    public static ModifyApp(apps: IApp[], changedApp: IApp, index: number): IApp[] {
-        return [...apps.slice(0, index),
-            changedApp,
-        ...apps.slice(index + 1)];
-    }
-
-    public static AddNewApp(apps: IApp[], app: IApp): IApp[] {
-        return this.AddNewToArray<IApp>(apps, app);
-    }
-
-    public static AddNewTab(tabs: ITab[], tab: ITab): ITab[] {
-        return this.AddNewToArray<ITab>(tabs, tab);
-    }
-
-    public static ModifyTab(tabs: ITab[], changedTab: ITab, index: number): ITab[] {
-        return [...tabs.slice(0, index),
-            changedTab,
-        ...tabs.slice(index + 1)];
-    }
-
-    public static RemoveTab(tabs: ITab[], tabId: number): ITab[] {
-        return tabs.filter(a => a.id !== tabId);
-    }
-
-    public static RemoveALlTabsOfApp(appId: number, tabs: ITab[]): ITab[] {
-        return tabs.filter(a => a.appId !== appId);
-    }
-
-    public static AddNewToArray<T>(items: T[], item: T): T[] {
-        return [...items, item];
-    }
-
-    public static CreateApp(appId: number, url: string, icon: string, title: string): IApp {
-        let newApp: IApp = {
-            id: appId,
-            url, icon, title
-        };
-        return newApp;
-    }
-
-    public static GetNewAppId(apps: IApp[]): number {
-        let maxId = Math.max(...apps.map(a => a.id)) + 1;
-        let newAppId = apps.length === 0 ? 1 : maxId;
-        return newAppId;
-    }
-
-    public static GetNewTabId(tabs: ITab[]): number {
-        let maxId = Math.max(...tabs.map(a => a.id)) + 1;
-        let newId = tabs.length === 0 ? 1 : maxId;
-        return newId;
-    }
-
-    public static createNewTabAndNewApp(tab: ITab, state: fromEvent.State): fromEvent.State {
-        let newAppId = this.GetNewAppId(state.apps);
-        let newTabId = this.GetNewTabId(state.tabs);
+    public static changeStateByCreateNewTabAndNewApp(tab: ITab, state: fromEvent.State): fromEvent.State {
+        let newAppId = this.getNewAppId(state.apps);
+        let newTabId = this.getNewTabId(state.tabs);
         tab.id = newTabId;
         tab.appId = newAppId;
-        let newApp: IApp = this.CreateApp(newAppId, tab.url, '', tab.title);
+        let newApp: IApp = this.createApp(newAppId, tab.url, '', tab.title);
         let newCurrentTabs = Object.assign({}, state.currentTabs, {
             [newAppId]: newTabId
         });
@@ -76,12 +22,12 @@ export class Helper {
             [newAppId]: tab.hostName
         });
         return Object.assign({}, state, {
-            apps: this.AddNewApp(state.apps, newApp),
+            apps: this.addNewApp(state.apps, newApp),
             currentTabs: newCurrentTabs,
             app2Hosts: newApp2Hosts,
             host2Apps: newHost2Apps,
-            tabs: this.AddNewTab(state.tabs, tab),
-            tabIds: this.AddNewToArray<number>(state.tabIds, tab.id),
+            tabs: this.addNewTab(state.tabs, tab),
+            tabIds: this.addNewToArray<number>(state.tabIds, tab.id),
             currentApp: newApp,
             currentTab: tab,
             isAddingApp: true,
@@ -89,9 +35,12 @@ export class Helper {
         });
     }
 
-    public static createNewTabForOldApp(appId: number, tab: ITab, state: fromEvent.State): fromEvent.State {
+    public static changeStateByCreateNewTabForOldApp(
+        appId: number,
+        tab: ITab,
+        state: fromEvent.State): fromEvent.State {
         let stateAppToAdd = state.apps.find(a => a.id === appId);
-        let newTabId = this.GetNewTabId(state.tabs);
+        let newTabId = this.getNewTabId(state.tabs);
         tab.id = newTabId;
         tab.appId = stateAppToAdd.id;
         let newCurrentTabs = Object.assign({}, state.currentTabs, {
@@ -108,10 +57,10 @@ export class Helper {
         });
     }
 
-    public static CloseApp(app: IApp, state: fromEvent.State): fromEvent.State {
+    public static changeStateByCloseApp(app: IApp, state: fromEvent.State): fromEvent.State {
         let newCurrentApp: IApp = state.currentApp;
-        let newApps = this.RemoveApp(state.apps, app.id);
-        let newTabs = this.RemoveALlTabsOfApp(app.id, state.tabs);
+        let newApps = this.removeApp(state.apps, app.id);
+        let newTabs = this.removeALlTabsOfApp(app.id, state.tabs);
         let newTabIds = state.tabIds.filter(id => newTabs.findIndex(a => a.id === id) >= 0);
         if (state.currentApp && app.id === state.currentApp.id) {
             let appId = state.apps.findIndex(a => a.id === app.id);
@@ -144,7 +93,7 @@ export class Helper {
         });
     }
 
-    public static GotoApp(appId: number, state: fromEvent.State): fromEvent.State {
+    public static changeStateByGotoApp(appId: number, state: fromEvent.State): fromEvent.State {
         let currentApp = state.apps.find(a => a.id === appId);
         let newCurrentTabId = state.currentTabs[currentApp.id];
         let currentTab = state.tabs.find(t => t.id === newCurrentTabId);
@@ -155,26 +104,13 @@ export class Helper {
         });
     }
 
-    public static GetNextCurrentTabIndexBeforeTabId(appId: number, tabs: ITab[], tabId: number): ITab {
-        let appTabs = tabs.filter(a => a.appId === appId);
-        let tabIdx = appTabs.findIndex(a => a.id === tabId);
-
-        if (tabIdx === appTabs.length - 1) {
-            tabIdx--;
-        }
-        if (tabIdx >= 0) {
-            return appTabs[tabIdx];
-        }
-        return null;
-    }
-
-    public static closeTab(tabId: number, appId: number, state: fromEvent.State): fromEvent.State {
+    public static changeStateByCloseTab(tabId: number, appId: number, state: fromEvent.State): fromEvent.State {
         let currentAppIndex = state.apps.findIndex(a => a.id === state.currentApp.id);
-        let newTabs = this.RemoveTab(state.tabs, tabId);
+        let newTabs = this.removeTab(state.tabs, tabId);
         let newTabIds = state.tabIds.filter(id => newTabs.findIndex(a => a.id === id) >= 0);
         let newCurrentTab = state.currentTab;
         if (newCurrentTab.id === tabId) {
-            let nextCurrentTab = this.GetNextCurrentTabIndexBeforeTabId(appId,
+            let nextCurrentTab = this.getNextCurrentTabIndexBeforeTabId(appId,
                 state.tabs,
                 newCurrentTab.id);
             if (nextCurrentTab) {
@@ -192,7 +128,8 @@ export class Helper {
         });
     }
 
-    public static ChangeTabTitle(tabId: number, newTitle: string, state: fromEvent.State): fromEvent.State {
+    public static changeStateByChangeTabTitle(
+        tabId: number, newTitle: string, state: fromEvent.State): fromEvent.State {
         let changedTabIndex = state.tabs.findIndex(t => t.id === tabId);
         if (changedTabIndex < 0) {
             return state;
@@ -205,12 +142,12 @@ export class Helper {
             title: newTitle
         });
         let newState = Object.assign({}, state, {
-            tabs: this.ModifyTab(state.tabs, newChangedTab, changedTabIndex)
+            tabs: this.modifyTab(state.tabs, newChangedTab, changedTabIndex)
         });
         return newState;
     }
 
-    public static ChangeTabIcon(tabId: number, newIcon: string, state: fromEvent.State): fromEvent.State {
+    public static changeStateByChangeTabIcon(tabId: number, newIcon: string, state: fromEvent.State): fromEvent.State {
         let changedTab = state.tabs.find(a => a.id === tabId);
         if (!changedTab) {
             return state;
@@ -227,27 +164,12 @@ export class Helper {
             icon: newIcon
         });
         let newState = Object.assign({}, state, {
-            apps: this.ModifyApp(state.apps, newChangedApp, changedAppIndex)
+            apps: this.modifyApp(state.apps, newChangedApp, changedAppIndex)
         });
         return newState;
     }
 
-    public static extractHostname(url: string): string {
-        let hostname;
-
-        if (url.indexOf('://') > -1) {
-            hostname = url.split('/')[2];
-        } else {
-            hostname = url.split('/')[0];
-        }
-
-        hostname = hostname.split(':')[0];
-        hostname = hostname.split('?')[0];
-
-        return hostname;
-    }
-
-    public static gotoTab(state: fromEvent.State, tab: ITab) {
+    public static changeStateByGotoTab(state: fromEvent.State, tab: ITab) {
         let newCurrentTabs = Object.assign({}, state.currentTabs, {
             [tab.appId]: tab.id
         });
@@ -257,18 +179,18 @@ export class Helper {
         });
     }
 
-    public static changeModifyTabUrl(state: fromEvent.State, tabId: number, url: string) {
+    public static changeStateByChangeModifyTabUrl(state: fromEvent.State, tabId: number, url: string) {
         let oldTabIndex = state.tabs.findIndex(t => t.id === tabId);
         let oldTab = state.tabs[oldTabIndex];
         let newTab = Object.assign({}, oldTab, {
             url
         });
         return Object.assign({}, state, {
-            tabs: this.ModifyTab(state.tabs, newTab, oldTabIndex)
+            tabs: this.modifyTab(state.tabs, newTab, oldTabIndex)
         });
     }
 
-    public static moveTabWithNewUrlToExistApp(
+    public static changeStateByMoveTabWithNewUrlToExistApp(
         state: fromEvent.State,
         tabId: number,
         url: string,
@@ -305,7 +227,7 @@ export class Helper {
             newApp2Hosts[oldAppId] = null;
             newApps = newApps.filter(a => a.id !== oldAppId);
         } else {
-            let nextCurrentTab = this.GetNextCurrentTabIndexBeforeTabId(oldAppId,
+            let nextCurrentTab = this.getNextCurrentTabIndexBeforeTabId(oldAppId,
                 state.tabs,
                 tabId);
             if (nextCurrentTab) {
@@ -318,7 +240,7 @@ export class Helper {
         }
         let newState = Object.assign({}, state, {
             apps: newApps,
-            tabs: Helper.ModifyTab(state.tabs, newChangedTab, changedTabIndex),
+            tabs: Helper.modifyTab(state.tabs, newChangedTab, changedTabIndex),
             app2Hosts: newApp2Hosts,
             host2Apps: newHost2Apps,
             currentTab,
@@ -328,7 +250,7 @@ export class Helper {
         return newState;
     }
 
-    public static moveTabWithNewUrlToNewlyApp(
+    public static changeStateByMoveTabWithNewUrlToNewlyApp(
         state: fromEvent.State,
         tabId: number,
         url: string
@@ -349,8 +271,8 @@ export class Helper {
         let oldHostName = state.app2Hosts[oldApp.id];
         let newHostName = Helper.extractHostname(url);
         // new app
-        let newAppId = this.GetNewAppId(state.apps);
-        let newApp: IApp = this.CreateApp(newAppId, changedTab.url, '', newHostName);
+        let newAppId = this.getNewAppId(state.apps);
+        let newApp: IApp = this.createApp(newAppId, changedTab.url, '', newHostName);
 
         let newChangedTab = Object.assign({}, changedTab, {
             appId: newAppId,
@@ -358,7 +280,7 @@ export class Helper {
             hostName: newHostName
         });
 
-        let newApps = Helper.AddNewApp(state.apps, newApp);
+        let newApps = Helper.addNewApp(state.apps, newApp);
 
         let newCurrentTabs = Object.assign({}, state.currentTabs);
         newCurrentTabs[newAppId] = newChangedTab.id;
@@ -371,14 +293,14 @@ export class Helper {
 
         let countTabsOfOldApp = state.tabs.filter(t => t.appId === oldApp.id).length;
         if (countTabsOfOldApp > 1) {
-            let nextCurrentTab = this.GetNextCurrentTabIndexBeforeTabId(oldApp.id, state.tabs, newChangedTab.id);
+            let nextCurrentTab = this.getNextCurrentTabIndexBeforeTabId(oldApp.id, state.tabs, newChangedTab.id);
             if (nextCurrentTab) {
                 newCurrentTabs[oldApp.id] = nextCurrentTab.id;
             }
         } else {
             newHost2Apps[oldHostName] = null;
             newApp2Hosts[oldApp.id] = null;
-            newApps = this.RemoveApp(newApps, oldApp.id);
+            newApps = this.removeApp(newApps, oldApp.id);
         }
         let currentTab = state.currentTab;
         if (currentTab.id === newChangedTab.id) {
@@ -386,7 +308,7 @@ export class Helper {
         }
         let newState = Object.assign({}, state, {
             apps: newApps,
-            tabs: Helper.ModifyTab(state.tabs, newChangedTab, changedTabIndex),
+            tabs: Helper.modifyTab(state.tabs, newChangedTab, changedTabIndex),
             app2Hosts: newApp2Hosts,
             host2Apps: newHost2Apps,
             currentTab,
@@ -430,12 +352,12 @@ export class Helper {
         let oldHostName = state.app2Hosts[changedApp.id];
 
         if (newHostName === oldHostName) {
-            return this.changeModifyTabUrl(state, tabId, url);
+            return this.changeStateByChangeModifyTabUrl(state, tabId, url);
         }
 
         let appIdOfNewHostName = state.host2Apps[newHostName];
         if (appIdOfNewHostName && appIdOfNewHostName > 0) {
-            return this.moveTabWithNewUrlToExistApp(state,
+            return this.changeStateByMoveTabWithNewUrlToExistApp(state,
                 tabId,
                 url,
                 appIdOfNewHostName,
@@ -443,6 +365,193 @@ export class Helper {
             );
         }
 
-        return this.moveTabWithNewUrlToNewlyApp(state, tabId, url);
+        return this.changeStateByMoveTabWithNewUrlToNewlyApp(state, tabId, url);
+    }
+
+    public static changeStateByForceChangeTabUrl(state: fromEvent.State, tabId: number, url: string): fromEvent.State {
+        let changedFromTab = state.tabs.find(a => a.id === tabId);
+        if (!changedFromTab) {
+            return state;
+        }
+        let appAction: IWebAction = {
+            tab: state.currentTab,
+            app: state.currentApp,
+            isCalling: true, value: url
+        };
+        let currentHost = state.app2Hosts[state.currentApp.id];
+        let hostNameChanged = this.extractHostname(url);
+        if (currentHost !== hostNameChanged) {
+            let appId = state.host2Apps[hostNameChanged];
+            if (appId && appId > 0) {
+                let changedApp = state.apps.find(a => a.id === appId);
+                let newCurrentTabs = Object.assign({}, state.currentTabs, {
+                    [changedApp.id]: state.currentTab.id
+                });
+                let newChangedTab = Object.assign({}, state.currentTab, {
+                    appId: changedApp.id,
+                    title: hostNameChanged,
+                    url,
+                    hostName: hostNameChanged
+                });
+                let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
+                let newApps = state.apps;
+                let newTabs = this.modifyTab(state.tabs, newChangedTab, changedTabIndex);
+                let newApp2Hosts = state.app2Hosts;
+                let newHost2Apps = state.host2Apps;
+                let countTabsOfOldApp = newTabs.filter(a => a.appId === state.currentApp.id).length;
+                if (countTabsOfOldApp === 0) {
+                    newApps = this.removeApp(newApps, state.currentApp.id);
+                    newApp2Hosts = Object.assign({}, newApp2Hosts, {
+                        [state.currentApp.id]: null
+                    });
+                    newHost2Apps = Object.assign({}, newHost2Apps, {
+                        [currentHost]: null
+                    });
+                } else {
+                    let newCurrentTabForOldApps = newTabs.filter(a => a.appId === state.currentApp.id);
+                    let newCurrentTabForOld = newCurrentTabForOldApps[0];
+
+                    newCurrentTabs[state.currentApp.id] = newCurrentTabForOld.id;
+                }
+                return Object.assign({}, state, {
+                    apps: newApps,
+                    app2Hosts: newApp2Hosts,
+                    host2Apps: newHost2Apps,
+                    currentTabs: newCurrentTabs,
+                    currentTab: newChangedTab,
+                    currentApp: changedApp,
+                    tabs: newTabs,
+                    isChangingUrl: appAction
+                });
+            } else {
+                let tab = state.currentTab;
+                let newAppId = this.getNewAppId(state.apps);
+                let newApp: IApp = this.createApp(newAppId, tab.url, '', hostNameChanged);
+                let newChangedTab = Object.assign({}, state.currentTab, {
+                    appId: newApp.id,
+                    url,
+                    hostName: hostNameChanged
+                });
+                let newCurrentTabs = Object.assign({}, state.currentTabs, {
+                    [newAppId]: newChangedTab.id
+                });
+                let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
+                let newApps = this.addNewApp(state.apps, newApp);
+                let newTabs = this.modifyTab(state.tabs, newChangedTab, changedTabIndex);
+                let newApp2Hosts = state.app2Hosts;
+                let newHost2Apps = state.host2Apps;
+                let countTabsOfOldApp = newTabs.filter(a => a.appId === state.currentApp.id).length;
+                if (countTabsOfOldApp === 0) {
+                    newApps = this.removeApp(newApps, state.currentApp.id);
+                    newApp2Hosts = Object.assign({}, newApp2Hosts, {
+                        [state.currentApp.id]: null
+                    });
+                    newHost2Apps = Object.assign({}, newHost2Apps, {
+                        [currentHost]: null
+                    });
+                } else {
+                    let newCurrentTabForOldApps = newTabs.filter(a => a.appId === state.currentApp.id);
+                    let newCurrentTabForOld = newCurrentTabForOldApps[0];
+                    newCurrentTabs[state.currentApp.id] = newCurrentTabForOld.id;
+                }
+                return Object.assign({}, state, {
+                    apps: newApps,
+                    app2Hosts: newApp2Hosts,
+                    host2Apps: newHost2Apps,
+                    currentTabs: newCurrentTabs,
+                    currentTab: newChangedTab,
+                    currentApp: newApp,
+                    tabs: newTabs,
+                    isChangingUrl: appAction
+                });
+            }
+        }
+        return Object.assign({}, state, {
+            isChangingUrl: appAction
+        });
+    }
+
+    private static extractHostname(url: string): string {
+        let hostname;
+
+        if (url.indexOf('://') > -1) {
+            hostname = url.split('/')[2];
+        } else {
+            hostname = url.split('/')[0];
+        }
+
+        hostname = hostname.split(':')[0];
+        hostname = hostname.split('?')[0];
+
+        return hostname;
+    }
+
+    private static getNextCurrentTabIndexBeforeTabId(appId: number, tabs: ITab[], tabId: number): ITab {
+        let appTabs = tabs.filter(a => a.appId === appId);
+        let tabIdx = appTabs.findIndex(a => a.id === tabId);
+
+        if (tabIdx === appTabs.length - 1) {
+            tabIdx--;
+        }
+        if (tabIdx >= 0) {
+            return appTabs[tabIdx];
+        }
+        return null;
+    }
+
+    private static removeApp(apps: IApp[], appId: number): IApp[] {
+        return apps.filter(a => a.id !== appId);
+    }
+
+    private static modifyApp(apps: IApp[], changedApp: IApp, index: number): IApp[] {
+        return [...apps.slice(0, index),
+            changedApp,
+        ...apps.slice(index + 1)];
+    }
+
+    private static addNewApp(apps: IApp[], app: IApp): IApp[] {
+        return this.addNewToArray<IApp>(apps, app);
+    }
+
+    private static addNewTab(tabs: ITab[], tab: ITab): ITab[] {
+        return this.addNewToArray<ITab>(tabs, tab);
+    }
+
+    private static modifyTab(tabs: ITab[], changedTab: ITab, index: number): ITab[] {
+        return [...tabs.slice(0, index),
+            changedTab,
+        ...tabs.slice(index + 1)];
+    }
+
+    private static removeTab(tabs: ITab[], tabId: number): ITab[] {
+        return tabs.filter(a => a.id !== tabId);
+    }
+
+    private static removeALlTabsOfApp(appId: number, tabs: ITab[]): ITab[] {
+        return tabs.filter(a => a.appId !== appId);
+    }
+
+    private static addNewToArray<T>(items: T[], item: T): T[] {
+        return [...items, item];
+    }
+
+    private static createApp(appId: number, url: string, icon: string, title: string): IApp {
+        let newApp: IApp = {
+            id: appId,
+            url, icon, title
+        };
+        return newApp;
+    }
+
+    private static getNewAppId(apps: IApp[]): number {
+        let maxId = Math.max(...apps.map(a => a.id)) + 1;
+        let newAppId = apps.length === 0 ? 1 : maxId;
+        return newAppId;
+    }
+
+    private static getNewTabId(tabs: ITab[]): number {
+        let maxId = Math.max(...tabs.map(a => a.id)) + 1;
+        let newId = tabs.length === 0 ? 1 : maxId;
+        return newId;
     }
 }
