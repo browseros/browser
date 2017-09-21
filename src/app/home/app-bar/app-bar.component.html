@@ -1,6 +1,6 @@
 <div class='bar'>
     <span *ngIf='apps && currentApp'>
-        <div *ngFor='let app of apps' class='app-on-tab' (click)="onAppSelect.emit(app)" [style.backgroundColor]='app.id == currentApp.id ? "#eee": "#ddd"'>
+        <div *ngFor='let app of apps' class='app-on-tab' (click)="onAppSelect.emit(app)" [style.backgroundColor]='app.id == currentApp.id ? "#eeeeee": "#bbbbbb"'>
             <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px; color: lightgray;" (click)='onAppClose.emit(app)'></i> 
             <img [src]='app.icon' style="max-width: 20px; max-height: 20px;"/> {{getHost(app)}}
         </div>

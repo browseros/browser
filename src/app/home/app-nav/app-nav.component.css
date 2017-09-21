@@ -1,5 +1,6 @@
 /*styles for home content only*/
 .tab-on-nav {
+    margin-left: 1px;
     padding: 2px 3px 3px 3px;
     display: inline-block; 
     max-width: 250px;
@@ -7,6 +8,8 @@
     text-align: center;
     vertical-align: bottom;
     border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-top: 1px solid #ccc;
     border-radius: 6px 6px 0px 0px;
     cursor: pointer;    
 }
