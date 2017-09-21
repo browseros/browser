@@ -186,7 +186,8 @@ export class StateHelper {
             url
         });
         return Object.assign({}, state, {
-            tabs: this.modifyTab(state.tabs, newTab, oldTabIndex)
+            tabs: this.modifyTab(state.tabs, newTab, oldTabIndex),
+            currentTab: tabId === state.currentTab.id ? newTab : state.currentTab
         });
     }
 

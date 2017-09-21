@@ -112,16 +112,10 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
 
     public goBack() {
         let self = this;
-        setTimeout(() => {
-            console.log('go back');
-            let webviewElm = self.webview.nativeElement;
-            console.log(webviewElm);
-            if (webviewElm.canGoBack()) {
-                webviewElm.goBack();
-            } else {
-                console.log('cannot go back');
-            }
-        }, 2000);
+        let webviewElm = self.webview.nativeElement;
+        if (webviewElm.canGoBack()) {
+            webviewElm.goBack();
+        }
     }
 
     public loadURL(url: string) {
@@ -136,7 +130,9 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
 
     public goForward() {
         let webviewElm = this.webview.nativeElement;
-        webviewElm.goForward();
+        if (webviewElm.canGoForward()) {
+            webviewElm.goForward();
+        }
     }
 
     private getHeight() {
