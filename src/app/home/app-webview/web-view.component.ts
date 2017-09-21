@@ -62,6 +62,7 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
             if (action && action.isCalling && action.tab
                 && action.tab.id === self.tabId) {
                 self.loadURL(action.value as string);
+                self.onUrlChanged.emit(action.value as string);
             }
         });
 

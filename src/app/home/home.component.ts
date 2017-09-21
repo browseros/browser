@@ -1,3 +1,4 @@
+import { StateHelper } from './../reducers/helper';
 import {
   Component,
   OnInit,
@@ -21,26 +22,17 @@ const { remote } = require('electron');
 const { Menu, MenuItem, clipboard } = remote;
 
 @Component({
-  // The selector is what angular internally uses
-  // for `document.querySelectorAll(selector)` in our index.html
-  // where, in this case, selector is the string 'home'
-  selector: 'home',  // <home></home>
-  // We need to tell Angular's Dependency Injection which providers are in our app.
+  selector: 'home',
   providers: [
     Title
   ],
-  // Our list of styles in our component. We may add more to compose many styles together
   styleUrls: ['./home.component.css'],
-  // Every Angular template is first compiled by the browser before Angular runs it's compiler
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
 
-  // Set our default values
-  public localState = { value: '' };
-
   private eventApps: Observable<IApp[]>;
-  private app2Hosts: Observable<{[id: number]: string}>;
+  private app2Hosts: Observable<{ [id: number]: string }>;
   private eventAppIds: Observable<number[]>;
   private eventTabs: Observable<ITab[]>;
   private tabIds: Observable<number[]>;
@@ -56,7 +48,6 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('appSearch') private appSearch: AppSearchComponent;
 
-  // TypeScript public modifiers
   constructor(
     public title: Title,
     public store: Store<fromRoot.State>
@@ -64,22 +55,12 @@ export class HomeComponent implements OnInit {
 
   public ngOnInit() {
     console.log('hello `Home` component');
-    // this.apps = this.store.select(fromRoot.getApps);
-    // this.tabs = this.store.select(fromRoot.getTabs);
     this.eventApps = this.store.select(fromRoot.getEventApps);
     this.app2Hosts = this.store.select(fromRoot.getApp2Hosts);
     this.eventTabs = this.store.select(fromRoot.getEventTabs);
     this.tabIds = this.store.select(fromRoot.getTabIds);
     this.eventCurrentApp = this.store.select(fromRoot.getEventCurrentApp);
     this.eventCurrentTab = this.store.select(fromRoot.getEventCurrentTab);
-    this.store.dispatch(new appActions.AddTabAction(
-      {
-        id: 0,
-        appId: 0,
-        hostName: 'vnexpress.net',
-        title: 'vnexpress.net',
-        url: 'https://vnexpress.net'
-      }));
     this.screenWidth = $(window).width();
     this.screenHeight = $(window).height();
     let self = this;
@@ -100,8 +81,8 @@ export class HomeComponent implements OnInit {
   }
 
   private doSearch(app: string) {
-    let link = this.prepareAppLink(app);
-    let hostName = this.extractHostname(link);
+    let link = StateHelper.prepareAppLink(app);
+    let hostName = StateHelper.extractHostname(link);
     this.store.dispatch(new appActions.AddTabAction(
       {
         id: 0,
@@ -115,50 +96,12 @@ export class HomeComponent implements OnInit {
 
   private doSearchReplacing(webEvent: IWebEvent) {
     let appSearchValue = webEvent.eventValue;
-    let link = this.prepareAppLink(appSearchValue);
-    let hostName = this.extractHostname(link);
+    let link = StateHelper.prepareAppLink(appSearchValue);
     webEvent.eventValue = link;
     this.store.dispatch(new eventActions.DoChangeUrlAction(webEvent));
     this.appSearch.hide();
   }
 
-  private prepareAppLink(app: string) {
-    let appLower = app.toLowerCase().trim();
-    // check is http
-    let id = appLower.indexOf('http://');
-    if (id === 0) {
-      return appLower;
-    }
-    id = appLower.indexOf('https://');
-    if (id === 0) {
-      return appLower;
-    }
-    id = appLower.indexOf('ftp://');
-    if (id === 0) {
-      return appLower;
-    }
-    id = appLower.indexOf('//');
-    if (id === 0) {
-      return 'http:' + appLower;
-    }
-    return 'http://' + appLower;
-
-  }
-
-  private extractHostname(url: string): string {
-    let hostname;
-
-    if (url.indexOf('://') > -1) {
-      hostname = url.split('/')[2];
-    } else {
-      hostname = url.split('/')[0];
-    }
-
-    hostname = hostname.split(':')[0];
-    hostname = hostname.split('?')[0];
-
-    return hostname;
-  }
 
   private closeApp(app: IApp) {
     this.store.dispatch(new appActions.CloseAppAction(app));
@@ -189,7 +132,7 @@ export class HomeComponent implements OnInit {
   }
 
   private onNewUrl($event: IWebEvent) {
-    let hostName = this.extractHostname($event.eventValue);
+    let hostName = StateHelper.extractHostname($event.eventValue);
     this.store.dispatch(new appActions.AddTabAction(
       {
         id: 0,

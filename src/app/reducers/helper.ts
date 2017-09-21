@@ -240,7 +240,7 @@ export class StateHelper {
         }
         let newState = Object.assign({}, state, {
             apps: newApps,
-            tabs: Helper.modifyTab(state.tabs, newChangedTab, changedTabIndex),
+            tabs: this.modifyTab(state.tabs, newChangedTab, changedTabIndex),
             app2Hosts: newApp2Hosts,
             host2Apps: newHost2Apps,
             currentTab,
@@ -269,7 +269,7 @@ export class StateHelper {
         let oldAppIndex = state.apps.findIndex(a => a.id === changedTab.appId);
         let oldApp = state.apps[oldAppIndex];
         let oldHostName = state.app2Hosts[oldApp.id];
-        let newHostName = Helper.extractHostname(url);
+        let newHostName = this.extractHostname(url);
         // new app
         let newAppId = this.getNewAppId(state.apps);
         let newApp: IApp = this.createApp(newAppId, changedTab.url, '', newHostName);
@@ -280,7 +280,7 @@ export class StateHelper {
             hostName: newHostName
         });
 
-        let newApps = Helper.addNewApp(state.apps, newApp);
+        let newApps = this.addNewApp(state.apps, newApp);
 
         let newCurrentTabs = Object.assign({}, state.currentTabs);
         newCurrentTabs[newAppId] = newChangedTab.id;
@@ -308,7 +308,7 @@ export class StateHelper {
         }
         let newState = Object.assign({}, state, {
             apps: newApps,
-            tabs: Helper.modifyTab(state.tabs, newChangedTab, changedTabIndex),
+            tabs: this.modifyTab(state.tabs, newChangedTab, changedTabIndex),
             app2Hosts: newApp2Hosts,
             host2Apps: newHost2Apps,
             currentTab,
@@ -369,109 +369,40 @@ export class StateHelper {
     }
 
     public static changeStateByForceChangeTabUrl(state: fromEvent.State, tabId: number, url: string): fromEvent.State {
-        let changedFromTab = state.tabs.find(a => a.id === tabId);
-        if (!changedFromTab) {
-            return state;
-        }
         let appAction: IWebAction = {
             tab: state.currentTab,
             app: state.currentApp,
             isCalling: true, value: url
         };
-        let currentHost = state.app2Hosts[state.currentApp.id];
-        let hostNameChanged = this.extractHostname(url);
-        if (currentHost !== hostNameChanged) {
-            let appId = state.host2Apps[hostNameChanged];
-            if (appId && appId > 0) {
-                let changedApp = state.apps.find(a => a.id === appId);
-                let newCurrentTabs = Object.assign({}, state.currentTabs, {
-                    [changedApp.id]: state.currentTab.id
-                });
-                let newChangedTab = Object.assign({}, state.currentTab, {
-                    appId: changedApp.id,
-                    title: hostNameChanged,
-                    url,
-                    hostName: hostNameChanged
-                });
-                let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
-                let newApps = state.apps;
-                let newTabs = this.modifyTab(state.tabs, newChangedTab, changedTabIndex);
-                let newApp2Hosts = state.app2Hosts;
-                let newHost2Apps = state.host2Apps;
-                let countTabsOfOldApp = newTabs.filter(a => a.appId === state.currentApp.id).length;
-                if (countTabsOfOldApp === 0) {
-                    newApps = this.removeApp(newApps, state.currentApp.id);
-                    newApp2Hosts = Object.assign({}, newApp2Hosts, {
-                        [state.currentApp.id]: null
-                    });
-                    newHost2Apps = Object.assign({}, newHost2Apps, {
-                        [currentHost]: null
-                    });
-                } else {
-                    let newCurrentTabForOldApps = newTabs.filter(a => a.appId === state.currentApp.id);
-                    let newCurrentTabForOld = newCurrentTabForOldApps[0];
-
-                    newCurrentTabs[state.currentApp.id] = newCurrentTabForOld.id;
-                }
-                return Object.assign({}, state, {
-                    apps: newApps,
-                    app2Hosts: newApp2Hosts,
-                    host2Apps: newHost2Apps,
-                    currentTabs: newCurrentTabs,
-                    currentTab: newChangedTab,
-                    currentApp: changedApp,
-                    tabs: newTabs,
-                    isChangingUrl: appAction
-                });
-            } else {
-                let tab = state.currentTab;
-                let newAppId = this.getNewAppId(state.apps);
-                let newApp: IApp = this.createApp(newAppId, tab.url, '', hostNameChanged);
-                let newChangedTab = Object.assign({}, state.currentTab, {
-                    appId: newApp.id,
-                    url,
-                    hostName: hostNameChanged
-                });
-                let newCurrentTabs = Object.assign({}, state.currentTabs, {
-                    [newAppId]: newChangedTab.id
-                });
-                let changedTabIndex = state.tabs.findIndex(a => a.id === state.currentTab.id);
-                let newApps = this.addNewApp(state.apps, newApp);
-                let newTabs = this.modifyTab(state.tabs, newChangedTab, changedTabIndex);
-                let newApp2Hosts = state.app2Hosts;
-                let newHost2Apps = state.host2Apps;
-                let countTabsOfOldApp = newTabs.filter(a => a.appId === state.currentApp.id).length;
-                if (countTabsOfOldApp === 0) {
-                    newApps = this.removeApp(newApps, state.currentApp.id);
-                    newApp2Hosts = Object.assign({}, newApp2Hosts, {
-                        [state.currentApp.id]: null
-                    });
-                    newHost2Apps = Object.assign({}, newHost2Apps, {
-                        [currentHost]: null
-                    });
-                } else {
-                    let newCurrentTabForOldApps = newTabs.filter(a => a.appId === state.currentApp.id);
-                    let newCurrentTabForOld = newCurrentTabForOldApps[0];
-                    newCurrentTabs[state.currentApp.id] = newCurrentTabForOld.id;
-                }
-                return Object.assign({}, state, {
-                    apps: newApps,
-                    app2Hosts: newApp2Hosts,
-                    host2Apps: newHost2Apps,
-                    currentTabs: newCurrentTabs,
-                    currentTab: newChangedTab,
-                    currentApp: newApp,
-                    tabs: newTabs,
-                    isChangingUrl: appAction
-                });
-            }
-        }
         return Object.assign({}, state, {
             isChangingUrl: appAction
         });
     }
 
-    private static extractHostname(url: string): string {
+    public static prepareAppLink(app: string) {
+        let appLower = app.toLowerCase().trim();
+        // check is http
+        let id = appLower.indexOf('http://');
+        if (id === 0) {
+            return appLower;
+        }
+        id = appLower.indexOf('https://');
+        if (id === 0) {
+            return appLower;
+        }
+        id = appLower.indexOf('ftp://');
+        if (id === 0) {
+            return appLower;
+        }
+        id = appLower.indexOf('//');
+        if (id === 0) {
+            return 'http:' + appLower;
+        }
+        return 'http://' + appLower;
+
+    }
+
+    public static extractHostname(url: string): string {
         let hostname;
 
         if (url.indexOf('://') > -1) {
