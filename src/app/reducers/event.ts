@@ -3,7 +3,7 @@ import { IApp } from '../models/app.model';
 import * as event from '../actions/event.actions';
 import * as app from '../actions/app.actions';
 import { ITab } from '../models/tab.model';
-import { Helper } from './helper';
+import { StateHelper } from './helper';
 
 export interface State {
     apps: IApp[];
@@ -48,41 +48,41 @@ export function reducer(state = initialState, action: event.Actions | app.Action
             let tab = JSON.parse(JSON.stringify(action.payload)) as ITab;
             let appId = state.host2Apps[tab.hostName];
             if (!appId || appId <= 0) {
-                return Helper.changeStateByCreateNewTabAndNewApp(tab, state);
+                return StateHelper.changeStateByCreateNewTabAndNewApp(tab, state);
             }
-            return Helper.changeStateByCreateNewTabForOldApp(appId, tab, state);
+            return StateHelper.changeStateByCreateNewTabForOldApp(appId, tab, state);
         }
 
         case app.CLOSE_APP: {
-            return Helper.changeStateByCloseApp(action.payload, state);
+            return StateHelper.changeStateByCloseApp(action.payload, state);
         }
 
         case app.GOTO_APP: {
-            return Helper.changeStateByGotoApp(action.payload.id, state);
+            return StateHelper.changeStateByGotoApp(action.payload.id, state);
         }
 
         case event.GOTO_TAB: {
-            return Helper.changeStateByGotoTab(state, action.payload);
+            return StateHelper.changeStateByGotoTab(state, action.payload);
         }
 
         case event.CLOSE_TAB: {
-            return Helper.changeStateByCloseTab(action.payload.id, action.payload.appId, state);
+            return StateHelper.changeStateByCloseTab(action.payload.id, action.payload.appId, state);
         }
 
         case event.CHANGE_TAB_TITLE: {
-            return Helper.changeStateByChangeTabTitle(action.payload.tabId, action.payload.eventValue, state);
+            return StateHelper.changeStateByChangeTabTitle(action.payload.tabId, action.payload.eventValue, state);
         }
 
         case event.CHANGE_TAB_URL: {
-            return Helper.changeStateByChangeTabUrl(state, action.payload.tabId, action.payload.eventValue);
+            return StateHelper.changeStateByChangeTabUrl(state, action.payload.tabId, action.payload.eventValue);
         }
 
         case event.CHANGE_TAB_ICON: {
-            return Helper.changeStateByChangeTabIcon(action.payload.tabId, action.payload.eventValue, state);
+            return StateHelper.changeStateByChangeTabIcon(action.payload.tabId, action.payload.eventValue, state);
         }
 
         case event.CHANGE_TAB_URL_FORCE: {
-            return Helper.changeStateByForceChangeTabUrl(state, action.payload.tabId, action.payload.eventValue);
+            return StateHelper.changeStateByForceChangeTabUrl(state, action.payload.tabId, action.payload.eventValue);
         }
 
         case event.CHANGE_TAB_URL_FORCE_COMPLETE: {

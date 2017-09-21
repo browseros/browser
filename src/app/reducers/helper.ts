@@ -4,7 +4,7 @@ import { ITab } from '../models/tab.model';
 
 import * as fromEvent from './event';
 
-export class Helper {
+export class StateHelper {
 
     public static changeStateByCreateNewTabAndNewApp(tab: ITab, state: fromEvent.State): fromEvent.State {
         let newAppId = this.getNewAppId(state.apps);
