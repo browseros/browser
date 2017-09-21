@@ -102,7 +102,6 @@ export class HomeComponent implements OnInit {
     this.appSearch.hide();
   }
 
-
   private closeApp(app: IApp) {
     this.store.dispatch(new appActions.CloseAppAction(app));
   }
@@ -154,7 +153,7 @@ export class HomeComponent implements OnInit {
       menu.append(new MenuItem(
         {
           label: 'Open link in new tab', click() {
-            let hostName = self.extractHostname(params.linkURL);
+            let hostName = StateHelper.extractHostname(params.linkURL);
             self.store.dispatch(new appActions.AddTabAction(
               {
                 id: 0,
