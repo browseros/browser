@@ -89,19 +89,21 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
                 }
             }
         });
+
+        let onContextMenu = (e1, params) => {
+            self.onContextMenu.emit(params);
+        };
         webviewElm.addEventListener('dom-ready', (e) => {
             let wc = webviewElm.getWebContents();
-            wc.on('context-menu', (e1, params) => {
-                self.onContextMenu.emit(params);
-            });
+            wc.removeListener('context-menu', onContextMenu);
+            wc.on('context-menu', onContextMenu);
             if (self.onFirstLoad) {
                 self.onFirstLoad = false;
-                setTimeout(() => {
-                    let url = self.getTabUrl(self.tabId);
-                    webviewElm.loadURL(url);
-                }, 10);
+                let url = self.getTabUrl(self.tabId);
+                webviewElm.loadURL(url);
             }
         });
+
         webviewElm.addEventListener('did-navigate', (e) => {
             const protocol = require('url').parse(e.url).protocol;
             if (protocol === 'http:' || protocol === 'https:') {
