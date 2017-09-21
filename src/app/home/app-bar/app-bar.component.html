@@ -5,11 +5,11 @@
             <img [src]='app.icon' style="max-width: 20px; max-height: 20px;"/> {{getHost(app)}}
         </div>
     </span>
-    <button class="btn btn-default btn-sm pull-right" (click)="onBtnAddApp.emit($event)" style="margin-top: 1px; height: 25px; padding-top: 3px;">
+    <button class="btn btn-default btn-sm pull-right" (click)="onBtnAddApp.emit($event)" style="margin-top: 2px; height: 25px; padding-top: 3px;">
         +
     </button>
     <input class='form-control pull-right input-sm' type='text' 
-        style="width: 300px; margin-top: 1px; margin-right: 2px; height: 25px;" 
+        style="width: 300px; margin-top: 2px; margin-right: 2px; height: 25px;" 
         (click)="onEnteredSearchBox.emit(currentTab ? currentTab.url: '')"
         [value]='currentTab ? currentTab.url: ""'
         placeholder="Search URL or App"/>
