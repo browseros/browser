@@ -22,4 +22,11 @@ export class AppBarComponent {
     private getHost(app: IApp): string {
         return this.app2Hosts[app.id];
     }
+
+    private onMouseUp($event, app) {
+        // middle button
+        if ($event.button === 1) {
+            this.onAppClose.emit(app);
+        }
+    }
 }

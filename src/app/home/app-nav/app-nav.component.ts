@@ -27,4 +27,11 @@ export class AppNavComponent {
     public hide(): void {
         $('#app-search')['modal']('hide');
     }
+
+    private onMouseUp($event, tab) {
+        // middle button
+        if ($event.button === 1) {
+            this.onCloseTab.emit(tab);
+        }
+    }
 }
