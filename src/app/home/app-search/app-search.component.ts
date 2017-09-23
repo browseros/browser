@@ -18,9 +18,11 @@ export class AppSearchComponent {
     @Output() public onSearchReplacing: EventEmitter<IWebEvent> = new EventEmitter<IWebEvent>();
     private appSearch: string;
     private newSearch: boolean = true;
+    private gotResult = false;
 
     public show(oldUrl: string): void {
         this.newSearch = true;
+        this.gotResult = false;
         if (oldUrl) {
             this.newSearch = false;
         }
@@ -36,16 +38,22 @@ export class AppSearchComponent {
         $('#app-search')['modal']('hide');
     }
 
-    private doSearch($event) {
+    private doSearch(e) {
+        e.preventDefault();
+        if (this.gotResult) {
+            return;
+        }
+        this.gotResult = true;
+        let link = e.target.value;
         if (this.newSearch) {
-            this.onSearch.emit($event);
+            this.onSearch.emit(link);
             return;
         }
         let currentTab = JSON.parse(JSON.stringify(this.currentTab));
         let currentApp = JSON.parse(JSON.stringify(this.currentApp));
         let webEvent: IWebEvent = {
             tabId: currentTab.id,
-            eventValue: $event,
+            eventValue: link,
             app: currentApp,
             eventName: 'urlchanged'
         };
