@@ -63,16 +63,14 @@ export class StateHelper {
         let newTabs = this.removeALlTabsOfApp(app.id, state.tabs);
         let newTabIds = state.tabIds.filter(id => newTabs.findIndex(a => a.id === id) >= 0);
         if (state.currentApp && app.id === state.currentApp.id) {
-            let appId = state.apps.findIndex(a => a.id === app.id);
-
-            if (appId === state.apps.length - 1) {
-                appId--;
-            }
-            if (appId >= 0) {
-                newCurrentApp = newApps[appId];
+            let nextCurrentApp = this.getNextCurrentAppBeforeAppId(app.id, state.apps);
+            if (nextCurrentApp) {
+                newCurrentApp = nextCurrentApp;
+            } else {
+                newCurrentApp = null;
             }
         }
-        let newCurrentTabId = state.currentTabs[newCurrentApp.id];
+        let newCurrentTabId = newCurrentApp ? state.currentTabs[newCurrentApp.id] : -1;
         let currentTab = state.tabs.find(t => t.id === newCurrentTabId);
         let currentHost = state.app2Hosts[app.id];
         let newHost2Apps = Object.assign({}, state.host2Apps, {
@@ -105,6 +103,12 @@ export class StateHelper {
     }
 
     public static changeStateByCloseTab(tabId: number, appId: number, state: fromEvent.State): fromEvent.State {
+        let closedTab = state.tabs.find(t => t.id === tabId);
+        let countTabs = state.tabs.filter(t => t.appId === closedTab.appId).length;
+        if (countTabs <= 1) {
+            let closingApp = state.apps.find(a => a.id === closedTab.appId);
+            return this.changeStateByCloseApp(closingApp, state);
+        }
         let currentAppIndex = state.apps.findIndex(a => a.id === state.currentApp.id);
         let newTabs = this.removeTab(state.tabs, tabId);
         let newTabIds = state.tabIds.filter(id => newTabs.findIndex(a => a.id === id) >= 0);
@@ -427,6 +431,18 @@ export class StateHelper {
         }
         if (tabIdx >= 0) {
             return appTabs[tabIdx];
+        }
+        return null;
+    }
+
+    private static getNextCurrentAppBeforeAppId(appId: number, apps: IApp[]): IApp {
+        let appIdx = apps.findIndex(a => a.id === appId);
+
+        if (appIdx === apps.length - 1) {
+            appIdx--;
+        }
+        if (appIdx >= 0) {
+            return apps[appIdx];
         }
         return null;
     }
