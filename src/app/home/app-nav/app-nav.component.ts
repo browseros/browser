@@ -19,6 +19,7 @@ export class AppNavComponent {
     @Output() public onBackClick: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onGotoTab: EventEmitter<ITab> = new EventEmitter<ITab>();
     @Output() public onCloseTab: EventEmitter<ITab> = new EventEmitter<ITab>();
+    @Output() public onContextMenu: EventEmitter<ITab> = new EventEmitter<ITab>();
 
     public show(): void {
         $('#app-search')['modal']('show');

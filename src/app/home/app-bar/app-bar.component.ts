@@ -18,6 +18,7 @@ export class AppBarComponent {
     @Output() public onEnteredSearchBox: EventEmitter<any> = new EventEmitter<any>();
     @Output() public onAppSelect: EventEmitter<IApp> = new EventEmitter<IApp>();
     @Output() public onAppClose: EventEmitter<IApp> = new EventEmitter<IApp>();
+    @Output() public onContextMenu: EventEmitter<IApp> = new EventEmitter<IApp>();
 
     private getHost(app: IApp): string {
         return this.app2Hosts[app.id];

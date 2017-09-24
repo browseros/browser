@@ -10,6 +10,7 @@
         class='tab-on-nav' 
         [style.backgroundColor]='currentTab && tab.id === currentTab.id? "#eeeeee": "#bbbbbb"'
         (click)='onGotoTab.emit(tab)'
+        (contextmenu)='onContextMenu.emit(tab)'
         (mouseup)='onMouseUp($event, tab)'
     >
         <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px; color: lightgray;"

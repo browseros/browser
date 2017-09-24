@@ -184,4 +184,51 @@ export class HomeComponent implements OnInit {
     }
     menu.popup(remote.getCurrentWindow());
   }
+
+  private onTabContextMenu(tab: ITab) {
+    let self = this;
+    const menu = new Menu();
+    menu.append(new MenuItem(
+      {
+        label: 'Close tab', click() {
+          self.store.dispatch(new eventActions.CloseTabAction(tab));
+        }
+      }
+    ));
+    menu.append(new MenuItem(
+      {
+        label: 'Close other tabs of this app', click() {
+          // TODO
+        }
+      }
+    ));
+    menu.append(new MenuItem(
+      {
+        label: 'Close other tabs of all apps', click() {
+          // TODO
+        }
+      }
+    ));
+    menu.popup(remote.getCurrentWindow());
+  }
+
+  private onAppContextMenu(app: IApp) {
+    let self = this;
+    const menu = new Menu();
+    menu.append(new MenuItem(
+      {
+        label: 'Close app', click() {
+          self.store.dispatch(new appActions.CloseAppAction(app));
+        }
+      }
+    ));
+    menu.append(new MenuItem(
+      {
+        label: 'Close other apps', click() {
+          // TODO
+        }
+      }
+    ));
+    menu.popup(remote.getCurrentWindow());
+  }
 }

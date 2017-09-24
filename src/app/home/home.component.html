@@ -1,9 +1,11 @@
 <app-bar [apps]='eventApps | async' [currentApp]='eventCurrentApp | async' [currentTab]='eventCurrentTab | async' (onAppSelect)='gotoApp($event)' (onAppClose)='closeApp($event)'
   [app2Hosts]='app2Hosts | async'
   (onEnteredSearchBox)='appSearch.show($event)'
+  (onContextMenu)='onAppContextMenu($event)'
   (onBtnAddApp)='appSearch.show()'>
 </app-bar>
 <app-nav [currentApp]='eventCurrentApp | async' [tabs]='eventTabs | async' [currentTab]='eventCurrentTab | async' (onNextClick)='onNextClick($event)' (onBackClick)='onBackClick($event)' (onGotoTab)='onGotoTab($event)'
+  (onContextMenu)='onTabContextMenu($event)'
   (onCloseTab)='onCloseTab($event)'></app-nav>
 <app-webview [tabIds]='tabIds | async' [currentTab]='eventCurrentTab | async' (onNewUrl)='onNewUrl($event)' 
   [screenWidth]='screenWidth'
