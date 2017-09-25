@@ -198,7 +198,7 @@ export class HomeComponent implements OnInit {
     menu.append(new MenuItem(
       {
         label: 'Close other tabs of this app', click() {
-          // TODO
+          self.store.dispatch(new eventActions.CloseOtherTabsAction(tab));
         }
       }
     ));

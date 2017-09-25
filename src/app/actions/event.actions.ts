@@ -18,6 +18,8 @@ export const CLOSE_TAB =                   '[Event] Close Tab';
 export const CLOSE_TAB_COMPLETE =          '[Event] Close Tab Complete';
 export const CHANGE_TAB_ICON =             '[Event] Change Tab Icon';
 export const CHANGE_TAB_ICON_COMPLETE =    '[Event] Change Tab Icon Complete';
+export const CLOSE_OTHER_TABS =            '[Event] Close Other Tabs';
+export const CLOSE_OTHER_TABS_COMPLETE =   '[Event] Close Other Tabs Complete';
 
 // tslint:disable-next-line:max-classes-per-file
 export class ChangeTabTitleAction implements Action {
@@ -124,6 +126,20 @@ export class DoChangeUrlCompleteAction implements Action {
   constructor(public payload: IWebEvent) { }
 }
 
+// tslint:disable-next-line:max-classes-per-file
+export class CloseOtherTabsAction implements Action {
+  public readonly type = CLOSE_OTHER_TABS;
+
+  constructor(public payload: ITab) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class CloseOtherTabsCompleteAction implements Action {
+  public readonly type = CLOSE_OTHER_TABS_COMPLETE;
+
+  constructor(public payload: ITab) { }
+}
+
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -144,4 +160,6 @@ export type Actions
   | ChangeTabUrlAction
   | DoChangeUrlAction
   | DoChangeUrlCompleteAction
+  | CloseOtherTabsAction
+  | CloseOtherTabsCompleteAction
 ;

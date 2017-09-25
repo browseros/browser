@@ -69,6 +69,10 @@ export function reducer(state = initialState, action: event.Actions | app.Action
             return StateHelper.changeStateByCloseTab(action.payload.id, action.payload.appId, state);
         }
 
+        case event.CLOSE_OTHER_TABS: {
+            return StateHelper.changeStateByCloseOtherTabs(action.payload.id, action.payload.appId, state);
+        }
+
         case event.CHANGE_TAB_TITLE: {
             return StateHelper.changeStateByChangeTabTitle(action.payload.tabId, action.payload.eventValue, state);
         }

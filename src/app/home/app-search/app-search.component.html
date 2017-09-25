@@ -6,7 +6,7 @@
                 <h4 class="modal-title">Search URL or App</h4>
             </div>
             <div class="modal-body">
-                <input id='app-search-input' [(ngModel)]='appSearch' class='form-control' type='text' (keyup.enter)='doSearch($event)'/>
+                <input id='app-search-input' [(ngModel)]='appSearch' class='form-control' type='text' (keyup.enter)='doSearch($event.target.value)'/>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

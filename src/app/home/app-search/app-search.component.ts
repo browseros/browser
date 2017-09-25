@@ -38,13 +38,11 @@ export class AppSearchComponent {
         $('#app-search')['modal']('hide');
     }
 
-    private doSearch(e) {
-        e.preventDefault();
+    private doSearch(link) {
         if (this.gotResult) {
             return;
         }
         this.gotResult = true;
-        let link = e.target.value;
         if (this.newSearch) {
             this.onSearch.emit(link);
             return;
