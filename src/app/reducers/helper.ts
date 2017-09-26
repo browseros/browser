@@ -132,6 +132,15 @@ export class StateHelper {
         });
     }
 
+    public static changeStateByCloseOtherApps(appId: number, state: fromEvent.State): fromEvent.State {
+        let appsToClose = state.apps.filter(t => t.id !== appId);
+        let newState = state;
+        for (let app of appsToClose) {
+            newState = this.changeStateByCloseApp(app, newState);
+        }
+        return newState;
+    }
+
     public static changeStateByCloseOtherTabs(tabId: number, appId: number, state: fromEvent.State): fromEvent.State {
         let tabsToClose = state.tabs.filter(t => t.appId === appId && t.id !== tabId);
         let newState = state;
@@ -139,22 +148,15 @@ export class StateHelper {
             newState = this.changeStateByCloseTab(tab.id, tab.appId, newState);
         }
         return newState;
-        /* let newTabs = state.tabs.filter(t => (t.appId === appId && t.id === tabId) || (t.appId !== appId));
-        let newTabIds = state.tabIds.filter(id => newTabs.findIndex(a => a.id === id) >= 0);
-        let newCurrentTab = state.currentTab;
-        let newCurrentTabs = state.currentTabs;
-        if (state.currentTab.id !== tabId) {
-            newCurrentTab = newTabs.find(t => t.id === tabId);
-            newCurrentTabs = Object.assign({}, state.currentTabs, {
-                [appId]: tabId
-            });
+    }
+
+    public static changeStateByCloseOtherTabsAllApps(tabId: number, state: fromEvent.State): fromEvent.State {
+        let tabsToClose = state.tabs.filter(t => t.id !== tabId);
+        let newState = state;
+        for (let tab of tabsToClose) {
+            newState = this.changeStateByCloseTab(tab.id, tab.appId, newState);
         }
-        return Object.assign({}, state, {
-            tabs: newTabs,
-            tabIds: newTabIds,
-            currentTab: newCurrentTab,
-            currentTabs: newCurrentTabs
-        }); */
+        return newState;
     }
 
     public static changeStateByChangeTabTitle(

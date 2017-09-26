@@ -20,6 +20,10 @@ export const CHANGE_TAB_ICON =             '[Event] Change Tab Icon';
 export const CHANGE_TAB_ICON_COMPLETE =    '[Event] Change Tab Icon Complete';
 export const CLOSE_OTHER_TABS =            '[Event] Close Other Tabs';
 export const CLOSE_OTHER_TABS_COMPLETE =   '[Event] Close Other Tabs Complete';
+export const CLOSE_OTHER_TABS_ALL_APPS =            '[Event] Close Other Tabs All Apps';
+export const CLOSE_OTHER_TABS_ALL_APPS_COMPLETE =   '[Event] Close Other Tabs All Apps Complete';
+export const CLOSE_OTHER_APPS =            '[Event] Close Other Apps';
+export const CLOSE_OTHER_APPS_COMPLETE =   '[Event] Close Other Apps Complete';
 
 // tslint:disable-next-line:max-classes-per-file
 export class ChangeTabTitleAction implements Action {
@@ -140,6 +144,34 @@ export class CloseOtherTabsCompleteAction implements Action {
   constructor(public payload: ITab) { }
 }
 
+// tslint:disable-next-line:max-classes-per-file
+export class CloseOtherTabsAllAppsAction implements Action {
+  public readonly type = CLOSE_OTHER_TABS_ALL_APPS;
+
+  constructor(public payload: ITab) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class CloseOtherTabsAllAppsCompleteAction implements Action {
+  public readonly type = CLOSE_OTHER_TABS_ALL_APPS_COMPLETE;
+
+  constructor(public payload: ITab) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class CloseOtherAppsAction implements Action {
+  public readonly type = CLOSE_OTHER_APPS;
+
+  constructor(public payload: IApp) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class CloseOtherAppsCompleteAction implements Action {
+  public readonly type = CLOSE_OTHER_APPS_COMPLETE;
+
+  constructor(public payload: IApp) { }
+}
+
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -162,4 +194,8 @@ export type Actions
   | DoChangeUrlCompleteAction
   | CloseOtherTabsAction
   | CloseOtherTabsCompleteAction
+  | CloseOtherTabsAllAppsAction
+  | CloseOtherTabsAllAppsCompleteAction
+  | CloseOtherAppsAction
+  | CloseOtherAppsCompleteAction
 ;

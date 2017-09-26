@@ -205,7 +205,7 @@ export class HomeComponent implements OnInit {
     menu.append(new MenuItem(
       {
         label: 'Close other tabs of all apps', click() {
-          // TODO
+          self.store.dispatch(new eventActions.CloseOtherTabsAllAppsAction(tab));
         }
       }
     ));
@@ -225,7 +225,7 @@ export class HomeComponent implements OnInit {
     menu.append(new MenuItem(
       {
         label: 'Close other apps', click() {
-          // TODO
+          self.store.dispatch(new eventActions.CloseOtherAppsAction(app));
         }
       }
     ));
