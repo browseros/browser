@@ -1,20 +1,23 @@
-<button class="btn btn-default btn-sm" style="margin-top: 2px; height: 25px; padding-top: 2px;" (click)='onBackClick.emit(currentApp)'>
-    <i class="glyphicon glyphicon glyphicon-menu-left" style="margin-top: 2px;"></i>
-</button>
-<button class="btn btn-default btn-sm" style="margin-top: 2px; height: 25px; padding-top: 2px;" (click)='onNextClick.emit(currentApp)'>
-    <i class="glyphicon glyphicon glyphicon-menu-right" style="margin-top: 2px;"></i>
-</button>
-<span *ngIf='currentApp'>
-    <div *ngFor='let tab of tabs; let i = index' 
-        [style.display]='tab.appId !== currentApp.id ? "none": ""'
-        class='tab-on-nav' 
-        [style.backgroundColor]='currentTab && tab.id === currentTab.id? "#eeeeee": "#bbbbbb"'
-        (click)='onGotoTab.emit(tab)'
-        (contextmenu)='onContextMenu.emit(tab)'
-        (mouseup)='onMouseUp($event, tab)'
-    >
-        <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px; color: lightgray;"
-            (click)='onCloseTab.emit(tab)'
-        ></i> {{tab.title}}
-    </div>
-</span>
+<div class='navs' *ngIf='tabs && tabs.length > 0'>
+    <span *ngIf='currentApp'>
+        <div *ngFor='let tab of tabs; let i = index' 
+            [style.display]='tab.appId !== currentApp.id ? "none": ""'
+            class='tab-on-nav' 
+            [style.backgroundColor]='currentTab && tab.id === currentTab.id? "#eeeeee": "#bbbbbb"'
+            (click)='onGotoTab.emit(tab)'
+            (contextmenu)='onContextMenu.emit(tab)'
+            (mouseup)='onMouseUp($event, tab)'
+        >
+            <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px; color: lightgray;"
+                (click)='onCloseTab.emit(tab)'
+            ></i> {{tab.title}}
+        </div>
+    </span>
+    <button class="btn btn-default btn-sm pull-right" style="margin-top: 0px; height: 25px; padding-top: 2px;" (click)='onNextClick.emit(currentApp)'>
+        <i class="glyphicon glyphicon glyphicon-menu-right" style="margin-top: 2px;"></i>
+    </button>
+    <button class="btn btn-default btn-sm pull-right" style="margin-top: 0px; height: 25px; padding-top: 2px;" (click)='onBackClick.emit(currentApp)'>
+        <i class="glyphicon glyphicon glyphicon-menu-left" style="margin-top: 2px;"></i>
+    </button>
+    <div class="clearfix"></div>
+</div>

@@ -138,7 +138,7 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     }
 
     private getHeight() {
-        return this.screenHeight - 80;
+        return this.screenHeight - 60;
     }
 
     private getTabUrl(tabId: number): string {
