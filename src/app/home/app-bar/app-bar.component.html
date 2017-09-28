@@ -1,4 +1,7 @@
 <div class='bar'>
+    <span class="bar-icon">
+        <img src='assets/img/no_than.png' width="25px" height="25px" />
+    </span>
     <span *ngIf='apps && currentApp'>
         <div *ngFor='let app of apps' class='app-on-tab' 
             (mouseup)='onMouseUp($event, app)'
@@ -11,10 +14,8 @@
     <button class="btn btn-default btn-sm pull-right" (click)="onBtnAddApp.emit($event)" style="margin-top: 2px; height: 25px; padding-top: 3px;">
         +
     </button>
-    <input class='form-control pull-right input-sm' type='text' 
-        style="width: 300px; margin-top: 2px; margin-right: 2px; height: 25px;" 
-        (click)="onEnteredSearchBox.emit(currentTab ? currentTab.url: '')"
-        [value]='currentTab ? currentTab.url: ""'
-        placeholder="Search URL or App"/>
+    <input class='form-control pull-right input-sm' type='text' style="width: 300px; margin-top: 2px; margin-right: 2px; height: 25px;"
+        (click)="onEnteredSearchBox.emit(currentTab ? currentTab.url: '')" [value]='currentTab ? currentTab.url: ""' placeholder="Search URL or App"
+    />
 </div>
 <div class="clearfix"></div>

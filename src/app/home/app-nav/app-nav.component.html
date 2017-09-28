@@ -13,14 +13,14 @@
             ></i> {{tab.title}}
         </div>
     </span>
+    <button class="btn btn-default btn-sm pull-right" style="margin-top: 0px; height: 25px; padding-top: 2px;" (click)='onReloadClick.emit(currentApp)'>
+        <i class="glyphicon glyphicon glyphicon-refresh" style="margin-top: 2px;"></i>
+    </button>
     <button class="btn btn-default btn-sm pull-right" style="margin-top: 0px; height: 25px; padding-top: 2px;" (click)='onNextClick.emit(currentApp)'>
         <i class="glyphicon glyphicon glyphicon-menu-right" style="margin-top: 2px;"></i>
     </button>
     <button class="btn btn-default btn-sm pull-right" style="margin-top: 0px; height: 25px; padding-top: 2px;" (click)='onBackClick.emit(currentApp)'>
         <i class="glyphicon glyphicon glyphicon-menu-left" style="margin-top: 2px;"></i>
-    </button>
-    <button class="btn btn-default btn-sm pull-right" style="margin-top: 0px; height: 25px; padding-top: 2px;" (click)='onReloadClick.emit(currentApp)'>
-        <i class="glyphicon glyphicon glyphicon-refresh" style="margin-top: 2px;"></i>
     </button>
     <div class="clearfix"></div>
 </div>
