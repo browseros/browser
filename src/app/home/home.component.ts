@@ -122,6 +122,10 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(new eventActions.DoBackAction($event));
   }
 
+  private onReloadClick($event: IApp) {
+    this.store.dispatch(new eventActions.DoReloadAction($event));
+  }
+
   private onGotoTab($event: ITab) {
     this.store.dispatch(new eventActions.GotoTabAction($event));
   }

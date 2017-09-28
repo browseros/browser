@@ -37,6 +37,7 @@ export const getEventCurrentApp = createSelector(getEventState, fromEvent.getCur
 export const getEventCurrentTab = createSelector(getEventState, fromEvent.getCurrentTab);
 export const getIsNavigatingBack = createSelector(getEventState, fromEvent.getIsNavigatingBack);
 export const getIsNavigatingNext = createSelector(getEventState, fromEvent.getIsNavigatingNext);
+export const getIsNavigatingReload = createSelector(getEventState, fromEvent.getIsNavigatingReload);
 export const getIsChangingUrl = createSelector(getEventState, fromEvent.getIsChangingUrl);
 export const getTabIds = createSelector(getEventState, fromEvent.getTabIds);
 export const getApp2Hosts = createSelector(getEventState, fromEvent.getApp2Hosts);

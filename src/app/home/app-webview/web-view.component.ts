@@ -24,6 +24,7 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     @Output() public onContextMenu: EventEmitter<any> = new EventEmitter<any>();
     private backSub: Subscription;
     private nextSub: Subscription;
+    private reloadSub: Subscription;
     private changeSub: Subscription;
     private tabsSub: Subscription;
     private onFirstLoad = true;
@@ -36,6 +37,7 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     public ngOnDestroy() {
         this.backSub.unsubscribe();
         this.nextSub.unsubscribe();
+        this.reloadSub.unsubscribe();
         this.changeSub.unsubscribe();
         this.tabsSub.unsubscribe();
     }
@@ -56,6 +58,12 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
             if (action && action.isCalling
                 && action.tab.id === self.tabId) {
                 self.goForward();
+            }
+        });
+        self.reloadSub = this.store.select(fromRoot.getIsNavigatingReload).subscribe((action: IWebAction) => {
+            if (action && action.isCalling && self.tabId
+                && action.tab.id === self.tabId) {
+                self.reload();
             }
         });
         self.changeSub = this.store.select(fromRoot.getIsChangingUrl).subscribe((action: IWebAction) => {

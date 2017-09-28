@@ -12,6 +12,8 @@ export const DO_NEXT =                     '[Event] Do Next';
 export const DO_NEXT_COMPLETE =            '[Event] Do Next Complete';
 export const DO_BACK =                     '[Event] Do Back';
 export const DO_BACK_COMPLETE =            '[Event] Do Back Complete';
+export const DO_RELOAD =                   '[Event] Do Reload';
+export const DO_RELOAD_COMPLETE =          '[Event] Do Reload Complete';
 export const GOTO_TAB =                    '[Event] Goto Tab';
 export const GOTO_TAB_COMPLETE =           '[Event] Goto Tab Complete';
 export const CLOSE_TAB =                   '[Event] Close Tab';
@@ -70,6 +72,20 @@ export class DoBackAction implements Action {
 // tslint:disable-next-line:max-classes-per-file
 export class DoBackCompleteAction implements Action {
   public readonly type = DO_BACK_COMPLETE;
+
+  constructor(public payload: IApp) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class DoReloadAction implements Action {
+  public readonly type = DO_RELOAD;
+
+  constructor(public payload: IApp) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class DoReloadCompleteAction implements Action {
+  public readonly type = DO_RELOAD_COMPLETE;
 
   constructor(public payload: IApp) { }
 }
@@ -183,6 +199,8 @@ export type Actions
   | DoNextCompleteAction
   | DoBackAction
   | DoBackCompleteAction
+  | DoReloadAction
+  | DoReloadCompleteAction
   | GotoTabAction
   | GotoTabCompleteAction
   | CloseTabAction

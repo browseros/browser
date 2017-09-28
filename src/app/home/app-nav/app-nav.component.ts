@@ -17,6 +17,7 @@ export class AppNavComponent {
     @Output() public onSearch: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onNextClick: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onBackClick: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public onReloadClick: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onGotoTab: EventEmitter<ITab> = new EventEmitter<ITab>();
     @Output() public onCloseTab: EventEmitter<ITab> = new EventEmitter<ITab>();
     @Output() public onContextMenu: EventEmitter<ITab> = new EventEmitter<ITab>();

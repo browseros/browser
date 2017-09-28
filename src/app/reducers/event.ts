@@ -20,6 +20,7 @@ export interface State {
     isClosingApp: boolean;
     isNavigatingNext: IWebAction;
     isNavigatingBack: IWebAction;
+    isNavigatingReload: IWebAction;
     isChangingUrl: IWebAction;
 }
 
@@ -38,6 +39,7 @@ export const initialState: State = {
     isClosingApp: false,
     isNavigatingNext: null,
     isNavigatingBack: null,
+    isNavigatingReload: null,
     isChangingUrl: null
 };
 
@@ -136,6 +138,20 @@ export function reducer(state = initialState, action: event.Actions | app.Action
             });
         }
 
+        case event.DO_RELOAD: {
+            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: true };
+            return Object.assign({}, state, {
+                isNavigatingReload: appAction
+            });
+        }
+
+        case event.DO_RELOAD_COMPLETE: {
+            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
+            return Object.assign({}, state, {
+                isNavigatingReload: appAction
+            });
+        }
+
         default: {
             return state;
         }
@@ -162,6 +178,8 @@ export const getCurrentTab = (state: State) => state.currentTab;
 export const getIsNavigatingBack = (state: State) => state.isNavigatingBack;
 
 export const getIsNavigatingNext = (state: State) => state.isNavigatingNext;
+
+export const getIsNavigatingReload = (state: State) => state.isNavigatingReload;
 
 export const getIsChangingUrl = (state: State) => state.isChangingUrl;
 
