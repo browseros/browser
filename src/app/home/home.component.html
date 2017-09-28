@@ -2,6 +2,8 @@
   [app2Hosts]='app2Hosts | async'
   (onEnteredSearchBox)='appSearch.show($event)'
   (onContextMenu)='onAppContextMenu($event)'
+  (onBtnAppAction)='onBtnAppAction($event)'
+  (onAppBarDoubleClick)='onAppBarDoubleClick($event)'
   (onBtnAddApp)='appSearch.show()'>
 </app-bar>
 <app-nav [currentApp]='eventCurrentApp | async' [tabs]='eventTabs | async' [currentTab]='eventCurrentTab | async' (onNextClick)='onNextClick($event)' (onBackClick)='onBackClick($event)' (onGotoTab)='onGotoTab($event)'

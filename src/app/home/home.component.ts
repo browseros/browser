@@ -235,4 +235,35 @@ export class HomeComponent implements OnInit {
     ));
     menu.popup(remote.getCurrentWindow());
   }
+
+  private onBtnAppAction(event: any): void {
+    let self = this;
+    const menu = new Menu();
+    menu.append(new MenuItem(
+      {
+        label: 'Close window', click() {
+          remote.BrowserWindow.getFocusedWindow().close();
+        }
+      }
+    ));
+    menu.append(new MenuItem(
+      {
+        label: 'Minimize', click() {
+          remote.BrowserWindow.getFocusedWindow().minimize();
+        }
+      }
+    ));
+    menu.append(new MenuItem(
+      {
+        label: 'Maximize', click() {
+          remote.BrowserWindow.getFocusedWindow().maximize();
+        }
+      }
+    ));
+    menu.popup(remote.getCurrentWindow());
+  }
+
+  private onAppBarDoubleClick($event: any) {
+    remote.BrowserWindow.getFocusedWindow().maximize();
+  }
 }
