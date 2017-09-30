@@ -446,6 +446,11 @@ export class StateHelper {
         hostname = hostname.split(':')[0];
         hostname = hostname.split('?')[0];
 
+        let wwwIndex = hostname ? hostname.indexOf('www.') : -1;
+        if (wwwIndex === 0) {
+            hostname = hostname.substring(4);
+        }
+
         return hostname;
     }
 

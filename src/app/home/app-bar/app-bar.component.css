@@ -1,6 +1,6 @@
 /*styles for home content only*/
 .app-on-tab {
-    padding: 2px 3px 3px 3px;
+    padding: 3px 3px 3px 3px;
     display: inline-block; 
     width: 150px;
     height: 25px;
@@ -11,6 +11,10 @@
     cursor: pointer;  
     border-radius: 3px 3px 3px 3px;  
     margin-right: 2px;
+    font-size: 12px;
+    white-space: nowrap;      
+    overflow: hidden;         
+    text-overflow: ellipsis;
 }
 .bar {
     padding: 0 2px 0 2px;

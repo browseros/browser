@@ -3,6 +3,7 @@
         <div *ngFor='let tab of tabs; let i = index' 
             [style.display]='tab.appId !== currentApp.id ? "none": ""'
             class='tab-on-nav' 
+            [title]="tab.title"
             [style.backgroundColor]='currentTab && tab.id === currentTab.id? "#eeeeee": "#bbbbbb"'
             (click)='onGotoTab.emit(tab)'
             (contextmenu)='onContextMenu.emit(tab)'
