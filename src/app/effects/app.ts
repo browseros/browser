@@ -11,25 +11,25 @@ import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 
-import * as eventActions from '../actions/event.actions';
+import * as appActions from '../actions/app.actions';
 
 @Injectable()
-export class EventEffects {
+export class AppEffects {
 
     @Effect()
     public doBack$: Observable<Action> = this.actions$
-        .ofType(eventActions.DO_BACK)
-        .map((action: eventActions.DoBackAction) => action.payload)
+        .ofType(appActions.DO_BACK)
+        .map((action: appActions.DoBackAction) => action.payload)
         .map(app => {
-            return new eventActions.DoBackCompleteAction(app);
+            return new appActions.DoBackCompleteAction(app);
         });
 
         @Effect()
         public doNext$: Observable<Action> = this.actions$
-            .ofType(eventActions.DO_NEXT)
-            .map((action: eventActions.DoNextAction) => action.payload)
+            .ofType(appActions.DO_NEXT)
+            .map((action: appActions.DoNextAction) => action.payload)
             .map(app => {
-                return new eventActions.DoNextCompleteAction(app);
+                return new appActions.DoNextCompleteAction(app);
             });
 
     constructor(private actions$: Actions) { }

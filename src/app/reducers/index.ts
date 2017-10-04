@@ -8,14 +8,14 @@ import { storeFreeze } from 'ngrx-store-freeze';
 
 import { combineReducers } from '@ngrx/store';
 
-import * as fromEvent from './event';
+import * as fromApp from './app';
 
 export interface State {
-  event: fromEvent.State;
+  event: fromApp.State;
 }
 
 const reducers = {
-  event: fromEvent.reducer
+  event: fromApp.reducer
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -31,13 +31,13 @@ export function reducer(state: any, action: any) {
 
 // event
 export const getEventState = (state: State) => state.event;
-export const getEventApps = createSelector(getEventState, fromEvent.getApps);
-export const getEventTabs = createSelector(getEventState, fromEvent.getTabs);
-export const getEventCurrentApp = createSelector(getEventState, fromEvent.getCurrentApp);
-export const getEventCurrentTab = createSelector(getEventState, fromEvent.getCurrentTab);
-export const getIsNavigatingBack = createSelector(getEventState, fromEvent.getIsNavigatingBack);
-export const getIsNavigatingNext = createSelector(getEventState, fromEvent.getIsNavigatingNext);
-export const getIsNavigatingReload = createSelector(getEventState, fromEvent.getIsNavigatingReload);
-export const getIsChangingUrl = createSelector(getEventState, fromEvent.getIsChangingUrl);
-export const getTabIds = createSelector(getEventState, fromEvent.getTabIds);
-export const getApp2Hosts = createSelector(getEventState, fromEvent.getApp2Hosts);
+export const getEventApps = createSelector(getEventState, fromApp.getApps);
+export const getEventTabs = createSelector(getEventState, fromApp.getTabs);
+export const getEventCurrentApp = createSelector(getEventState, fromApp.getCurrentApp);
+export const getEventCurrentTab = createSelector(getEventState, fromApp.getCurrentTab);
+export const getIsNavigatingBack = createSelector(getEventState, fromApp.getIsNavigatingBack);
+export const getIsNavigatingNext = createSelector(getEventState, fromApp.getIsNavigatingNext);
+export const getIsNavigatingReload = createSelector(getEventState, fromApp.getIsNavigatingReload);
+export const getIsChangingUrl = createSelector(getEventState, fromApp.getIsChangingUrl);
+export const getTabIds = createSelector(getEventState, fromApp.getTabIds);
+export const getApp2Hosts = createSelector(getEventState, fromApp.getApp2Hosts);

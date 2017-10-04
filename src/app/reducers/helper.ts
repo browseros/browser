@@ -2,11 +2,11 @@ import { IWebAction } from './../models/web-action.model';
 import { IApp } from '../models/app.model';
 import { ITab } from '../models/tab.model';
 
-import * as fromEvent from './event';
+import * as fromApp from './app';
 
 export class StateHelper {
 
-    public static changeStateByCreateNewTabAndNewApp(tab: ITab, state: fromEvent.State): fromEvent.State {
+    public static changeStateByCreateNewTabAndNewApp(tab: ITab, state: fromApp.State): fromApp.State {
         let newAppId = this.getNewAppId(state.apps);
         let newTabId = this.getNewTabId(state.tabs);
         tab.id = newTabId;
@@ -38,7 +38,7 @@ export class StateHelper {
     public static changeStateByCreateNewTabForOldApp(
         appId: number,
         tab: ITab,
-        state: fromEvent.State): fromEvent.State {
+        state: fromApp.State): fromApp.State {
         let stateAppToAdd = state.apps.find(a => a.id === appId);
         let newTabId = this.getNewTabId(state.tabs);
         tab.id = newTabId;
@@ -57,7 +57,7 @@ export class StateHelper {
         });
     }
 
-    public static changeStateByCloseApp(app: IApp, state: fromEvent.State): fromEvent.State {
+    public static changeStateByCloseApp(app: IApp, state: fromApp.State): fromApp.State {
         let newCurrentApp: IApp = state.currentApp;
         let newApps = this.removeApp(state.apps, app.id);
         let newTabs = this.removeALlTabsOfApp(app.id, state.tabs);
@@ -91,7 +91,7 @@ export class StateHelper {
         });
     }
 
-    public static changeStateByGotoApp(appId: number, state: fromEvent.State): fromEvent.State {
+    public static changeStateByGotoApp(appId: number, state: fromApp.State): fromApp.State {
         let currentApp = state.apps.find(a => a.id === appId);
         let newCurrentTabId = state.currentTabs[currentApp.id];
         let currentTab = state.tabs.find(t => t.id === newCurrentTabId);
@@ -102,7 +102,7 @@ export class StateHelper {
         });
     }
 
-    public static changeStateByCloseTab(tabId: number, appId: number, state: fromEvent.State): fromEvent.State {
+    public static changeStateByCloseTab(tabId: number, appId: number, state: fromApp.State): fromApp.State {
         let closedTab = state.tabs.find(t => t.id === tabId);
         let countTabs = state.tabs.filter(t => t.appId === closedTab.appId).length;
         if (countTabs <= 1) {
@@ -132,7 +132,7 @@ export class StateHelper {
         });
     }
 
-    public static changeStateByCloseOtherApps(appId: number, state: fromEvent.State): fromEvent.State {
+    public static changeStateByCloseOtherApps(appId: number, state: fromApp.State): fromApp.State {
         let appsToClose = state.apps.filter(t => t.id !== appId);
         let newState = state;
         for (let app of appsToClose) {
@@ -141,7 +141,7 @@ export class StateHelper {
         return newState;
     }
 
-    public static changeStateByCloseOtherTabs(tabId: number, appId: number, state: fromEvent.State): fromEvent.State {
+    public static changeStateByCloseOtherTabs(tabId: number, appId: number, state: fromApp.State): fromApp.State {
         let tabsToClose = state.tabs.filter(t => t.appId === appId && t.id !== tabId);
         let newState = state;
         for (let tab of tabsToClose) {
@@ -150,7 +150,7 @@ export class StateHelper {
         return newState;
     }
 
-    public static changeStateByCloseOtherTabsAllApps(tabId: number, state: fromEvent.State): fromEvent.State {
+    public static changeStateByCloseOtherTabsAllApps(tabId: number, state: fromApp.State): fromApp.State {
         let tabsToClose = state.tabs.filter(t => t.id !== tabId);
         let newState = state;
         for (let tab of tabsToClose) {
@@ -160,7 +160,7 @@ export class StateHelper {
     }
 
     public static changeStateByChangeTabTitle(
-        tabId: number, newTitle: string, state: fromEvent.State): fromEvent.State {
+        tabId: number, newTitle: string, state: fromApp.State): fromApp.State {
         let changedTabIndex = state.tabs.findIndex(t => t.id === tabId);
         if (changedTabIndex < 0) {
             return state;
@@ -178,7 +178,7 @@ export class StateHelper {
         return newState;
     }
 
-    public static changeStateByChangeTabIcon(tabId: number, newIcon: string, state: fromEvent.State): fromEvent.State {
+    public static changeStateByChangeTabIcon(tabId: number, newIcon: string, state: fromApp.State): fromApp.State {
         let changedTab = state.tabs.find(a => a.id === tabId);
         if (!changedTab) {
             return state;
@@ -200,7 +200,7 @@ export class StateHelper {
         return newState;
     }
 
-    public static changeStateByGotoTab(state: fromEvent.State, tab: ITab) {
+    public static changeStateByGotoTab(state: fromApp.State, tab: ITab) {
         let newCurrentTabs = Object.assign({}, state.currentTabs, {
             [tab.appId]: tab.id
         });
@@ -210,7 +210,7 @@ export class StateHelper {
         });
     }
 
-    public static changeStateByChangeModifyTabUrl(state: fromEvent.State, tabId: number, url: string) {
+    public static changeStateByChangeModifyTabUrl(state: fromApp.State, tabId: number, url: string) {
         let oldTabIndex = state.tabs.findIndex(t => t.id === tabId);
         let oldTab = state.tabs[oldTabIndex];
         let newTab = Object.assign({}, oldTab, {
@@ -223,7 +223,7 @@ export class StateHelper {
     }
 
     public static changeStateByMoveTabWithNewUrlToExistApp(
-        state: fromEvent.State,
+        state: fromApp.State,
         tabId: number,
         url: string,
         newAppId: number,
@@ -283,7 +283,7 @@ export class StateHelper {
     }
 
     public static changeStateByMoveTabWithNewUrlToNewlyApp(
-        state: fromEvent.State,
+        state: fromApp.State,
         tabId: number,
         url: string
     ) {
@@ -350,7 +350,7 @@ export class StateHelper {
         return newState;
     }
 
-    public static changeStateByChangeTabUrl(state: fromEvent.State, tabId: number, url: string): fromEvent.State {
+    public static changeStateByChangeTabUrl(state: fromApp.State, tabId: number, url: string): fromApp.State {
         /*
         happen, redirect, did-navigate
         case: same hostname
@@ -400,7 +400,7 @@ export class StateHelper {
         return this.changeStateByMoveTabWithNewUrlToNewlyApp(state, tabId, url);
     }
 
-    public static changeStateByForceChangeTabUrl(state: fromEvent.State, tabId: number, url: string): fromEvent.State {
+    public static changeStateByForceChangeTabUrl(state: fromApp.State, tabId: number, url: string): fromApp.State {
         let appAction: IWebAction = {
             tab: state.currentTab,
             app: state.currentApp,

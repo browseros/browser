@@ -13,7 +13,7 @@ import { ITab } from '../models/tab.model';
 import { AppSearchComponent } from './app-search/app-search.component';
 
 import * as fromRoot from '../reducers';
-import * as eventActions from '../actions/event.actions';
+import * as appActions from '../actions/app.actions';
 import { Observable } from 'rxjs/Observable';
 import { IApp } from '../models/app.model';
 import { IWebEvent } from '../models/web-event.model';
@@ -76,13 +76,13 @@ export class HomeComponent implements OnInit {
   }
 
   private gotoApp(app: IApp) {
-    this.store.dispatch(new eventActions.GotoAppAction(app));
+    this.store.dispatch(new appActions.GotoAppAction(app));
   }
 
   private doSearch(app: string) {
     let link = StateHelper.prepareAppLink(app);
     let hostName = StateHelper.extractHostname(link);
-    this.store.dispatch(new eventActions.AddTabAction(
+    this.store.dispatch(new appActions.AddTabAction(
       {
         id: 0,
         appId: 0,
@@ -97,45 +97,45 @@ export class HomeComponent implements OnInit {
     let appSearchValue = webEvent.eventValue;
     let link = StateHelper.prepareAppLink(appSearchValue);
     webEvent.eventValue = link;
-    this.store.dispatch(new eventActions.DoChangeUrlAction(webEvent));
+    this.store.dispatch(new appActions.DoChangeUrlAction(webEvent));
     this.appSearch.hide();
   }
 
   private closeApp(app: IApp) {
-    this.store.dispatch(new eventActions.CloseAppAction(app));
+    this.store.dispatch(new appActions.CloseAppAction(app));
   }
 
   private onTitleChanged($event: IWebEvent) {
-    this.store.dispatch(new eventActions.ChangeTabTitleAction($event));
+    this.store.dispatch(new appActions.ChangeTabTitleAction($event));
   }
 
   private onIconChanged($event: IWebEvent) {
-    this.store.dispatch(new eventActions.ChangeTabIconAction($event));
+    this.store.dispatch(new appActions.ChangeTabIconAction($event));
   }
 
   private onNextClick($event: IApp) {
-    this.store.dispatch(new eventActions.DoNextAction($event));
+    this.store.dispatch(new appActions.DoNextAction($event));
   }
 
   private onBackClick($event: IApp) {
-    this.store.dispatch(new eventActions.DoBackAction($event));
+    this.store.dispatch(new appActions.DoBackAction($event));
   }
 
   private onReloadClick($event: IApp) {
-    this.store.dispatch(new eventActions.DoReloadAction($event));
+    this.store.dispatch(new appActions.DoReloadAction($event));
   }
 
   private onGotoTab($event: ITab) {
-    this.store.dispatch(new eventActions.GotoTabAction($event));
+    this.store.dispatch(new appActions.GotoTabAction($event));
   }
 
   private onCloseTab($event: ITab) {
-    this.store.dispatch(new eventActions.CloseTabAction($event));
+    this.store.dispatch(new appActions.CloseTabAction($event));
   }
 
   private onNewUrl($event: IWebEvent) {
     let hostName = StateHelper.extractHostname($event.eventValue);
-    this.store.dispatch(new eventActions.AddTabAction(
+    this.store.dispatch(new appActions.AddTabAction(
       {
         id: 0,
         appId: 0,
@@ -146,7 +146,7 @@ export class HomeComponent implements OnInit {
   }
 
   private onUrlChanged($event: IWebEvent) {
-    this.store.dispatch(new eventActions.ChangeTabUrlAction($event));
+    this.store.dispatch(new appActions.ChangeTabUrlAction($event));
   }
 
   private onContextMenu(params) {
@@ -157,7 +157,7 @@ export class HomeComponent implements OnInit {
         {
           label: 'Open link in new tab', click() {
             let hostName = StateHelper.extractHostname(params.linkURL);
-            self.store.dispatch(new eventActions.AddTabAction(
+            self.store.dispatch(new appActions.AddTabAction(
               {
                 id: 0,
                 appId: 0,
@@ -194,21 +194,21 @@ export class HomeComponent implements OnInit {
     menu.append(new MenuItem(
       {
         label: 'Close tab', click() {
-          self.store.dispatch(new eventActions.CloseTabAction(tab));
+          self.store.dispatch(new appActions.CloseTabAction(tab));
         }
       }
     ));
     menu.append(new MenuItem(
       {
         label: 'Close other tabs of this app', click() {
-          self.store.dispatch(new eventActions.CloseOtherTabsAction(tab));
+          self.store.dispatch(new appActions.CloseOtherTabsAction(tab));
         }
       }
     ));
     menu.append(new MenuItem(
       {
         label: 'Close other tabs of all apps', click() {
-          self.store.dispatch(new eventActions.CloseOtherTabsAllAppsAction(tab));
+          self.store.dispatch(new appActions.CloseOtherTabsAllAppsAction(tab));
         }
       }
     ));
@@ -221,14 +221,14 @@ export class HomeComponent implements OnInit {
     menu.append(new MenuItem(
       {
         label: 'Close app', click() {
-          self.store.dispatch(new eventActions.CloseAppAction(app));
+          self.store.dispatch(new appActions.CloseAppAction(app));
         }
       }
     ));
     menu.append(new MenuItem(
       {
         label: 'Close other apps', click() {
-          self.store.dispatch(new eventActions.CloseOtherAppsAction(app));
+          self.store.dispatch(new appActions.CloseOtherAppsAction(app));
         }
       }
     ));

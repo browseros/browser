@@ -1,6 +1,6 @@
 import { IWebAction } from './../models/web-action.model';
 import { IApp } from '../models/app.model';
-import * as event from '../actions/event.actions';
+import * as app from '../actions/app.actions';
 import { ITab } from '../models/tab.model';
 import { StateHelper } from './helper';
 
@@ -42,10 +42,10 @@ export const initialState: State = {
     isChangingUrl: null
 };
 
-export function reducer(state = initialState, action: event.Actions): State {
+export function reducer(state = initialState, action: app.Actions): State {
     switch (action.type) {
 
-        case event.ADD_TAB: {
+        case app.ADD_TAB: {
             let tab = JSON.parse(JSON.stringify(action.payload)) as ITab;
             let appId = state.host2Apps[tab.hostName];
             if (!appId || appId <= 0) {
@@ -54,51 +54,51 @@ export function reducer(state = initialState, action: event.Actions): State {
             return StateHelper.changeStateByCreateNewTabForOldApp(appId, tab, state);
         }
 
-        case event.CLOSE_APP: {
+        case app.CLOSE_APP: {
             return StateHelper.changeStateByCloseApp(action.payload, state);
         }
 
-        case event.GOTO_APP: {
+        case app.GOTO_APP: {
             return StateHelper.changeStateByGotoApp(action.payload.id, state);
         }
 
-        case event.GOTO_TAB: {
+        case app.GOTO_TAB: {
             return StateHelper.changeStateByGotoTab(state, action.payload);
         }
 
-        case event.CLOSE_TAB: {
+        case app.CLOSE_TAB: {
             return StateHelper.changeStateByCloseTab(action.payload.id, action.payload.appId, state);
         }
 
-        case event.CLOSE_OTHER_APPS: {
+        case app.CLOSE_OTHER_APPS: {
             return StateHelper.changeStateByCloseOtherApps(action.payload.id, state);
         }
 
-        case event.CLOSE_OTHER_TABS: {
+        case app.CLOSE_OTHER_TABS: {
             return StateHelper.changeStateByCloseOtherTabs(action.payload.id, action.payload.appId, state);
         }
 
-        case event.CLOSE_OTHER_TABS_ALL_APPS: {
+        case app.CLOSE_OTHER_TABS_ALL_APPS: {
             return StateHelper.changeStateByCloseOtherTabsAllApps(action.payload.id, state);
         }
 
-        case event.CHANGE_TAB_TITLE: {
+        case app.CHANGE_TAB_TITLE: {
             return StateHelper.changeStateByChangeTabTitle(action.payload.tabId, action.payload.eventValue, state);
         }
 
-        case event.CHANGE_TAB_URL: {
+        case app.CHANGE_TAB_URL: {
             return StateHelper.changeStateByChangeTabUrl(state, action.payload.tabId, action.payload.eventValue);
         }
 
-        case event.CHANGE_TAB_ICON: {
+        case app.CHANGE_TAB_ICON: {
             return StateHelper.changeStateByChangeTabIcon(action.payload.tabId, action.payload.eventValue, state);
         }
 
-        case event.CHANGE_TAB_URL_FORCE: {
+        case app.CHANGE_TAB_URL_FORCE: {
             return StateHelper.changeStateByForceChangeTabUrl(state, action.payload.tabId, action.payload.eventValue);
         }
 
-        case event.CHANGE_TAB_URL_FORCE_COMPLETE: {
+        case app.CHANGE_TAB_URL_FORCE_COMPLETE: {
             let appAction: IWebAction = {
                 tab: state.currentTab,
                 app: state.currentApp,
@@ -109,42 +109,42 @@ export function reducer(state = initialState, action: event.Actions): State {
             });
         }
 
-        case event.DO_BACK: {
+        case app.DO_BACK: {
             let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: true };
             return Object.assign({}, state, {
                 isNavigatingBack: appAction
             });
         }
 
-        case event.DO_BACK_COMPLETE: {
+        case app.DO_BACK_COMPLETE: {
             let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
             return Object.assign({}, state, {
                 isNavigatingBack: appAction
             });
         }
 
-        case event.DO_NEXT: {
+        case app.DO_NEXT: {
             let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: true };
             return Object.assign({}, state, {
                 isNavigatingNext: appAction
             });
         }
 
-        case event.DO_NEXT_COMPLETE: {
+        case app.DO_NEXT_COMPLETE: {
             let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
             return Object.assign({}, state, {
                 isNavigatingNext: appAction
             });
         }
 
-        case event.DO_RELOAD: {
+        case app.DO_RELOAD: {
             let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: true };
             return Object.assign({}, state, {
                 isNavigatingReload: appAction
             });
         }
 
-        case event.DO_RELOAD_COMPLETE: {
+        case app.DO_RELOAD_COMPLETE: {
             let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
             return Object.assign({}, state, {
                 isNavigatingReload: appAction
