@@ -3,49 +3,20 @@ import { IApp } from '../models/app.model';
 import * as event from '../actions/event.actions';
 import { ITab } from '../models/tab.model';
 import { StateHelper } from './helper';
+import { IAppHistory } from '../models/app-history.model';
 
 export interface State {
-    apps: IApp[];
-    currentTabs: { [id: number]: number };
-    host2Apps: { [host: string]: number };
-    app2Hosts: { [id: number]: string };
-    tabs: ITab[];
-    tabIds: number[];
-    currentApp: IApp;
-    currentTab: ITab;
-    isGoingtoApp: boolean;
-    isAddingApp: boolean;
-    isAddingTab: boolean;
-    isClosingApp: boolean;
-    isNavigatingNext: IWebAction;
-    isNavigatingBack: IWebAction;
-    isNavigatingReload: IWebAction;
-    isChangingUrl: IWebAction;
+    appHitories: IAppHistory[];
 }
 
 export const initialState: State = {
-    apps: [],
-    currentTabs: {},
-    host2Apps: {},
-    app2Hosts: {},
-    tabs: [],
-    tabIds: [],
-    currentApp: null,
-    currentTab: null,
-    isGoingtoApp: false,
-    isAddingApp: false,
-    isAddingTab: false,
-    isClosingApp: false,
-    isNavigatingNext: null,
-    isNavigatingBack: null,
-    isNavigatingReload: null,
-    isChangingUrl: null
+    appHitories: [],
 };
 
-export function reducer(state = initialState, action: event.Actions): State {
+export function reducer(state = initialState, action: event.Actions | app.Actions): State {
     switch (action.type) {
 
-        case event.ADD_TAB: {
+        case app.ADD_TAB: {
             let tab = JSON.parse(JSON.stringify(action.payload)) as ITab;
             let appId = state.host2Apps[tab.hostName];
             if (!appId || appId <= 0) {
@@ -54,11 +25,11 @@ export function reducer(state = initialState, action: event.Actions): State {
             return StateHelper.changeStateByCreateNewTabForOldApp(appId, tab, state);
         }
 
-        case event.CLOSE_APP: {
+        case app.CLOSE_APP: {
             return StateHelper.changeStateByCloseApp(action.payload, state);
         }
 
-        case event.GOTO_APP: {
+        case app.GOTO_APP: {
             return StateHelper.changeStateByGotoApp(action.payload.id, state);
         }
 

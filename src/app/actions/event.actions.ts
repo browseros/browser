@@ -3,6 +3,10 @@ import { IApp } from '../models/app.model';
 import { IWebEvent } from '../models/web-event.model';
 import { ITab } from '../models/tab.model';
 
+export const GOTO_APP =             '[App] Go To App';
+export const GOTO_APP_COMPLETE =    '[App] Go To App Complete';
+export const ADD_TAB =              '[App] Add Tab';
+export const ADD_TAB_COMPLETE =     '[App] Add Tab Complete';
 export const CHANGE_TAB_TITLE =            '[Event] Change Tab Title';
 export const CHANGE_TAB_URL =              '[Event] Change Tab Url';
 export const CHANGE_TAB_URL_FORCE =        '[Event] Change Tab Url Force';
@@ -16,6 +20,8 @@ export const DO_RELOAD =                   '[Event] Do Reload';
 export const DO_RELOAD_COMPLETE =          '[Event] Do Reload Complete';
 export const GOTO_TAB =                    '[Event] Goto Tab';
 export const GOTO_TAB_COMPLETE =           '[Event] Goto Tab Complete';
+export const CLOSE_APP =            '[App] Close App';
+export const CLOSE_APP_COMPLETE =   '[App] Close App Complete';
 export const CLOSE_TAB =                   '[Event] Close Tab';
 export const CLOSE_TAB_COMPLETE =          '[Event] Close Tab Complete';
 export const CHANGE_TAB_ICON =             '[Event] Change Tab Icon';
@@ -26,6 +32,41 @@ export const CLOSE_OTHER_TABS_ALL_APPS =            '[Event] Close Other Tabs Al
 export const CLOSE_OTHER_TABS_ALL_APPS_COMPLETE =   '[Event] Close Other Tabs All Apps Complete';
 export const CLOSE_OTHER_APPS =            '[Event] Close Other Apps';
 export const CLOSE_OTHER_APPS_COMPLETE =   '[Event] Close Other Apps Complete';
+
+// tslint:disable-next-line:max-classes-per-file
+export class GotoAppAction implements Action {
+  public readonly type = GOTO_APP;
+
+  constructor(public payload: IApp) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class AddTabCompleteAction implements Action {
+  public readonly type = ADD_TAB_COMPLETE;
+
+  constructor(public payload: ITab) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class AddTabAction implements Action {
+  public readonly type = ADD_TAB;
+
+  constructor(public payload: ITab) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class CloseAppAction implements Action {
+  public readonly type = CLOSE_APP;
+
+  constructor(public payload: IApp) { }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class CloseAppCompleteAction implements Action {
+  public readonly type = CLOSE_APP_COMPLETE;
+
+  constructor(public payload: IApp) { }
+}
 
 // tslint:disable-next-line:max-classes-per-file
 export class ChangeTabTitleAction implements Action {
@@ -216,4 +257,8 @@ export type Actions
   | CloseOtherTabsAllAppsCompleteAction
   | CloseOtherAppsAction
   | CloseOtherAppsCompleteAction
+  | GotoAppAction
+  | AddTabCompleteAction
+  | AddTabAction
+  | CloseAppAction
 ;

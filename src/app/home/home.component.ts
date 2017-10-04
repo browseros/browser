@@ -13,7 +13,6 @@ import { ITab } from '../models/tab.model';
 import { AppSearchComponent } from './app-search/app-search.component';
 
 import * as fromRoot from '../reducers';
-import * as appActions from '../actions/app.actions';
 import * as eventActions from '../actions/event.actions';
 import { Observable } from 'rxjs/Observable';
 import { IApp } from '../models/app.model';
@@ -77,13 +76,13 @@ export class HomeComponent implements OnInit {
   }
 
   private gotoApp(app: IApp) {
-    this.store.dispatch(new appActions.GotoTabAction(app));
+    this.store.dispatch(new eventActions.GotoAppAction(app));
   }
 
   private doSearch(app: string) {
     let link = StateHelper.prepareAppLink(app);
     let hostName = StateHelper.extractHostname(link);
-    this.store.dispatch(new appActions.AddTabAction(
+    this.store.dispatch(new eventActions.AddTabAction(
       {
         id: 0,
         appId: 0,
@@ -103,7 +102,7 @@ export class HomeComponent implements OnInit {
   }
 
   private closeApp(app: IApp) {
-    this.store.dispatch(new appActions.CloseAppAction(app));
+    this.store.dispatch(new eventActions.CloseAppAction(app));
   }
 
   private onTitleChanged($event: IWebEvent) {
@@ -136,7 +135,7 @@ export class HomeComponent implements OnInit {
 
   private onNewUrl($event: IWebEvent) {
     let hostName = StateHelper.extractHostname($event.eventValue);
-    this.store.dispatch(new appActions.AddTabAction(
+    this.store.dispatch(new eventActions.AddTabAction(
       {
         id: 0,
         appId: 0,
@@ -158,7 +157,7 @@ export class HomeComponent implements OnInit {
         {
           label: 'Open link in new tab', click() {
             let hostName = StateHelper.extractHostname(params.linkURL);
-            self.store.dispatch(new appActions.AddTabAction(
+            self.store.dispatch(new eventActions.AddTabAction(
               {
                 id: 0,
                 appId: 0,
@@ -222,7 +221,7 @@ export class HomeComponent implements OnInit {
     menu.append(new MenuItem(
       {
         label: 'Close app', click() {
-          self.store.dispatch(new appActions.CloseAppAction(app));
+          self.store.dispatch(new eventActions.CloseAppAction(app));
         }
       }
     ));
