@@ -149,6 +149,10 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(new appActions.ChangeTabUrlAction($event));
   }
 
+  private onDomReady($event: IWebEvent) {
+    this.store.dispatch(new appActions.DomReadyAction($event));
+  }
+
   private onContextMenu(params) {
     let self = this;
     const menu = new Menu();

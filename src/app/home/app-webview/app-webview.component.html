@@ -3,6 +3,7 @@
         <web-view [tabId]='tabId' 
             [screenHeight]='screenHeight'
             [screenWidth]='screenWidth'
+            (onDomReady)='onDomReady.emit({eventValue: null, eventName: "domready", tabId: tabId, app: null})'
             (onNewUrl)='onNewUrl.emit({eventValue: $event, eventName: "newurl", tabId: tabId, app: null})'
             (onTitleChanged)='onTitleChanged.emit({eventValue: $event, eventName: "titlechanged", tabId: tabId, app: null})'
             (onIconChanged)='onIconChanged.emit({eventValue: $event, eventName: "iconchanged", tabId: tabId, app: null})'

@@ -1,124 +1,24 @@
-import { IWebAction } from './../models/web-action.model';
+import * as app from '../actions/app.actions';
+import * as history from '../actions/history.actions';
+import { IHistoryItem } from '../models/history-item.model';
 import { IApp } from '../models/app.model';
-import * as event from '../actions/event.actions';
-import { ITab } from '../models/tab.model';
-import { StateHelper } from './helper';
-import { IAppHistory } from '../models/app-history.model';
 
 export interface State {
-    appHitories: IAppHistory[];
+    histories: IHistoryItem[];
+    apps: IApp[];
 }
 
 export const initialState: State = {
-    appHitories: [],
+    histories: [],
+    apps: []
 };
 
-export function reducer(state = initialState, action: event.Actions | app.Actions): State {
+export function reducer(state = initialState, action: app.Actions | history.Actions): State {
     switch (action.type) {
 
-        case app.ADD_TAB: {
-            let tab = JSON.parse(JSON.stringify(action.payload)) as ITab;
-            let appId = state.host2Apps[tab.hostName];
-            if (!appId || appId <= 0) {
-                return StateHelper.changeStateByCreateNewTabAndNewApp(tab, state);
-            }
-            return StateHelper.changeStateByCreateNewTabForOldApp(appId, tab, state);
-        }
-
-        case app.CLOSE_APP: {
-            return StateHelper.changeStateByCloseApp(action.payload, state);
-        }
-
-        case app.GOTO_APP: {
-            return StateHelper.changeStateByGotoApp(action.payload.id, state);
-        }
-
-        case event.GOTO_TAB: {
-            return StateHelper.changeStateByGotoTab(state, action.payload);
-        }
-
-        case event.CLOSE_TAB: {
-            return StateHelper.changeStateByCloseTab(action.payload.id, action.payload.appId, state);
-        }
-
-        case event.CLOSE_OTHER_APPS: {
-            return StateHelper.changeStateByCloseOtherApps(action.payload.id, state);
-        }
-
-        case event.CLOSE_OTHER_TABS: {
-            return StateHelper.changeStateByCloseOtherTabs(action.payload.id, action.payload.appId, state);
-        }
-
-        case event.CLOSE_OTHER_TABS_ALL_APPS: {
-            return StateHelper.changeStateByCloseOtherTabsAllApps(action.payload.id, state);
-        }
-
-        case event.CHANGE_TAB_TITLE: {
-            return StateHelper.changeStateByChangeTabTitle(action.payload.tabId, action.payload.eventValue, state);
-        }
-
-        case event.CHANGE_TAB_URL: {
-            return StateHelper.changeStateByChangeTabUrl(state, action.payload.tabId, action.payload.eventValue);
-        }
-
-        case event.CHANGE_TAB_ICON: {
-            return StateHelper.changeStateByChangeTabIcon(action.payload.tabId, action.payload.eventValue, state);
-        }
-
-        case event.CHANGE_TAB_URL_FORCE: {
-            return StateHelper.changeStateByForceChangeTabUrl(state, action.payload.tabId, action.payload.eventValue);
-        }
-
-        case event.CHANGE_TAB_URL_FORCE_COMPLETE: {
-            let appAction: IWebAction = {
-                tab: state.currentTab,
-                app: state.currentApp,
-                isCalling: false, value: action.payload.eventValue
-            };
+        case history.NEW_HISTORY: {
             return Object.assign({}, state, {
-                isChangingUrl: appAction
-            });
-        }
-
-        case event.DO_BACK: {
-            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: true };
-            return Object.assign({}, state, {
-                isNavigatingBack: appAction
-            });
-        }
-
-        case event.DO_BACK_COMPLETE: {
-            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
-            return Object.assign({}, state, {
-                isNavigatingBack: appAction
-            });
-        }
-
-        case event.DO_NEXT: {
-            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: true };
-            return Object.assign({}, state, {
-                isNavigatingNext: appAction
-            });
-        }
-
-        case event.DO_NEXT_COMPLETE: {
-            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
-            return Object.assign({}, state, {
-                isNavigatingNext: appAction
-            });
-        }
-
-        case event.DO_RELOAD: {
-            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: true };
-            return Object.assign({}, state, {
-                isNavigatingReload: appAction
-            });
-        }
-
-        case event.DO_RELOAD_COMPLETE: {
-            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
-            return Object.assign({}, state, {
-                isNavigatingReload: appAction
+                histories: [...state.histories, action.payload]
             });
         }
 
@@ -137,22 +37,4 @@ export function reducer(state = initialState, action: event.Actions | app.Action
  * use-case.
  */
 
-export const getApps = (state: State) => state.apps;
-
-export const getTabs = (state: State) => state.tabs;
-
-export const getCurrentApp = (state: State) => state.currentApp;
-
-export const getCurrentTab = (state: State) => state.currentTab;
-
-export const getIsNavigatingBack = (state: State) => state.isNavigatingBack;
-
-export const getIsNavigatingNext = (state: State) => state.isNavigatingNext;
-
-export const getIsNavigatingReload = (state: State) => state.isNavigatingReload;
-
-export const getIsChangingUrl = (state: State) => state.isChangingUrl;
-
-export const getTabIds = (state: State) => state.tabIds;
-
-export const getApp2Hosts = (state: State) => state.app2Hosts;
+export const getHistories = (state: State) => state.histories;

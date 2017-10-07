@@ -32,6 +32,7 @@ export const CLOSE_OTHER_TABS_ALL_APPS =            '[App] Close Other Tabs All 
 export const CLOSE_OTHER_TABS_ALL_APPS_COMPLETE =   '[App] Close Other Tabs All Apps Complete';
 export const CLOSE_OTHER_APPS =            '[App] Close Other Apps';
 export const CLOSE_OTHER_APPS_COMPLETE =   '[App] Close Other Apps Complete';
+export const DOM_READY =              '[App] Dom Ready';
 
 // tslint:disable-next-line:max-classes-per-file
 export class GotoAppAction implements Action {
@@ -229,6 +230,13 @@ export class CloseOtherAppsCompleteAction implements Action {
   constructor(public payload: IApp) { }
 }
 
+// tslint:disable-next-line:max-classes-per-file
+export class DomReadyAction implements Action {
+  public readonly type = DOM_READY;
+
+  constructor(public payload: IWebEvent) { }
+}
+
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -261,4 +269,5 @@ export type Actions
   | AddTabCompleteAction
   | AddTabAction
   | CloseAppAction
+  | DomReadyAction
 ;

@@ -22,6 +22,7 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     @Output() public onNewUrl: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onUrlChanged: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onContextMenu: EventEmitter<any> = new EventEmitter<any>();
+    @Output() public onDomReady: EventEmitter<any> = new EventEmitter<any>();
     private backSub: Subscription;
     private nextSub: Subscription;
     private reloadSub: Subscription;
@@ -102,6 +103,7 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
             self.onContextMenu.emit(params);
         };
         webviewElm.addEventListener('dom-ready', (e) => {
+            self.onDomReady.emit('');
             let wc = webviewElm.getWebContents();
             wc.removeListener('context-menu', onContextMenu);
             wc.on('context-menu', onContextMenu);
@@ -152,5 +154,10 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     private getTabUrl(tabId: number): string {
         let tab = this.tabs.find(t => t.id === tabId);
         return tab.url;
+    }
+
+    private getTab(tabId: number): ITab {
+        let tab = this.tabs.find(t => t.id === tabId);
+        return tab;
     }
 }

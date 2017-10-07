@@ -9,13 +9,16 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { combineReducers } from '@ngrx/store';
 
 import * as fromApp from './app';
+import * as fromHistory from './history';
 
 export interface State {
   event: fromApp.State;
+  history: fromHistory.State;
 }
 
 const reducers = {
-  event: fromApp.reducer
+  event: fromApp.reducer,
+  history: fromHistory.reducer
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -41,3 +44,7 @@ export const getIsNavigatingReload = createSelector(getEventState, fromApp.getIs
 export const getIsChangingUrl = createSelector(getEventState, fromApp.getIsChangingUrl);
 export const getTabIds = createSelector(getEventState, fromApp.getTabIds);
 export const getApp2Hosts = createSelector(getEventState, fromApp.getApp2Hosts);
+
+// history
+export const getHistoryState = (state: State) => state.history;
+export const getHistories = createSelector(getHistoryState, fromHistory.getHistories);
