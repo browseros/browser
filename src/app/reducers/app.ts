@@ -3,6 +3,7 @@ import { IApp } from '../models/app.model';
 import * as app from '../actions/app.actions';
 import { ITab } from '../models/tab.model';
 import { StateHelper } from './helper';
+import { IHistoryItem } from '../models/history-item.model';
 
 export interface State {
     apps: IApp[];
@@ -21,6 +22,7 @@ export interface State {
     isNavigatingBack: IWebAction;
     isNavigatingReload: IWebAction;
     isChangingUrl: IWebAction;
+    histories: IHistoryItem[];
 }
 
 export const initialState: State = {
@@ -39,7 +41,8 @@ export const initialState: State = {
     isNavigatingNext: null,
     isNavigatingBack: null,
     isNavigatingReload: null,
-    isChangingUrl: null
+    isChangingUrl: null,
+    histories: []
 };
 
 export function reducer(state = initialState, action: app.Actions): State {
@@ -148,6 +151,23 @@ export function reducer(state = initialState, action: app.Actions): State {
             let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
             return Object.assign({}, state, {
                 isNavigatingReload: appAction
+            });
+        }
+
+        case app.DOM_READY: {
+            let tab = state.tabs.find(t => t.id === action.payload.tabId);
+            if (tab === null) {
+                return state;
+            }
+            let historyItem: IHistoryItem = {
+                link: tab.url,
+                date: new Date(),
+                host: tab.hostName,
+                title: tab.title
+            };
+            let newHistories = [...state.histories, historyItem];
+            return Object.assign({}, state, {
+                histories: newHistories
             });
         }
 
