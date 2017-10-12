@@ -5,4 +5,6 @@ export interface IHistoryItem {
     date: Date;
     title: string;
     host: string;
+    weight: number;
+    icon: string;
 }

@@ -17,6 +17,7 @@ import * as appActions from '../actions/app.actions';
 import { Observable } from 'rxjs/Observable';
 import { IApp } from '../models/app.model';
 import { IWebEvent } from '../models/web-event.model';
+import { IHistoryItem } from '../models/history-item.model';
 const { remote } = require('electron');
 const { Menu, MenuItem, clipboard } = remote;
 
@@ -38,6 +39,8 @@ export class HomeComponent implements OnInit {
   private clonedApps: IApp[] = [];
   private eventCurrentApp: Observable<IApp>;
   private eventCurrentTab: Observable<ITab>;
+  private histories: Observable<IHistoryItem[]>;
+  private topApps: Observable<IHistoryItem[]>;
   private currentInputValue = '';
   private isShowingContextMenu = false;
   private contextTop: string;
@@ -60,6 +63,8 @@ export class HomeComponent implements OnInit {
     this.tabIds = this.store.select(fromRoot.getTabIds);
     this.eventCurrentApp = this.store.select(fromRoot.getEventCurrentApp);
     this.eventCurrentTab = this.store.select(fromRoot.getEventCurrentTab);
+    this.histories = this.store.select(fromRoot.getHistoryWithWeights);
+    this.topApps = this.store.select(fromRoot.getTopApps);
     this.screenWidth = $(window).width();
     this.screenHeight = $(window).height();
     let self = this;

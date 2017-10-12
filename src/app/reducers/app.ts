@@ -23,6 +23,8 @@ export interface State {
     isNavigatingReload: IWebAction;
     isChangingUrl: IWebAction;
     histories: IHistoryItem[];
+    historyWithWeights: IHistoryItem[];
+    topApps: IHistoryItem[];
 }
 
 export const initialState: State = {
@@ -42,7 +44,9 @@ export const initialState: State = {
     isNavigatingBack: null,
     isNavigatingReload: null,
     isChangingUrl: null,
-    histories: []
+    histories: [],
+    historyWithWeights: [],
+    topApps: []
 };
 
 export function reducer(state = initialState, action: app.Actions): State {
@@ -159,15 +163,75 @@ export function reducer(state = initialState, action: app.Actions): State {
             if (tab === null) {
                 return state;
             }
+            let app = state.apps.find(a => a.id === tab.appId);
+            if (app === null) {
+                return state;
+            }
             let historyItem: IHistoryItem = {
                 link: tab.url,
                 date: new Date(),
                 host: tab.hostName,
-                title: tab.title
+                title: tab.title,
+                weight: 0,
+                icon: app.icon
             };
             let newHistories = [...state.histories, historyItem];
+
+            let newHistoryWithWeighs = state.historyWithWeights;
+            let historyWithWeightItemIndex = state.historyWithWeights.findIndex(h =>
+                h.link.toLocaleLowerCase() === historyItem.link.toLocaleLowerCase());
+            if (historyWithWeightItemIndex < 0) {
+                let historyWithWeightItem = Object.assign({}, historyItem, {
+                    weight: 1
+                });
+                newHistoryWithWeighs = [...newHistoryWithWeighs, historyWithWeightItem];
+            } else {
+                let historyWithWeightItem = newHistoryWithWeighs[historyWithWeightItemIndex];
+                let newHistoryWithWeightItem = Object.assign({}, historyWithWeightItem, {
+                    weight: historyWithWeightItem.weight + 1
+                });
+                newHistoryWithWeighs = [...newHistoryWithWeighs.slice(0, historyWithWeightItemIndex)
+                    , newHistoryWithWeightItem
+                    , ...newHistoryWithWeighs.slice(historyWithWeightItemIndex + 1)];
+            }
+
+            let newTopApps = state.topApps;
+            let appIndex = state.topApps.findIndex(ta => ta.host.toLowerCase() === tab.hostName);
+            if (appIndex < 0) {
+                let appItem = Object.assign({}, historyItem, {
+                    weight: 1
+                });
+                newTopApps = [...newTopApps, appItem];
+            } else {
+                let appItem = newTopApps[appIndex];
+                let newAppItem = Object.assign({}, appItem, {
+                    weight: appItem.weight + 1
+                });
+                newTopApps = [...newTopApps.slice(0, appIndex)
+                    , newAppItem
+                    , ...newTopApps.slice(appIndex + 1)];
+            }
+
+            newHistoryWithWeighs = newHistoryWithWeighs.sort((item1, item2) => {
+                return item1.weight > item2.weight
+                    ? -1
+                    : item1.weight < item2.weight
+                        ? 1
+                        : 0;
+            });
+
+            newTopApps = newTopApps.sort((item1, item2) => {
+                return item1.weight > item2.weight
+                    ? -1
+                    : item1.weight < item2.weight
+                        ? 1
+                        : 0;
+            });
+
             return Object.assign({}, state, {
-                histories: newHistories
+                histories: newHistories,
+                historyWithWeights: newHistoryWithWeighs,
+                topApps: newTopApps
             });
         }
 
@@ -205,3 +269,9 @@ export const getIsChangingUrl = (state: State) => state.isChangingUrl;
 export const getTabIds = (state: State) => state.tabIds;
 
 export const getApp2Hosts = (state: State) => state.app2Hosts;
+
+export const getHistories = (state: State) => state.histories;
+
+export const getHistoryWithWeights = (state: State) => state.historyWithWeights;
+
+export const getTopApps = (state: State) => state.topApps;
