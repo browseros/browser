@@ -1,3 +1,13 @@
 .history-item {
+    font-size: 11px;
     cursor: pointer;
+    text-decoration: none;
+}
+
+.div-history-item {
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    height: 80px;
+    line-height: 15px;
 }

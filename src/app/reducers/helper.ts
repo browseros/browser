@@ -194,8 +194,23 @@ export class StateHelper {
         let newChangedApp = Object.assign({}, changedApp, {
             icon: newIcon
         });
+
+        let appHistoryItemIndex = state.topApps.findIndex(ta =>
+            ta.host.toLowerCase() === changedTab.hostName.toLowerCase());
+        let newTopApps = state.topApps;
+        if (appHistoryItemIndex >= 0) {
+            let appHistoryItem = newTopApps[appHistoryItemIndex];
+            let newAppHistoryItem = Object.assign({}, appHistoryItem, {
+                icon: newIcon
+            });
+            newTopApps = [...newTopApps.slice(0, appHistoryItemIndex),
+                newAppHistoryItem,
+            ...newTopApps.slice(appHistoryItemIndex + 1)];
+        }
+
         let newState = Object.assign({}, state, {
-            apps: this.modifyApp(state.apps, newChangedApp, changedAppIndex)
+            apps: this.modifyApp(state.apps, newChangedApp, changedAppIndex),
+            topApps: newTopApps
         });
         return newState;
     }
