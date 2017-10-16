@@ -60,6 +60,9 @@ export class AppSearchComponent {
         for (let item of this.histories) {
             let link = item.link.toLocaleLowerCase();
             let title = item.title.toLocaleLowerCase();
+            if (!title) {
+                continue;
+            }
             if (link.indexOf(key.toLocaleLowerCase()) >= 0) {
                 ret.push(item);
                 count++;
