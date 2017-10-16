@@ -16,12 +16,14 @@
                     </a>
                 </div>
                 <div class="row">
-                    <div class='col-md-2 div-history-item' *ngFor='let item of topApps | slice:0:18'>
-                        <a (click)='selectHistoryItem(item)' class="history-item">
-                            <img [src]='item.icon' style="width: 45px; max-height: 45px; margin-top: -1px;" />
-                            <br> {{item.title}}
-                        </a>
-                    </div>
+                    <ng-container *ngFor='let item of topApps; let i = index'>
+                        <div class='col-md-2 div-history-item' *ngIf='item.title && item.icon && i < 18'>
+                            <a [title]='item.link' (click)='selectHistoryItem(item)' class="history-item">
+                                <img [src]='item.icon' style="width: 45px; max-height: 45px; margin-top: -1px;" />
+                                <br> {{item.title}}
+                            </a>
+                        </div>
+                    </ng-container>
                 </div>
             </div>
             <div class="modal-footer">

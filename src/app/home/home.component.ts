@@ -92,7 +92,7 @@ export class HomeComponent implements OnInit {
         id: 0,
         appId: 0,
         hostName,
-        title: hostName,
+        title: '',
         url: link
       }));
     this.appSearch.hide();
@@ -145,7 +145,7 @@ export class HomeComponent implements OnInit {
         id: 0,
         appId: 0,
         hostName,
-        title: hostName,
+        title: '',
         url: $event.eventValue
       }));
   }
@@ -171,7 +171,7 @@ export class HomeComponent implements OnInit {
                 id: 0,
                 appId: 0,
                 hostName,
-                title: hostName,
+                title: '',
                 url: params.linkURL
               }));
           }
