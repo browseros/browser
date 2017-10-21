@@ -1,5 +1,6 @@
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
@@ -12,6 +13,7 @@ import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 
 import * as appActions from '../actions/app.actions';
+import { GoogleSuggestionService } from '../services/google-suggestion.service';
 
 @Injectable()
 export class AppEffects {
@@ -24,13 +26,25 @@ export class AppEffects {
             return new appActions.DoBackCompleteAction(app);
         });
 
-        @Effect()
-        public doNext$: Observable<Action> = this.actions$
-            .ofType(appActions.DO_NEXT)
-            .map((action: appActions.DoNextAction) => action.payload)
-            .map(app => {
-                return new appActions.DoNextCompleteAction(app);
-            });
+    @Effect()
+    public doNext$: Observable<Action> = this.actions$
+        .ofType(appActions.DO_NEXT)
+        .map((action: appActions.DoNextAction) => action.payload)
+        .map(app => {
+            return new appActions.DoNextCompleteAction(app);
+        });
 
-    constructor(private actions$: Actions) { }
+    @Effect()
+    public getSuggestions$: Observable<Action> = this.actions$
+        .ofType(appActions.GET_SUGGESTIONS)
+        .map((action: appActions.GetSuggestionsAction) => action.payload)
+        .mergeMap(key =>
+            this.googleSuggestionService.getSuggestionWords(key)
+              .map((res) => {
+                  let arr = res[1];
+                  return new appActions.GetSuggestionsCompleteAction(arr);
+                })
+          );
+
+    constructor(private actions$: Actions, private googleSuggestionService: GoogleSuggestionService) { }
 }

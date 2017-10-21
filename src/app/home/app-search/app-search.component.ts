@@ -4,6 +4,10 @@ import { IWebEvent } from '../../models/web-event.model';
 import { ITab } from '../../models/tab.model';
 import { IApp } from '../../models/app.model';
 import { IHistoryItem } from '../../models/history-item.model';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../reducers';
+import * as appActions from '../../actions/app.actions';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'app-search',
@@ -17,6 +21,7 @@ export class AppSearchComponent {
     @Input() public currentTab: ITab;
     @Input() public histories: IHistoryItem[];
     @Input() public topApps: IHistoryItem[];
+    @Input() public suggestions: string[];
     @Output() public onSearch: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onSearchReplacing: EventEmitter<IWebEvent> = new EventEmitter<IWebEvent>();
     private appSearch: string;
@@ -24,7 +29,11 @@ export class AppSearchComponent {
     private gotResult = false;
     private historiesSearched: IHistoryItem[];
 
+    constructor(public store: Store<fromRoot.State>) {
+    }
+
     public show(oldUrl: string): void {
+        this.store.dispatch(new appActions.ClearSuggestionsAction());
         this.newSearch = true;
         this.gotResult = false;
         if (oldUrl) {
@@ -50,8 +59,10 @@ export class AppSearchComponent {
     private searchApp(): IHistoryItem[] {
         let key = this.appSearch;
         if (!key || key.length === 0) {
+            this.store.dispatch(new appActions.ClearSuggestionsAction());
             return null;
         }
+        this.store.dispatch(new appActions.GetSuggestionsAction(key));
         if (!this.histories || this.histories.length === 0) {
             return null;
         }
@@ -99,5 +110,10 @@ export class AppSearchComponent {
 
     private selectHistoryItem(item: IHistoryItem): void {
         this.doSearch(item.link);
+    }
+
+    private doGoogleSearch(suggestion) {
+        let googleLink = 'https://www.google.com/search?ie=UTF-8&q=' + encodeURI(suggestion);
+        this.doSearch(googleLink);
     }
 }

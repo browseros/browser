@@ -20,6 +20,7 @@
   (onContextMenu)='onContextMenu($event)'>
 </app-webview>
 <app-search #appSearch [currentApp]='eventCurrentApp | async' 
+  [suggestions]='suggestions | async'
   [histories]='histories | async'
   [topApps]='topApps | async'
   [currentTab]='eventCurrentTab | async' 

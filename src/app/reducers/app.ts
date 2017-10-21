@@ -25,6 +25,7 @@ export interface State {
     histories: IHistoryItem[];
     historyWithWeights: IHistoryItem[];
     topApps: IHistoryItem[];
+    suggestions: string[];
 }
 
 export const initialState: State = {
@@ -46,7 +47,8 @@ export const initialState: State = {
     isChangingUrl: null,
     histories: [],
     historyWithWeights: [],
-    topApps: []
+    topApps: [],
+    suggestions: null
 };
 
 export function reducer(state = initialState, action: app.Actions): State {
@@ -155,6 +157,18 @@ export function reducer(state = initialState, action: app.Actions): State {
             let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
             return Object.assign({}, state, {
                 isNavigatingReload: appAction
+            });
+        }
+
+        case app.CLEAR_SUGGESTIONS: {
+            return Object.assign({}, state, {
+                suggestions: null
+            });
+        }
+
+        case app.GET_SUGGESTIONS_COMPLETE: {
+            return Object.assign({}, state, {
+                suggestions: action.payload
             });
         }
 
@@ -275,3 +289,5 @@ export const getHistories = (state: State) => state.histories;
 export const getHistoryWithWeights = (state: State) => state.historyWithWeights;
 
 export const getTopApps = (state: State) => state.topApps;
+
+export const getSuggestions = (state: State) => state.suggestions;

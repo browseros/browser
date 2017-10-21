@@ -4,6 +4,12 @@
     text-decoration: none;
 }
 
+.search-item {
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
 .div-history-item {
     text-overflow: ellipsis;
     word-wrap: break-word;

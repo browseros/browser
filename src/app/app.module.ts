@@ -43,6 +43,7 @@ import { WebviewComponent } from './home/app-webview/web-view.component';
 import { AppEffects } from './effects/app';
 import { AppWebviewComponent } from './home/app-webview/app-webview.component';
 import { AppBarComponent } from './home/app-bar/app-bar.component';
+import { GoogleSuggestionService } from './services/google-suggestion.service';
 
 declare const ENV: string;
 
@@ -99,7 +100,8 @@ if (ENV === 'development') {
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
-    APP_PROVIDERS
+    APP_PROVIDERS,
+    GoogleSuggestionService
   ]
 })
 export class AppModule {

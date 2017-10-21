@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit {
   private eventCurrentTab: Observable<ITab>;
   private histories: Observable<IHistoryItem[]>;
   private topApps: Observable<IHistoryItem[]>;
+  private suggestions: Observable<string[]>;
   private currentInputValue = '';
   private isShowingContextMenu = false;
   private contextTop: string;
@@ -65,6 +66,7 @@ export class HomeComponent implements OnInit {
     this.eventCurrentTab = this.store.select(fromRoot.getEventCurrentTab);
     this.histories = this.store.select(fromRoot.getHistoryWithWeights);
     this.topApps = this.store.select(fromRoot.getTopApps);
+    this.suggestions = this.store.select(fromRoot.getSuggestions);
     this.screenWidth = $(window).width();
     this.screenHeight = $(window).height();
     let self = this;

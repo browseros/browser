@@ -10,6 +10,11 @@
             <div class="modal-body">
                 <input id='app-search-input' [(ngModel)]='appSearch' class='form-control' type='text' (keyup.enter)='doSearch($event.target.value)'
                     (ngModelChange)='onSearchChanged()' />
+                <div *ngIf='suggestions' style='margin-top: 5px; margin-left: 3px;'>
+                    <div *ngFor='let suggestion of suggestions | slice:0:5' class="search-item" (click)='doGoogleSearch(suggestion)'>
+                        <i class='glyphicon glyphicon-search'></i>&nbsp;{{suggestion}}
+                    </div>
+                </div>
                 <div class="list-group">
                     <a *ngFor='let item of historiesSearched' (click)='selectHistoryItem(item)' class="list-group-item history-item">
                         {{item.title}} {{item.link}}

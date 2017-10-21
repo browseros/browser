@@ -49,3 +49,4 @@ export const getApp2Hosts = createSelector(getEventState, fromApp.getApp2Hosts);
 export const getHistories = createSelector(getEventState, fromApp.getHistories);
 export const getHistoryWithWeights = createSelector(getEventState, fromApp.getHistoryWithWeights);
 export const getTopApps = createSelector(getEventState, fromApp.getTopApps);
+export const getSuggestions = createSelector(getEventState, fromApp.getSuggestions);
