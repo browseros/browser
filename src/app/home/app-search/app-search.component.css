@@ -1,13 +1,38 @@
 .history-item {
+    padding: 1px 3px 1px 2px;
+    cursor: pointer;
+}
+
+.history-item-title {
+    font-size: 12px;
+    white-space: nowrap;      
+    overflow: hidden;         
+    text-overflow: ellipsis;
+}
+
+.history-item-link {
+    font-size: 11px;
+    white-space: nowrap;      
+    overflow: hidden;         
+    text-overflow: ellipsis;
+}
+
+.app-item {
     font-size: 11px;
     cursor: pointer;
     text-decoration: none;
 }
 
 .search-item {
+    padding: 1px 3px 1px 2px;
     font-size: 12px;
     cursor: pointer;
     text-decoration: none;
+}
+
+.search-item:hover {
+    color: white;
+    background-color: #337ab7;
 }
 
 .div-history-item {
@@ -16,4 +41,9 @@
     overflow: hidden;
     height: 80px;
     line-height: 15px;
+}
+
+.history-item:hover {
+    color: white;
+    background-color: #337ab7;
 }

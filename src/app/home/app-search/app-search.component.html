@@ -15,15 +15,23 @@
                         <i class='glyphicon glyphicon-search'></i>&nbsp;{{suggestion}}
                     </div>
                 </div>
-                <div class="list-group">
-                    <a *ngFor='let item of historiesSearched' (click)='selectHistoryItem(item)' class="list-group-item history-item">
-                        {{item.title}} {{item.link}}
-                    </a>
+                <div *ngIf='historiesSearched && historiesSearched.length > 0' style='margin-top: 5px;'>
+                    <div><b>History and bookmark</b></div>
+                    <div class="history-item" *ngFor='let item of historiesSearched' (click)='selectHistoryItem(item)'>
+                        <div class='row'>
+                            <div class="col-md-8 history-item-title">
+                                {{item.title}}
+                            </div>
+                            <div class="col-md-4 history-item-link">
+                                {{item.link}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
+                <div class="row" style='margin-top: 5px;'> 
                     <ng-container *ngFor='let item of topApps; let i = index'>
                         <div class='col-md-2 div-history-item' *ngIf='item.title && item.icon && i < 18'>
-                            <a [title]='item.link' (click)='selectHistoryItem(item)' class="history-item">
+                            <a [title]='item.link' (click)='selectHistoryItem(item)' class="app-item">
                                 <img [src]='item.icon' style="width: 45px; max-height: 45px; margin-top: -1px;" />
                                 <br> {{item.title}}
                             </a>
