@@ -28,9 +28,12 @@
     font-size: 12px;
     cursor: pointer;
     text-decoration: none;
+    white-space: nowrap;      
+    overflow: hidden;         
+    text-overflow: ellipsis;
 }
 
-.search-item:hover {
+.hover, .search-item:hover {
     color: white;
     background-color: #337ab7;
 }

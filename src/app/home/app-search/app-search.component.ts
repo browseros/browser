@@ -28,6 +28,7 @@ export class AppSearchComponent {
     private newSearch: boolean = true;
     private gotResult = false;
     private historiesSearched: IHistoryItem[];
+    private currentIndexOfSearches: number = -1;
 
     constructor(public store: Store<fromRoot.State>) {
     }
@@ -114,17 +115,63 @@ export class AppSearchComponent {
 
     private doGoogleSearch(suggestion) {
         if (this.isLink(suggestion)) {
-            this.doSearch(suggestion.key);
+            this.doSearch(suggestion);
             return;
         }
-        let googleLink = 'https://www.google.com/search?ie=UTF-8&q=' + encodeURI(suggestion.key);
+        let googleLink = 'https://www.google.com/search?ie=UTF-8&q=' + encodeURI(suggestion);
         this.doSearch(googleLink);
     }
 
-    private isLink(suggestion: any): boolean {
+    private isLink(suggestion: string): boolean {
         return suggestion
-            && suggestion.key
-            && (suggestion.key.indexOf('http://') === 0 || suggestion.key.indexOf('https://') === 0);
+            && (suggestion.indexOf('http://') === 0 || suggestion.indexOf('https://') === 0);
 
+    }
+
+    private onUp($event) {
+        if (this.currentIndexOfSearches <= -1) {
+            this.currentIndexOfSearches = -1;
+            return;
+        }
+        this.currentIndexOfSearches--;
+    }
+
+    private onDown($event) {
+        if (this.currentIndexOfSearches  >= 4) {
+            this.currentIndexOfSearches = 0;
+            return;
+        }
+        this.currentIndexOfSearches++;
+    }
+
+    private isCurrentSelectedSearchItem(id: number): boolean {
+        return id === this.currentIndexOfSearches;
+    }
+
+    private keyUp($event) {
+        $event.preventDefault();
+        console.log($event);
+        if ($event.code === 'ArrowDown') {
+            this.onDown($event);
+            return;
+        }
+        if ($event.code === 'ArrowUp') {
+            this.onUp($event);
+            return;
+        }
+        if ($event.code === 'Enter') {
+            console.log(this.currentIndexOfSearches);
+            if (this.currentIndexOfSearches === -1) {
+                this.doSearch($event.target.value);
+                return;
+            }
+            if (this.currentIndexOfSearches === 0 ) {
+                this.doGoogleSearch(this.appSearch);
+                return;
+            }
+            this.doGoogleSearch(this.suggestions[this.currentIndexOfSearches - 1].key);
+            return;
+        }
+        this.currentIndexOfSearches = -1;
     }
 }

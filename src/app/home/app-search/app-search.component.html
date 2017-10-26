@@ -8,14 +8,15 @@
                 <h4 class="modal-title">Search URL or App</h4>
             </div>
             <div class="modal-body">
-                <input id='app-search-input' [(ngModel)]='appSearch' class='form-control' type='text' (keyup.enter)='doSearch($event.target.value)'
+                <input id='app-search-input' [(ngModel)]='appSearch' class='form-control' type='text'
+                    (keyup)='keyUp($event)'
                     (ngModelChange)='onSearchChanged()' />
                 <div *ngIf='suggestions' style='margin-top: 5px; margin-left: 3px;'>
-                    <div class="search-item" (click)='doGoogleSearch(appSearch)'>
+                    <div class="search-item {{isCurrentSelectedSearchItem(0) ? 'hover': ''}}" (click)='doGoogleSearch(appSearch)'>
                         <i class='glyphicon glyphicon-search'></i>&nbsp;{{appSearch}}
                     </div>
-                    <div *ngFor='let suggestion of suggestions | slice:0:4' class="search-item" (click)='doGoogleSearch(suggestion)'>
-                        <i class='glyphicon glyphicon-search'></i>&nbsp;{{suggestion.key}}<span *ngIf='isLink(suggestion)'> - {{suggestion.title}}</span>
+                    <div *ngFor='let suggestion of suggestions | slice:0:4; let i=index' class="search-item {{isCurrentSelectedSearchItem(i+1) ? 'hover': ''}}" (click)='doGoogleSearch(suggestion.key)'>
+                        <i class='glyphicon glyphicon-search'></i>&nbsp;{{suggestion.key}}<span *ngIf='isLink(suggestion.key)'> - {{suggestion.title}}</span>
                     </div>
                 </div>
                 <div *ngIf='historiesSearched && historiesSearched.length > 0' style='margin-top: 5px;'>
