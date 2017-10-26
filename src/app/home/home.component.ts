@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
   private eventCurrentTab: Observable<ITab>;
   private histories: Observable<IHistoryItem[]>;
   private topApps: Observable<IHistoryItem[]>;
-  private suggestions: Observable<string[]>;
+  private suggestions: Observable<any[]>;
   private currentInputValue = '';
   private isShowingContextMenu = false;
   private contextTop: string;

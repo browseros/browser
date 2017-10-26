@@ -40,11 +40,16 @@ export class AppEffects {
         .map((action: appActions.GetSuggestionsAction) => action.payload)
         .mergeMap(key =>
             this.googleSuggestionService.getSuggestionWords(key)
-              .map((res) => {
-                  let arr = res[1];
-                  return new appActions.GetSuggestionsCompleteAction(arr);
+                .map((res) => {
+                    let arr = res[1];
+                    let titles = res[2];
+                    let ret = [];
+                    for (let i = 0; i < arr.length; i++) {
+                        ret.push({ key: arr[i], title: titles[i] });
+                    }
+                    return new appActions.GetSuggestionsCompleteAction(ret);
                 })
-          );
+        );
 
     constructor(private actions$: Actions, private googleSuggestionService: GoogleSuggestionService) { }
 }

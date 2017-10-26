@@ -25,7 +25,7 @@ export interface State {
     histories: IHistoryItem[];
     historyWithWeights: IHistoryItem[];
     topApps: IHistoryItem[];
-    suggestions: string[];
+    suggestions: any[];
 }
 
 export const initialState: State = {

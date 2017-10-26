@@ -11,12 +11,17 @@
                 <input id='app-search-input' [(ngModel)]='appSearch' class='form-control' type='text' (keyup.enter)='doSearch($event.target.value)'
                     (ngModelChange)='onSearchChanged()' />
                 <div *ngIf='suggestions' style='margin-top: 5px; margin-left: 3px;'>
-                    <div *ngFor='let suggestion of suggestions | slice:0:5' class="search-item" (click)='doGoogleSearch(suggestion)'>
-                        <i class='glyphicon glyphicon-search'></i>&nbsp;{{suggestion}}
+                    <div class="search-item" (click)='doGoogleSearch(appSearch)'>
+                        <i class='glyphicon glyphicon-search'></i>&nbsp;{{appSearch}}
+                    </div>
+                    <div *ngFor='let suggestion of suggestions | slice:0:4' class="search-item" (click)='doGoogleSearch(suggestion)'>
+                        <i class='glyphicon glyphicon-search'></i>&nbsp;{{suggestion.key}}<span *ngIf='isLink(suggestion)'> - {{suggestion.title}}</span>
                     </div>
                 </div>
                 <div *ngIf='historiesSearched && historiesSearched.length > 0' style='margin-top: 5px;'>
-                    <div><b>History and bookmark</b></div>
+                    <div>
+                        <b>History and bookmark</b>
+                    </div>
                     <div class="history-item" *ngFor='let item of historiesSearched' (click)='selectHistoryItem(item)'>
                         <div class='row'>
                             <div class="col-md-8 history-item-title">
@@ -28,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style='margin-top: 5px;'> 
+                <div class="row" style='margin-top: 5px;'>
                     <ng-container *ngFor='let item of topApps; let i = index'>
                         <div class='col-md-2 div-history-item' *ngIf='item.title && item.icon && i < 18'>
                             <a [title]='item.link' (click)='selectHistoryItem(item)' class="app-item">

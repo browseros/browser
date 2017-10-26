@@ -21,7 +21,7 @@ export class AppSearchComponent {
     @Input() public currentTab: ITab;
     @Input() public histories: IHistoryItem[];
     @Input() public topApps: IHistoryItem[];
-    @Input() public suggestions: string[];
+    @Input() public suggestions: any[];
     @Output() public onSearch: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onSearchReplacing: EventEmitter<IWebEvent> = new EventEmitter<IWebEvent>();
     private appSearch: string;
@@ -113,7 +113,18 @@ export class AppSearchComponent {
     }
 
     private doGoogleSearch(suggestion) {
-        let googleLink = 'https://www.google.com/search?ie=UTF-8&q=' + encodeURI(suggestion);
+        if (this.isLink(suggestion)) {
+            this.doSearch(suggestion.key);
+            return;
+        }
+        let googleLink = 'https://www.google.com/search?ie=UTF-8&q=' + encodeURI(suggestion.key);
         this.doSearch(googleLink);
+    }
+
+    private isLink(suggestion: any): boolean {
+        return suggestion
+            && suggestion.key
+            && (suggestion.key.indexOf('http://') === 0 || suggestion.key.indexOf('https://') === 0);
+
     }
 }

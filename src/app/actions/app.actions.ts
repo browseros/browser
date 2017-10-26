@@ -256,7 +256,7 @@ export class GetSuggestionsAction implements Action {
 export class GetSuggestionsCompleteAction implements Action {
   public readonly type = GET_SUGGESTIONS_COMPLETE;
 
-  constructor(public payload: string[]) { }
+  constructor(public payload: any[]) { }
 }
 
 /**
