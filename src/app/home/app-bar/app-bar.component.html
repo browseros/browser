@@ -7,7 +7,7 @@
             [title]="getHost(app)"
             (mouseup)='onMouseUp($event, app)'
             (contextmenu)='onContextMenu.emit(app)'
-            (click)="onAppSelect.emit(app)" [style.backgroundColor]='app.id == currentApp.id ? "#eeeeee": "#bbbbbb"'>
+            (click)="onAppSelect.emit(app)" [style.backgroundColor]='app.id == currentApp.id ? "#eeeeee": "#ddd"'>
             <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px; color: lightgray;" (click)='onAppClose.emit(app)'></i> 
             <img [src]='app.icon' style="max-width: 20px; max-height: 20px; margin-top: -1px;"/> {{getHost(app)}}
         </div>
@@ -19,7 +19,7 @@
         +
     </button>
     <input class='form-control pull-right input-sm' type='text' style="width: 300px; margin-top: 2px; margin-right: 2px; height: 25px;"
-        (click)="onEnteredSearchBox.emit(currentTab ? currentTab.url: '')" [value]='currentTab ? currentTab.url: ""' placeholder="Search URL or App"
-    />
+    (click)="onEnteredSearchBox.emit(currentTab ? currentTab.url: '')" [value]='currentTab ? currentTab.url: ""' placeholder="Search URL or App"
+/>
 </div>
 <div class="clearfix"></div>
