@@ -2,6 +2,8 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { IApp } from '../../models/app.model';
 import { ITab } from '../../models/tab.model';
+import { IHistoryItem } from '../../models/history-item.model';
+import { IWebEvent } from '../../models/web-event.model';
 
 @Component({
     selector: 'app-nav',
@@ -13,8 +15,9 @@ export class AppNavComponent {
 
     @Input() public currentApp: IApp;
     @Input() public tabs: ITab[];
+    @Input() public histories: IHistoryItem[];
     @Input() public currentTab: ITab;
-    @Output() public onSearch: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public onSearch: EventEmitter<IWebEvent> = new EventEmitter<IWebEvent>();
     @Output() public onNextClick: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onBackClick: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onReloadClick: EventEmitter<string> = new EventEmitter<string>();
@@ -35,5 +38,32 @@ export class AppNavComponent {
         if ($event.button === 1) {
             this.onCloseTab.emit(tab);
         }
+    }
+
+    private getHistoryForHost(): IHistoryItem[] {
+        if (!this.currentTab) {
+            return null;
+        }
+        if (!this.histories || this.histories.length === 0) {
+            return null;
+        }
+        return this.histories.filter(item =>
+            item.host.toLocaleLowerCase() === this.currentTab.hostName.toLocaleLowerCase());
+    }
+
+    private selectHistoryItem(item: IHistoryItem): void {
+        this.doSearch(item.link);
+    }
+
+    private doSearch(link) {
+        let currentTab = JSON.parse(JSON.stringify(this.currentTab));
+        let currentApp = JSON.parse(JSON.stringify(this.currentApp));
+        let webEvent: IWebEvent = {
+            tabId: currentTab.id,
+            eventValue: link,
+            app: currentApp,
+            eventName: 'urlchanged'
+        };
+        this.onSearch.emit(webEvent);
     }
 }

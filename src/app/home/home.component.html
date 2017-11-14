@@ -7,6 +7,8 @@
   (onBtnAddApp)='appSearch.show()'>
 </app-bar>
 <app-nav [currentApp]='eventCurrentApp | async' [tabs]='eventTabs | async' [currentTab]='eventCurrentTab | async' (onNextClick)='onNextClick($event)' (onBackClick)='onBackClick($event)' (onGotoTab)='onGotoTab($event)'
+  [histories]='histories | async'
+  (onSearch)='doSearchReplacing($event)'
   (onContextMenu)='onTabContextMenu($event)'
   (onReloadClick)='onReloadClick($event)'
   (onCloseTab)='onCloseTab($event)'></app-nav>

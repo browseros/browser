@@ -23,3 +23,26 @@
     background-color: #ddd;
     height: 26px; 
 }
+
+.recent-item-title {
+    font-size: 11px;
+    max-width: 300px; 
+    white-space: nowrap;      
+    overflow: hidden;
+    display: inline-block;        
+    text-overflow: ellipsis;
+}
+
+.recent-item-link {
+    font-size: 11px;
+    color: #cccccc;
+    max-width: 200px; 
+    white-space: nowrap;      
+    overflow: hidden;
+    display: inline-block;        
+    text-overflow: ellipsis;
+}
+
+.recent-item {
+    cursor: pointer;
+}
