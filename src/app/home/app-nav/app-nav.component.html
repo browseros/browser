@@ -23,7 +23,7 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                 <li *ngFor='let item of getHistoryForHost()'>
-                    <a *ngIf='item.title' (click)='selectHistoryItem(item)' class='recent-item' >
+                    <a *ngIf='item.title' (click)='selectHistoryItem(item)' class='recent-item' [title]='item.title'>
                         <div class='recent-item-title'>{{item.title}}</div>
                         <div class='recent-item-link'>{{item.link}}</div>
                     </a>

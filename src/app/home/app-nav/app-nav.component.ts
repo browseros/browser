@@ -47,8 +47,11 @@ export class AppNavComponent {
         if (!this.histories || this.histories.length === 0) {
             return null;
         }
-        return this.histories.filter(item =>
-            item.host.toLocaleLowerCase() === this.currentTab.hostName.toLocaleLowerCase());
+        return this.histories
+            .filter(item =>
+                item.title
+                && item.host.toLocaleLowerCase() === this.currentTab.hostName.toLocaleLowerCase())
+            .slice(0, 10);
     }
 
     private selectHistoryItem(item: IHistoryItem): void {
