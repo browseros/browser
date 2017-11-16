@@ -4,7 +4,6 @@
     margin-top: 1px;
     padding: 3px 3px 3px 3px;
     display: inline-block; 
-    max-width: 250px;
     height: 25px;
     text-align: center;
     vertical-align: bottom;
@@ -36,7 +35,7 @@
 .recent-item-link {
     font-size: 11px;
     color: #cccccc;
-    max-width: 200px; 
+    max-width: 200px;
     white-space: nowrap;      
     overflow: hidden;
     display: inline-block;        

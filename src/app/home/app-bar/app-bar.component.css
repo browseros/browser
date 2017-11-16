@@ -2,7 +2,6 @@
 .app-on-tab {
     padding: 3px 3px 3px 3px;
     display: inline-block; 
-    width: 150px;
     height: 25px;
     text-align: center;
     margin-top: 2px;
@@ -20,7 +19,6 @@
     padding: 0 2px 0 2px;
     height: 29px;
     background-color:#ddd;
-    border-bottom: 1px solid #ccc;
 }
 
 .bar-icon {

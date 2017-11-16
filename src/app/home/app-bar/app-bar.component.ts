@@ -14,6 +14,7 @@ export class AppBarComponent {
     @Input() public currentTab: ITab;
     @Input() public app2Hosts: { [id: number]: string };
     @Input() public apps: IApp[];
+    @Input() public screenWidth: number;
     @Output() public onBtnAddApp: EventEmitter<any> = new EventEmitter<any>();
     @Output() public onEnteredSearchBox: EventEmitter<any> = new EventEmitter<any>();
     @Output() public onAppSelect: EventEmitter<IApp> = new EventEmitter<IApp>();
@@ -31,5 +32,15 @@ export class AppBarComponent {
         if ($event.button === 1) {
             this.onAppClose.emit(app);
         }
+    }
+
+    private getTabWidth(): string {
+        let appCount = this.apps ? this.apps.length : 0;
+        if (appCount === 0) {
+            return '0px';
+        }
+        let screenWidth = this.screenWidth - 390;
+        let tabWidth = screenWidth / appCount;
+        return tabWidth + 'px';
     }
 }

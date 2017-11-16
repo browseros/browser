@@ -15,6 +15,7 @@ export class AppNavComponent {
 
     @Input() public currentApp: IApp;
     @Input() public tabs: ITab[];
+    @Input() public screenWidth: number;
     @Input() public histories: IHistoryItem[];
     @Input() public currentTab: ITab;
     @Output() public onSearch: EventEmitter<IWebEvent> = new EventEmitter<IWebEvent>();
@@ -68,5 +69,15 @@ export class AppNavComponent {
             eventName: 'urlchanged'
         };
         this.onSearch.emit(webEvent);
+    }
+
+    private getTabWidth(): string {
+        let tabCount = this.tabs ? this.tabs.filter(tab => tab.appId === this.currentApp.id).length : 0;
+        if (tabCount === 0) {
+            return '0px';
+        }
+        let screenWidth = this.screenWidth - 180;
+        let tabWidth = screenWidth / tabCount;
+        return tabWidth + 'px';
     }
 }

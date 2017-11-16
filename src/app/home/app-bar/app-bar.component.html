@@ -3,23 +3,20 @@
         <img src='assets/img/no_than.png' width="20px" height="20px" />
     </span>
     <span *ngIf='apps && currentApp'>
-        <div *ngFor='let app of apps' class='app-on-tab' 
-            [title]="getHost(app)"
-            (mouseup)='onMouseUp($event, app)'
-            (contextmenu)='onContextMenu.emit(app)'
-            (click)="onAppSelect.emit(app)" [style.backgroundColor]='app.id == currentApp.id ? "#eeeeee": "#ddd"'>
-            <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px; color: lightgray;" (click)='onAppClose.emit(app)'></i> 
-            <img [src]='app.icon' style="max-width: 20px; max-height: 20px; margin-top: -1px;"/> {{getHost(app)}}
+        <div *ngFor='let app of apps' class='app-on-tab' [title]="getHost(app)" (mouseup)='onMouseUp($event, app)' (contextmenu)='onContextMenu.emit(app)'
+            (click)="onAppSelect.emit(app)" [style.backgroundColor]='app.id == currentApp.id ? "#eeeeee": "#ddd"' [style.width]='getTabWidth()'>
+            <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px; color: lightgray;" (click)='onAppClose.emit(app)'></i>
+            <img [src]='app.icon' style="max-width: 20px; max-height: 20px; margin-top: -1px;" /> {{getHost(app)}}
         </div>
     </span>
     <a class="pull-right bar-app-action" (click)="onBtnAppAction.emit($event)">
         <i class='glyphicon glyphicon-option-vertical'></i>
     </a>
+    <input class='form-control pull-right input-sm' type='text' style="width: 300px; margin-top: 2px; margin-right: 2px; height: 25px;"
+        (click)="onEnteredSearchBox.emit(currentTab ? currentTab.url: '')" [value]='currentTab ? currentTab.url: ""' placeholder="Search URL or App"
+    />
     <button class="btn btn-default btn-sm pull-right" (click)="onBtnAddApp.emit($event)" style="margin-top: 2px; height: 25px; padding-top: 3px;">
         +
-    </button>
-    <input class='form-control pull-right input-sm' type='text' style="width: 300px; margin-top: 2px; margin-right: 2px; height: 25px;"
-    (click)="onEnteredSearchBox.emit(currentTab ? currentTab.url: '')" [value]='currentTab ? currentTab.url: ""' placeholder="Search URL or App"
-/>
+    </button>
 </div>
 <div class="clearfix"></div>
