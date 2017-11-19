@@ -95,18 +95,31 @@ export class AppSearchComponent {
         }
         this.gotResult = true;
         if (this.newSearch) {
-            this.onSearch.emit(link);
+            let newLink = link;
+            if (!this.isPotentialLink(link)) {
+                newLink = this.getGoogleSearchLink(link);
+            }
+            this.onSearch.emit(newLink);
             return;
         }
         let currentTab = JSON.parse(JSON.stringify(this.currentTab));
         let currentApp = JSON.parse(JSON.stringify(this.currentApp));
+        let newLink = link;
+        if (!this.isPotentialLink(link)) {
+            newLink = this.getGoogleSearchLink(link);
+        }
         let webEvent: IWebEvent = {
             tabId: currentTab.id,
-            eventValue: link,
+            eventValue: newLink,
             app: currentApp,
             eventName: 'urlchanged'
         };
         this.onSearchReplacing.emit(webEvent);
+    }
+
+    private getGoogleSearchLink(suggestion: string): string {
+        let googleLink = 'https://www.google.com/search?ie=UTF-8&q=' + encodeURI(suggestion);
+        return googleLink;
     }
 
     private selectHistoryItem(item: IHistoryItem): void {
@@ -114,18 +127,23 @@ export class AppSearchComponent {
     }
 
     private doGoogleSearch(suggestion) {
-        if (this.isLink(suggestion)) {
+        if (this.isContainMethod(suggestion) && this.isPotentialLink(suggestion)) {
             this.doSearch(suggestion);
             return;
         }
-        let googleLink = 'https://www.google.com/search?ie=UTF-8&q=' + encodeURI(suggestion);
+        let googleLink = this.getGoogleSearchLink(suggestion);
         this.doSearch(googleLink);
     }
 
-    private isLink(suggestion: string): boolean {
+    private isContainMethod(suggestion: string): boolean {
         return suggestion
             && (suggestion.indexOf('http://') === 0 || suggestion.indexOf('https://') === 0);
+    }
 
+    private isPotentialLink(suggestion: string): boolean {
+        return suggestion
+            && (suggestion.indexOf('.') >= 0)
+            && (suggestion.indexOf(' ') < 0);
     }
 
     private onUp($event) {

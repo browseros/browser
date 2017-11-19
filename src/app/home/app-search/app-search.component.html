@@ -16,7 +16,7 @@
                         <i class='glyphicon glyphicon-search'></i>&nbsp;{{appSearch}}
                     </div>
                     <div *ngFor='let suggestion of suggestions | slice:0:4; let i=index' class="search-item {{isCurrentSelectedSearchItem(i+1) ? 'hover': ''}}" (click)='doGoogleSearch(suggestion.key)'>
-                        <i class='glyphicon glyphicon-search'></i>&nbsp;{{suggestion.key}}<span *ngIf='isLink(suggestion.key)'> - {{suggestion.title}}</span>
+                        <i class='glyphicon glyphicon-search'></i>&nbsp;{{suggestion.key}}<span *ngIf='isContainMethod(suggestion.key)'> - {{suggestion.title}}</span>
                     </div>
                 </div>
                 <div *ngIf='historiesSearched && historiesSearched.length > 0' style='margin-top: 5px;'>
