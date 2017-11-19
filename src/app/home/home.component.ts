@@ -276,4 +276,8 @@ export class HomeComponent implements OnInit {
   private onAppBarDoubleClick($event: any) {
     remote.BrowserWindow.getFocusedWindow().maximize();
   }
+
+  private onClicked($event: any) {
+    $('#recentDropdown').removeClass('in open');
+  }
 }

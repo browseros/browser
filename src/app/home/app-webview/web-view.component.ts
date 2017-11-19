@@ -23,6 +23,7 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     @Output() public onUrlChanged: EventEmitter<string> = new EventEmitter<string>();
     @Output() public onContextMenu: EventEmitter<any> = new EventEmitter<any>();
     @Output() public onDomReady: EventEmitter<any> = new EventEmitter<any>();
+    @Output() public onClicked: EventEmitter<any> = new EventEmitter<any>();
     private backSub: Subscription;
     private nextSub: Subscription;
     private reloadSub: Subscription;
@@ -102,6 +103,10 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
         let onContextMenu = (e1, params) => {
             self.onContextMenu.emit(params);
         };
+        let onClick = () => {
+            console.log('clicked');
+            self.onClicked.emit('params');
+        };
         webviewElm.addEventListener('dom-ready', (e) => {
             self.onDomReady.emit('');
             let wc = webviewElm.getWebContents();
@@ -112,12 +117,24 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
                 let url = self.getTabUrl(self.tabId);
                 webviewElm.loadURL(url);
             }
+            wc.removeListener('click', onClick);
+            wc.on('click', onClick);
+        });
+
+        webviewElm.addEventListener('', (e) => {
+            onClick();
         });
 
         webviewElm.addEventListener('did-navigate', (e) => {
             const protocol = require('url').parse(e.url).protocol;
             if (protocol === 'http:' || protocol === 'https:') {
                 self.onUrlChanged.emit(e.url);
+            }
+        });
+
+        webviewElm.addEventListener('ipc-message', (e) => {
+            if (e.channel === 'clicked') {
+                this.onClicked.emit('clicked');
             }
         });
     }

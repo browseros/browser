@@ -8,6 +8,7 @@
             (onTitleChanged)='onTitleChanged.emit({eventValue: $event, eventName: "titlechanged", tabId: tabId, app: null})'
             (onIconChanged)='onIconChanged.emit({eventValue: $event, eventName: "iconchanged", tabId: tabId, app: null})'
             (onUrlChanged)='onUrlChanged.emit({eventValue: $event, eventName: "urlchanged", tabId: tabId, app: null})'
+            (onClicked)='onClicked.emit($event)'
             (onContextMenu)='onContextMenu.emit($event)'>
         </web-view>
     </div>

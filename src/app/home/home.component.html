@@ -21,6 +21,7 @@
   (onIconChanged)='onIconChanged($event)' 
   (onUrlChanged)='onUrlChanged($event)'
   (onDomReady)='onDomReady($event)'
+  (onClicked)='onClicked($event)'
   (onContextMenu)='onContextMenu($event)'>
 </app-webview>
 <app-search #appSearch [currentApp]='eventCurrentApp | async' 
