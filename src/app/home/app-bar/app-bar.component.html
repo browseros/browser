@@ -4,7 +4,7 @@
     </span>
     <span *ngIf='apps && currentApp'>
         <div *ngFor='let app of apps' class='app-on-tab' [title]="getHost(app)" (mouseup)='onMouseUp($event, app)' (contextmenu)='onContextMenu.emit(app)'
-            (click)="onAppSelect.emit(app)" [style.backgroundColor]='app.id == currentApp.id ? "#eeeeee": "#ddd"' [style.width]='getTabWidth()'>
+            (click)="onAppSelect.emit(app)" [style.backgroundColor]='app.id == currentApp.id ? "#ffffff": "#ddd"' [style.width]='getTabWidth()'>
             <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px; color: lightgray;" (click)='onAppClose.emit(app)'></i>
             <img [src]='app.icon' style="max-width: 20px; max-height: 20px; margin-top: -1px;" /> {{getHost(app)}}
         </div>

@@ -39,8 +39,8 @@ export class AppBarComponent {
         if (appCount === 0) {
             return '0px';
         }
-        let screenWidth = this.screenWidth - 390;
-        let tabWidth = screenWidth / appCount;
+        let screenWidth = this.screenWidth - 380;
+        let tabWidth = (screenWidth / appCount) - 2;
         return tabWidth + 'px';
     }
 }

@@ -77,7 +77,7 @@ export class AppNavComponent {
             return '0px';
         }
         let screenWidth = this.screenWidth - 180;
-        let tabWidth = screenWidth / tabCount;
+        let tabWidth = (screenWidth / tabCount) - 2;
         return tabWidth + 'px';
     }
 }

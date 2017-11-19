@@ -1,7 +1,7 @@
 <div class='navs' *ngIf='tabs && tabs.length > 0'>
     <span *ngIf='currentApp'>
         <div *ngFor='let tab of tabs; let i = index' [style.display]='tab.appId !== currentApp.id ? "none": ""' class='tab-on-nav'
-            [title]="tab.title" [style.backgroundColor]='currentTab && tab.id === currentTab.id? "#eeeeee": "#ddd"' (click)='onGotoTab.emit(tab)'
+            [title]="tab.title" [style.backgroundColor]='currentTab && tab.id === currentTab.id? "#ffffff": "#ddd"' (click)='onGotoTab.emit(tab)'
             (contextmenu)='onContextMenu.emit(tab)' (mouseup)='onMouseUp($event, tab)' [style.width]='getTabWidth()'>
             <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px; color: lightgray;" (click)='onCloseTab.emit(tab)'></i> {{tab.title}}
         </div>
