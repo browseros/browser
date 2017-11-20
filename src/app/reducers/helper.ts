@@ -109,7 +109,6 @@ export class StateHelper {
             let closingApp = state.apps.find(a => a.id === closedTab.appId);
             return this.changeStateByCloseApp(closingApp, state);
         }
-        let currentAppIndex = state.apps.findIndex(a => a.id === state.currentApp.id);
         let newTabs = this.removeTab(state.tabs, tabId);
         let newTabIds = state.tabIds.filter(id => newTabs.findIndex(a => a.id === id) >= 0);
         let newCurrentTab = state.currentTab;
@@ -503,7 +502,8 @@ export class StateHelper {
             tabIdx--;
         }
         if (tabIdx >= 0) {
-            return appTabs[tabIdx];
+            let newTabs = appTabs.filter(t => t.id !== tabId);
+            return newTabs[tabIdx];
         }
         return null;
     }
@@ -515,7 +515,8 @@ export class StateHelper {
             appIdx--;
         }
         if (appIdx >= 0) {
-            return apps[appIdx];
+            let newApps = apps.filter(a => a.id !== appId);
+            return newApps[appIdx];
         }
         return null;
     }
