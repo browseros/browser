@@ -48,6 +48,7 @@ export class HomeComponent implements OnInit {
   private contextLeft: string;
   private screenWidth: number;
   private screenHeight: number;
+  private superApp: Electron.App;
 
   @ViewChild('appSearch') private appSearch: AppSearchComponent;
 
@@ -82,12 +83,12 @@ export class HomeComponent implements OnInit {
     ipcRenderer.send('show-dialog');
   }
 
-  private gotoApp(app: IApp) {
-    this.store.dispatch(new appActions.GotoAppAction(app));
+  private gotoApp(myApp: IApp) {
+    this.store.dispatch(new appActions.GotoAppAction(myApp));
   }
 
-  private doSearch(app: string) {
-    let link = StateHelper.prepareAppLink(app);
+  private doSearch(myApp: string) {
+    let link = StateHelper.prepareAppLink(myApp);
     let hostName = StateHelper.extractHostname(link);
     this.store.dispatch(new appActions.AddTabAction(
       {
@@ -108,8 +109,8 @@ export class HomeComponent implements OnInit {
     this.appSearch.hide();
   }
 
-  private closeApp(app: IApp) {
-    this.store.dispatch(new appActions.CloseAppAction(app));
+  private closeApp(myApp: IApp) {
+    this.store.dispatch(new appActions.CloseAppAction(myApp));
   }
 
   private onTitleChanged($event: IWebEvent) {
@@ -161,6 +162,7 @@ export class HomeComponent implements OnInit {
   }
 
   private onContextMenu(params) {
+    console.log(params);
     let self = this;
     const menu = new Menu();
     if (params.linkURL) {
@@ -196,7 +198,83 @@ export class HomeComponent implements OnInit {
         }
       ));
     }
+    if (params.mediaType === 'image' && params.srcURL) {
+      menu.append(new MenuItem(
+        {
+          label: 'Download image to "Downloads"', click() {
+            let downloadsFolder = remote.app.getPath('downloads');
+            if (!downloadsFolder) {
+              return;
+            }
+            self.saveUrlToFolder(params.srcURL, downloadsFolder);
+          }
+        }
+      ));
+      menu.append(new MenuItem(
+        {
+          label: 'Save image to...', click() {
+            let downloadsFolder = remote.app.getPath('downloads');
+            let win = remote.getCurrentWindow();
+            let options = {
+              // See place holder 1 in above image
+              properties: ['openDirectory']
+             };
+            let paths = remote.dialog.showOpenDialog(win, options);
+            if (paths && paths.length) {
+              let path = paths[0];
+              console.log(path);
+              self.saveUrlToFolder(params.srcURL, path);
+            }
+            console.log(downloadsFolder);
+          }
+        }
+      ));
+    }
+    if (params.mediaType === 'video' && params.srcURL) {
+      menu.append(new MenuItem(
+        {
+          label: 'Download video to "Downloads"', click() {
+            let downloadsFolder = remote.app.getPath('downloads');
+            if (!downloadsFolder) {
+              return;
+            }
+            self.saveUrlToFolder(params.srcURL, downloadsFolder);
+          }
+        }
+      ));
+      menu.append(new MenuItem(
+        {
+          label: 'Save video to...', click() {
+            let downloadsFolder = remote.app.getPath('downloads');
+            let win = remote.getCurrentWindow();
+            let options = {
+              // See place holder 1 in above image
+              properties: ['openDirectory']
+             };
+            let paths = remote.dialog.showOpenDialog(win, options);
+            if (paths && paths.length) {
+              let path = paths[0];
+              self.saveUrlToFolder(params.srcURL, path);
+            }
+          }
+        }
+      ));
+    }
     menu.popup(remote.getCurrentWindow());
+  }
+
+  private saveUrlToFolder(link, folder) {
+    let http = require('http');
+    let https = require('https');
+    let url = new URL(link);
+    let requestMethod = url.protocol === 'https:' ? https : http;
+    console.log(url);
+    let fs   = require('fs');
+    let filename = link.substring(link.lastIndexOf('/') + 1);
+    let file = fs.createWriteStream(folder + '/' + filename);
+    let request = requestMethod.get(link, function(response) {
+      response.pipe(file);
+    });
   }
 
   private onTabContextMenu(tab: ITab) {
@@ -226,20 +304,20 @@ export class HomeComponent implements OnInit {
     menu.popup(remote.getCurrentWindow());
   }
 
-  private onAppContextMenu(app: IApp) {
+  private onAppContextMenu(myApp: IApp) {
     let self = this;
     const menu = new Menu();
     menu.append(new MenuItem(
       {
         label: 'Close app', click() {
-          self.store.dispatch(new appActions.CloseAppAction(app));
+          self.store.dispatch(new appActions.CloseAppAction(myApp));
         }
       }
     ));
     menu.append(new MenuItem(
       {
         label: 'Close other apps', click() {
-          self.store.dispatch(new appActions.CloseOtherAppsAction(app));
+          self.store.dispatch(new appActions.CloseOtherAppsAction(myApp));
         }
       }
     ));
