@@ -120,7 +120,7 @@
     "css-loader": "^0.28.5",
     "devtron": "^1.4.0",
     "electron": "~1.7.2",
-    "electron-builder": "^18.6.1",
+    "electron-builder": "^23.6.0",
     "electron-connect": "^0.6.1",
     "electron-connect-webpack-plugin": "^0.1.1",
     "electron-debug": "^1.1.0",
