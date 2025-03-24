@@ -93,6 +93,8 @@ browser-os/
 │   ├── polyfills.browser.ts # Browser polyfills
 │   └── vendor.browser.ts   # Vendor dependencies
 ├── Architect/              # Architecture documentation
+│   ├── Actions.md         # Redux actions and state management documentation
+│   ├── Effects.md         # Redux effects and side effect handling documentation
 │   ├── Home.md            # Home component documentation
 │   ├── AppBar.md          # AppBar component documentation
 │   ├── AppNav.md          # AppNav component documentation
@@ -179,6 +181,8 @@ Testing infrastructure:
 
 The Browser OS architecture is well-documented in the `Architect` folder. Here's what you can find:
 
+- [Actions](Architect/Actions.md) - Documentation for Redux actions and state management
+- [Effects](Architect/Effects.md) - Documentation for Redux effects and side effect handling
 - [Home Component](Architect/Home.md) - Documentation for the home page component
 - [AppBar Component](Architect/AppBar.md) - Documentation for the application bar
 - [AppNav Component](Architect/AppNav.md) - Documentation for the navigation component
@@ -187,6 +191,7 @@ The Browser OS architecture is well-documented in the `Architect` folder. Here's
 - [Title Component](Architect/Title.md) - Documentation for the title management
 - [XLarge Component](Architect/XLarge.md) - Documentation for the large screen layout
 - [Models](Architect/Models.md) - Comprehensive documentation of all data models
+- [Google Search Suggestion](Architect/GoogleSearchSuggestion.md) - Documentation for the search suggestion service
 
 ### How It Works
 
