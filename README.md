@@ -53,84 +53,78 @@ npm run build
 browser-os/
 ├── src/
 │   ├── app/
-│   │   ├── components/         # Angular components
-│   │   │   ├── app-bar/       # Application bar component
-│   │   │   ├── app-nav/       # Navigation component
-│   │   │   ├── app-search/    # Search functionality
-│   │   │   ├── app-webview/   # Web view component
-│   │   │   ├── home/          # Home page component
-│   │   │   ├── title/         # Title management
-│   │   │   └── x-large/       # Large screen layout
-│   │   ├── services/          # Angular services
-│   │   │   ├── browser/       # Browser-specific services
-│   │   │   ├── electron/      # Electron-specific services
-│   │   │   ├── storage/       # Data storage services
-│   │   │   └── utils/         # Utility services
-│   │   ├── models/            # TypeScript interfaces and models
-│   │   │   ├── browser/       # Browser-related models
-│   │   │   ├── electron/      # Electron-related models
-│   │   │   └── shared/        # Shared models
-│   │   ├── store/             # State management
-│   │   │   ├── actions/       # NgRx actions
-│   │   │   ├── effects/       # NgRx effects
-│   │   │   ├── reducers/      # NgRx reducers
-│   │   │   └── selectors/     # NgRx selectors
-│   │   ├── shared/            # Shared utilities
-│   │   │   ├── directives/    # Shared directives
-│   │   │   ├── pipes/         # Shared pipes
-│   │   │   └── guards/        # Route guards
-│   │   ├── app.component.ts   # Root component
-│   │   ├── app.module.ts      # Root module
-│   │   ├── app.routes.ts      # Application routes
-│   │   └── environment.ts     # Environment configuration
-│   ├── electron/              # Electron main process
-│   │   ├── main.ts           # Main process entry
-│   │   ├── preload.ts        # Preload script
-│   │   ├── ipc/              # IPC handlers
-│   │   │   ├── browser/      # Browser IPC handlers
-│   │   │   ├── system/       # System IPC handlers
-│   │   │   └── window/       # Window IPC handlers
-│   │   └── utils/            # Electron utilities
-│   ├── assets/               # Static assets
-│   │   ├── icons/           # Application icons
-│   │   ├── images/          # Image assets
-│   │   ├── styles/          # Global styles
-│   │   └── themes/          # Theme assets
-│   ├── environments/        # Environment configurations
-│   │   ├── environment.ts   # Default environment
-│   │   ├── environment.dev.ts # Development environment
-│   │   └── environment.prod.ts # Production environment
-│   ├── index.html           # Main HTML file
-│   ├── main.ts              # Application entry point
-│   ├── polyfills.ts         # Polyfills
-│   └── styles.scss          # Global styles
-├── Architect/               # Architecture documentation
-│   ├── Home.md             # Home component documentation
-│   ├── AppBar.md           # AppBar component documentation
-│   ├── AppNav.md           # AppNav component documentation
-│   ├── AppSearch.md        # AppSearch component documentation
-│   ├── AppWebview.md       # AppWebview component documentation
-│   ├── Title.md            # Title component documentation
-│   ├── XLarge.md           # XLarge component documentation
-│   └── Models.md           # Data models documentation
-├── tests/                  # Test files
-│   ├── unit/              # Unit tests
-│   ├── e2e/               # End-to-end tests
-│   └── integration/       # Integration tests
-├── .angular/              # Angular cache
-├── .electron/             # Electron build output
-├── .vscode/              # VS Code configuration
-├── node_modules/         # Dependencies
-├── angular.json         # Angular configuration
-├── electron-builder.json # Electron builder configuration
-├── package.json         # Project dependencies and scripts
-├── tsconfig.json        # TypeScript configuration
-├── tsconfig.app.json    # App-specific TypeScript config
-├── tsconfig.spec.json   # Test-specific TypeScript config
-└── README.md            # Project documentation
+│   │   ├── actions/            # Redux actions
+│   │   │   ├── browser/       # Browser-related actions
+│   │   │   ├── electron/      # Electron-related actions
+│   │   │   └── shared/        # Shared actions
+│   │   ├── effects/           # Redux effects
+│   │   │   ├── browser/       # Browser-related effects
+│   │   │   ├── electron/      # Electron-specific effects
+│   │   │   └── shared/        # Shared effects
+│   │   ├── components/        # Angular components
+│   │   │   ├── app-bar/      # Application bar component
+│   │   │   ├── app-nav/      # Navigation component
+│   │   │   ├── app-search/   # Search functionality
+│   │   │   ├── app-webview/  # Web view component
+│   │   │   ├── home/         # Home page component
+│   │   │   ├── title/        # Title management
+│   │   │   └── x-large/      # Large screen layout
+│   │   ├── home/             # Home module
+│   │   │   ├── app-nav/      # Navigation component
+│   │   │   └── app-search/   # Search component
+│   │   ├── no-content/       # 404 page component
+│   │   ├── services/         # Angular services
+│   │   │   ├── browser/      # Browser-specific services
+│   │   │   ├── electron/     # Electron-specific services
+│   │   │   └── utils/        # Utility services
+│   │   ├── app.component.ts  # Root component
+│   │   ├── app.module.ts     # Root module
+│   │   ├── app.routes.ts     # Application routes
+│   │   └── environment.ts    # Environment configuration
+│   ├── electron/             # Electron main process
+│   │   ├── dev-extensions.ts # Development tools setup
+│   │   ├── index.ts         # Main Electron process
+│   │   └── webview.directive.ts # WebView component
+│   ├── assets/              # Static assets
+│   │   ├── icons/          # Application icons
+│   │   ├── images/         # Image assets
+│   │   └── styles/         # Global styles
+│   ├── styles/             # Global styles
+│   ├── resources/          # Application resources
+│   ├── meta/               # Meta files
+│   ├── index.html          # Main HTML file
+│   ├── main.browser.ts     # Browser entry point
+│   ├── main.electron.ts    # Electron entry point
+│   ├── polyfills.browser.ts # Browser polyfills
+│   └── vendor.browser.ts   # Vendor dependencies
+├── Architect/              # Architecture documentation
+│   ├── Home.md            # Home component documentation
+│   ├── AppBar.md          # AppBar component documentation
+│   ├── AppNav.md          # AppNav component documentation
+│   ├── AppSearch.md       # AppSearch component documentation
+│   ├── AppWebview.md      # AppWebview component documentation
+│   ├── Title.md           # Title component documentation
+│   ├── XLarge.md          # XLarge component documentation
+│   └── Models.md          # Data models documentation
+└── tests/                 # Test files
+    ├── unit/             # Unit tests
+    ├── e2e/              # End-to-end tests
+    └── integration/      # Integration tests
 ```
 
 ### Key Directories Explained
+
+#### `src/app/actions/`
+Redux actions for state management:
+- `browser/`: Browser-related actions
+- `electron/`: Electron-specific actions
+- `shared/`: Common actions
+
+#### `src/app/effects/`
+Redux effects for handling side effects:
+- `browser/`: Browser-related effects
+- `electron/`: Electron-specific effects
+- `shared/`: Common effects
 
 #### `src/app/components/`
 Contains all Angular components organized by feature:
@@ -142,39 +136,37 @@ Contains all Angular components organized by feature:
 - `title/`: Window and tab title management
 - `x-large/`: Large screen layout handling
 
+#### `src/app/home/`
+Home module components:
+- `app-nav/`: Navigation component specific to home
+- `app-search/`: Search component specific to home
+
 #### `src/app/services/`
 Core services that handle business logic:
 - `browser/`: Browser-specific functionality
 - `electron/`: Electron integration services
-- `storage/`: Data persistence and caching
 - `utils/`: Shared utility functions
-
-#### `src/app/models/`
-TypeScript interfaces and type definitions:
-- `browser/`: Browser-related data models
-- `electron/`: Electron-specific models
-- `shared/`: Common model definitions
-
-#### `src/app/store/`
-NgRx state management:
-- `actions/`: State change actions
-- `effects/`: Side effect handlers
-- `reducers/`: State update logic
-- `selectors/`: State query functions
 
 #### `src/electron/`
 Electron main process code:
-- `main.ts`: Main process entry point
-- `preload.ts`: Preload script for security
-- `ipc/`: Inter-process communication handlers
-- `utils/`: Electron-specific utilities
+- `dev-extensions.ts`: Development tools setup
+- `index.ts`: Main process entry point
+- `webview.directive.ts`: WebView component
 
 #### `src/assets/`
 Static application resources:
 - `icons/`: Application icons
 - `images/`: Image assets
 - `styles/`: Global styles
-- `themes/`: Theme-related assets
+
+#### `src/styles/`
+Global styles and theme definitions
+
+#### `src/resources/`
+Application resources and configurations
+
+#### `src/meta/`
+Meta files and configurations
 
 #### `Architect/`
 Comprehensive documentation:
