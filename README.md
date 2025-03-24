@@ -195,73 +195,20 @@ The Browser OS architecture is well-documented in the `Architect` folder. Here's
 
 ### How It Works
 
-The Browser OS is built using a modern tech stack with a focus on performance, security, and extensibility:
+For a detailed explanation of how Browser OS works, including its architecture, components, and technical implementation, please see our comprehensive [How It Works](docs/HOW-IT-WORKS.md) documentation.
 
-1. **Frontend Framework**: Angular
-   - Component-based architecture for modular development
-   - TypeScript for enhanced type safety and developer experience
-   - RxJS for reactive programming and event handling
-   - NgRx for predictable state management
-   - Lazy loading for optimized performance
-   - Custom components for browser-specific functionality
+Here's a quick overview of the main components:
 
+1. **Frontend Framework**: Angular with TypeScript
 2. **Desktop Framework**: Electron
-   - Cross-platform desktop capabilities
-   - Native system integration via IPC
-   - Secure sandboxed processes
-   - Custom window management
-   - DevTools integration
-   - Platform-specific optimizations
-   - See [Electron Architecture](Architect/ElectronArchitecture.md) for details
+3. **State Management**: NgRx
+4. **Development Tools**: Integrated debugging and monitoring
+5. **Data Models**: Strongly typed interfaces
+6. **Security**: Sandboxed processes and secure communication
+7. **Performance**: Optimized for speed and efficiency
+8. **Testing**: Comprehensive testing strategy
 
-3. **State Management**
-   - NgRx for centralized state management
-   - Action-based state modifications
-   - Effect-driven side effects
-   - Selector-based data access
-   - State persistence
-   - Time-travel debugging support
-   - See [Actions](Architect/Actions.md) and [Effects](Architect/Effects.md) for details
-
-4. **Development Tools**
-   - Integrated debugging tools
-   - Performance monitoring
-   - State inspection
-   - Hot reload support
-   - Extension development support
-   - Testing utilities
-   - See [Development Tools](Architect/DevelopmentTools.md) for details
-
-5. **Data Models**
-   - Strongly typed interfaces
-   - Comprehensive validation
-   - Serialization/deserialization
-   - Type guards for runtime safety
-   - See [Models](Architect/Models.md) for details
-
-6. **Security**
-   - Sandboxed processes
-   - Secure IPC communication
-   - Content security policies
-   - Input validation
-   - Safe file system access
-   - Extension sandboxing
-
-7. **Performance**
-   - Lazy loading
-   - Code splitting
-   - Virtual scrolling
-   - Memory management
-   - Process optimization
-   - Resource caching
-
-8. **Testing Strategy**
-   - Unit testing with Jasmine
-   - E2E testing with Cypress
-   - Integration testing
-   - Performance testing
-   - Security testing
-   - Continuous integration
+For detailed documentation of specific components, see the [Architecture Documentation](Architect/).
 
 ## Development
 
