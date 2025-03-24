@@ -54,13 +54,10 @@ browser-os/
 ├── src/
 │   ├── app/
 │   │   ├── actions/            # Redux actions
-│   │   │   ├── browser/       # Browser-related actions
-│   │   │   ├── electron/      # Electron-related actions
-│   │   │   └── shared/        # Shared actions
+│   │   │   ├── app.actions.ts  # Core application actions
+│   │   │   └── history.actions.ts # History management actions
 │   │   ├── effects/           # Redux effects
-│   │   │   ├── browser/       # Browser-related effects
-│   │   │   ├── electron/      # Electron-specific effects
-│   │   │   └── shared/        # Shared effects
+│   │   │   └── app.ts         # Core application effects
 │   │   ├── components/        # Angular components
 │   │   │   ├── app-bar/      # Application bar component
 │   │   │   ├── app-nav/      # Navigation component
@@ -74,9 +71,7 @@ browser-os/
 │   │   │   └── app-search/   # Search component
 │   │   ├── no-content/       # 404 page component
 │   │   ├── services/         # Angular services
-│   │   │   ├── browser/      # Browser-specific services
-│   │   │   ├── electron/     # Electron-specific services
-│   │   │   └── utils/        # Utility services
+│   │   │   └── google-suggestion.service.ts # Search suggestions service
 │   │   ├── app.component.ts  # Root component
 │   │   ├── app.module.ts     # Root module
 │   │   ├── app.routes.ts     # Application routes
@@ -116,9 +111,8 @@ browser-os/
 
 #### `src/app/actions/`
 Redux actions for state management:
-- `browser/`: Browser-related actions
-- `electron/`: Electron-specific actions
-- `shared/`: Common actions
+- `app.actions.ts`: Core application actions
+- `history.actions.ts`: Browser history management actions
 
 #### `src/app/effects/`
 Redux effects for handling side effects:
@@ -143,9 +137,7 @@ Home module components:
 
 #### `src/app/services/`
 Core services that handle business logic:
-- `browser/`: Browser-specific functionality
-- `electron/`: Electron integration services
-- `utils/`: Shared utility functions
+- `google-suggestion.service.ts`: Google search suggestions integration
 
 #### `src/electron/`
 Electron main process code:
