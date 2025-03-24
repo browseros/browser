@@ -1,0 +1,170 @@
+import { app, BrowserWindow, ipcMain } from 'electron';
+import * as path from 'path';
+import * as isDev from 'electron-is-dev';
+
+let mainWindow: BrowserWindow | null = null;
+
+function log(...args: any[]) {
+  const timestamp = new Date().toISOString();
+  console.log(`[Electron ${timestamp}]`, ...args);
+}
+
+async function createWindow() {
+  log('Creating main window');
+  log('App paths:', {
+    exe: app.getPath('exe'),
+    userData: app.getPath('userData'),
+    appData: app.getPath('appData'),
+    desktop: app.getPath('desktop'),
+    temp: app.getPath('temp')
+  });
+
+  // Create the browser window.
+  mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      webSecurity: false, // Only for development
+      devTools: true
+    }
+  });
+
+  log('Main window created with ID:', mainWindow.id);
+
+  // Enable remote debugging if in dev mode
+  if (isDev) {
+    try {
+      log('Development mode detected');
+      log('Node version:', process.versions.node);
+      log('Chrome version:', process.versions.chrome);
+      log('Electron version:', process.versions.electron);
+      
+      mainWindow.webContents.openDevTools();
+      
+      const devServerUrl = 'http://localhost:4200';
+      log('Attempting to load dev server at:', devServerUrl);
+      
+      // Log all window events
+      mainWindow.webContents.on('did-start-loading', () => {
+        log('Page started loading');
+        log('Current URL:', mainWindow?.webContents.getURL());
+      });
+
+      mainWindow.webContents.on('did-stop-loading', () => {
+        log('Page stopped loading');
+        log('Final URL:', mainWindow?.webContents.getURL());
+      });
+
+      mainWindow.webContents.on('did-finish-load', () => {
+        log('Page finished loading');
+        log('Document title:', mainWindow?.webContents.getTitle());
+      });
+
+      mainWindow.webContents.on('did-fail-load', (event, code, desc, validatedURL) => {
+        log('Failed to load:', {
+          errorCode: code,
+          errorDescription: desc,
+          url: validatedURL
+        });
+      });
+
+      mainWindow.webContents.on('dom-ready', () => {
+        log('DOM is ready');
+        mainWindow?.webContents.executeJavaScript(`
+          console.log('[Electron Injected] Window location:', window.location.href);
+          console.log('[Electron Injected] Document readyState:', document.readyState);
+        `);
+      });
+
+      mainWindow.webContents.on('console-message', (event, level, message, line, sourceId) => {
+        log('Renderer Console:', {
+          level,
+          message,
+          line,
+          sourceId
+        });
+      });
+
+      // Add error handling
+      mainWindow.webContents.on('crashed', (event, killed) => {
+        log('Renderer process crashed:', { killed });
+      });
+
+      mainWindow.on('unresponsive', () => {
+        log('Window became unresponsive');
+      });
+
+      mainWindow.on('responsive', () => {
+        log('Window became responsive');
+      });
+
+      await mainWindow.loadURL(devServerUrl);
+      log('Dev server loaded successfully');
+    } catch (error) {
+      log('Failed to load dev server:', error);
+      // Fallback to local file
+      const fallbackPath = path.join(__dirname, '../index.html');
+      log('Attempting to load fallback file:', fallbackPath);
+      await mainWindow.loadFile(fallbackPath);
+    }
+  } else {
+    const prodPath = path.join(__dirname, '../browser-os/index.html');
+    log('Production mode, loading:', prodPath);
+    await mainWindow.loadFile(prodPath);
+  }
+
+  // Handle window closing
+  mainWindow.on('closed', () => {
+    log('Window closed');
+    mainWindow = null;
+  });
+}
+
+// App lifecycle events
+app.on('ready', () => {
+  log('App is ready');
+  log('Command line args:', process.argv);
+});
+
+app.on('window-all-closed', () => {
+  log('All windows closed');
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
+app.on('before-quit', () => log('App is preparing to quit'));
+app.on('will-quit', () => log('App is about to quit'));
+app.on('quit', (event, exitCode) => log('App has quit with code:', exitCode));
+
+// Error handling
+process.on('uncaughtException', (error) => {
+  log('Uncaught exception:', error);
+  log('Stack trace:', error.stack);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  log('Unhandled rejection at:', promise);
+  log('Reason:', reason);
+});
+
+// Initialize app
+app.whenReady().then(() => {
+  log('App initialization starting');
+  return createWindow();
+}).catch(error => {
+  log('Failed to create window:', error);
+  log('Stack trace:', error.stack);
+});
+
+app.on('activate', () => {
+  log('App activated');
+  if (mainWindow === null) {
+    createWindow().catch(error => {
+      log('Failed to create window on activate:', error);
+      log('Stack trace:', error.stack);
+    });
+  }
+}); 
