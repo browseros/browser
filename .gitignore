@@ -74,3 +74,4 @@ packages/
 *.css.shim.ts
 *.ngsummary.json
 *.shim.ngstyle.ts
+.angular
