@@ -22,6 +22,11 @@ export class AppBarComponent {
     @Output() public onBtnAppAction: EventEmitter<any> = new EventEmitter<any>();
     @Output() public onAppBarDoubleClick: EventEmitter<any> = new EventEmitter<any>();
 
+    @Output() public onSearch = new EventEmitter<any>();
+    @Output() public gotoApp = new EventEmitter<IApp>();
+    @Output() public onAppContextMenu = new EventEmitter<IApp>();
+    @Output() public closeApp = new EventEmitter<IApp>();
+
     public getHost(app: IApp): string {
         return this.app2Hosts[app.id] || '';
     }

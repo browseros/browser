@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import type { IWebEvent } from '../../models/web-event.model';
 import type { ITab } from '../../models/tab.model';
 import type { IApp } from '../../models/app.model';
@@ -25,9 +25,12 @@ export class AppSearchComponent implements OnInit, OnDestroy {
     @Output() onSearch = new EventEmitter<any>();
     @Output() onSearchReplacing = new EventEmitter<any>();
 
+    @ViewChild('searchInput') searchInput!: ElementRef;
+
     public appSearch: string = '';
     public historiesSearched: IHistoryItem[] = [];
     public currentSelectedSearchItem: number = 0;
+    public isVisible: boolean = false;
 
     constructor(private store: Store<fromRoot.State>) {}
 
@@ -39,15 +42,17 @@ export class AppSearchComponent implements OnInit, OnDestroy {
         this.store.dispatch(new appActions.ClearSuggestionsAction());
         this.appSearch = '';
         this.historiesSearched = [];
-        $('#app-search')['modal']('show');
-        $('#app-search').on('shown.bs.modal', () => {
-            $('#app-search-input').focus();
-            $('#app-search-input').select();
+        this.isVisible = true;
+        setTimeout(() => {
+            if (this.searchInput) {
+                this.searchInput.nativeElement.focus();
+                this.searchInput.nativeElement.select();
+            }
         });
     }
 
     public hide(): void {
-        $('#app-search')['modal']('hide');
+        this.isVisible = false;
     }
 
     public onSearchChanged() {

@@ -1,24 +1,41 @@
-<div class='bar' style="-webkit-app-region: drag" (dblclick)='onAppBarDoubleClick.emit($event)'>
-    <span class="bar-icon">
-        <img src='assets/img/no_than.png' width="20px" height="20px" />
-    </span>
-    <span *ngIf='apps && currentApp'>
-        <div *ngFor='let app of apps' class='app-on-tab' [title]="getHost(app)" (mouseup)='onMouseUp($event, app)' (contextmenu)='onContextMenu.emit(app)'
-            (click)="onAppSelect.emit(app)" [style.backgroundColor]='app.id == currentApp.id ? "#337ab7": "#ffffff"' 
-            [style.width]='getTabWidth()'
-            [style.color]='app.id == currentApp.id ? "#fff": "#000"'>
-            <i class="glyphicon glyphicon-remove pull-left" style="margin-top: 2px; color: lightgray;" (click)='onAppClose.emit(app)'></i>
-            <img [src]='app.icon' style="max-width: 20px; max-height: 20px; margin-top: -1px;" /> {{getHost(app)}}
+<div class="app-bar">
+    <div class="app-bar-left">
+        <div class="app-logo">
+            <img src="assets/logo.png" alt="Browser OS" class="logo-img"/>
         </div>
-    </span>
-    <a class="pull-right bar-app-action" (click)="onBtnAppAction.emit($event)">
-        <i class='glyphicon glyphicon-option-vertical'></i>
-    </a>
-    <input class='form-control pull-right input-sm' type='text' style="width: 300px; margin-top: 2px; margin-right: 2px; height: 25px;"
-        (click)="onEnteredSearchBox.emit(currentTab ? currentTab.url: '')" [value]='currentTab ? currentTab.url: ""' placeholder="Search URL or App"
-    />
-    <button class="btn btn-default btn-sm pull-right" (click)="onBtnAddApp.emit($event)" style="margin-top: 2px; height: 25px; padding-top: 3px;">
-        +
-    </button>
+        <div class="app-actions">
+            <button class="action-button" (click)="onBtnAppAction.emit()">
+                <i class="bi bi-plus-lg"></i>
+            </button>
+        </div>
+    </div>
+    
+    <div class="app-bar-center">
+        <div class="search-container">
+            <i class="bi bi-search search-icon"></i>
+            <input type="text" 
+                   class="search-input" 
+                   placeholder="Search URL or App"
+                   (click)="onSearch.emit($event)"/>
+        </div>
+    </div>
+
+    <div class="app-bar-right">
+        <div class="app-list">
+            <div *ngFor="let app of apps" 
+                 [class.active]="currentApp?.id === app.id"
+                 class="app-item"
+                 (click)="gotoApp.emit(app)"
+                 (contextmenu)="onAppContextMenu.emit(app)"
+                 (dblclick)="onAppBarDoubleClick.emit($event)">
+                <img [src]="app.icon" *ngIf="app.icon" class="app-icon" alt=""/>
+                <span class="app-title">{{app.title}}</span>
+                <button class="app-close" 
+                        (click)="$event.stopPropagation(); closeApp.emit(app)"
+                        title="Close app">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="clearfix"></div>
