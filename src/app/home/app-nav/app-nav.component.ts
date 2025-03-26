@@ -6,72 +6,8 @@ import type { IWebEvent } from '../../models/web-event.model';
 
 @Component({
     selector: 'app-nav',
-    template: `
-        <nav class="navbar navbar-expand-lg navbar-light bg-light navs">
-            <div class="container-fluid">
-                <div class="navbar-nav">
-                    <button class="btn btn-sm btn-outline-secondary me-2" (click)="onBackClick.emit()">
-                        <i class="bi bi-arrow-left"></i>
-                    </button>
-                    <button class="btn btn-sm btn-outline-secondary me-2" (click)="onNextClick.emit()">
-                        <i class="bi bi-arrow-right"></i>
-                    </button>
-                    <button class="btn btn-sm btn-outline-secondary me-2" (click)="onReloadClick.emit()">
-                        <i class="bi bi-arrow-clockwise"></i>
-                    </button>
-                </div>
-                <div class="tab-container">
-                    <div *ngFor="let tab of tabs" 
-                         [class.active]="currentTab.id === tab.id"
-                         class="tab-on-nav" 
-                         (click)="onGotoTab.emit(tab)"
-                         (contextmenu)="onContextMenu.emit(tab)">
-                        <img [src]="tab.icon" width="16" height="16" *ngIf="tab.icon"/>
-                        <span>{{tab.title || 'New Tab'}}</span>
-                        <button class="btn-close btn-close-sm" 
-                                (click)="$event.stopPropagation(); onCloseTab.emit(tab)">
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    `,
-    styles: [`
-        .navs {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #dee2e6;
-            padding: 0.25rem 1rem;
-        }
-        .tab-container {
-            display: flex;
-            overflow-x: auto;
-            flex-grow: 1;
-            margin: 0 1rem;
-        }
-        .tab-on-nav {
-            padding: 0.25rem 0.5rem;
-            margin: 0 0.25rem;
-            border: 1px solid #dee2e6;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            min-width: 100px;
-            max-width: 200px;
-        }
-        .tab-on-nav.active {
-            background-color: #e9ecef;
-        }
-        .tab-on-nav img {
-            flex-shrink: 0;
-        }
-        .tab-on-nav span {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-    `]
+    templateUrl: './app-nav.component.html',
+    styleUrls: ['./app-nav.component.scss']
 })
 export class AppNavComponent implements OnInit, OnDestroy {
     @Input() currentApp: IApp = { id: 0, title: '', url: '', icon: '' };
@@ -128,13 +64,12 @@ export class AppNavComponent implements OnInit, OnDestroy {
     private doSearch(link: string): void {
         const currentTab = JSON.parse(JSON.stringify(this.currentTab));
         const currentApp = JSON.parse(JSON.stringify(this.currentApp));
-        const webEvent: IWebEvent = {
+        this.onSearch.emit({
             tabId: currentTab.id,
             eventValue: link,
             app: currentApp,
             eventName: 'urlchanged'
-        };
-        this.onSearch.emit(webEvent);
+        });
     }
 
     private getTabWidth(): string {
