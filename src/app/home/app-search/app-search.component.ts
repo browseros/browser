@@ -116,7 +116,7 @@ export class AppSearchComponent implements OnInit, OnDestroy {
         return Boolean(suggestion && suggestion.indexOf('.') >= 0 && suggestion.indexOf(' ') < 0);
     }
 
-    public keyUp(event: KeyboardEvent) {
+    public keyUp(event: any) {
         event.preventDefault();
         console.log(event);
         if (event.code === 'ArrowDown') {
@@ -145,7 +145,7 @@ export class AppSearchComponent implements OnInit, OnDestroy {
         this.currentSelectedSearchItem = -1;
     }
 
-    private onUp(event: KeyboardEvent): void {
+    private onUp(event: any): void {
         if (this.currentSelectedSearchItem <= -1) {
             this.currentSelectedSearchItem = -1;
             return;
@@ -153,7 +153,7 @@ export class AppSearchComponent implements OnInit, OnDestroy {
         this.currentSelectedSearchItem--;
     }
 
-    private onDown(event: KeyboardEvent): void {
+    private onDown(event: any): void {
         if (this.currentSelectedSearchItem >= 4) {
             this.currentSelectedSearchItem = 0;
             return;

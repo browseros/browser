@@ -16,13 +16,13 @@ export class AppWebviewComponent implements AfterViewInit {
     @Input() public screenHeight: number = 0;
     @Input() public screenWidth: number = 0;
 
-    @Output() public onClicked = new EventEmitter<MouseEvent>();
-    @Output() public onContextMenu = new EventEmitter<MouseEvent>();
+    @Output() public onClicked = new EventEmitter<any>();
+    @Output() public onContextMenu = new EventEmitter<any>();
     @Output() public onDomReady = new EventEmitter<IWebEvent>();
     @Output() public onNewUrl = new EventEmitter<IWebEvent>();
     @Output() public onTitleChanged = new EventEmitter<IWebEvent>();
     @Output() public onIconChanged = new EventEmitter<IWebEvent>();
-    @Output() public onUrlChanged = new EventEmitter<string>();
+    @Output() public onUrlChanged = new EventEmitter<any>();
 
     ngAfterViewInit() {
         // Implementation

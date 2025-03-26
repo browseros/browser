@@ -71,56 +71,56 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Handle app bar double click
   }
 
-  onNextClick(app: IApp) {
-    this.store.dispatch(new appActions.DoNextAction(app));
+  onNextClick(event: any): void {
+    this.store.dispatch(new appActions.DoNextAction({ id: 0, title: '', url: '', icon: '' }));
   }
 
-  onBackClick(app: IApp) {
-    this.store.dispatch(new appActions.DoBackAction(app));
+  onBackClick(event: any): void {
+    this.store.dispatch(new appActions.DoBackAction({ id: 0, title: '', url: '', icon: '' }));
   }
 
-  onGotoTab(tab: ITab) {
-    this.store.dispatch(new appActions.GotoTabAction(tab));
+  onGotoTab(event: any): void {
+    this.store.dispatch(new appActions.GotoTabAction(event));
   }
 
   doSearchReplacing(event: any) {
     // Handle search replacing
   }
 
-  onTabContextMenu(event: any) {
-    // Handle tab context menu
+  onTabContextMenu(event: any): void {
+    console.log('Tab context menu:', event);
   }
 
-  onReloadClick(event: any) {
+  onReloadClick(event: any): void {
     this.store.dispatch(new appActions.DoReloadAction({ id: 0, title: '', url: '', icon: '' }));
   }
 
-  onCloseTab(tab: ITab) {
-    this.store.dispatch(new appActions.CloseTabAction(tab));
+  onCloseTab(event: any): void {
+    this.store.dispatch(new appActions.CloseTabAction(event));
   }
 
-  onNewUrl(event: IWebEvent) {
+  onNewUrl(event: any): void {
     this.store.dispatch(new appActions.ChangeTabUrlAction(event));
   }
 
-  onTitleChanged(event: IWebEvent) {
+  onTitleChanged(event: any): void {
     this.store.dispatch(new appActions.ChangeTabTitleAction(event));
   }
 
-  onIconChanged(event: IWebEvent) {
+  onIconChanged(event: any): void {
     this.store.dispatch(new appActions.ChangeTabIconAction(event));
   }
 
-  onUrlChanged(event: IWebEvent) {
+  onUrlChanged(event: any): void {
     this.store.dispatch(new appActions.ChangeTabUrlAction(event));
   }
 
-  onDomReady(event: IWebEvent) {
+  onDomReady(event: any): void {
     this.store.dispatch(new appActions.DomReadyAction(event));
   }
 
-  onClicked(event: any) {
-    // Handle click event
+  onClicked(event: any): void {
+    console.log('Clicked:', event);
   }
 
   onContextMenu(event: any) {
