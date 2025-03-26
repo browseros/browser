@@ -166,6 +166,7 @@ export class AppSearchComponent implements OnInit, OnDestroy {
     }
 
     public selectHistoryItem(item: IHistoryItem) {
-        // Implementation for selectHistoryItem method
+        this.doGoogleSearch(item.link);
+        this.hide();
     }
 }

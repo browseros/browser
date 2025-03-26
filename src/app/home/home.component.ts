@@ -2,12 +2,13 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener } fro
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { IApp } from '../models/app.model';
-import { ITab } from '../models/tab.model';
-import { IWebEvent } from '../models/web-event.model';
-import { IHistoryItem } from '../models/history-item.model';
-import * as fromApp from '../reducers/app';
+import type { IApp } from '../models/app.model';
+import type { ITab } from '../models/tab.model';
+import type { IHistoryItem } from '../models/history-item.model';
+import type { IWebEvent } from '../models/web-event.model';
+import * as fromRoot from '../reducers';
 import * as appActions from '../actions/app.actions';
+import * as historyActions from '../actions/history.actions';
 import { AppSearchComponent } from './app-search/app-search.component';
 
 @Component({
@@ -18,21 +19,20 @@ import { AppSearchComponent } from './app-search/app-search.component';
 export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('appSearch') appSearch!: AppSearchComponent;
 
-  eventApps: Observable<IApp[]> = this.store.select(fromApp.getApps);
-  eventCurrentApp: Observable<IApp | null> = this.store.select(fromApp.getCurrentApp);
-  eventCurrentTab: Observable<ITab | null> = this.store.select(fromApp.getCurrentTab);
-  eventTabs: Observable<ITab[]> = this.store.select(fromApp.getTabs);
-  histories: Observable<IHistoryItem[]> = this.store.select(fromApp.getHistories);
-  suggestions: Observable<any[] | null> = this.store.select(fromApp.getSuggestions);
-  topApps: Observable<IHistoryItem[]> = this.store.select(fromApp.getTopApps);
-  tabIds: Observable<number[]> = this.store.select(fromApp.getTabIds);
-  app2Hosts: Observable<{[key: number]: string}> = this.store.select(fromApp.getApp2Hosts);
+  eventApps: Observable<IApp[]> = this.store.select(fromRoot.getEventApps);
+  eventTabs: Observable<ITab[]> = this.store.select(fromRoot.getEventTabs);
+  eventCurrentApp: Observable<IApp | null> = this.store.select(fromRoot.getEventCurrentApp);
+  eventCurrentTab: Observable<ITab | null> = this.store.select(fromRoot.getEventCurrentTab);
+  app2Hosts: Observable<{ [id: number]: string }> = this.store.select(fromRoot.getApp2Hosts);
+  tabIds: Observable<number[]> = this.store.select(fromRoot.getTabIds);
+  histories: Observable<IHistoryItem[]> = this.store.select(fromRoot.getHistories);
+  topApps: Observable<IHistoryItem[]> = this.store.select(fromRoot.getTopApps);
   screenWidth: number = window.innerWidth;
   screenHeight: number = window.innerHeight;
 
   constructor(
     private router: Router,
-    private store: Store<fromApp.State>
+    private store: Store<fromRoot.State>
   ) {
     console.log('[HomeComponent] Constructor called');
   }
@@ -51,22 +51,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.screenHeight = window.innerHeight;
   }
 
-  gotoApp(appId: number) {
-    const app = this.store.select(fromApp.getApps).subscribe(apps => {
-      const targetApp = apps.find(a => a.id === appId);
-      if (targetApp) {
-        this.store.dispatch(new appActions.GotoAppAction(targetApp));
-      }
-    });
+  gotoApp(app: IApp) {
+    this.store.dispatch(new appActions.GotoAppAction(app));
   }
 
-  closeApp(appId: number) {
-    const app = this.store.select(fromApp.getApps).subscribe(apps => {
-      const targetApp = apps.find(a => a.id === appId);
-      if (targetApp) {
-        this.store.dispatch(new appActions.CloseAppAction(targetApp));
-      }
-    });
+  closeApp(app: IApp) {
+    this.store.dispatch(new appActions.CloseAppAction(app));
   }
 
   onAppContextMenu(event: any) {
@@ -81,21 +71,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Handle app bar double click
   }
 
-  onNextClick(event: any) {
-    this.store.dispatch(new appActions.DoNextAction({ id: 0, title: '', url: '', icon: '' }));
+  onNextClick(app: IApp) {
+    this.store.dispatch(new appActions.DoNextAction(app));
   }
 
-  onBackClick(event: any) {
-    this.store.dispatch(new appActions.DoBackAction({ id: 0, title: '', url: '', icon: '' }));
+  onBackClick(app: IApp) {
+    this.store.dispatch(new appActions.DoBackAction(app));
   }
 
-  onGotoTab(tabId: number) {
-    const tab = this.store.select(fromApp.getTabs).subscribe(tabs => {
-      const targetTab = tabs.find(t => t.id === tabId);
-      if (targetTab) {
-        this.store.dispatch(new appActions.GotoTabAction(targetTab));
-      }
-    });
+  onGotoTab(tab: ITab) {
+    this.store.dispatch(new appActions.GotoTabAction(tab));
   }
 
   doSearchReplacing(event: any) {
@@ -110,13 +95,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new appActions.DoReloadAction({ id: 0, title: '', url: '', icon: '' }));
   }
 
-  onCloseTab(tabId: number) {
-    const tab = this.store.select(fromApp.getTabs).subscribe(tabs => {
-      const targetTab = tabs.find(t => t.id === tabId);
-      if (targetTab) {
-        this.store.dispatch(new appActions.CloseTabAction(targetTab));
-      }
-    });
+  onCloseTab(tab: ITab) {
+    this.store.dispatch(new appActions.CloseTabAction(tab));
   }
 
   onNewUrl(event: IWebEvent) {

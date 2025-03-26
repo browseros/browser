@@ -6,6 +6,7 @@ import { AppBarComponent } from './app-bar/app-bar.component';
 import { AppNavComponent } from './app-nav/app-nav.component';
 import { AppWebviewComponent } from './app-webview/app-webview.component';
 import { AppSearchComponent } from './app-search/app-search.component';
+import { WebViewComponent } from './web-view/web-view.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { AppSearchComponent } from './app-search/app-search.component';
     AppBarComponent,
     AppNavComponent,
     AppWebviewComponent,
-    AppSearchComponent
+    AppSearchComponent,
+    WebViewComponent
   ],
   imports: [
     CommonModule,
