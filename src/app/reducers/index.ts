@@ -1,34 +1,33 @@
-import { ActionReducer } from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, combineReducers } from '@ngrx/store';
 import { createSelector } from 'reselect';
-import * as fromRouter from '@ngrx/router-store';
-
-import { compose } from '@ngrx/core/compose';
-
 import { storeFreeze } from 'ngrx-store-freeze';
-
-import { combineReducers } from '@ngrx/store';
-
 import * as fromApp from './app';
 import * as fromHistory from './history';
+import * as appActions from '../actions/app.actions';
+import * as historyActions from '../actions/history.actions';
 
 export interface State {
   event: fromApp.State;
   history: fromHistory.State;
 }
 
-const reducers = {
-  event: fromApp.reducer,
-  history: fromHistory.reducer
+type AppAction = appActions.Actions;
+type HistoryAction = historyActions.Actions;
+type AllActions = AppAction | HistoryAction;
+
+export const reducers: ActionReducerMap<State, AllActions> = {
+  event: fromApp.reducer as ActionReducer<fromApp.State, AllActions>,
+  history: fromHistory.reducer as ActionReducer<fromHistory.State, AllActions>
 };
 
-const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
-const productionReducer: ActionReducer<State> = combineReducers(reducers);
+const developmentReducer: ActionReducer<State, AllActions> = combineReducers(reducers);
+const productionReducer: ActionReducer<State, AllActions> = combineReducers(reducers);
 
-export function reducer(state: any, action: any) {
-  if (ENV !== 'development') {
+export function reducer(state: State | undefined, action: AllActions) {
+  if (process.env['NODE_ENV'] === 'production') {
     return productionReducer(state, action);
   } else {
-    return developmentReducer(state, action);
+    return storeFreeze(developmentReducer)(state, action);
   }
 }
 

@@ -15,6 +15,8 @@ import { HomeComponent } from './home/home.component';
 import { NoContentComponent } from './no-content/no-content.component';
 import { environment } from '../environments/environment';
 import { ENV_PROVIDERS } from './environment';
+import { HomeModule } from './home/home.module';
+import { reducers } from './reducers';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { ENV_PROVIDERS } from './environment';
     HttpClientModule,
     RouterModule,
     AppRoutingModule,
-    StoreModule.forRoot({}),
+    HomeModule,
+    StoreModule.forRoot(reducers),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
