@@ -1,12 +1,15 @@
 <div *ngFor='let tabId of tabIds' [style.width]='screenWidth + "px"'>
     <div [hidden]='!currentTab || tabId != currentTab.id' [style.width]='screenWidth + "px"'>
-        <webview
-            [src]='currentTab.url'
-            (dom-ready)='onDomReadyHandler()'
-            (did-navigate)='onNewUrlHandler($event)'
-            (page-title-updated)='onTitleChangedHandler($event)'
-            (page-favicon-updated)='onIconChangedHandler($event)'
-            (did-navigate-in-page)='onUrlChangedHandler($event)'>
-        </webview>
+        <web-view [tabId]='tabId' 
+            [screenHeight]='screenHeight'
+            [screenWidth]='screenWidth'
+            (onDomReady)='onDomReady.emit({eventValue: null, eventName: "domready", tabId: tabId, app: null})'
+            (onNewUrl)='onNewUrl.emit({eventValue: $event, eventName: "newurl", tabId: tabId, app: null})'
+            (onTitleChanged)='onTitleChanged.emit({eventValue: $event, eventName: "titlechanged", tabId: tabId, app: null})'
+            (onIconChanged)='onIconChanged.emit({eventValue: $event, eventName: "iconchanged", tabId: tabId, app: null})'
+            (onUrlChanged)='onUrlChanged.emit({eventValue: $event, eventName: "urlchanged", tabId: tabId, app: null})'
+            (onClicked)='onClicked.emit($event)'
+            (onContextMenu)='onContextMenu.emit($event)'>
+        </web-view>
     </div>
 </div>

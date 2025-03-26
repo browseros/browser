@@ -1,5 +1,5 @@
-import type { IApp } from './app.model';
-import type { ITab } from './tab.model';
+import { ITab } from './tab.model';
+import { IApp } from './app.model';
 
 export interface IWebAction {
     tab: ITab;

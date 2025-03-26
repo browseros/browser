@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -13,25 +13,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { NoContentComponent } from './no-content/no-content.component';
-import { AppBarComponent } from './home/app-bar/app-bar.component';
-import { AppSearchComponent } from './home/app-search/app-search.component';
-import { AppNavComponent } from './home/app-nav/app-nav.component';
-import { AppWebviewComponent } from './home/app-webview/app-webview.component';
 import { environment } from '../environments/environment';
 import { ENV_PROVIDERS } from './environment';
-
-import { reducer } from './reducers';
-import { Actions } from './actions/app.actions';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    NoContentComponent,
-    AppBarComponent,
-    AppSearchComponent,
-    AppNavComponent,
-    AppWebviewComponent
+    NoContentComponent
   ],
   imports: [
     BrowserModule,
@@ -39,19 +28,17 @@ import { Actions } from './actions/app.actions';
     HttpClientModule,
     RouterModule,
     AppRoutingModule,
-    StoreModule.forRoot({ state: reducer as any }),
+    StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
-      logOnly: false,
-      autoPause: true
+      logOnly: environment.production
     })
   ],
   providers: [
     ENV_PROVIDERS
   ],
-  bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+  bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(public appRef: ApplicationRef) {

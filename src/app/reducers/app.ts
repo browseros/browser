@@ -1,10 +1,9 @@
-import { Action } from '@ngrx/store';
-import * as appActions from '../actions/app.actions';
-import type { IApp } from '../models/app.model';
-import type { ITab } from '../models/tab.model';
-import type { IWebAction } from '../models/web-action.model';
+import { IWebAction } from './../models/web-action.model';
+import { IApp } from '../models/app.model';
+import * as app from '../actions/app.actions';
+import { ITab } from '../models/tab.model';
 import { StateHelper } from './helper';
-import type { IHistoryItem } from '../models/history-item.model';
+import { IHistoryItem } from '../models/history-item.model';
 
 export interface State {
     apps: IApp[];
@@ -13,48 +12,49 @@ export interface State {
     app2Hosts: { [id: number]: string };
     tabs: ITab[];
     tabIds: number[];
-    currentApp: IApp;
-    currentTab: ITab;
+    currentApp: IApp | null;
+    currentTab: ITab | null;
     isGoingtoApp: boolean;
     isAddingApp: boolean;
     isAddingTab: boolean;
     isClosingApp: boolean;
-    isNavigatingNext: IWebAction;
-    isNavigatingBack: IWebAction;
-    isNavigatingReload: IWebAction;
-    isChangingUrl: IWebAction;
+    isNavigatingNext: IWebAction | null;
+    isNavigatingBack: IWebAction | null;
+    isNavigatingReload: IWebAction | null;
+    isChangingUrl: IWebAction | null;
     histories: IHistoryItem[];
     historyWithWeights: IHistoryItem[];
-    topApps: IApp[];
-    suggestions: any[];
+    topApps: IHistoryItem[];
+    suggestions: any[] | null;
 }
 
-const initialState: State = {
+export const initialState: State = {
     apps: [],
     currentTabs: {},
     host2Apps: {},
     app2Hosts: {},
     tabs: [],
     tabIds: [],
-    currentApp: {} as IApp,
-    currentTab: {} as ITab,
+    currentApp: null,
+    currentTab: null,
     isGoingtoApp: false,
     isAddingApp: false,
     isAddingTab: false,
     isClosingApp: false,
-    isNavigatingNext: {} as IWebAction,
-    isNavigatingBack: {} as IWebAction,
-    isNavigatingReload: {} as IWebAction,
-    isChangingUrl: {} as IWebAction,
+    isNavigatingNext: null,
+    isNavigatingBack: null,
+    isNavigatingReload: null,
+    isChangingUrl: null,
     histories: [],
     historyWithWeights: [],
     topApps: [],
-    suggestions: []
+    suggestions: null
 };
 
-export function reducer(state: State = initialState, action: appActions.Actions): State {
+export function reducer(state = initialState, action: app.Actions): State {
     switch (action.type) {
-        case appActions.ADD_TAB: {
+
+        case app.ADD_TAB: {
             let tab = JSON.parse(JSON.stringify(action.payload)) as ITab;
             let appId = state.host2Apps[tab.hostName];
             if (!appId || appId <= 0) {
@@ -63,117 +63,162 @@ export function reducer(state: State = initialState, action: appActions.Actions)
             return StateHelper.changeStateByCreateNewTabForOldApp(appId, tab, state);
         }
 
-        case appActions.CLOSE_APP: {
+        case app.CLOSE_APP: {
             return StateHelper.changeStateByCloseApp(action.payload, state);
         }
 
-        case appActions.GOTO_APP: {
+        case app.GOTO_APP: {
             return StateHelper.changeStateByGotoApp(action.payload.id, state);
         }
 
-        case appActions.GOTO_TAB: {
+        case app.GOTO_TAB: {
             return StateHelper.changeStateByGotoTab(state, action.payload);
         }
 
-        case appActions.CLOSE_TAB: {
+        case app.CLOSE_TAB: {
             return StateHelper.changeStateByCloseTab(action.payload.id, action.payload.appId, state);
         }
 
-        case appActions.CLOSE_OTHER_APPS: {
+        case app.CLOSE_OTHER_APPS: {
             return StateHelper.changeStateByCloseOtherApps(action.payload.id, state);
         }
 
-        case appActions.CLOSE_OTHER_TABS: {
+        case app.CLOSE_OTHER_TABS: {
             return StateHelper.changeStateByCloseOtherTabs(action.payload.id, action.payload.appId, state);
         }
 
-        case appActions.CLOSE_OTHER_TABS_ALL_APPS: {
+        case app.CLOSE_OTHER_TABS_ALL_APPS: {
             return StateHelper.changeStateByCloseOtherTabsAllApps(action.payload.id, state);
         }
 
-        case appActions.CHANGE_TAB_TITLE: {
+        case app.CHANGE_TAB_TITLE: {
             return StateHelper.changeStateByChangeTabTitle(action.payload.tabId, action.payload.eventValue, state);
         }
 
-        case appActions.CHANGE_TAB_URL: {
+        case app.CHANGE_TAB_URL: {
             return StateHelper.changeStateByChangeTabUrl(state, action.payload.tabId, action.payload.eventValue);
         }
 
-        case appActions.CHANGE_TAB_ICON: {
+        case app.CHANGE_TAB_ICON: {
             return StateHelper.changeStateByChangeTabIcon(action.payload.tabId, action.payload.eventValue, state);
         }
 
-        case appActions.CHANGE_TAB_URL_FORCE: {
+        case app.CHANGE_TAB_URL_FORCE: {
             return StateHelper.changeStateByForceChangeTabUrl(state, action.payload.tabId, action.payload.eventValue);
         }
 
-        case appActions.CHANGE_TAB_URL_FORCE_COMPLETE: {
+        case app.CHANGE_TAB_URL_FORCE_COMPLETE: {
+            if (!state.currentTab || !state.currentApp) {
+                return state;
+            }
             let appAction: IWebAction = {
                 tab: state.currentTab,
                 app: state.currentApp,
-                isCalling: false, value: action.payload.eventValue
+                isCalling: false,
+                value: action.payload.eventValue
             };
             return Object.assign({}, state, {
                 isChangingUrl: appAction
             });
         }
 
-        case appActions.DO_BACK: {
-            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: true };
+        case app.DO_BACK: {
+            if (!state.currentTab || !state.currentApp) {
+                return state;
+            }
+            let appAction: IWebAction = {
+                tab: state.currentTab,
+                app: state.currentApp,
+                isCalling: true
+            };
             return Object.assign({}, state, {
                 isNavigatingBack: appAction
             });
         }
 
-        case appActions.DO_BACK_COMPLETE: {
-            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
+        case app.DO_BACK_COMPLETE: {
+            if (!state.currentTab || !state.currentApp) {
+                return state;
+            }
+            let appAction: IWebAction = {
+                tab: state.currentTab,
+                app: state.currentApp,
+                isCalling: false
+            };
             return Object.assign({}, state, {
                 isNavigatingBack: appAction
             });
         }
 
-        case appActions.DO_NEXT: {
-            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: true };
+        case app.DO_NEXT: {
+            if (!state.currentTab || !state.currentApp) {
+                return state;
+            }
+            let appAction: IWebAction = {
+                tab: state.currentTab,
+                app: state.currentApp,
+                isCalling: true
+            };
             return Object.assign({}, state, {
                 isNavigatingNext: appAction
             });
         }
 
-        case appActions.DO_NEXT_COMPLETE: {
-            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
+        case app.DO_NEXT_COMPLETE: {
+            if (!state.currentTab || !state.currentApp) {
+                return state;
+            }
+            let appAction: IWebAction = {
+                tab: state.currentTab,
+                app: state.currentApp,
+                isCalling: false
+            };
             return Object.assign({}, state, {
                 isNavigatingNext: appAction
             });
         }
 
-        case appActions.DO_RELOAD: {
-            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: true };
+        case app.DO_RELOAD: {
+            if (!state.currentTab || !state.currentApp) {
+                return state;
+            }
+            let appAction: IWebAction = {
+                tab: state.currentTab,
+                app: state.currentApp,
+                isCalling: true
+            };
             return Object.assign({}, state, {
                 isNavigatingReload: appAction
             });
         }
 
-        case appActions.DO_RELOAD_COMPLETE: {
-            let appAction: IWebAction = { tab: state.currentTab, app: state.currentApp, isCalling: false };
+        case app.DO_RELOAD_COMPLETE: {
+            if (!state.currentTab || !state.currentApp) {
+                return state;
+            }
+            let appAction: IWebAction = {
+                tab: state.currentTab,
+                app: state.currentApp,
+                isCalling: false
+            };
             return Object.assign({}, state, {
                 isNavigatingReload: appAction
             });
         }
 
-        case appActions.CLEAR_SUGGESTIONS: {
+        case app.CLEAR_SUGGESTIONS: {
             return Object.assign({}, state, {
                 suggestions: null
             });
         }
 
-        case appActions.GET_SUGGESTIONS_COMPLETE: {
-            return {
-                ...state,
+        case app.GET_SUGGESTIONS_COMPLETE: {
+            return Object.assign({}, state, {
                 suggestions: action.payload
-            };
+            });
         }
 
-        case appActions.DOM_READY: {
+        case app.DOM_READY: {
             let tab = state.tabs.find(t => t.id === action.payload.tabId);
             if (!tab) {
                 return state;
@@ -183,37 +228,71 @@ export function reducer(state: State = initialState, action: appActions.Actions)
                 return state;
             }
             let historyItem: IHistoryItem = {
-                id: tab.id,
-                title: tab.title,
                 link: tab.url,
-                hostName: tab.hostName,
-                icon: tab.icon,
-                weight: 1
+                date: new Date(),
+                host: tab.hostName,
+                title: tab.title,
+                weight: 0,
+                icon: app.icon
             };
-            let newHistoryWithWeighs = [...state.histories];
-            let existingHistoryIndex = newHistoryWithWeighs.findIndex(h => h.hostName.toLowerCase() === tab.hostName.toLowerCase());
-            if (existingHistoryIndex >= 0) {
-                newHistoryWithWeighs[existingHistoryIndex].weight += 1;
+            let newHistories = [...state.histories, historyItem];
+
+            let newHistoryWithWeighs = state.historyWithWeights;
+            let historyWithWeightItemIndex = state.historyWithWeights.findIndex(h =>
+                h.link.toLocaleLowerCase() === historyItem.link.toLocaleLowerCase());
+            if (historyWithWeightItemIndex < 0) {
+                let historyWithWeightItem = Object.assign({}, historyItem, {
+                    weight: 1
+                });
+                newHistoryWithWeighs = [...newHistoryWithWeighs, historyWithWeightItem];
             } else {
-                newHistoryWithWeighs.push(historyItem);
+                let historyWithWeightItem = newHistoryWithWeighs[historyWithWeightItemIndex];
+                let newHistoryWithWeightItem = Object.assign({}, historyWithWeightItem, {
+                    weight: historyWithWeightItem.weight + 1
+                });
+                newHistoryWithWeighs = [...newHistoryWithWeighs.slice(0, historyWithWeightItemIndex)
+                    , newHistoryWithWeightItem
+                    , ...newHistoryWithWeighs.slice(historyWithWeightItemIndex + 1)];
             }
-            newHistoryWithWeighs.sort((a, b) => b.weight - a.weight);
-            let newTopApps = [...state.topApps];
-            let appIndex = newTopApps.findIndex(ta => ta.hostName.toLowerCase() === tab.hostName.toLowerCase());
-            if (appIndex >= 0) {
-                const existingApp = newTopApps[appIndex];
-                if (existingApp) {
-                    existingApp.weight = (existingApp.weight || 0) + 1;
-                }
+
+            let newTopApps = state.topApps;
+            let appIndex = state.topApps.findIndex(ta => ta.host.toLowerCase() === tab.hostName);
+            if (appIndex < 0) {
+                let appItem = Object.assign({}, historyItem, {
+                    weight: 1
+                });
+                newTopApps = [...newTopApps, appItem];
             } else {
-                newTopApps.push({ ...app, weight: 1 });
+                let appItem = newTopApps[appIndex];
+                let newAppItem = Object.assign({}, appItem, {
+                    weight: appItem.weight + 1
+                });
+                newTopApps = [...newTopApps.slice(0, appIndex)
+                    , newAppItem
+                    , ...newTopApps.slice(appIndex + 1)];
             }
-            newTopApps.sort((a, b) => (b.weight || 0) - (a.weight || 0));
-            return {
-                ...state,
-                histories: newHistoryWithWeighs,
+
+            newHistoryWithWeighs = newHistoryWithWeighs.sort((item1, item2) => {
+                return item1.weight > item2.weight
+                    ? -1
+                    : item1.weight < item2.weight
+                        ? 1
+                        : 0;
+            });
+
+            newTopApps = newTopApps.sort((item1, item2) => {
+                return item1.weight > item2.weight
+                    ? -1
+                    : item1.weight < item2.weight
+                        ? 1
+                        : 0;
+            });
+
+            return Object.assign({}, state, {
+                histories: newHistories,
+                historyWithWeights: newHistoryWithWeighs,
                 topApps: newTopApps
-            };
+            });
         }
 
         default: {

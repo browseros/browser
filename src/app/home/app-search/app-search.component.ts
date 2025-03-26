@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import type { IWebEvent } from '../../models/web-event.model';
 import type { ITab } from '../../models/tab.model';
 import type { IApp } from '../../models/app.model';
@@ -8,7 +8,7 @@ import * as fromRoot from '../../reducers';
 import * as appActions from '../../actions/app.actions';
 import { Observable } from 'rxjs';
 
-declare var $: any;
+declare const $: any;
 
 @Component({
     selector: 'app-search',
@@ -16,83 +16,44 @@ declare var $: any;
     templateUrl: './app-search.component.html'
 })
 export class AppSearchComponent {
-    @ViewChild('searchModal') public searchModal!: ElementRef;
-    @Input() public currentApp: IApp = {} as IApp;
-    @Input() public currentTab: ITab = {} as ITab;
+    @Input() public currentApp!: IApp;
+    @Input() public currentTab!: ITab;
     @Input() public histories: IHistoryItem[] = [];
-    @Input() public topApps: IApp[] = [];
+    @Input() public topApps: IHistoryItem[] = [];
     @Input() public suggestions: any[] = [];
-    @Output() public onSearch = new EventEmitter<string>();
-    @Output() public onSearchReplacing = new EventEmitter<IWebEvent>();
-
-    public appSearch: string = '';
-    public currentSelectedSearchItem: number = 0;
-    public historiesSearched: IHistoryItem[] = [];
-    private gotResult: boolean = false;
+    @Output() public onSearch: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public onSearchReplacing: EventEmitter<IWebEvent> = new EventEmitter<IWebEvent>();
+    private appSearch: string = '';
     private newSearch: boolean = true;
+    private gotResult = false;
+    private historiesSearched: IHistoryItem[] = [];
+    private currentIndexOfSearches: number = -1;
 
-    constructor(public store: Store<fromRoot.State>) {}
-
-    ngOnInit(): void {
-        this.historiesSearched = [];
+    constructor(public store: Store<fromRoot.State>) {
     }
 
-    public show(): void {
-        $(this.searchModal.nativeElement).modal('show');
+    public show(oldUrl: string): void {
+        this.store.dispatch(new appActions.ClearSuggestionsAction());
+        this.newSearch = true;
+        this.gotResult = false;
+        if (oldUrl) {
+            this.newSearch = false;
+        }
+        this.appSearch = oldUrl;
+        this.historiesSearched = [];
+        $('#app-search')['modal']('show');
+        $('#app-search').on('shown.bs.modal', () => {
+            $('#app-search-input').focus();
+            $('#app-search-input').select();
+        });
     }
 
     public hide(): void {
-        $(this.searchModal.nativeElement).modal('hide');
+        $('#app-search')['modal']('hide');
     }
 
-    public onSearchChangedHandler(): void {
+    private onSearchChanged(): void {
         this.historiesSearched = this.searchApp();
-    }
-
-    public isCurrentSelectedSearchItem(index: number): boolean {
-        return this.currentSelectedSearchItem === index;
-    }
-
-    public doGoogleSearch(searchText: string): void {
-        this.appSearch = searchText;
-        this.doSearch(searchText);
-    }
-
-    public isContainMethod(searchText: string): boolean {
-        return searchText.includes('(') && searchText.includes(')');
-    }
-
-    public doSearch(searchText: string): void {
-        if (this.gotResult) {
-            return;
-        }
-        this.gotResult = true;
-        if (this.newSearch) {
-            let newLink = searchText;
-            if (!this.isPotentialLink(searchText)) {
-                newLink = this.getGoogleSearchLink(searchText);
-            }
-            this.onSearch.emit(newLink);
-            return;
-        }
-        let currentTab = JSON.parse(JSON.stringify(this.currentTab));
-        let currentApp = JSON.parse(JSON.stringify(this.currentApp));
-        let newLink = searchText;
-        if (!this.isPotentialLink(searchText)) {
-            newLink = this.getGoogleSearchLink(searchText);
-        }
-        let webEvent: IWebEvent = {
-            tabId: currentTab.id,
-            eventValue: newLink,
-            app: currentApp,
-            eventName: 'urlchanged'
-        };
-        this.onSearchReplacing.emit(webEvent);
-        $(this.searchModal.nativeElement).modal('hide');
-    }
-
-    public selectHistoryItem(item: IHistoryItem): void {
-        this.doSearch(item.link);
     }
 
     private searchApp(): IHistoryItem[] {
@@ -127,24 +88,96 @@ export class AppSearchComponent {
         return ret;
     }
 
+    private doSearch(link: string): void {
+        if (this.gotResult) {
+            return;
+        }
+        this.gotResult = true;
+        if (this.newSearch) {
+            let newLink = link;
+            if (!this.isPotentialLink(link)) {
+                newLink = this.getGoogleSearchLink(link);
+            }
+            this.onSearch.emit(newLink);
+            return;
+        }
+        let currentTab = JSON.parse(JSON.stringify(this.currentTab));
+        let currentApp = JSON.parse(JSON.stringify(this.currentApp));
+        let newLink = link;
+        if (!this.isPotentialLink(link)) {
+            newLink = this.getGoogleSearchLink(link);
+        }
+        let webEvent: IWebEvent = {
+            tabId: currentTab.id,
+            eventValue: newLink,
+            app: currentApp,
+            eventName: 'urlchanged'
+        };
+        this.onSearchReplacing.emit(webEvent);
+    }
+
     private getGoogleSearchLink(suggestion: string): string {
         let googleLink = 'https://www.google.com/search?ie=UTF-8&q=' + encodeURI(suggestion);
         return googleLink;
     }
 
-    private isPotentialLink(suggestion: string): boolean {
-        return Boolean(suggestion) &&
-            (suggestion.indexOf('.') >= 0) &&
-            (suggestion.indexOf(' ') < 0);
+    private doGoogleSearch(suggestion: string): void {
+        if (this.isContainMethod(suggestion) && this.isPotentialLink(suggestion)) {
+            this.doSearch(suggestion);
+            return;
+        }
+        let googleLink = this.getGoogleSearchLink(suggestion);
+        this.doSearch(googleLink);
     }
 
-    public keyUp(event: KeyboardEvent): void {
-        if (event.key === 'ArrowDown') {
-            this.currentSelectedSearchItem = Math.min(this.currentSelectedSearchItem + 1, this.suggestions.length);
-        } else if (event.key === 'ArrowUp') {
-            this.currentSelectedSearchItem = Math.max(this.currentSelectedSearchItem - 1, 0);
-        } else if (event.key === 'Enter') {
-            this.doSearch(this.appSearch);
+    private isContainMethod(suggestion: string): boolean {
+        return Boolean(suggestion && (suggestion.indexOf('http://') === 0 || suggestion.indexOf('https://') === 0));
+    }
+
+    private isPotentialLink(suggestion: string): boolean {
+        return Boolean(suggestion && suggestion.indexOf('.') >= 0 && suggestion.indexOf(' ') < 0);
+    }
+
+    private onUp($event: KeyboardEvent): void {
+        if (this.currentIndexOfSearches <= -1) {
+            this.currentIndexOfSearches = -1;
+            return;
         }
+        this.currentIndexOfSearches--;
+    }
+
+    private onDown($event: KeyboardEvent): void {
+        if (this.currentIndexOfSearches >= 4) {
+            this.currentIndexOfSearches = 0;
+            return;
+        }
+        this.currentIndexOfSearches++;
+    }
+
+    private keyUp($event: KeyboardEvent): void {
+        $event.preventDefault();
+        console.log($event);
+        if ($event.code === 'ArrowDown') {
+            this.onDown($event);
+            return;
+        }
+        if ($event.code === 'ArrowUp') {
+            this.onUp($event);
+            return;
+        }
+        if ($event.code === 'Enter') {
+            console.log(this.currentIndexOfSearches);
+            if (this.currentIndexOfSearches === -1) {
+                this.doSearch(($event.target as HTMLInputElement).value);
+                return;
+            }
+            if (this.currentIndexOfSearches === 0) {
+                this.doGoogleSearch(this.appSearch);
+                return;
+            }
+            this.doGoogleSearch(this.suggestions[this.currentIndexOfSearches - 1].key);
+            return;
+        }
+        this.currentIndexOfSearches = -1;
     }
 }

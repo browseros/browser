@@ -3,6 +3,6 @@ export interface ITab {
     appId: number;
     url: string;
     title: string;
-    icon: string;
     hostName: string;
+    icon?: string;
 }
