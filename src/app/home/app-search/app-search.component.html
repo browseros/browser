@@ -1,38 +1,20 @@
-<div class="modal fade" id="app-search" tabindex="-1" role="dialog" aria-labelledby="app-search-label">
+<div class="modal fade" id="app-search" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="app-search-label">Search</h4>
+                <input type="text" class="form-control" id="app-search-input" [(ngModel)]="appSearch" (keyup)="onSearchChanged()" (keyup.enter)="keyUp($event)">
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <input id="app-search-input" [(ngModel)]="appSearch" class="form-control" type="text"
-                        (keyup)="keyUp($event)"
-                        (ngModelChange)="onSearchChanged()" />
-                </div>
                 <div class="search-results">
-                    <div class="search-item" [class.hover]="isCurrentSelectedSearchItem(0)" (click)="doGoogleSearch(appSearch)">
-                        <i class="glyphicon glyphicon-search"></i>&nbsp;{{appSearch}}
-                    </div>
-                    <div *ngFor="let suggestion of suggestions | slice:0:4; let i=index" 
-                        class="search-item" 
-                        [class.hover]="isCurrentSelectedSearchItem(i+1)" 
-                        (click)="doGoogleSearch(suggestion.key)">
-                        <i class="glyphicon glyphicon-search"></i>&nbsp;{{suggestion.key}}
-                    </div>
-                </div>
-                <div class="history-results">
-                    <div class="history-item" *ngFor="let item of historiesSearched" (click)="selectHistoryItem(item)">
-                        <i class="glyphicon glyphicon-time"></i>&nbsp;{{item.link}}
-                    </div>
-                </div>
-                <div class="top-apps">
-                    <div class="top-apps-title">Top Apps</div>
-                    <div class="top-apps-list">
-                        <a [title]="item.link" (click)="selectHistoryItem(item)" class="app-item">
-                            <img [src]="item.icon" class="app-icon" />
-                            <span class="app-title">{{item.title}}</span>
+                    <div *ngFor="let historyItem of historiesSearched; let i = index" 
+                         [class.selected]="isCurrentSelectedSearchItem(i)">
+                        <a [title]="historyItem.link" (click)="selectHistoryItem(historyItem)" class="app-item">
+                            <div class="app-item-content">
+                                <img [src]="historyItem.icon" class="app-icon" />
+                                <span class="app-title">{{historyItem.title}}</span>
+                            </div>
                         </a>
                     </div>
                 </div>
