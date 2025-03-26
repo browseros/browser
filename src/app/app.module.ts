@@ -17,12 +17,12 @@ import { environment } from '../environments/environment';
 import { ENV_PROVIDERS } from './environment';
 import { HomeModule } from './home/home.module';
 import { reducers } from './reducers';
+import { AppEffects } from './effects/app.effects';
+import { HistoryEffects } from './effects/history.effects';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomeComponent,
-    NoContentComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -32,10 +32,13 @@ import { reducers } from './reducers';
     AppRoutingModule,
     HomeModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([AppEffects, HistoryEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
-      logOnly: environment.production
+      logOnly: process.env['NODE_ENV'] === 'production',
+      autoPause: true,
+      trace: false,
+      traceLimit: 75,
     })
   ],
   providers: [

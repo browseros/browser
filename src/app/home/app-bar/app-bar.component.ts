@@ -1,7 +1,6 @@
-
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { IApp } from '../../models/app.model';
-import { ITab } from '../../models/tab.model';
+import type { IApp } from '../../models/app.model';
+import type { ITab } from '../../models/tab.model';
 
 @Component({
     selector: 'app-bar',
@@ -10,11 +9,11 @@ import { ITab } from '../../models/tab.model';
 })
 
 export class AppBarComponent {
-    @Input() public currentApp: IApp;
-    @Input() public currentTab: ITab;
-    @Input() public app2Hosts: { [id: number]: string };
-    @Input() public apps: IApp[];
-    @Input() public screenWidth: number;
+    @Input() public currentApp: IApp | null = null;
+    @Input() public currentTab: ITab | null = null;
+    @Input() public app2Hosts: { [id: number]: string } = {};
+    @Input() public apps: IApp[] = [];
+    @Input() public screenWidth: number = 0;
     @Output() public onBtnAddApp: EventEmitter<any> = new EventEmitter<any>();
     @Output() public onEnteredSearchBox: EventEmitter<any> = new EventEmitter<any>();
     @Output() public onAppSelect: EventEmitter<IApp> = new EventEmitter<IApp>();
@@ -27,9 +26,9 @@ export class AppBarComponent {
         return this.app2Hosts[app.id];
     }
 
-    private onMouseUp($event, app) {
+    private onMouseUp(event: MouseEvent, app: IApp): void {
         // middle button
-        if ($event.button === 1) {
+        if (event.button === 1) {
             this.onAppClose.emit(app);
         }
     }

@@ -1,6 +1,6 @@
-import { IWebAction } from './../models/web-action.model';
-import { IApp } from '../models/app.model';
-import { ITab } from '../models/tab.model';
+import type { IWebAction } from './../models/web-action.model';
+import type { IApp } from '../models/app.model';
+import type { ITab } from '../models/tab.model';
 
 import * as fromApp from './app';
 
@@ -113,9 +113,9 @@ export class StateHelper {
         if (!closedTab) {
             return state;
         }
-        let countTabs = state.tabs.filter(t => t.appId === closedTab.appId).length;
+        let countTabs = state.tabs.filter(t => t.appId === closedTab?.appId).length;
         if (countTabs <= 1) {
-            let closingApp = state.apps.find(a => a.id === closedTab.appId);
+            let closingApp = state.apps.find(a => a.id === closedTab?.appId);
             if (!closingApp) {
                 return state;
             }
@@ -220,7 +220,7 @@ export class StateHelper {
         if (!changedTab) {
             return state;
         }
-        let changedAppIndex = state.apps.findIndex(t => t.id === changedTab.appId);
+        let changedAppIndex = state.apps.findIndex(t => t.id === changedTab?.appId);
         if (changedAppIndex < 0) {
             return state;
         }
@@ -233,7 +233,7 @@ export class StateHelper {
         });
 
         let appHistoryItemIndex = state.topApps.findIndex(ta =>
-            ta.host.toLowerCase() === changedTab.hostName.toLowerCase());
+            ta.host.toLowerCase() === changedTab?.hostName.toLowerCase());
         let newTopApps = state.topApps;
         if (appHistoryItemIndex >= 0) {
             let appHistoryItem = newTopApps[appHistoryItemIndex];

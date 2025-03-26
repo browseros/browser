@@ -223,7 +223,7 @@ export function reducer(state = initialState, action: app.Actions): State {
             if (!tab) {
                 return state;
             }
-            let app = state.apps.find(a => a.id === tab.appId);
+            let app = state.apps.find(a => a.id === tab?.appId);
             if (!app) {
                 return state;
             }
@@ -256,7 +256,7 @@ export function reducer(state = initialState, action: app.Actions): State {
             }
 
             let newTopApps = state.topApps;
-            let appIndex = state.topApps.findIndex(ta => ta.host.toLowerCase() === tab.hostName);
+            let appIndex = state.topApps.findIndex(ta => ta.host.toLowerCase() === tab?.hostName);
             if (appIndex < 0) {
                 let appItem = Object.assign({}, historyItem, {
                     weight: 1
