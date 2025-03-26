@@ -1,3 +1,6 @@
 export const environment = {
-  production: false
+  production: false,
+  hmr: true,
+  isDevServer: true,
+  HMR: true
 }; 

@@ -1,82 +1,125 @@
-import { Component } from '@angular/core';
-import { IApp } from '../models/app.model';
-import { ITab } from '../models/tab.model';
-import { IHistoryItem } from '../models/history-item.model';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../reducers';
+import type { IApp } from '../models/app.model';
+import type { ITab } from '../models/tab.model';
+import type { IHistoryItem } from '../models/history-item.model';
+import type { IWebEvent } from '../models/web-event.model';
+import { Observable } from 'rxjs';
+import * as appActions from '../actions/app.actions';
 
 @Component({
   selector: 'app-home',
-  template: `
-    <app-nav
-      [currentApp]="currentApp || defaultApp"
-      [tabs]="tabs"
-      [currentTab]="currentTab || defaultTab"
-      [histories]="histories"
-      (onNextClick)="handleNext()"
-      (onBackClick)="handleBack()"
-      (onReloadClick)="handleReload()"
-      (onGotoTab)="handleGotoTab($event)"
-      (onCloseTab)="handleCloseTab($event)"
-      (onContextMenu)="handleContextMenu($event)">
-    </app-nav>
-    <div class="container mt-4">
-      <div class="row">
-        <div class="col-md-12">
-          <h1>Welcome to Browser OS</h1>
-          <p>This is a desktop application that allows websites to run native functions of the operating system.</p>
-        </div>
-      </div>
-    </div>
-  `,
-  styles: []
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
-  currentApp: IApp | null = null;
-  tabs: ITab[] = [];
-  currentTab: ITab | null = null;
-  histories: IHistoryItem[] = [];
+export class HomeComponent implements OnInit {
+  public eventApps$: Observable<IApp[]>;
+  public eventCurrentApp$: Observable<IApp>;
+  public eventCurrentTab$: Observable<ITab>;
+  public eventTabs$: Observable<ITab[]>;
+  public histories$: Observable<IHistoryItem[]>;
+  public suggestions$: Observable<any[]>;
+  public topApps$: Observable<IApp[]>;
+  public tabIds$: Observable<number[]>;
+  public app2Hosts$: Observable<{ [id: number]: string }>;
+  public currentApp: IApp = {} as IApp;
 
-  // Default values for when currentApp or currentTab are null
-  public defaultApp: IApp = {
-    id: 0,
-    title: 'Default App',
-    url: '',
-    icon: ''
-  };
+  screenWidth: number = window.innerWidth;
+  screenHeight: number = window.innerHeight;
 
-  public defaultTab: ITab = {
-    id: 0,
-    appId: 0,
-    title: 'New Tab',
-    url: '',
-    hostName: '',
-    icon: ''
-  };
-
-  constructor() {
-    console.log('[HomeComponent] Initialized with default values');
+  constructor(private store: Store<fromRoot.State>) {
+    this.eventApps$ = this.store.select(fromRoot.getEventApps);
+    this.eventCurrentApp$ = this.store.select(fromRoot.getEventCurrentApp);
+    this.eventCurrentTab$ = this.store.select(fromRoot.getEventCurrentTab);
+    this.eventTabs$ = this.store.select(fromRoot.getEventTabs);
+    this.histories$ = this.store.select(fromRoot.getHistories);
+    this.suggestions$ = this.store.select(fromRoot.getSuggestions);
+    this.topApps$ = this.store.select(fromRoot.getTopApps);
+    this.tabIds$ = this.store.select(fromRoot.getTabIds);
+    this.app2Hosts$ = this.store.select(fromRoot.getApp2Hosts);
+    this.eventCurrentApp$.subscribe(app => this.currentApp = app);
   }
 
-  handleNext() {
-    console.log('Next clicked');
+  ngOnInit(): void {}
+
+  public gotoApp(app: IApp): void {
+    this.store.dispatch(new appActions.GotoAppAction(app));
   }
 
-  handleBack() {
-    console.log('Back clicked');
+  public closeApp(app: IApp): void {
+    this.store.dispatch(new appActions.CloseAppAction(app));
   }
 
-  handleReload() {
-    console.log('Reload clicked');
+  public onNextClick(): void {
+    this.store.dispatch(new appActions.DoNextAction(this.currentApp));
   }
 
-  handleGotoTab(tab: ITab) {
-    console.log('Go to tab:', tab);
+  public onBackClick(): void {
+    this.store.dispatch(new appActions.DoBackAction(this.currentApp));
   }
 
-  handleCloseTab(tab: ITab) {
-    console.log('Close tab:', tab);
+  public onGotoTab(tab: ITab): void {
+    this.store.dispatch(new appActions.GotoTabAction(tab));
   }
 
-  handleContextMenu(tab: ITab) {
-    console.log('Context menu for tab:', tab);
+  public onNewUrl(event: IWebEvent): void {
+    this.store.dispatch(new appActions.ChangeTabUrlAction(event));
+  }
+
+  public onTabContextMenu(event: any): void {
+    console.log('Tab context menu:', event);
+  }
+
+  onAppContextMenu(event: any) {
+    console.log('App context menu:', event);
+  }
+
+  onBtnAppAction(event: any) {
+    console.log('App action:', event);
+  }
+
+  onAppBarDoubleClick(event: any) {
+    console.log('App bar double click:', event);
+  }
+
+  onReloadClick(event: any) {
+    console.log('Reload click:', event);
+  }
+
+  onCloseTab(event: any) {
+    console.log('Close tab:', event);
+  }
+
+  onTitleChanged(event: any) {
+    console.log('Title changed:', event);
+  }
+
+  onIconChanged(event: any) {
+    console.log('Icon changed:', event);
+  }
+
+  onUrlChanged(event: any) {
+    console.log('URL changed:', event);
+  }
+
+  onDomReady(event: any) {
+    console.log('DOM ready:', event);
+  }
+
+  onClicked(event: any) {
+    console.log('Clicked:', event);
+  }
+
+  onContextMenu(event: any) {
+    console.log('Context menu:', event);
+  }
+
+  doSearch(event: any) {
+    console.log('Search:', event);
+  }
+
+  doSearchReplacing(event: any) {
+    console.log('Search replacing:', event);
   }
 }

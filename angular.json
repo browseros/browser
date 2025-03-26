@@ -19,7 +19,7 @@
           "options": {
             "outputPath": "dist/browser-os",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "main": "src/main.browser.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -75,7 +75,11 @@
               "buildTarget": "browser-os:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "host": "localhost",
+            "port": 4200
+          }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",

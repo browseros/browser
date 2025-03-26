@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { IApp } from '../../models/app.model';
-import { ITab } from '../../models/tab.model';
-import { IHistoryItem } from '../../models/history-item.model';
+import type { IApp } from '../../models/app.model';
+import type { ITab } from '../../models/tab.model';
+import type { IHistoryItem } from '../../models/history-item.model';
 import { IWebEvent } from '../../models/web-event.model';
 
 @Component({
@@ -74,11 +74,11 @@ import { IWebEvent } from '../../models/web-event.model';
     `]
 })
 export class AppNavComponent {
-    @Input() public currentApp!: IApp;
-    @Input() public tabs!: ITab[];
+    @Input() public currentApp: IApp = {} as IApp;
+    @Input() public tabs: ITab[] = [];
     @Input() public screenWidth!: number;
-    @Input() public histories!: IHistoryItem[];
-    @Input() public currentTab!: ITab;
+    @Input() public histories: IHistoryItem[] = [];
+    @Input() public currentTab: ITab = {} as ITab;
     @Output() public onSearch: EventEmitter<IWebEvent> = new EventEmitter<IWebEvent>();
     @Output() public onNextClick = new EventEmitter<void>();
     @Output() public onBackClick = new EventEmitter<void>();
@@ -112,7 +112,7 @@ export class AppNavComponent {
         return this.histories
             .filter(item =>
                 item.title
-                && item.host.toLocaleLowerCase() === this.currentTab.hostName.toLocaleLowerCase())
+                && item.hostName.toLocaleLowerCase() === this.currentTab.hostName.toLocaleLowerCase())
             .slice(0, 10);
     }
 
@@ -140,5 +140,43 @@ export class AppNavComponent {
         const screenWidth = this.screenWidth - 180;
         const tabWidth = (screenWidth / tabCount) - 2;
         return tabWidth + 'px';
+    }
+
+    public getCurrentTabIndex(): number {
+        return this.tabs.findIndex(tab => tab.id === this.currentTab.id);
+    }
+
+    public getCurrentTabTitle(): string {
+        return this.currentTab.title || '';
+    }
+
+    public getCurrentTabIcon(): string {
+        return this.currentTab.icon || '';
+    }
+
+    public getCurrentTabUrl(): string {
+        return this.currentTab.url || '';
+    }
+
+    public getCurrentTabHostName(): string {
+        return this.currentTab.hostName || '';
+    }
+
+    public getCurrentTabHistory(): IHistoryItem[] {
+        return this.histories.filter(item =>
+            item.hostName.toLowerCase() === this.currentTab.hostName.toLowerCase()
+        );
+    }
+
+    public onNextClickHandler(): void {
+        this.onNextClick.emit();
+    }
+
+    public onBackClickHandler(): void {
+        this.onBackClick.emit();
+    }
+
+    public onGotoTabHandler(tab: ITab): void {
+        this.onGotoTab.emit(tab);
     }
 }

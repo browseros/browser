@@ -27,7 +27,11 @@ async function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
       webSecurity: false, // Only for development
-      devTools: true
+      devTools: true,
+      allowRunningInsecureContent: true,
+      webviewTag: true,
+      javascript: true,
+      backgroundThrottling: false
     }
   });
 

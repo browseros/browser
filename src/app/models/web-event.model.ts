@@ -1,9 +1,8 @@
-import { ITab } from './tab.model';
-import { IApp } from './app.model';
+import type { IApp } from './app.model';
 
 export interface IWebEvent {
     tabId: number;
-    app: IApp;
+    eventValue: string;
     eventName: string;
-    eventValue: any;
+    app: IApp;
 }

@@ -7,4 +7,9 @@ body {
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Hide initial loading text when app is loaded */
+app:not(:empty) + app {
+  display: none;
 } 

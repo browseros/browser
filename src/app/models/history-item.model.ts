@@ -1,10 +1,10 @@
 import { IApp } from './app.model';
 
 export interface IHistoryItem {
+    id: number;
     link: string;
-    date: Date;
     title: string;
-    host: string;
-    weight: number;
     icon: string;
+    hostName: string;
+    weight: number;
 }
