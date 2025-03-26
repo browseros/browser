@@ -16,11 +16,11 @@ declare const $: any;
     templateUrl: './app-search.component.html'
 })
 export class AppSearchComponent implements OnInit, OnDestroy {
-    @Input() currentApp: IApp | null = null;
-    @Input() suggestions: any[] | null = null;
+    @Input() currentApp: IApp = { id: 0, title: '', url: '', icon: '' };
+    @Input() suggestions: any[] = [];
     @Input() histories: IHistoryItem[] = [];
     @Input() topApps: IHistoryItem[] = [];
-    @Input() currentTab: ITab | null = null;
+    @Input() currentTab: ITab = { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' };
 
     @Output() onSearch = new EventEmitter<any>();
     @Output() onSearchReplacing = new EventEmitter<any>();

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener } fro
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import type { IApp } from '../models/app.model';
 import type { ITab } from '../models/tab.model';
 import type { IHistoryItem } from '../models/history-item.model';
@@ -21,8 +22,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   eventApps: Observable<IApp[]> = this.store.select(fromRoot.getEventApps);
   eventTabs: Observable<ITab[]> = this.store.select(fromRoot.getEventTabs);
-  eventCurrentApp: Observable<IApp | null> = this.store.select(fromRoot.getEventCurrentApp);
-  eventCurrentTab: Observable<ITab | null> = this.store.select(fromRoot.getEventCurrentTab);
+  eventCurrentApp: Observable<IApp> = this.store.select(fromRoot.getEventCurrentApp).pipe(
+    map(app => app || { id: 0, title: '', url: '', icon: '' } as IApp)
+  );
+  eventCurrentTab: Observable<ITab> = this.store.select(fromRoot.getEventCurrentTab).pipe(
+    map(tab => tab || { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' } as ITab)
+  );
   app2Hosts: Observable<{ [id: number]: string }> = this.store.select(fromRoot.getApp2Hosts);
   tabIds: Observable<number[]> = this.store.select(fromRoot.getTabIds);
   histories: Observable<IHistoryItem[]> = this.store.select(fromRoot.getHistories);

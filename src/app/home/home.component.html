@@ -1,4 +1,4 @@
-<app-bar [apps]='(eventApps | async) ?? []' [currentApp]='eventCurrentApp | async' [currentTab]='eventCurrentTab | async' (onAppSelect)='gotoApp($event)' (onAppClose)='closeApp($event)'
+<app-bar [apps]='(eventApps | async) ?? []' [currentApp]='(eventCurrentApp | async) ?? { id: 0, title: "", url: "", icon: "" }' [currentTab]='(eventCurrentTab | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }' (onAppSelect)='gotoApp($event)' (onAppClose)='closeApp($event)'
   [app2Hosts]='(app2Hosts | async) ?? {}'
   [screenWidth]='screenWidth'
   (onEnteredSearchBox)='appSearch.show($event)'
@@ -7,7 +7,7 @@
   (onAppBarDoubleClick)='onAppBarDoubleClick($event)'
   (onBtnAddApp)='appSearch.show()'>
 </app-bar>
-<app-nav [currentApp]='eventCurrentApp | async' [tabs]='(eventTabs | async) ?? []' [currentTab]='eventCurrentTab | async' (onNextClick)='onNextClick($event)' (onBackClick)='onBackClick($event)' (onGotoTab)='onGotoTab($event)'
+<app-nav [currentApp]='(eventCurrentApp | async) ?? { id: 0, title: "", url: "", icon: "" }' [tabs]='(eventTabs | async) ?? []' [currentTab]='(eventCurrentTab | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }' (onNextClick)='onNextClick($event)' (onBackClick)='onBackClick($event)' (onGotoTab)='onGotoTab($event)'
   [histories]='(histories | async) ?? []'
   [screenWidth]='screenWidth'
   (onSearch)='doSearchReplacing($event)'
@@ -15,7 +15,7 @@
   (onReloadClick)='onReloadClick($event)'
   (onCloseTab)='onCloseTab($event)'>
 </app-nav>
-<app-webview [tabIds]='(tabIds | async) ?? []' [currentTab]='eventCurrentTab | async' (onNewUrl)='onNewUrl($event)' 
+<app-webview [tabIds]='(tabIds | async) ?? []' [currentTab]='(eventCurrentTab | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }' (onNewUrl)='onNewUrl($event)' 
   [screenWidth]='screenWidth'
   [screenHeight]='screenHeight'
   (onTitleChanged)='onTitleChanged($event)'
@@ -25,8 +25,8 @@
   (onClicked)='onClicked($event)'
   (onContextMenu)='onContextMenu($event)'>
 </app-webview>
-<app-search #appSearch [currentApp]='eventCurrentApp | async' 
-  [currentTab]='eventCurrentTab | async'
+<app-search #appSearch [currentApp]='(eventCurrentApp | async) ?? { id: 0, title: "", url: "", icon: "" }' 
+  [currentTab]='(eventCurrentTab | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }'
   [histories]='(histories | async) ?? []'
   [topApps]='(topApps | async) ?? []'
   (onSearch)='doSearch($event)' 

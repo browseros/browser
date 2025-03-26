@@ -12,20 +12,20 @@ export interface State {
     app2Hosts: { [id: number]: string };
     tabs: ITab[];
     tabIds: number[];
-    currentApp: IApp | null;
-    currentTab: ITab | null;
+    currentApp: IApp;
+    currentTab: ITab;
     isGoingtoApp: boolean;
     isAddingApp: boolean;
     isAddingTab: boolean;
     isClosingApp: boolean;
-    isNavigatingNext: IWebAction | null;
-    isNavigatingBack: IWebAction | null;
-    isNavigatingReload: IWebAction | null;
-    isChangingUrl: IWebAction | null;
+    isNavigatingNext: IWebAction;
+    isNavigatingBack: IWebAction;
+    isNavigatingReload: IWebAction;
+    isChangingUrl: IWebAction;
     histories: IHistoryItem[];
     historyWithWeights: IHistoryItem[];
     topApps: IHistoryItem[];
-    suggestions: any[] | null;
+    suggestions: any[];
 }
 
 export const initialState: State = {
@@ -35,20 +35,20 @@ export const initialState: State = {
     app2Hosts: {},
     tabs: [],
     tabIds: [],
-    currentApp: null,
-    currentTab: null,
+    currentApp: { id: 0, title: '', url: '', icon: '' } as IApp,
+    currentTab: { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' } as ITab,
     isGoingtoApp: false,
     isAddingApp: false,
     isAddingTab: false,
     isClosingApp: false,
-    isNavigatingNext: null,
-    isNavigatingBack: null,
-    isNavigatingReload: null,
-    isChangingUrl: null,
+    isNavigatingNext: { tab: { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' } as ITab, app: { id: 0, title: '', url: '', icon: '' } as IApp, isCalling: false } as IWebAction,
+    isNavigatingBack: { tab: { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' } as ITab, app: { id: 0, title: '', url: '', icon: '' } as IApp, isCalling: false } as IWebAction,
+    isNavigatingReload: { tab: { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' } as ITab, app: { id: 0, title: '', url: '', icon: '' } as IApp, isCalling: false } as IWebAction,
+    isChangingUrl: { tab: { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' } as ITab, app: { id: 0, title: '', url: '', icon: '' } as IApp, isCalling: false } as IWebAction,
     histories: [],
     historyWithWeights: [],
     topApps: [],
-    suggestions: null
+    suggestions: []
 };
 
 export function reducer(state = initialState, action: app.Actions): State {

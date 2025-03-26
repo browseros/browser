@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit, OnDestroy } from '@angular/core';
 import type { IApp } from '../../models/app.model';
 import type { ITab } from '../../models/tab.model';
 import type { IHistoryItem } from '../../models/history-item.model';
@@ -73,19 +73,24 @@ import type { IWebEvent } from '../../models/web-event.model';
         }
     `]
 })
-export class AppNavComponent {
-    @Input() public currentApp!: IApp;
-    @Input() public tabs!: ITab[];
-    @Input() public screenWidth!: number;
-    @Input() public histories!: IHistoryItem[];
-    @Input() public currentTab!: ITab;
-    @Output() public onSearch: EventEmitter<IWebEvent> = new EventEmitter<IWebEvent>();
-    @Output() public onNextClick = new EventEmitter<void>();
-    @Output() public onBackClick = new EventEmitter<void>();
-    @Output() public onReloadClick = new EventEmitter<void>();
-    @Output() public onGotoTab = new EventEmitter<ITab>();
-    @Output() public onCloseTab = new EventEmitter<ITab>();
-    @Output() public onContextMenu = new EventEmitter<ITab>();
+export class AppNavComponent implements OnInit, OnDestroy {
+    @Input() currentApp: IApp = { id: 0, title: '', url: '', icon: '' };
+    @Input() tabs: ITab[] = [];
+    @Input() currentTab: ITab = { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' };
+    @Input() histories: IHistoryItem[] = [];
+    @Input() screenWidth: number = 0;
+
+    @Output() onNextClick = new EventEmitter<any>();
+    @Output() onBackClick = new EventEmitter<any>();
+    @Output() onGotoTab = new EventEmitter<any>();
+    @Output() onSearch = new EventEmitter<any>();
+    @Output() onContextMenu = new EventEmitter<any>();
+    @Output() onReloadClick = new EventEmitter<any>();
+    @Output() onCloseTab = new EventEmitter<any>();
+
+    ngOnInit() {}
+
+    ngOnDestroy() {}
 
     public show(): void {
         // Implementation will be updated to use Angular modal
