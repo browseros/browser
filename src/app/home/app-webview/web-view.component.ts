@@ -11,13 +11,13 @@ import { webContents } from '@electron/remote';
     template: `
         <webview
             #webview 
-            preload="./assets/js/preload.js"
+            preload="file:///Users/dlv/Documents/code/browser/src/assets/js/preload.js"
             src='about:blank' 
             [style.width]='screenWidth + "px"'
             [style.height]='getHeight() + "px"'
-            nodeintegration
-            nodeintegrationinsubframes
-            webpreferences="contextIsolation=false,nodeIntegration=true,enableRemoteModule=true"
+            nodeintegration="true"
+            webpreferences="contextIsolation=false,nodeIntegration=true,enableRemoteModule=true,sandbox=false,javascript=true,webSecurity=false"
+            partition="persist:main"
             allowpopups
         >
         </webview>
@@ -152,6 +152,13 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
                 try {
                     wc.openDevTools();
                     console.log('[WebView] DevTools opened for webview');
+                    
+                    // Add additional debugging
+                    wc.executeJavaScript(`
+                        console.log('[WebView Debug] Window location:', window.location.href);
+                        console.log('[WebView Debug] Preload script status:', !!window.electron);
+                        console.log('[WebView Debug] Document readyState:', document.readyState);
+                    `);
                 } catch (e) {
                     console.log('[WebView] Could not open devtools:', e);
                 }
@@ -176,9 +183,33 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
             }
         });
 
-        // Add preload script error handling
+        // Add enhanced preload script error handling
         webviewElm.addEventListener('preload-error', (e: any) => {
             console.error('[WebView] Preload script error:', e);
+        });
+
+        webviewElm.addEventListener('preload-script-error', (e: any) => {
+            console.error('[WebView] Preload script error (script):', e);
+        });
+
+        // Log when the webview is ready to show
+        webviewElm.addEventListener('ready-to-show', () => {
+            console.log('[WebView] Ready to show');
+        });
+
+        // Log when the webview is destroyed
+        webviewElm.addEventListener('destroyed', () => {
+            console.log('[WebView] Webview destroyed');
+        });
+
+        // Log any crashed events
+        webviewElm.addEventListener('crashed', (e: any) => {
+            console.error('[WebView] Crashed:', e);
+        });
+
+        // Log plugin crashed events
+        webviewElm.addEventListener('plugin-crashed', (e: any) => {
+            console.error('[WebView] Plugin crashed:', e);
         });
     }
 
