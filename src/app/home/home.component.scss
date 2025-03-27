@@ -1,19 +1,27 @@
 :host {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
 app-bar {
   flex: 0 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 app-nav {
   flex: 0 0 auto;
+  width: 100%;
 }
 
 app-webview {
   flex: 1 1 auto;
+  width: 100%;
   overflow: hidden;
+  position: relative;
 } 

@@ -1,0 +1,24 @@
+// Theme colors
+$primary-color: #ff6b00; // Main orange color
+$primary-light: #ff8533; // Lighter orange for hover states
+$primary-dark: #cc5500; // Darker orange for active states
+$primary-bg: #fff5eb; // Light orange background
+$primary-text: #4a4a4a; // Dark text color for contrast
+
+// Common variables
+$border-radius: 4px;
+$transition-speed: 0.2s;
+
+// Mixins
+@mixin hover-effect {
+  transition: background-color $transition-speed ease;
+  &:hover {
+    background-color: $primary-light;
+  }
+}
+
+@mixin active-effect {
+  &:active {
+    background-color: $primary-dark;
+  }
+} 
