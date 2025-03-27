@@ -14,13 +14,13 @@ export class AppBarComponent {
     @Input() public app2Hosts: { [id: number]: string } = {};
     @Input() public apps: IApp[] = [];
     @Input() public screenWidth: number = 0;
-    @Output() public onAppSelect = new EventEmitter<IApp>();
-    @Output() public onAppClose = new EventEmitter<IApp>();
-    @Output() public onContextMenu = new EventEmitter<IApp>();
-    @Output() public onBtnAddApp: EventEmitter<any> = new EventEmitter<any>();
-    @Output() public onEnteredSearchBox: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
-    @Output() public onBtnAppAction: EventEmitter<void> = new EventEmitter<void>();
-    @Output() public onAppBarDoubleClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+    @Output() public onAppSelect = new EventEmitter<any>();
+    @Output() public onAppClose = new EventEmitter<any>();
+    @Output() public onContextMenu = new EventEmitter<any>();
+    @Output() public onBtnAddApp = new EventEmitter<any>();
+    @Output() public onEnteredSearchBox = new EventEmitter<any>();
+    @Output() public onBtnAppAction = new EventEmitter<any>();
+    @Output() public onAppBarDoubleClick = new EventEmitter<any>();
 
     @Output() public onSearch = new EventEmitter<any>();
     @Output() public gotoApp = new EventEmitter<IApp>();

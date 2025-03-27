@@ -15,13 +15,13 @@ export class AppNavComponent {
     @Input() histories: IHistoryItem[] = [];
     @Input() screenWidth: number = 0;
 
-    @Output() onNextClick = new EventEmitter<void>();
-    @Output() onBackClick = new EventEmitter<void>();
-    @Output() onGotoTab = new EventEmitter<ITab>();
-    @Output() onContextMenu = new EventEmitter<ITab>();
-    @Output() onReloadClick = new EventEmitter<void>();
-    @Output() onCloseTab = new EventEmitter<ITab>();
-    @Output() onUrlChanged = new EventEmitter<{ tabId: number; url: string; appId: number }>();
+    @Output() onNextClick = new EventEmitter<any>();
+    @Output() onBackClick = new EventEmitter<any>();
+    @Output() onGotoTab = new EventEmitter<any>();
+    @Output() onContextMenu = new EventEmitter<any>();
+    @Output() onReloadClick = new EventEmitter<any>();
+    @Output() onCloseTab = new EventEmitter<any>();
+    @Output() onSearch = new EventEmitter<any>();
 
     ngOnInit() {}
 
@@ -61,11 +61,7 @@ export class AppNavComponent {
     }
 
     private selectHistoryItem(item: IHistoryItem): void {
-        this.onUrlChanged.emit({
-            tabId: this.currentTab.id,
-            url: item.link,
-            appId: this.currentApp.id
-        });
+        this.onSearch.emit(item.link);
     }
 
     private getTabWidth(): string {
