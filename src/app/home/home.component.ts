@@ -69,23 +69,23 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new appActions.CloseAppAction(app));
   }
 
-  onAppContextMenu(event: MouseEvent) {
+  onAppContextMenu(event: any) {
     // Handle app context menu
   }
 
-  onBtnAppAction(event: MouseEvent) {
+  onBtnAppAction(event: any) {
     // Handle app action button click
   }
 
-  onAppBarDoubleClick(event: MouseEvent) {
+  onAppBarDoubleClick(event: any) {
     // Handle app bar double click
   }
 
-  onNextClick(event: MouseEvent): void {
+  onNextClick(event: any): void {
     this.store.dispatch(new appActions.DoNextAction(this.currentApp));
   }
 
-  onBackClick(event: MouseEvent): void {
+  onBackClick(event: any): void {
     this.store.dispatch(new appActions.DoBackAction(this.currentApp));
   }
 
@@ -97,11 +97,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Handle search replacing
   }
 
-  onTabContextMenu(event: MouseEvent): void {
+  onTabContextMenu(event: any): void {
     console.log('Tab context menu:', event);
   }
 
-  onReloadClick(event: MouseEvent): void {
+  onReloadClick(event: any): void {
     this.store.dispatch(new appActions.DoReloadAction(this.currentApp));
   }
 
@@ -109,7 +109,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new appActions.CloseTabAction(tab));
   }
 
-  onNewUrl(url: string): void {
+  onNewUrl(url: any): void {
     const webEvent: IWebEvent = {
       eventValue: url,
       eventName: 'newurl',
@@ -119,7 +119,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new appActions.ChangeTabUrlAction(webEvent));
   }
 
-  onTitleChanged(title: string): void {
+  onTitleChanged(title: any): void {
     const webEvent: IWebEvent = {
       eventValue: title,
       eventName: 'titlechanged',
@@ -129,7 +129,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new appActions.ChangeTabTitleAction(webEvent));
   }
 
-  onIconChanged(icon: string): void {
+  onIconChanged(icon: any): void {
     const webEvent: IWebEvent = {
       eventValue: icon,
       eventName: 'iconchanged',
@@ -139,7 +139,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new appActions.ChangeTabIconAction(webEvent));
   }
 
-  onUrlChanged(url: string): void {
+  onUrlChanged(url: any): void {
     const webEvent: IWebEvent = {
       eventValue: url,
       eventName: 'urlchanged',
@@ -159,11 +159,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new appActions.DomReadyAction(webEvent));
   }
 
-  onClicked(event: MouseEvent): void {
+  onClicked(event: any): void {
     console.log('Clicked:', event);
   }
 
-  onContextMenu(event: MouseEvent) {
+  onContextMenu(event: any) {
     // Handle context menu
   }
 

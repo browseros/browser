@@ -5,6 +5,7 @@ import { HomeComponent } from './home.component';
 import { AppBarComponent } from './app-bar/app-bar.component';
 import { AppNavComponent } from './app-nav/app-nav.component';
 import { AppWebviewComponent } from './app-webview/app-webview.component';
+import { WebviewComponent } from './app-webview/web-view.component';
 import { AppSearchComponent } from './app-search/app-search.component';
 
 @NgModule({
@@ -13,6 +14,7 @@ import { AppSearchComponent } from './app-search/app-search.component';
     AppBarComponent,
     AppNavComponent,
     AppWebviewComponent,
+    WebviewComponent,
     AppSearchComponent
   ],
   imports: [
