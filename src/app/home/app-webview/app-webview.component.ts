@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, AfterViewInit, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 import type { IApp } from '../../models/app.model';
 import type { ITab } from '../../models/tab.model';
+import type { WebviewTag } from 'electron';
 
 @Component({
     selector: 'app-webview',
@@ -8,7 +9,7 @@ import type { ITab } from '../../models/tab.model';
     styleUrls: ['./app-webview.component.scss']
 })
 export class AppWebviewComponent implements AfterViewInit, OnChanges {
-    @ViewChild('webview') webview!: ElementRef<Electron.WebviewTag>;
+    @ViewChild('webview') webview!: ElementRef<WebviewTag>;
 
     @Input() currentApp: IApp = { id: 0, title: "", url: "", icon: "" };
     @Input() currentTab: ITab = { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" };

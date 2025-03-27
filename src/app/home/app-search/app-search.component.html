@@ -6,7 +6,7 @@
                 <input #searchInput
                        type="text"
                        class="search-input"
-                       [(ngModel)]="appSearch"
+                       [(ngModel)]="searchText"
                        (keyup)="keyUp($event)"
                        (input)="onSearchChanged()"
                        placeholder="Search URL or App">
@@ -15,11 +15,11 @@
 
         <div class="search-results">
             <!-- Google Search -->
-            <div class="search-section" *ngIf="appSearch">
-                <div class="search-item" [class.active]="isCurrentSelectedSearchItem(0)" (click)="doGoogleSearch(appSearch)">
+            <div class="search-section" *ngIf="searchText">
+                <div class="search-item" [class.active]="isCurrentSelectedSearchItem(0)" (click)="doGoogleSearch(searchText)">
                     <i class="bi bi-google search-item-icon"></i>
                     <div class="search-item-content">
-                        <div class="search-item-title">Search Google for "{{appSearch}}"</div>
+                        <div class="search-item-title">Search Google for "{{searchText}}"</div>
                     </div>
                 </div>
             </div>
@@ -29,10 +29,10 @@
                 <div class="search-section-title">Suggestions</div>
                 <div class="search-item" *ngFor="let suggestion of suggestions; let i = index"
                      [class.active]="isCurrentSelectedSearchItem(i + 1)"
-                     (click)="doGoogleSearch(suggestion.key)">
+                     (click)="doGoogleSearch(suggestion.link)">
                     <i class="bi bi-search search-item-icon"></i>
                     <div class="search-item-content">
-                        <div class="search-item-title">{{suggestion.key}}</div>
+                        <div class="search-item-title">{{suggestion.title}}</div>
                     </div>
                 </div>
             </div>
@@ -52,7 +52,7 @@
             </div>
 
             <!-- Top Apps -->
-            <div class="search-section" *ngIf="!appSearch && topApps.length > 0">
+            <div class="search-section" *ngIf="!searchText && topApps.length > 0">
                 <div class="search-section-title">Top Apps</div>
                 <div class="search-item" *ngFor="let app of topApps"
                      (click)="selectHistoryItem(app)">

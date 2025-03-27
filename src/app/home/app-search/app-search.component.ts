@@ -25,6 +25,7 @@ export class AppSearchComponent {
     searchText = '';
     selectedIndex = -1;
     suggestions: IHistoryItem[] = [];
+    historiesSearched: IHistoryItem[] = [];
 
     show(event?: MouseEvent) {
         this.isVisible = true;
@@ -38,6 +39,15 @@ export class AppSearchComponent {
         this.searchText = '';
         this.selectedIndex = -1;
         this.suggestions = [];
+        this.historiesSearched = [];
+    }
+
+    keyUp(event: KeyboardEvent) {
+        this.onKeyDown(event);
+    }
+
+    onSearchChanged() {
+        this.onInput({ target: this.searchInput.nativeElement } as unknown as Event);
     }
 
     onKeyDown(event: KeyboardEvent) {
@@ -70,6 +80,7 @@ export class AppSearchComponent {
     private updateSuggestions() {
         if (!this.searchText) {
             this.suggestions = [];
+            this.historiesSearched = [];
             return;
         }
 
@@ -84,10 +95,25 @@ export class AppSearchComponent {
                 a.link.toLowerCase().includes(searchLower)
             )
         ].slice(0, 10);
+
+        this.historiesSearched = this.histories.filter(h => 
+            h.title.toLowerCase().includes(searchLower) || 
+            h.link.toLowerCase().includes(searchLower)
+        ).slice(0, 10);
     }
 
-    onSuggestionClick(suggestion: IHistoryItem) {
-        this.onSearch.emit({ url: suggestion.link });
+    isCurrentSelectedSearchItem(index: number): boolean {
+        return this.selectedIndex === index;
+    }
+
+    doGoogleSearch(text: string) {
+        const url = `https://www.google.com/search?q=${encodeURIComponent(text)}`;
+        this.onSearch.emit({ url });
+        this.hide();
+    }
+
+    selectHistoryItem(item: IHistoryItem) {
+        this.onSearch.emit({ url: item.link });
         this.hide();
     }
 }
