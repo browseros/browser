@@ -3,13 +3,13 @@
     <webview
       #webview
       [attr.id]="'webview-' + (currentTab?.id || 0)"
-      [attr.src]="currentTab?.url"
       [style.height.px]="screenHeight"
       [style.width.px]="screenWidth"
       allowpopups
-      partition="persist:main"
-      webpreferences="contextIsolation=yes, nodeIntegration=no"
-      useragent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36">
+      nodeintegration
+      webpreferences="contextIsolation=no, nodeIntegration=yes"
+      [attr.src]="'about:blank'"
+      partition="persist:main">
     </webview>
   </div>
 </div>
