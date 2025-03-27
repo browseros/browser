@@ -8,7 +8,20 @@ import { webContents } from '@electron/remote';
 
 @Component({
     selector: 'web-view',
-    templateUrl: './web-view.component.html'
+    template: `
+        <webview
+            #webview 
+            preload="./assets/js/preload.js"
+            src='about:blank' 
+            [style.width]='screenWidth + "px"'
+            [style.height]='getHeight() + "px"'
+            nodeintegration
+            nodeintegrationinsubframes
+            webpreferences="contextIsolation=false,nodeIntegration=true,enableRemoteModule=true"
+            allowpopups
+        >
+        </webview>
+    `
 })
 export class WebviewComponent implements AfterViewInit, OnDestroy {
     @Input() public tabId: number = 0;
@@ -48,6 +61,23 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
 
         const webviewElm = self.webview.nativeElement;
         console.log('[WebView] Webview element:', webviewElm);
+
+        // Log webview properties to debug preload script
+        console.log('[WebView] Webview preload path:', webviewElm.getAttribute('preload'));
+        console.log('[WebView] Webview nodeIntegration:', webviewElm.getAttribute('nodeintegration'));
+        console.log('[WebView] Webview webpreferences:', webviewElm.getAttribute('webpreferences'));
+
+        webviewElm.addEventListener('did-start-loading', () => {
+            console.log('[WebView] Started loading');
+        });
+
+        webviewElm.addEventListener('did-stop-loading', () => {
+            console.log('[WebView] Stopped loading');
+        });
+
+        webviewElm.addEventListener('did-fail-load', (e: any) => {
+            console.error('[WebView] Failed to load:', e);
+        });
 
         webviewElm.addEventListener('page-title-updated', (e: any) => {
             console.log('[WebView] Title updated:', e.title);
@@ -121,17 +151,10 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
                 // Enable webview devtools for debugging
                 try {
                     wc.openDevTools();
+                    console.log('[WebView] DevTools opened for webview');
                 } catch (e) {
                     console.log('[WebView] Could not open devtools:', e);
                 }
-
-                // Inject click handler into the page
-                wc.executeJavaScript(`
-                    document.addEventListener('click', () => {
-                        const msg = { channel: 'clicked', args: [] };
-                        window.postMessage(msg, '*');
-                    });
-                `);
             }
 
             if (self.onFirstLoad) {
@@ -142,11 +165,20 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
             }
         });
 
+        webviewElm.addEventListener('console-message', (e: any) => {
+            console.log('[WebView Console]', e.message);
+        });
+
         webviewElm.addEventListener('ipc-message', (e: any) => {
             if (e.channel === 'clicked') {
                 console.log('[WebView] Click detected');
                 this.onClicked.emit('clicked');
             }
+        });
+
+        // Add preload script error handling
+        webviewElm.addEventListener('preload-error', (e: any) => {
+            console.error('[WebView] Preload script error:', e);
         });
     }
 

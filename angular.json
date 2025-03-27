@@ -15,8 +15,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "./custom-webpack.config.js"
+            },
             "outputPath": "dist/browser-os",
             "index": "src/index.html",
             "main": "src/main.browser.ts",
@@ -66,19 +69,21 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "browser-os:build:production"
+              "browserTarget": "browser-os:build:production"
             },
             "development": {
-              "buildTarget": "browser-os:build:development"
+              "browserTarget": "browser-os:build:development"
             }
           },
-          "defaultConfiguration": "development",
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "host": "localhost",
-            "port": 4200
+            "browserTarget": "browser-os:build"
           }
         },
         "test": {

@@ -214,7 +214,13 @@ module.exports = function (options) {
      *
      * See: https://webpack.js.org/configuration/externals/
      */
-    externals: [dependencyExternals()],
+    externals: [
+      dependencyExternals(),
+      {
+        electron: 'require("electron")',
+        '@electron/remote': 'require("@electron/remote")'
+      }
+    ],
 
     /*
      * Add additional plugins to the compiler.
@@ -385,7 +391,19 @@ module.exports = function (options) {
 
     ],
 
-    target: 'electron-renderer'
+    /*
+     * Target Electron renderer process
+     */
+    target: 'electron-renderer',
+
+    /*
+     * Node configuration
+     */
+    node: {
+      __dirname: false,
+      __filename: false,
+      global: true
+    }
 
   };
 }

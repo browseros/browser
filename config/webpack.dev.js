@@ -23,7 +23,6 @@ const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 5000;
 
-
 const DllBundlesPlugin = require('webpack-dll-bundles-plugin').DllBundlesPlugin;
 
 /**
@@ -32,7 +31,6 @@ const DllBundlesPlugin = require('webpack-dll-bundles-plugin').DllBundlesPlugin;
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
 module.exports = function (options) {
-
   const HMR = helpers.hasProcessFlag('hot') || (options && options.HMR) || false;
 
   const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
@@ -42,8 +40,7 @@ module.exports = function (options) {
     HMR: HMR
   });
 
-  return webpackMerge(commonConfig({env: ENV}), {
-
+  const config = webpackMerge(commonConfig({env: ENV}), {
     /**
      * Developer tool to enhance debugging
      *
@@ -58,7 +55,6 @@ module.exports = function (options) {
      * See: http://webpack.github.io/docs/configuration.html#output
      */
     output: {
-
       /**
        * The output directory as absolute path (required).
        *
@@ -123,7 +119,6 @@ module.exports = function (options) {
     },
 
     plugins: [
-
       /**
        * Plugin: DefinePlugin
        * Description: Define free variables.
@@ -195,14 +190,6 @@ module.exports = function (options) {
       ]),
 
       /**
-       * Plugin: NamedModulesPlugin (experimental)
-       * Description: Uses file names as module name.
-       *
-       * See: https://github.com/webpack/webpack/commit/a04ffb928365b19feb75087c63f13cadfc08e1eb
-       */
-      // new NamedModulesPlugin(),
-
-      /**
        * Plugin LoaderOptionsPlugin (experimental)
        *
        * See: https://gist.github.com/sokra/27b24881210b56bbaff7
@@ -210,7 +197,6 @@ module.exports = function (options) {
       new LoaderOptionsPlugin({
         debug: true,
         options: {
-
         }
       }),
 
@@ -244,20 +230,28 @@ module.exports = function (options) {
       }
     },
 
-    /*
-     * Include polyfills or mocks for various node stuff
-     * Description: Node configuration
-     *
-     * See: https://webpack.github.io/docs/configuration.html#node
+    /**
+     * Target Electron
      */
-    /* node: {
-      global: true,
-      crypto: 'empty',
-      process: true,
-      module: false,
-      clearImmediate: false,
-      setImmediate: false
-    } */
+    target: 'electron-renderer',
 
+    /**
+     * Externalize Electron modules
+     */
+    externals: {
+      electron: 'require("electron")',
+      '@electron/remote': 'require("@electron/remote")'
+    },
+
+    /**
+     * Node configuration
+     */
+    node: {
+      __dirname: false,
+      __filename: false,
+      global: true
+    }
   });
+
+  return config;
 }
