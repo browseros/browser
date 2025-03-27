@@ -41,21 +41,29 @@ export class AppWebviewComponent implements AfterViewInit, OnChanges {
         const webview = this.webview.nativeElement;
 
         webview.addEventListener('dom-ready', () => {
+            console.log('Webview DOM ready');
             this.onDomReady.emit();
         });
 
         webview.addEventListener('page-title-updated', (event: any) => {
+            console.log('Title updated:', event.title);
             this.onTitleChanged.emit(event.title);
         });
 
         webview.addEventListener('page-favicon-updated', (event: any) => {
             if (event.favicons && event.favicons.length > 0) {
+                console.log('Favicon updated:', event.favicons[0]);
                 this.onIconChanged.emit(event.favicons[0]);
             }
         });
 
         webview.addEventListener('did-navigate', (event: any) => {
+            console.log('URL changed:', event.url);
             this.onUrlChanged.emit(event.url);
+        });
+
+        webview.addEventListener('did-fail-load', (event: any) => {
+            console.error('Failed to load:', event);
         });
 
         webview.addEventListener('click', (event: MouseEvent) => {
@@ -67,11 +75,20 @@ export class AppWebviewComponent implements AfterViewInit, OnChanges {
         });
     }
 
+    private ensureProtocol(url: string): string {
+        if (!url) return '';
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+            return url;
+        }
+        return `https://${url}`;
+    }
+
     private loadCurrentTab() {
         if (this.webview && this.currentTab) {
-            const newUrl = this.currentTab.url;
+            const newUrl = this.ensureProtocol(this.currentTab.url);
             if (newUrl) {
-                this.webview.nativeElement.loadURL(newUrl);
+                console.log('Loading URL:', newUrl);
+                this.webview.nativeElement.src = newUrl;
             }
         }
     }
