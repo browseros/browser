@@ -111,38 +111,74 @@ export class AppSearchComponent implements OnInit, OnDestroy {
     }
 
     public doSearch(key: string) {
-        if (this.currentSelectedSearchItem === -1) {
-            this.doGoogleSearch(key);
-        } else if (this.suggestions && this.suggestions[this.currentSelectedSearchItem - 1]) {
-            this.doGoogleSearch(this.suggestions[this.currentSelectedSearchItem - 1].key);
+        if (!key) return;
+        
+        // Handle URL directly if it's a valid URL or contains http(s)://
+        if (this.isValidUrl(key)) {
+            // Ensure URL has protocol
+            const url = key.startsWith('http') ? key : `https://${key}`;
+            this.onSearch.emit({ url });
+            this.hide();
+            return;
         }
+
+        // Handle Google search
+        const googleLink = this.getGoogleSearchLink(key);
+        this.onSearch.emit({ url: googleLink });
+        this.hide();
     }
 
     public doGoogleSearch(key: string) {
-        if (this.isContainMethod(key) && this.isPotentialLink(key)) {
-            this.doSearch(key);
-            return;
+        if (!key) return;
+        
+        // If it looks like a URL, try to navigate directly
+        if (this.isValidUrl(key)) {
+            this.onSearch.emit({ url: this.formatUrl(key) });
+        } else {
+            // Otherwise do a Google search
+            const googleLink = this.getGoogleSearchLink(key);
+            this.onSearch.emit({ url: googleLink });
         }
-        let googleLink = this.getGoogleSearchLink(key);
-        this.doSearch(googleLink);
+        this.hide();
     }
 
     private getGoogleSearchLink(suggestion: string): string {
-        let googleLink = 'https://www.google.com/search?ie=UTF-8&q=' + encodeURI(suggestion);
-        return googleLink;
+        return `https://www.google.com/search?ie=UTF-8&q=${encodeURIComponent(suggestion)}`;
     }
 
-    private isContainMethod(suggestion: string): boolean {
-        return Boolean(suggestion && (suggestion.indexOf('http://') === 0 || suggestion.indexOf('https://') === 0));
+    private isValidUrl(str: string): boolean {
+        // Check if it's already a valid URL
+        try {
+            new URL(str);
+            return true;
+        } catch {
+            // Check if it could be a valid URL with https:// prefix
+            try {
+                new URL(`https://${str}`);
+                return this.isPotentialLink(str);
+            } catch {
+                return false;
+            }
+        }
+    }
+
+    private formatUrl(url: string): string {
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+            return url;
+        }
+        return `https://${url}`;
     }
 
     private isPotentialLink(suggestion: string): boolean {
-        return Boolean(suggestion && suggestion.indexOf('.') >= 0 && suggestion.indexOf(' ') < 0);
+        return Boolean(
+            suggestion && 
+            suggestion.includes('.') && 
+            !suggestion.includes(' ') &&
+            !suggestion.includes('?') // Exclude search queries with dots
+        );
     }
 
     public keyUp(event: any) {
-        event.preventDefault();
-        console.log(event);
         if (event.code === 'ArrowDown') {
             this.onDown(event);
             return;
@@ -152,21 +188,18 @@ export class AppSearchComponent implements OnInit, OnDestroy {
             return;
         }
         if (event.code === 'Enter') {
-            console.log(this.currentSelectedSearchItem);
+            const value = (event.target as HTMLInputElement).value.trim();
             if (this.currentSelectedSearchItem === -1) {
-                this.doSearch((event.target as HTMLInputElement).value);
-                return;
-            }
-            if (this.currentSelectedSearchItem === 0) {
+                this.doSearch(value);
+            } else if (this.currentSelectedSearchItem === 0) {
                 this.doGoogleSearch(this.appSearch);
-                return;
-            }
-            if (this.suggestions && this.suggestions[this.currentSelectedSearchItem - 1]) {
+            } else if (this.suggestions && this.suggestions[this.currentSelectedSearchItem - 1]) {
                 this.doGoogleSearch(this.suggestions[this.currentSelectedSearchItem - 1].key);
             }
             return;
         }
         this.currentSelectedSearchItem = -1;
+        this.onSearchChanged();
     }
 
     private onUp(event: any): void {

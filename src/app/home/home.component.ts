@@ -133,6 +133,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   doSearch(event: any) {
-    // Handle search
+    if (!event || !event.url) return;
+    
+    // Create a new tab with the search URL
+    const newTab: ITab = {
+      id: Date.now(), // Generate a unique ID
+      appId: 0, // This will be set by the reducer
+      title: '',  // This will be updated when the page loads
+      url: event.url,
+      hostName: new URL(event.url).hostname,
+      icon: ''  // This will be updated when the page loads
+    };
+
+    // Dispatch action to create and navigate to new tab
+    this.store.dispatch(new appActions.AddTabAction(newTab));
   }
 }
