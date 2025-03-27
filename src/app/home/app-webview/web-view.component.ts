@@ -11,14 +11,12 @@ import { webContents } from '@electron/remote';
     template: `
         <webview
             #webview 
-            preload="file:///Users/dlv/Documents/code/browser/src/assets/js/preload.js"
+            [attr.preload]="preloadPath"
             src='about:blank' 
             [style.width]='screenWidth + "px"'
             [style.height]='getHeight() + "px"'
-            nodeintegration="true"
-            webpreferences="contextIsolation=false,nodeIntegration=true,enableRemoteModule=true,sandbox=false,javascript=true,webSecurity=false"
-            partition="persist:main"
-            allowpopups
+            nodeintegration
+            webpreferences="nodeIntegration=true,contextIsolation=false"
         >
         </webview>
     `
@@ -39,9 +37,13 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     private onFirstLoad = true;
     private tabs: ITab[] = [];
     private tabsSub: Subscription | undefined;
+    public preloadPath: string;
 
     constructor(public store: Store<fromRoot.State>) {
         console.log('[WebView] Constructor called');
+        // Use a relative path for preload script
+        this.preloadPath = './assets/js/preload.js';
+        console.log('[WebView] Preload script path:', this.preloadPath);
     }
 
     public ngOnDestroy() {
