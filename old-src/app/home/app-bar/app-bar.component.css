@@ -1,0 +1,42 @@
+/*styles for home content only*/
+.app-on-tab {
+    padding: 3px 3px 3px 3px;
+    display: inline-block; 
+    height: 25px;
+    text-align: center;
+    margin-top: 2px;
+    vertical-align: bottom;
+    border: 1px solid #ccc;
+    cursor: pointer;  
+    border-radius: 3px 3px 3px 3px;  
+    margin-right: 2px;
+    font-size: 12px;
+    white-space: nowrap;      
+    overflow: hidden;         
+    text-overflow: ellipsis;
+}
+.bar {
+    padding: 0 2px 0 2px;
+    height: 29px;
+}
+
+.bar-icon {
+    display: inline-block; 
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    margin-top: 2px;
+    vertical-align: bottom;
+    border: 2px solid #ddd;
+    cursor: pointer;  
+    border-radius: 50%;  
+    background-color: white;
+}
+
+.bar-app-action {
+    cursor: pointer; 
+    margin-top: 2px; 
+    height: 25px; 
+    padding-left: 2px; 
+    padding-top: 3px;
+}

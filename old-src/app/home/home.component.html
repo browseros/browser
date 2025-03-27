@@ -1,0 +1,34 @@
+<app-bar [apps]='eventApps | async' [currentApp]='eventCurrentApp | async' [currentTab]='eventCurrentTab | async' (onAppSelect)='gotoApp($event)' (onAppClose)='closeApp($event)'
+  [app2Hosts]='app2Hosts | async'
+  [screenWidth]='screenWidth'
+  (onEnteredSearchBox)='appSearch.show($event)'
+  (onContextMenu)='onAppContextMenu($event)'
+  (onBtnAppAction)='onBtnAppAction($event)'
+  (onAppBarDoubleClick)='onAppBarDoubleClick($event)'
+  (onBtnAddApp)='appSearch.show()'>
+</app-bar>
+<app-nav [currentApp]='eventCurrentApp | async' [tabs]='eventTabs | async' [currentTab]='eventCurrentTab | async' (onNextClick)='onNextClick($event)' (onBackClick)='onBackClick($event)' (onGotoTab)='onGotoTab($event)'
+  [histories]='histories | async'
+  [screenWidth]='screenWidth'
+  (onSearch)='doSearchReplacing($event)'
+  (onContextMenu)='onTabContextMenu($event)'
+  (onReloadClick)='onReloadClick($event)'
+  (onCloseTab)='onCloseTab($event)'></app-nav>
+<app-webview [tabIds]='tabIds | async' [currentTab]='eventCurrentTab | async' (onNewUrl)='onNewUrl($event)' 
+  [screenWidth]='screenWidth'
+  [screenHeight]='screenHeight'
+  (onTitleChanged)='onTitleChanged($event)'
+  (onIconChanged)='onIconChanged($event)' 
+  (onUrlChanged)='onUrlChanged($event)'
+  (onDomReady)='onDomReady($event)'
+  (onClicked)='onClicked($event)'
+  (onContextMenu)='onContextMenu($event)'>
+</app-webview>
+<app-search #appSearch [currentApp]='eventCurrentApp | async' 
+  [suggestions]='suggestions | async'
+  [histories]='histories | async'
+  [topApps]='topApps | async'
+  [currentTab]='eventCurrentTab | async' 
+  (onSearch)='doSearch($event)' 
+  (onSearchReplacing)='doSearchReplacing($event)'>
+</app-search>

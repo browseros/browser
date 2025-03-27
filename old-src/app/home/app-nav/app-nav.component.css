@@ -1,0 +1,46 @@
+/*styles for home content only*/
+.tab-on-nav {
+    margin-left: 1px;
+    margin-top: 1px;
+    padding: 3px 3px 3px 3px;
+    display: inline-block; 
+    height: 25px;
+    text-align: center;
+    vertical-align: bottom;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    cursor: pointer; 
+    font-size: 12px;
+    white-space: nowrap;      
+    overflow: hidden;         
+    text-overflow: ellipsis;  
+}
+
+.navs {
+    background-color: #ddd;
+    height: 26px; 
+}
+
+.recent-item-title {
+    font-size: 11px;
+    max-width: 300px; 
+    white-space: nowrap;      
+    overflow: hidden;
+    display: inline-block;        
+    text-overflow: ellipsis;
+}
+
+.recent-item-link {
+    font-size: 11px;
+    color: #cccccc;
+    max-width: 200px;
+    white-space: nowrap;      
+    overflow: hidden;
+    display: inline-block;        
+    text-overflow: ellipsis;
+}
+
+.recent-item {
+    cursor: pointer;
+}

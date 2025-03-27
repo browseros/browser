@@ -1,0 +1,58 @@
+<div id='app-search' class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Search URL or App</h4>
+            </div>
+            <div class="modal-body">
+                <input id='app-search-input' [(ngModel)]='appSearch' class='form-control' type='text'
+                    (keyup)='keyUp($event)'
+                    (ngModelChange)='onSearchChanged()' />
+                <div *ngIf='suggestions' style='margin-top: 5px; margin-left: 3px;'>
+                    <div class="search-item {{isCurrentSelectedSearchItem(0) ? 'hover': ''}}" (click)='doGoogleSearch(appSearch)'>
+                        <i class='glyphicon glyphicon-search'></i>&nbsp;{{appSearch}}
+                    </div>
+                    <div *ngFor='let suggestion of suggestions | slice:0:4; let i=index' class="search-item {{isCurrentSelectedSearchItem(i+1) ? 'hover': ''}}" (click)='doGoogleSearch(suggestion.key)'>
+                        <i class='glyphicon glyphicon-search'></i>&nbsp;{{suggestion.key}}<span *ngIf='isContainMethod(suggestion.key)'> - {{suggestion.title}}</span>
+                    </div>
+                </div>
+                <div *ngIf='historiesSearched && historiesSearched.length > 0' style='margin-top: 5px;'>
+                    <div>
+                        <b>History and bookmark</b>
+                    </div>
+                    <div class="history-item" *ngFor='let item of historiesSearched' (click)='selectHistoryItem(item)'>
+                        <div class='row'>
+                            <div class="col-md-8 history-item-title">
+                                {{item.title}}
+                            </div>
+                            <div class="col-md-4 history-item-link">
+                                {{item.link}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style='margin-top: 5px;'>
+                    <ng-container *ngFor='let item of topApps; let i = index'>
+                        <div class='col-md-2 div-history-item' *ngIf='item.title && item.icon && i < 18'>
+                            <a [title]='item.link' (click)='selectHistoryItem(item)' class="app-item">
+                                <img [src]='item.icon' style="width: 45px; max-height: 45px; margin-top: -1px;" />
+                                <br> {{item.title}}
+                            </a>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)='doSearch(appSearch)'>
+                    <i class='glyphicon glyphicon-search'></i> Search</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
