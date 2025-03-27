@@ -23,10 +23,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   eventApps: Observable<IApp[]> = this.store.select(fromRoot.getEventApps);
   eventTabs: Observable<ITab[]> = this.store.select(fromRoot.getEventTabs);
   eventCurrentApp: Observable<IApp> = this.store.select(fromRoot.getEventCurrentApp).pipe(
-    map(app => app || { id: 0, title: '', url: '', icon: '' } as IApp)
+    map(app => app || { id: 0, title: '', url: '', icon: '' })
   );
   eventCurrentTab: Observable<ITab> = this.store.select(fromRoot.getEventCurrentTab).pipe(
-    map(tab => tab || { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' } as ITab)
+    map(tab => tab || { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' })
   );
   app2Hosts: Observable<{ [id: number]: string }> = this.store.select(fromRoot.getApp2Hosts);
   tabIds: Observable<number[]> = this.store.select(fromRoot.getTabIds);
@@ -35,11 +35,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   screenWidth: number = window.innerWidth;
   screenHeight: number = window.innerHeight;
 
+  private currentApp: IApp = { id: 0, title: '', url: '', icon: '' };
+  private currentTab: ITab = { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' };
+
   constructor(
     private router: Router,
     private store: Store<fromRoot.State>
   ) {
     console.log('[HomeComponent] Constructor called');
+    this.eventCurrentApp.subscribe(app => this.currentApp = app);
+    this.eventCurrentTab.subscribe(tab => this.currentTab = tab);
   }
 
   ngOnInit() {
@@ -64,75 +69,105 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new appActions.CloseAppAction(app));
   }
 
-  onAppContextMenu(event: any) {
+  onAppContextMenu(event: MouseEvent) {
     // Handle app context menu
   }
 
-  onBtnAppAction(event: any) {
+  onBtnAppAction(event: MouseEvent) {
     // Handle app action button click
   }
 
-  onAppBarDoubleClick(event: any) {
+  onAppBarDoubleClick(event: MouseEvent) {
     // Handle app bar double click
   }
 
-  onNextClick(event: any): void {
-    this.store.dispatch(new appActions.DoNextAction({ id: 0, title: '', url: '', icon: '' }));
+  onNextClick(event: MouseEvent): void {
+    this.store.dispatch(new appActions.DoNextAction(this.currentApp));
   }
 
-  onBackClick(event: any): void {
-    this.store.dispatch(new appActions.DoBackAction({ id: 0, title: '', url: '', icon: '' }));
+  onBackClick(event: MouseEvent): void {
+    this.store.dispatch(new appActions.DoBackAction(this.currentApp));
   }
 
-  onGotoTab(event: any): void {
-    this.store.dispatch(new appActions.GotoTabAction(event));
+  onGotoTab(tab: ITab): void {
+    this.store.dispatch(new appActions.GotoTabAction(tab));
   }
 
-  doSearchReplacing(event: any) {
+  doSearchReplacing(url: string) {
     // Handle search replacing
   }
 
-  onTabContextMenu(event: any): void {
+  onTabContextMenu(event: MouseEvent): void {
     console.log('Tab context menu:', event);
   }
 
-  onReloadClick(event: any): void {
-    this.store.dispatch(new appActions.DoReloadAction({ id: 0, title: '', url: '', icon: '' }));
+  onReloadClick(event: MouseEvent): void {
+    this.store.dispatch(new appActions.DoReloadAction(this.currentApp));
   }
 
-  onCloseTab(event: any): void {
-    this.store.dispatch(new appActions.CloseTabAction(event));
+  onCloseTab(tab: ITab): void {
+    this.store.dispatch(new appActions.CloseTabAction(tab));
   }
 
-  onNewUrl(event: any): void {
-    this.store.dispatch(new appActions.ChangeTabUrlAction(event));
+  onNewUrl(url: string): void {
+    const webEvent: IWebEvent = {
+      eventValue: url,
+      eventName: 'newurl',
+      tabId: this.currentTab.id,
+      app: this.currentApp
+    };
+    this.store.dispatch(new appActions.ChangeTabUrlAction(webEvent));
   }
 
-  onTitleChanged(event: any): void {
-    this.store.dispatch(new appActions.ChangeTabTitleAction(event));
+  onTitleChanged(title: string): void {
+    const webEvent: IWebEvent = {
+      eventValue: title,
+      eventName: 'titlechanged',
+      tabId: this.currentTab.id,
+      app: this.currentApp
+    };
+    this.store.dispatch(new appActions.ChangeTabTitleAction(webEvent));
   }
 
-  onIconChanged(event: any): void {
-    this.store.dispatch(new appActions.ChangeTabIconAction(event));
+  onIconChanged(icon: string): void {
+    const webEvent: IWebEvent = {
+      eventValue: icon,
+      eventName: 'iconchanged',
+      tabId: this.currentTab.id,
+      app: this.currentApp
+    };
+    this.store.dispatch(new appActions.ChangeTabIconAction(webEvent));
   }
 
-  onUrlChanged(event: any): void {
-    this.store.dispatch(new appActions.ChangeTabUrlAction(event));
+  onUrlChanged(url: string): void {
+    const webEvent: IWebEvent = {
+      eventValue: url,
+      eventName: 'urlchanged',
+      tabId: this.currentTab.id,
+      app: this.currentApp
+    };
+    this.store.dispatch(new appActions.ChangeTabUrlAction(webEvent));
   }
 
-  onDomReady(event: any): void {
-    this.store.dispatch(new appActions.DomReadyAction(event));
+  onDomReady(): void {
+    const webEvent: IWebEvent = {
+      eventValue: null,
+      eventName: 'domready',
+      tabId: this.currentTab.id,
+      app: this.currentApp
+    };
+    this.store.dispatch(new appActions.DomReadyAction(webEvent));
   }
 
-  onClicked(event: any): void {
+  onClicked(event: MouseEvent): void {
     console.log('Clicked:', event);
   }
 
-  onContextMenu(event: any) {
+  onContextMenu(event: MouseEvent) {
     // Handle context menu
   }
 
-  doSearch(event: any) {
+  doSearch(event: { url: string }) {
     if (!event || !event.url) return;
     
     // Create a new tab with the search URL

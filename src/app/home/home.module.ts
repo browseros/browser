@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home.component';
@@ -6,7 +6,6 @@ import { AppBarComponent } from './app-bar/app-bar.component';
 import { AppNavComponent } from './app-nav/app-nav.component';
 import { AppWebviewComponent } from './app-webview/app-webview.component';
 import { AppSearchComponent } from './app-search/app-search.component';
-import { WebViewComponent } from './web-view/web-view.component';
 
 @NgModule({
   declarations: [
@@ -14,8 +13,7 @@ import { WebViewComponent } from './web-view/web-view.component';
     AppBarComponent,
     AppNavComponent,
     AppWebviewComponent,
-    AppSearchComponent,
-    WebViewComponent
+    AppSearchComponent
   ],
   imports: [
     CommonModule,
@@ -23,6 +21,7 @@ import { WebViewComponent } from './web-view/web-view.component';
   ],
   exports: [
     HomeComponent
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomeModule { } 

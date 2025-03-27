@@ -1,16 +1,12 @@
 <div class="webview-container">
   <div class="webview-content">
-    <web-view
-      [tabId]="currentTab?.id || 0"
-      [screenHeight]="screenHeight"
-      [screenWidth]="screenWidth"
-      (clicked)="onClicked.emit($event)"
-      (contextMenu)="onContextMenu.emit($event)"
-      (domReady)="onDomReady.emit({eventValue: null, eventName: 'domready', tabId: currentTab?.id || 0, app: currentApp || { id: 0, title: '', url: '', icon: '' }})"
-      (newUrl)="onNewUrl.emit({eventValue: $event, eventName: 'newurl', tabId: currentTab?.id || 0, app: currentApp || { id: 0, title: '', url: '', icon: '' }})"
-      (titleChanged)="onTitleChanged.emit({eventValue: $event, eventName: 'titlechanged', tabId: currentTab?.id || 0, app: currentApp || { id: 0, title: '', url: '', icon: '' }})"
-      (iconChanged)="onIconChanged.emit({eventValue: $event, eventName: 'iconchanged', tabId: currentTab?.id || 0, app: currentApp || { id: 0, title: '', url: '', icon: '' }})"
-      (urlChanged)="onUrlChanged.emit($event)">
-    </web-view>
+    <webview
+      #webview
+      [attr.id]="'webview-' + (currentTab?.id || 0)"
+      [style.height.px]="screenHeight"
+      [style.width.px]="screenWidth"
+      allowpopups
+      webpreferences="contextIsolation=yes, nodeIntegration=no">
+    </webview>
   </div>
 </div>

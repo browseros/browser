@@ -1,13 +1,17 @@
 .webview-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-}
-
-.webview-content {
-  flex: 1;
   position: relative;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+
+  .webview-content {
+    width: 100%;
+    height: 100%;
+    
+    webview {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  }
 } 

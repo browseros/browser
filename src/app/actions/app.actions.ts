@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
-import { IApp } from '../models/app.model';
-import { IWebEvent } from '../models/web-event.model';
-import { ITab } from '../models/tab.model';
+import type { IApp } from '../models/app.model';
+import type { ITab } from '../models/tab.model';
+import type { IWebEvent } from '../models/web-event.model';
 
 export const GOTO_APP = '[App] Go To App';
 export const GOTO_APP_COMPLETE = '[App] Go To App Complete';
@@ -237,7 +237,7 @@ export class CloseOtherAppsCompleteAction implements Action {
 export class DomReadyAction implements Action {
   public readonly type = DOM_READY;
 
-  constructor(public payload: IWebEvent) { }
+  constructor(public payload?: IWebEvent) { }
 }
 
 // tslint:disable-next-line:max-classes-per-file
@@ -259,12 +259,14 @@ export class GetSuggestionsCompleteAction implements Action {
   constructor(public payload: any[]) { }
 }
 
-/**
- * Export a type alias of all actions in this action group
- * so that reducers can easily compose action types
- */
-export type Actions
-  = ChangeTabTitleAction
+export type Actions =
+  | GotoAppAction
+  | AddTabAction
+  | AddTabCompleteAction
+  | CloseAppAction
+  | CloseAppCompleteAction
+  | ChangeTabTitleAction
+  | ChangeTabUrlAction
   | ChangeTabTitleCompleteAction
   | DoNextAction
   | DoNextCompleteAction
@@ -278,7 +280,6 @@ export type Actions
   | CloseTabCompleteAction
   | ChangeTabIconAction
   | ChangeTabIconCompleteAction
-  | ChangeTabUrlAction
   | DoChangeUrlAction
   | DoChangeUrlCompleteAction
   | CloseOtherTabsAction
@@ -287,12 +288,7 @@ export type Actions
   | CloseOtherTabsAllAppsCompleteAction
   | CloseOtherAppsAction
   | CloseOtherAppsCompleteAction
-  | GotoAppAction
-  | AddTabCompleteAction
-  | AddTabAction
-  | CloseAppAction
   | DomReadyAction
   | ClearSuggestionsAction
   | GetSuggestionsAction
-  | GetSuggestionsCompleteAction
-  ;
+  | GetSuggestionsCompleteAction;

@@ -1,28 +1,27 @@
-import { Component, Output, EventEmitter, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import type { IApp } from '../../models/app.model';
 import type { ITab } from '../../models/tab.model';
 import type { IHistoryItem } from '../../models/history-item.model';
-import type { IWebEvent } from '../../models/web-event.model';
 
 @Component({
     selector: 'app-nav',
     templateUrl: './app-nav.component.html',
     styleUrls: ['./app-nav.component.scss']
 })
-export class AppNavComponent implements OnInit, OnDestroy {
+export class AppNavComponent {
     @Input() currentApp: IApp = { id: 0, title: '', url: '', icon: '' };
     @Input() tabs: ITab[] = [];
     @Input() currentTab: ITab = { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' };
     @Input() histories: IHistoryItem[] = [];
     @Input() screenWidth: number = 0;
 
-    @Output() onNextClick = new EventEmitter<any>();
-    @Output() onBackClick = new EventEmitter<any>();
-    @Output() onGotoTab = new EventEmitter<any>();
-    @Output() onSearch = new EventEmitter<any>();
-    @Output() onContextMenu = new EventEmitter<any>();
-    @Output() onReloadClick = new EventEmitter<any>();
-    @Output() onCloseTab = new EventEmitter<any>();
+    @Output() onNextClick = new EventEmitter<void>();
+    @Output() onBackClick = new EventEmitter<void>();
+    @Output() onGotoTab = new EventEmitter<ITab>();
+    @Output() onContextMenu = new EventEmitter<ITab>();
+    @Output() onReloadClick = new EventEmitter<void>();
+    @Output() onCloseTab = new EventEmitter<ITab>();
+    @Output() onUrlChanged = new EventEmitter<{ tabId: number; url: string; appId: number }>();
 
     ngOnInit() {}
 
@@ -37,9 +36,13 @@ export class AppNavComponent implements OnInit, OnDestroy {
     }
 
     private onMouseUp(event: MouseEvent, tab: ITab): void {
-        // middle button
         if (event.button === 1) {
+            // Middle click
+            event.preventDefault();
             this.onCloseTab.emit(tab);
+        } else if (event.button === 0) {
+            // Left click
+            this.onGotoTab.emit(tab);
         }
     }
 
@@ -58,17 +61,10 @@ export class AppNavComponent implements OnInit, OnDestroy {
     }
 
     private selectHistoryItem(item: IHistoryItem): void {
-        this.doSearch(item.link);
-    }
-
-    private doSearch(link: string): void {
-        const currentTab = JSON.parse(JSON.stringify(this.currentTab));
-        const currentApp = JSON.parse(JSON.stringify(this.currentApp));
-        this.onSearch.emit({
-            tabId: currentTab.id,
-            eventValue: link,
-            app: currentApp,
-            eventName: 'urlchanged'
+        this.onUrlChanged.emit({
+            tabId: this.currentTab.id,
+            url: item.link,
+            appId: this.currentApp.id
         });
     }
 
