@@ -1,60 +1,63 @@
-<div class="search-modal" [class.show]="isVisible" id="app-search">
+<div class="search-modal" [class.show]="isVisible">
     <div class="search-container">
         <div class="search-header">
             <div class="search-input-wrapper">
                 <i class="bi bi-search"></i>
-                <input type="text"
-                       #searchInput
-                       id="app-search-input"
+                <input #searchInput
+                       type="text"
+                       class="search-input"
                        [(ngModel)]="appSearch"
                        (keyup)="keyUp($event)"
                        (input)="onSearchChanged()"
-                       placeholder="Search or enter web address"
-                       autocomplete="off"
-                       class="search-input"/>
+                       placeholder="Search URL or App">
             </div>
         </div>
 
-        <div class="search-results" *ngIf="appSearch">
-            <!-- Google Search Suggestion -->
-            <div class="search-item" 
-                 [class.active]="isCurrentSelectedSearchItem(0)"
-                 (click)="doGoogleSearch(appSearch)">
-                <i class="bi bi-google search-item-icon"></i>
-                <span class="search-item-text">Search Google for "{{appSearch}}"</span>
+        <div class="search-results">
+            <!-- Google Search -->
+            <div class="search-section" *ngIf="appSearch">
+                <div class="search-item" [class.active]="isCurrentSelectedSearchItem(0)" (click)="doGoogleSearch(appSearch)">
+                    <i class="bi bi-google search-item-icon"></i>
+                    <div class="search-item-content">
+                        <div class="search-item-title">Search Google for "{{appSearch}}"</div>
+                    </div>
+                </div>
             </div>
 
             <!-- Search Suggestions -->
-            <div *ngFor="let suggestion of suggestions; let i = index"
-                 class="search-item"
-                 [class.active]="isCurrentSelectedSearchItem(i + 1)"
-                 (click)="doGoogleSearch(suggestion.key)">
-                <i class="bi bi-search search-item-icon"></i>
-                <span class="search-item-text">{{suggestion.key}}</span>
+            <div class="search-section" *ngIf="suggestions.length > 0">
+                <div class="search-section-title">Suggestions</div>
+                <div class="search-item" *ngFor="let suggestion of suggestions; let i = index"
+                     [class.active]="isCurrentSelectedSearchItem(i + 1)"
+                     (click)="doGoogleSearch(suggestion.key)">
+                    <i class="bi bi-search search-item-icon"></i>
+                    <div class="search-item-content">
+                        <div class="search-item-title">{{suggestion.key}}</div>
+                    </div>
+                </div>
             </div>
 
             <!-- History Results -->
-            <div *ngFor="let item of historiesSearched"
-                 class="search-item"
-                 (click)="selectHistoryItem(item)">
-                <img [src]="item.icon" *ngIf="item.icon" class="search-item-icon" alt=""/>
-                <i *ngIf="!item.icon" class="bi bi-globe search-item-icon"></i>
-                <div class="search-item-content">
-                    <div class="search-item-title">{{item.title}}</div>
-                    <div class="search-item-url">{{item.link}}</div>
+            <div class="search-section" *ngIf="historiesSearched.length > 0">
+                <div class="search-section-title">History</div>
+                <div class="search-item" *ngFor="let item of historiesSearched"
+                     (click)="selectHistoryItem(item)">
+                    <img [src]="item.icon" *ngIf="item.icon" class="search-item-icon" alt="">
+                    <i *ngIf="!item.icon" class="bi bi-clock-history search-item-icon"></i>
+                    <div class="search-item-content">
+                        <div class="search-item-title">{{item.title}}</div>
+                        <div class="search-item-url">{{item.link}}</div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="search-results" *ngIf="!appSearch">
             <!-- Top Apps -->
-            <div class="search-section">
+            <div class="search-section" *ngIf="!appSearch && topApps.length > 0">
                 <div class="search-section-title">Top Apps</div>
-                <div *ngFor="let app of topApps"
-                     class="search-item"
+                <div class="search-item" *ngFor="let app of topApps"
                      (click)="selectHistoryItem(app)">
-                    <img [src]="app.icon" *ngIf="app.icon" class="search-item-icon" alt=""/>
-                    <i *ngIf="!app.icon" class="bi bi-globe search-item-icon"></i>
+                    <img [src]="app.icon" *ngIf="app.icon" class="search-item-icon" alt="">
+                    <i *ngIf="!app.icon" class="bi bi-window search-item-icon"></i>
                     <div class="search-item-content">
                         <div class="search-item-title">{{app.title}}</div>
                         <div class="search-item-url">{{app.link}}</div>

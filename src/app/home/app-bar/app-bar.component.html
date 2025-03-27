@@ -1,7 +1,7 @@
 <div class="app-bar">
     <div class="app-bar-left">
         <div class="app-logo">
-            <img src="assets/logo.png" alt="Browser OS" class="logo-img"/>
+            <i class="bi bi-globe2"></i>
         </div>
         <div class="app-actions">
             <button class="action-button" (click)="onBtnAppAction.emit()">
@@ -16,7 +16,8 @@
             <input type="text" 
                    class="search-input" 
                    placeholder="Search URL or App"
-                   (click)="onSearch.emit($event)"/>
+                   [value]="currentTab?.url || ''"
+                   (click)="onEnteredSearchBox.emit($event)"/>
         </div>
     </div>
 
@@ -25,13 +26,14 @@
             <div *ngFor="let app of apps" 
                  [class.active]="currentApp?.id === app.id"
                  class="app-item"
-                 (click)="gotoApp.emit(app)"
-                 (contextmenu)="onAppContextMenu.emit(app)"
+                 (click)="onAppSelect.emit(app)"
+                 (contextmenu)="onContextMenu.emit(app)"
                  (dblclick)="onAppBarDoubleClick.emit($event)">
                 <img [src]="app.icon" *ngIf="app.icon" class="app-icon" alt=""/>
-                <span class="app-title">{{app.title}}</span>
+                <i *ngIf="!app.icon" class="bi bi-window app-icon"></i>
+                <span class="app-title">{{getHost(app)}}</span>
                 <button class="app-close" 
-                        (click)="$event.stopPropagation(); closeApp.emit(app)"
+                        (click)="$event.stopPropagation(); onAppClose.emit(app)"
                         title="Close app">
                     <i class="bi bi-x"></i>
                 </button>

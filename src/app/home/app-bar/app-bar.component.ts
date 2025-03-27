@@ -18,9 +18,9 @@ export class AppBarComponent {
     @Output() public onAppClose = new EventEmitter<IApp>();
     @Output() public onContextMenu = new EventEmitter<IApp>();
     @Output() public onBtnAddApp: EventEmitter<any> = new EventEmitter<any>();
-    @Output() public onEnteredSearchBox: EventEmitter<any> = new EventEmitter<any>();
-    @Output() public onBtnAppAction: EventEmitter<any> = new EventEmitter<any>();
-    @Output() public onAppBarDoubleClick: EventEmitter<any> = new EventEmitter<any>();
+    @Output() public onEnteredSearchBox: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+    @Output() public onBtnAppAction: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public onAppBarDoubleClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
     @Output() public onSearch = new EventEmitter<any>();
     @Output() public gotoApp = new EventEmitter<IApp>();
@@ -28,7 +28,11 @@ export class AppBarComponent {
     @Output() public closeApp = new EventEmitter<IApp>();
 
     public getHost(app: IApp): string {
-        return this.app2Hosts[app.id] || '';
+        try {
+            return new URL(app.url).hostname;
+        } catch {
+            return app.title || '';
+        }
     }
 
     public getTabWidth(): string {

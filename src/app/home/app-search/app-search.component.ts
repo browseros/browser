@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ElementRef, ViewChild, HostListener } from '@angular/core';
 import type { IWebEvent } from '../../models/web-event.model';
 import type { ITab } from '../../models/tab.model';
 import type { IApp } from '../../models/app.model';
@@ -12,7 +12,7 @@ declare const $: any;
 
 @Component({
     selector: 'app-search',
-    styleUrls: ['./app-search.component.css'],
+    styleUrls: ['./app-search.component.scss'],
     templateUrl: './app-search.component.html'
 })
 export class AppSearchComponent implements OnInit, OnDestroy {
@@ -38,21 +38,40 @@ export class AppSearchComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {}
 
+    @HostListener('document:keydown.escape')
+    onEscapePressed() {
+        this.hide();
+    }
+
+    @HostListener('document:click', ['$event'])
+    onClickOutside(event: MouseEvent) {
+        const searchModal = (event.target as HTMLElement).closest('.search-modal');
+        if (this.isVisible && !searchModal) {
+            this.hide();
+        }
+    }
+
     public show(event?: any) {
+        event?.preventDefault();
+        event?.stopPropagation();
         this.store.dispatch(new appActions.ClearSuggestionsAction());
         this.appSearch = '';
         this.historiesSearched = [];
+        this.currentSelectedSearchItem = -1;
         this.isVisible = true;
         setTimeout(() => {
             if (this.searchInput) {
                 this.searchInput.nativeElement.focus();
-                this.searchInput.nativeElement.select();
             }
         });
     }
 
     public hide(): void {
         this.isVisible = false;
+        this.appSearch = '';
+        this.historiesSearched = [];
+        this.currentSelectedSearchItem = -1;
+        this.store.dispatch(new appActions.ClearSuggestionsAction());
     }
 
     public onSearchChanged() {

@@ -82,21 +82,34 @@
     backdrop-filter: blur(8px);
     z-index: 1000;
     display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 80px;
 
     &.show {
-        display: block;
+        display: flex;
     }
 }
 
 .search-container {
-    position: relative;
     width: 100%;
     max-width: 640px;
-    margin: 80px auto 0;
     background: #202124;
     border-radius: 12px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
     overflow: hidden;
+    animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .search-header {
