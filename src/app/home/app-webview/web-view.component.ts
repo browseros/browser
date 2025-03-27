@@ -4,6 +4,7 @@ import type { ITab } from '../../models/tab.model';
 import type { WebviewTag } from 'electron';
 import * as fromRoot from '../../reducers';
 import { Subscription } from 'rxjs';
+import { webContents } from '@electron/remote';
 
 @Component({
     selector: 'web-view',
@@ -27,6 +28,7 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     private tabsSub: Subscription | undefined;
 
     constructor(public store: Store<fromRoot.State>) {
+        console.log('[WebView] Constructor called');
     }
 
     public ngOnDestroy() {
@@ -61,30 +63,77 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
 
         webviewElm.addEventListener('new-window', (e: any) => {
             console.log('[WebView] New window:', e.url);
-            if (this.isValidProtocol(e.url)) {
-                self.onNewUrl.emit(e.url);
+            try {
+                const url = new URL(e.url);
+                if (url.protocol === 'http:' || url.protocol === 'https:') {
+                    self.onNewUrl.emit(e.url);
+                }
+            } catch (err) {
+                console.error('[WebView] Invalid URL:', e.url);
             }
         });
 
         webviewElm.addEventListener('did-navigate', (e: any) => {
             console.log('[WebView] Did navigate:', e.url);
-            if (this.isValidProtocol(e.url)) {
-                self.onUrlChanged.emit(e.url);
+            try {
+                const url = new URL(e.url);
+                if (url.protocol === 'http:' || url.protocol === 'https:') {
+                    self.onUrlChanged.emit(e.url);
+                }
+            } catch (err) {
+                console.error('[WebView] Invalid URL:', e.url);
             }
         });
 
         webviewElm.addEventListener('did-get-redirect-request', (e: any) => {
             if (e.isMainFrame) {
                 console.log('[WebView] Redirect request:', e.newURL);
-                if (this.isValidProtocol(e.newURL)) {
-                    self.onUrlChanged.emit(e.newURL);
+                try {
+                    const url = new URL(e.newURL);
+                    if (url.protocol === 'http:' || url.protocol === 'https:') {
+                        self.onUrlChanged.emit(e.newURL);
+                    }
+                } catch (err) {
+                    console.error('[WebView] Invalid URL:', e.newURL);
                 }
             }
         });
 
+        const onContextMenu = (e1: any, params: any) => {
+            self.onContextMenu.emit(params);
+        };
+
         webviewElm.addEventListener('dom-ready', () => {
             console.log('[WebView] DOM ready');
             self.onDomReady.emit('');
+
+            // Get the webContents ID and use it to get the webContents object
+            const webContentsId = webviewElm.getWebContentsId();
+            console.log('[WebView] WebContents ID:', webContentsId);
+            
+            // Use @electron/remote to get the webContents
+            const wc = webContents.fromId(webContentsId);
+            
+            if (wc) {
+                wc.removeListener('context-menu', onContextMenu);
+                wc.on('context-menu', onContextMenu);
+
+                // Enable webview devtools for debugging
+                try {
+                    wc.openDevTools();
+                } catch (e) {
+                    console.log('[WebView] Could not open devtools:', e);
+                }
+
+                // Inject click handler into the page
+                wc.executeJavaScript(`
+                    document.addEventListener('click', () => {
+                        const msg = { channel: 'clicked', args: [] };
+                        window.postMessage(msg, '*');
+                    });
+                `);
+            }
+
             if (self.onFirstLoad) {
                 self.onFirstLoad = false;
                 const url = self.getTabUrl(self.tabId);
@@ -93,30 +142,11 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
             }
         });
 
-        webviewElm.addEventListener('did-fail-load', (e: any) => {
-            console.error('[WebView] Failed to load:', e);
-        });
-
-        webviewElm.addEventListener('did-start-loading', () => {
-            console.log('[WebView] Started loading');
-        });
-
-        webviewElm.addEventListener('did-stop-loading', () => {
-            console.log('[WebView] Stopped loading');
-        });
-
-        webviewElm.addEventListener('did-finish-load', () => {
-            console.log('[WebView] Finished loading');
-        });
-
-        webviewElm.addEventListener('click', () => {
-            console.log('[WebView] Clicked');
-            self.onClicked.emit('clicked');
-        });
-
-        webviewElm.addEventListener('contextmenu', (e: any) => {
-            console.log('[WebView] Context menu');
-            self.onContextMenu.emit(e);
+        webviewElm.addEventListener('ipc-message', (e: any) => {
+            if (e.channel === 'clicked') {
+                console.log('[WebView] Click detected');
+                this.onClicked.emit('clicked');
+            }
         });
     }
 
@@ -133,14 +163,5 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     private getTabUrl(tabId: number): string {
         const tab = this.tabs.find(t => t.id === tabId);
         return tab ? tab.url : 'about:blank';
-    }
-
-    private isValidProtocol(url: string): boolean {
-        try {
-            const urlObj = new URL(url);
-            return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
-        } catch {
-            return false;
-        }
     }
 }

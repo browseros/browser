@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
+import { initialize, enable } from '@electron/remote/main';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -19,6 +20,9 @@ async function createWindow() {
     temp: app.getPath('temp')
   });
 
+  // Initialize remote module
+  initialize();
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1200,
@@ -34,6 +38,9 @@ async function createWindow() {
       backgroundThrottling: false
     }
   });
+
+  // Enable remote module for this window
+  enable(mainWindow.webContents);
 
   log('Main window created with ID:', mainWindow.id);
 
