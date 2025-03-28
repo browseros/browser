@@ -95,7 +95,6 @@ export class AppSearchComponent {
             if (this.gotResult) {
                 return;
             }
-            this.gotResult = true;
 
             if (this.selectedIndex === 0 && this.suggestions.length > 0) {
                 // Google search is always first item
@@ -115,7 +114,6 @@ export class AppSearchComponent {
                     this.doGoogleSearch(this.searchText);
                 }
             }
-            this.hide();
         } else if (event.key === 'Escape') {
             this.hide();
         } else if (event.key === 'ArrowDown') {
@@ -192,10 +190,9 @@ export class AppSearchComponent {
     }
 
     doSearch(link: any) {
-        if (this.gotResult || !link || !link.trim()) {
+        if (!link || !link.trim()) {
             return;
         }
-        this.gotResult = true;
 
         let newLink: string;
         if (this.isPotentialLink(link)) {
@@ -203,6 +200,9 @@ export class AppSearchComponent {
         } else {
             newLink = this.getGoogleSearchLink(link);
         }
+
+        // Only set gotResult after we have a valid link
+        this.gotResult = true;
 
         if (this.newSearch) {
             this.onSearch.emit({ url: newLink });
