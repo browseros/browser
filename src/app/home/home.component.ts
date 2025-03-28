@@ -89,38 +89,29 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Handle app bar double click
   }
 
-  onNextClick(event: any): void {
-    this.store.dispatch(new appActions.DoNextAction(this.currentApp));
+  onNextClick(event: IApp): void {
+    this.store.dispatch(new appActions.DoNextAction(event));
   }
 
-  onBackClick(event: any): void {
-    this.store.dispatch(new appActions.DoBackAction(this.currentApp));
+  onBackClick(event: IApp): void {
+    this.store.dispatch(new appActions.DoBackAction(event));
   }
 
   onGotoTab(tab: ITab): void {
     this.store.dispatch(new appActions.GotoTabAction(tab));
   }
 
-  doSearchReplacing(url: string) {
-    if (!url) return;
-
-    const preparedUrl = StateHelper.prepareAppLink(url);
-    const hostname = StateHelper.extractHostname(preparedUrl);
-    const webEvent: IWebEvent = {
-      eventValue: preparedUrl,
-      eventName: 'urlchanged',
-      tabId: this.currentTab.id,
-      app: this.currentApp
-    };
-    this.store.dispatch(new appActions.ChangeTabUrlAction(webEvent));
+  doSearchReplacing(event: IWebEvent): void {
+    if (!event || !event.eventValue) return;
+    this.store.dispatch(new appActions.ChangeTabUrlAction(event));
   }
 
   onTabContextMenu(event: any): void {
     console.log('Tab context menu:', event);
   }
 
-  onReloadClick(event: any): void {
-    this.store.dispatch(new appActions.DoReloadAction(this.currentApp));
+  onReloadClick(event: IApp): void {
+    this.store.dispatch(new appActions.DoReloadAction(event));
   }
 
   onCloseTab(tab: ITab): void {
@@ -128,13 +119,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onNewUrl(url: any): void {
-    const preparedUrl = StateHelper.prepareAppLink(url);
-    const hostname = StateHelper.extractHostname(preparedUrl);
     const webEvent: IWebEvent = {
-      eventValue: preparedUrl,
+      eventValue: url,
       eventName: 'newurl',
-      tabId: this.currentTab.id,
-      app: this.currentApp
+      tabId: 0,
+      app: null
     };
     this.store.dispatch(new appActions.ChangeTabUrlAction(webEvent));
   }
@@ -143,8 +132,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     const webEvent: IWebEvent = {
       eventValue: title,
       eventName: 'titlechanged',
-      tabId: this.currentTab.id,
-      app: this.currentApp
+      tabId: 0,
+      app: null
     };
     this.store.dispatch(new appActions.ChangeTabTitleAction(webEvent));
   }
@@ -153,20 +142,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     const webEvent: IWebEvent = {
       eventValue: icon,
       eventName: 'iconchanged',
-      tabId: this.currentTab.id,
-      app: this.currentApp
+      tabId: 0,
+      app: null
     };
     this.store.dispatch(new appActions.ChangeTabIconAction(webEvent));
   }
 
   onUrlChanged(url: any): void {
-    const preparedUrl = StateHelper.prepareAppLink(url);
-    const hostname = StateHelper.extractHostname(preparedUrl);
     const webEvent: IWebEvent = {
-      eventValue: preparedUrl,
+      eventValue: url,
       eventName: 'urlchanged',
-      tabId: this.currentTab.id,
-      app: this.currentApp
+      tabId: 0,
+      app: null
     };
     this.store.dispatch(new appActions.ChangeTabUrlAction(webEvent));
   }
@@ -175,8 +162,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     const webEvent: IWebEvent = {
       eventValue: null,
       eventName: 'domready',
-      tabId: this.currentTab.id,
-      app: this.currentApp
+      tabId: 0,
+      app: null
     };
     this.store.dispatch(new appActions.DomReadyAction(webEvent));
   }

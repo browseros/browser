@@ -15,13 +15,13 @@ export class AppNavComponent {
     @Input() public screenWidth: number = 0;
     @Input() public histories: IHistoryItem[] = [];
     @Input() public currentTab: ITab | null = null;
-    @Output() public onSearch = new EventEmitter<any>();
-    @Output() public onNextClick = new EventEmitter<any>();
-    @Output() public onBackClick = new EventEmitter<any>();
-    @Output() public onReloadClick = new EventEmitter<any>();
-    @Output() public onGotoTab = new EventEmitter<any>();
-    @Output() public onCloseTab = new EventEmitter<any>();
-    @Output() public onContextMenu = new EventEmitter<any>();
+    @Output() public onSearch = new EventEmitter<IWebEvent>();
+    @Output() public onNextClick = new EventEmitter<IApp>();
+    @Output() public onBackClick = new EventEmitter<IApp>();
+    @Output() public onReloadClick = new EventEmitter<IApp>();
+    @Output() public onGotoTab = new EventEmitter<ITab>();
+    @Output() public onCloseTab = new EventEmitter<ITab>();
+    @Output() public onContextMenu = new EventEmitter<ITab>();
 
     public onMouseUp(event: MouseEvent, tab: ITab): void {
         // middle button
@@ -66,5 +66,23 @@ export class AppNavComponent {
         const screenWidth = this.screenWidth - 180;
         const tabWidth = (screenWidth / tabCount) - 2;
         return tabWidth + 'px';
+    }
+
+    public onBack(): void {
+        if (this.currentApp) {
+            this.onBackClick.emit(this.currentApp);
+        }
+    }
+
+    public onNext(): void {
+        if (this.currentApp) {
+            this.onNextClick.emit(this.currentApp);
+        }
+    }
+
+    public onReload(): void {
+        if (this.currentApp) {
+            this.onReloadClick.emit(this.currentApp);
+        }
     }
 }

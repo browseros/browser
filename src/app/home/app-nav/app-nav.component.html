@@ -1,5 +1,5 @@
-<div class="navs" *ngIf="tabs && tabs.length > 0">
-    <span *ngIf="currentApp">
+<div class="navs">
+    <span *ngIf="currentApp && tabs && tabs.length > 0">
         <div *ngFor="let tab of tabs" 
              [style.display]="tab.appId !== currentApp.id ? 'none': ''"
              class="tab-on-nav"
@@ -19,23 +19,23 @@
     </span>
     
     <div class="nav-actions">
-        <button class="nav-button" (click)="onReloadClick.emit(currentApp)" title="Reload">
+        <button class="nav-button" (click)="onReload()" [disabled]="!currentApp?.id" title="Reload">
             <i class="bi bi-arrow-clockwise"></i>
         </button>
-        <button class="nav-button" (click)="onNextClick.emit(currentApp)" title="Forward">
+        <button class="nav-button" (click)="onNext()" [disabled]="!currentApp?.id" title="Forward">
             <i class="bi bi-chevron-right"></i>
         </button>
-        <button class="nav-button" (click)="onBackClick.emit(currentApp)" title="Back">
+        <button class="nav-button" (click)="onBack()" [disabled]="!currentApp?.id" title="Back">
             <i class="bi bi-chevron-left"></i>
         </button>
         
-        <div class="dropdown">
+        <div class="dropdown" *ngIf="currentApp?.id">
             <button class="nav-button dropdown-toggle" 
                     type="button" 
                     data-bs-toggle="dropdown" 
                     aria-expanded="false"
                     title="Recent">
-                Recent
+                <span>Recent</span>
                 <i class="bi bi-caret-down-fill"></i>
             </button>
             <ul class="dropdown-menu">
@@ -47,6 +47,9 @@
                         <div class="recent-item-title">{{item.title}}</div>
                         <div class="recent-item-link">{{item.link}}</div>
                     </a>
+                </li>
+                <li *ngIf="!getHistoryForHost() || getHistoryForHost()?.length === 0">
+                    <span class="dropdown-item disabled">No recent items</span>
                 </li>
             </ul>
         </div>

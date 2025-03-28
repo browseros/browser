@@ -1,10 +1,11 @@
 import { ActionReducer, ActionReducerMap, combineReducers } from '@ngrx/store';
 import { createSelector } from 'reselect';
 import { storeFreeze } from 'ngrx-store-freeze';
-import * as fromApp from './app.reducer';
+import * as fromApp from './app';
 import * as fromHistory from './history';
 import * as appActions from '../actions/app.actions';
 import * as historyActions from '../actions/history.actions';
+import { IWebAction } from '../models/web-action.model';
 
 export interface State {
   app: fromApp.State;
@@ -90,4 +91,24 @@ export const getTopApps = createSelector(
 export const getSuggestions = createSelector(
   getAppState,
   state => state.suggestions
+);
+
+export const getIsNavigatingBack = createSelector(
+  getAppState,
+  state => state.isNavigatingBack
+);
+
+export const getIsNavigatingNext = createSelector(
+  getAppState,
+  state => state.isNavigatingNext
+);
+
+export const getIsNavigatingReload = createSelector(
+  getAppState,
+  state => state.isNavigatingReload
+);
+
+export const getIsChangingUrl = createSelector(
+  getAppState,
+  state => state.isChangingUrl
 );

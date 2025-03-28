@@ -3,6 +3,7 @@ import type { ITab } from '../models/tab.model';
 import * as app from '../actions/app.actions';
 import { StateHelper } from './helper';
 import { IHistoryItem } from '../models/history-item.model';
+import { IWebAction } from '../models/web-action.model';
 
 export interface WebAction {
   tab: ITab;
@@ -18,16 +19,16 @@ export interface State {
   app2Hosts: { [id: number]: string };
   tabs: ITab[];
   tabIds: number[];
-  currentApp: IApp;
-  currentTab: ITab;
+  currentApp: IApp | null;
+  currentTab: ITab | null;
   isGoingtoApp: boolean;
   isAddingApp: boolean;
   isAddingTab: boolean;
   isClosingApp: boolean;
-  isNavigatingNext: WebAction;
-  isNavigatingBack: WebAction;
-  isNavigatingReload: WebAction;
-  isChangingUrl: WebAction;
+  isNavigatingNext: IWebAction | null;
+  isNavigatingBack: IWebAction | null;
+  isNavigatingReload: IWebAction | null;
+  isChangingUrl: IWebAction | null;
   histories: IHistoryItem[];
   historyWithWeights: IHistoryItem[];
   topApps: IHistoryItem[];
@@ -45,16 +46,16 @@ export const initialState: State = {
   app2Hosts: {},
   tabs: [],
   tabIds: [],
-  currentApp: defaultApp,
-  currentTab: defaultTab,
+  currentApp: null,
+  currentTab: null,
   isGoingtoApp: false,
   isAddingApp: false,
   isAddingTab: false,
   isClosingApp: false,
-  isNavigatingNext: defaultWebAction,
-  isNavigatingBack: defaultWebAction,
-  isNavigatingReload: defaultWebAction,
-  isChangingUrl: defaultWebAction,
+  isNavigatingNext: null,
+  isNavigatingBack: null,
+  isNavigatingReload: null,
+  isChangingUrl: null,
   histories: [],
   historyWithWeights: [],
   topApps: [],
@@ -135,10 +136,11 @@ export function reducer(state = initialState, action: app.Actions): State {
       if (!state.currentTab || !state.currentApp) {
         return state;
       }
-      let appAction: WebAction = {
+      let appAction: IWebAction = {
         tab: state.currentTab,
         app: state.currentApp,
-        isCalling: true
+        isCalling: true,
+        value: null
       };
       return Object.assign({}, state, {
         isNavigatingBack: appAction
@@ -149,10 +151,11 @@ export function reducer(state = initialState, action: app.Actions): State {
       if (!state.currentTab || !state.currentApp) {
         return state;
       }
-      let appAction: WebAction = {
+      let appAction: IWebAction = {
         tab: state.currentTab,
         app: state.currentApp,
-        isCalling: false
+        isCalling: false,
+        value: null
       };
       return Object.assign({}, state, {
         isNavigatingBack: appAction
@@ -163,10 +166,11 @@ export function reducer(state = initialState, action: app.Actions): State {
       if (!state.currentTab || !state.currentApp) {
         return state;
       }
-      let appAction: WebAction = {
+      let appAction: IWebAction = {
         tab: state.currentTab,
         app: state.currentApp,
-        isCalling: true
+        isCalling: true,
+        value: null
       };
       return Object.assign({}, state, {
         isNavigatingNext: appAction
@@ -177,10 +181,11 @@ export function reducer(state = initialState, action: app.Actions): State {
       if (!state.currentTab || !state.currentApp) {
         return state;
       }
-      let appAction: WebAction = {
+      let appAction: IWebAction = {
         tab: state.currentTab,
         app: state.currentApp,
-        isCalling: false
+        isCalling: false,
+        value: null
       };
       return Object.assign({}, state, {
         isNavigatingNext: appAction
@@ -191,10 +196,11 @@ export function reducer(state = initialState, action: app.Actions): State {
       if (!state.currentTab || !state.currentApp) {
         return state;
       }
-      let appAction: WebAction = {
+      let appAction: IWebAction = {
         tab: state.currentTab,
         app: state.currentApp,
-        isCalling: true
+        isCalling: true,
+        value: null
       };
       return Object.assign({}, state, {
         isNavigatingReload: appAction
@@ -205,10 +211,11 @@ export function reducer(state = initialState, action: app.Actions): State {
       if (!state.currentTab || !state.currentApp) {
         return state;
       }
-      let appAction: WebAction = {
+      let appAction: IWebAction = {
         tab: state.currentTab,
         app: state.currentApp,
-        isCalling: false
+        isCalling: false,
+        value: null
       };
       return Object.assign({}, state, {
         isNavigatingReload: appAction

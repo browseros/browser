@@ -1,9 +1,9 @@
-import { ITab } from './tab.model';
 import { IApp } from './app.model';
+import { ITab } from './tab.model';
 
 export interface IWebAction {
-    tab: ITab;
-    app: IApp;
+    tab: ITab | null;
+    app: IApp | null;
     isCalling: boolean;
-    value?: any;
+    value: any;
 }

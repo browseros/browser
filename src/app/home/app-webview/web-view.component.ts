@@ -60,6 +60,10 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     private onFirstLoad = true;
     private tabs: ITab[] = [];
     private tabsSub: Subscription | undefined;
+    private backSub: Subscription | undefined;
+    private nextSub: Subscription | undefined;
+    private reloadSub: Subscription | undefined;
+    private changeSub: Subscription | undefined;
     public preloadPath: string;
 
     constructor(public store: Store<fromRoot.State>) {
@@ -73,6 +77,18 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
         if (this.tabsSub) {
             this.tabsSub.unsubscribe();
         }
+        if (this.backSub) {
+            this.backSub.unsubscribe();
+        }
+        if (this.nextSub) {
+            this.nextSub.unsubscribe();
+        }
+        if (this.reloadSub) {
+            this.reloadSub.unsubscribe();
+        }
+        if (this.changeSub) {
+            this.changeSub.unsubscribe();
+        }
     }
 
     public ngAfterViewInit() {
@@ -84,6 +100,31 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
 
         self.tabsSub = this.store.select(fromRoot.getEventTabs).subscribe((ts) => {
             self.tabs = JSON.parse(JSON.stringify(ts));
+        });
+
+        self.backSub = this.store.select(fromRoot.getIsNavigatingBack).subscribe((action: any) => {
+            if (action && action.isCalling && self.tabId && action.tab.id === self.tabId) {
+                self.goBack();
+            }
+        });
+
+        self.nextSub = this.store.select(fromRoot.getIsNavigatingNext).subscribe((action: any) => {
+            if (action && action.isCalling && action.tab.id === self.tabId) {
+                self.goForward();
+            }
+        });
+
+        self.reloadSub = this.store.select(fromRoot.getIsNavigatingReload).subscribe((action: any) => {
+            if (action && action.isCalling && self.tabId && action.tab.id === self.tabId) {
+                self.reload();
+            }
+        });
+
+        self.changeSub = this.store.select(fromRoot.getIsChangingUrl).subscribe((action: any) => {
+            if (action && action.isCalling && action.tab && action.tab.id === self.tabId) {
+                self.loadURL(action.value as string);
+                self.onUrlChanged.emit(action.value as string);
+            }
         });
 
         const webviewElm = self.webview.nativeElement;
@@ -248,5 +289,27 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     private getTabUrl(tabId: number): string {
         const tab = this.tabs.find(t => t.id === tabId);
         return tab ? tab.url : 'about:blank';
+    }
+
+    public goBack() {
+        const webviewElm = this.webview.nativeElement;
+        if (webviewElm.canGoBack()) {
+            webviewElm.goBack();
+        }
+        this.store.dispatch({ type: '[App] Do Back Complete' });
+    }
+
+    public goForward() {
+        const webviewElm = this.webview.nativeElement;
+        if (webviewElm.canGoForward()) {
+            webviewElm.goForward();
+        }
+        this.store.dispatch({ type: '[App] Do Next Complete' });
+    }
+
+    public reload() {
+        const webviewElm = this.webview.nativeElement;
+        webviewElm.reload();
+        this.store.dispatch({ type: '[App] Do Reload Complete' });
     }
 }
