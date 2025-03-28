@@ -46,13 +46,13 @@ export class AppWebviewComponent implements OnInit, OnDestroy {
             this.tabIds = tabs.map(t => t.id);
         });
 
-        this.currentTabSub = this.store.select(fromRoot.getEventCurrentTab).subscribe((tab: ITab) => {
+        this.currentTabSub = this.store.select(fromRoot.getEventCurrentTab).subscribe((tab: ITab | null) => {
             if (tab) {
                 this.currentTabId = tab.id;
             }
         });
 
-        this.appSub = this.store.select(fromRoot.getEventCurrentApp).subscribe((app: IApp) => {
+        this.appSub = this.store.select(fromRoot.getEventCurrentApp).subscribe((app: IApp | null) => {
             if (app) {
                 this.currentApp = app;
             }

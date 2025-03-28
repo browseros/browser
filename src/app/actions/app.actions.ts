@@ -36,6 +36,7 @@ export const DOM_READY = '[App] Dom Ready';
 export const CLEAR_SUGGESTIONS = '[App] Clear Suggestions';
 export const GET_SUGGESTIONS = '[App] Get Suggestions';
 export const GET_SUGGESTIONS_COMPLETE = '[App] Get Suggestions Complete';
+export const ADD_APP = '[App] Add App';
 
 // tslint:disable-next-line:max-classes-per-file
 export class GotoAppAction implements Action {
@@ -259,6 +260,11 @@ export class GetSuggestionsCompleteAction implements Action {
   constructor(public payload: any[]) { }
 }
 
+export class AddAppAction implements Action {
+  readonly type = ADD_APP;
+  constructor(public payload: IApp) { }
+}
+
 export type Actions =
   | GotoAppAction
   | AddTabAction
@@ -291,4 +297,5 @@ export type Actions =
   | DomReadyAction
   | ClearSuggestionsAction
   | GetSuggestionsAction
-  | GetSuggestionsCompleteAction;
+  | GetSuggestionsCompleteAction
+  | AddAppAction;

@@ -1,13 +1,13 @@
 import { ActionReducer, ActionReducerMap, combineReducers } from '@ngrx/store';
 import { createSelector } from 'reselect';
 import { storeFreeze } from 'ngrx-store-freeze';
-import * as fromApp from './app';
+import * as fromApp from './app.reducer';
 import * as fromHistory from './history';
 import * as appActions from '../actions/app.actions';
 import * as historyActions from '../actions/history.actions';
 
 export interface State {
-  event: fromApp.State;
+  app: fromApp.State;
   history: fromHistory.State;
 }
 
@@ -16,7 +16,7 @@ type HistoryAction = historyActions.Actions;
 type AllActions = AppAction | HistoryAction;
 
 export const reducers: ActionReducerMap<State, AllActions> = {
-  event: fromApp.reducer as ActionReducer<fromApp.State, AllActions>,
+  app: fromApp.reducer as ActionReducer<fromApp.State, AllActions>,
   history: fromHistory.reducer as ActionReducer<fromHistory.State, AllActions>
 };
 
@@ -31,21 +31,63 @@ export function reducer(state: State | undefined, action: AllActions) {
   }
 }
 
-// event
-export const getEventState = (state: State) => state.event;
-export const getEventApps = createSelector(getEventState, fromApp.getApps);
-export const getEventTabs = createSelector(getEventState, fromApp.getTabs);
-export const getEventCurrentApp = createSelector(getEventState, fromApp.getCurrentApp);
-export const getEventCurrentTab = createSelector(getEventState, fromApp.getCurrentTab);
-export const getIsNavigatingBack = createSelector(getEventState, fromApp.getIsNavigatingBack);
-export const getIsNavigatingNext = createSelector(getEventState, fromApp.getIsNavigatingNext);
-export const getIsNavigatingReload = createSelector(getEventState, fromApp.getIsNavigatingReload);
-export const getIsChangingUrl = createSelector(getEventState, fromApp.getIsChangingUrl);
-export const getTabIds = createSelector(getEventState, fromApp.getTabIds);
-export const getApp2Hosts = createSelector(getEventState, fromApp.getApp2Hosts);
+// App Selectors
+export const getAppState = (state: State) => state.app;
 
-// history
-export const getHistories = createSelector(getEventState, fromApp.getHistories);
-export const getHistoryWithWeights = createSelector(getEventState, fromApp.getHistoryWithWeights);
-export const getTopApps = createSelector(getEventState, fromApp.getTopApps);
-export const getSuggestions = createSelector(getEventState, fromApp.getSuggestions);
+export const getEventApps = createSelector(
+  getAppState,
+  state => state.apps
+);
+
+export const getEventTabs = createSelector(
+  getAppState,
+  state => state.tabs
+);
+
+export const getEventCurrentApp = createSelector(
+  getAppState,
+  state => state.currentApp
+);
+
+export const getEventCurrentTab = createSelector(
+  getAppState,
+  state => state.currentTab
+);
+
+export const getApp2Hosts = createSelector(
+  getAppState,
+  state => state.app2Hosts
+);
+
+export const getHost2Apps = createSelector(
+  getAppState,
+  state => state.host2Apps
+);
+
+export const getTabIds = createSelector(
+  getAppState,
+  state => state.tabIds
+);
+
+export const getCurrentTabs = createSelector(
+  getAppState,
+  state => state.currentTabs
+);
+
+// History Selectors
+export const getHistoryState = (state: State) => state.history;
+
+export const getHistories = createSelector(
+  getHistoryState,
+  state => state.histories
+);
+
+export const getTopApps = createSelector(
+  getAppState,
+  state => state.topApps
+);
+
+export const getSuggestions = createSelector(
+  getAppState,
+  state => state.suggestions
+);

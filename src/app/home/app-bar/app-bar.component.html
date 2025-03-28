@@ -24,19 +24,40 @@
     <div class="app-bar-right">
         <div class="app-list">
             <div *ngFor="let app of apps" 
-                 [class.active]="currentApp?.id === app.id"
-                 class="app-item"
-                 (click)="onAppSelect.emit(app)"
-                 (contextmenu)="onContextMenu.emit(app)"
-                 (dblclick)="onAppBarDoubleClick.emit($event)">
-                <img [src]="app.icon" *ngIf="app.icon" class="app-icon" alt=""/>
-                <i *ngIf="!app.icon" class="bi bi-window app-icon"></i>
-                <span class="app-title">{{getHost(app)}}</span>
-                <button class="app-close" 
-                        (click)="$event.stopPropagation(); onAppClose.emit(app)"
-                        title="Close app">
-                    <i class="bi bi-x"></i>
-                </button>
+                 class="app-group"
+                 [class.active]="currentApp?.id === app.id">
+                <!-- App Header -->
+                <div class="app-header"
+                     (click)="onAppSelect.emit(app)"
+                     (contextmenu)="onContextMenu.emit(app)"
+                     (dblclick)="onAppBarDoubleClick.emit($event)">
+                    <img [src]="app.icon" *ngIf="app.icon" class="app-icon" alt=""/>
+                    <i *ngIf="!app.icon" class="bi bi-window app-icon"></i>
+                    <span class="app-title">{{getHost(app)}}</span>
+                    <button class="app-close" 
+                            (click)="$event.stopPropagation(); onAppClose.emit(app)"
+                            title="Close app">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+                
+                <!-- App Tabs -->
+                <div class="app-tabs">
+                    <div *ngFor="let tab of getAppTabs(app)" 
+                         class="tab-item"
+                         [class.active]="currentTab?.id === tab.id"
+                         (click)="onTabSelect.emit(tab)"
+                         (contextmenu)="onTabContextMenu.emit(tab)">
+                        <img [src]="tab.icon" *ngIf="tab.icon" class="tab-icon" alt=""/>
+                        <i *ngIf="!tab.icon" class="bi bi-globe tab-icon"></i>
+                        <span class="tab-title">{{tab.title || 'New Tab'}}</span>
+                        <button class="tab-close" 
+                                (click)="$event.stopPropagation(); onTabClose.emit(tab)"
+                                title="Close tab">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
