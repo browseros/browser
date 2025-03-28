@@ -97,7 +97,7 @@ export class AppSearchComponent {
             }
             this.gotResult = true;
 
-            if (this.selectedIndex === 0) {
+            if (this.selectedIndex === 0 && this.suggestions.length > 0) {
                 // Google search is always first item
                 this.doGoogleSearch(this.searchText);
             } else if (this.selectedIndex > 0 && this.selectedIndex <= this.suggestions.length) {
@@ -109,9 +109,12 @@ export class AppSearchComponent {
                 }
             } else {
                 // If no suggestion selected, try to navigate directly or fallback to Google search
-                this.doSearch(this.searchText);
+                if (this.isPotentialLink(this.searchText)) {
+                    this.doSearch(this.searchText);
+                } else {
+                    this.doGoogleSearch(this.searchText);
+                }
             }
-            this.hide();
         } else if (event.key === 'Escape') {
             this.hide();
         } else if (event.key === 'ArrowDown') {
@@ -193,13 +196,18 @@ export class AppSearchComponent {
         }
         this.gotResult = true;
 
+        let newLink: string;
+        if (this.isPotentialLink(link)) {
+            newLink = this.getValidUrl(link);
+        } else {
+            newLink = this.getGoogleSearchLink(link);
+        }
+
         if (this.newSearch) {
-            const newLink = this.isPotentialLink(link) ? link : this.getGoogleSearchLink(link);
             this.onSearch.emit({ url: newLink });
         } else {
             const currentTab = { ...this.currentTab };
             const currentApp = { ...this.currentApp };
-            const newLink = this.isPotentialLink(link) ? link : this.getGoogleSearchLink(link);
             const webEvent: any = {
                 tabId: currentTab.id,
                 eventValue: newLink,
@@ -219,8 +227,26 @@ export class AppSearchComponent {
     }
 
     private isPotentialLink(text: any): boolean {
-        return Boolean(text && text.trim() && 
-               (text.startsWith('http://') || text.startsWith('https://') || 
-                (text.includes('.') && !text.includes(' '))));
+        if (!text || !text.trim()) {
+            return false;
+        }
+        const trimmedText = text.trim();
+        return trimmedText.startsWith('http://') || 
+               trimmedText.startsWith('https://') || 
+               (trimmedText.includes('.') && !trimmedText.includes(' '));
+    }
+
+    private getValidUrl(url: string): string {
+        if (!url) return '';
+        url = url.trim();
+        
+        // If it's already a valid URL with protocol, return as is
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+            return url;
+        }
+        
+        // Remove any protocol if exists and add https://
+        url = url.replace(/^(?:https?:\/\/)?/, '');
+        return 'https://' + url;
     }
 }
