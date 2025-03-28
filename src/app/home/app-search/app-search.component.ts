@@ -115,6 +115,7 @@ export class AppSearchComponent {
                     this.doGoogleSearch(this.searchText);
                 }
             }
+            this.hide();
         } else if (event.key === 'Escape') {
             this.hide();
         } else if (event.key === 'ArrowDown') {
