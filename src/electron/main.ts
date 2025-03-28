@@ -7,7 +7,7 @@ let mainWindow: BrowserWindow | null = null;
 
 function log(...args: any[]) {
   const timestamp = new Date().toISOString();
-  console.log(`[Electron ${timestamp}]`, ...args);
+  console.log(`[Electron]`, ...args);
 }
 
 async function createWindow() {
@@ -23,6 +23,24 @@ async function createWindow() {
   // Initialize remote module
   initialize();
 
+  const preloadPath = path.join(__dirname, './assets/js/preload.js');
+  log('Preload path:', preloadPath);
+
+  // Install DevTools for main process
+  if (isDev) {
+    try {
+      require('electron-devtools-installer').default(
+        require('electron-devtools-installer').CHROME_DEVTOOLS
+      ).then((name: string) => {
+        log(`Added DevTools extension: ${name}`);
+      }).catch((err: Error) => {
+        log('Failed to install DevTools:', err);
+      });
+    } catch (e) {
+      log('Error installing DevTools:', e);
+    }
+  }
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1200,
@@ -35,12 +53,74 @@ async function createWindow() {
       allowRunningInsecureContent: true,
       webviewTag: true,
       javascript: true,
-      backgroundThrottling: false
+      backgroundThrottling: false,
+      sandbox: false,
+      nodeIntegrationInSubFrames: true,
+      preload: preloadPath
+    },
+    show: false,
+    backgroundColor: '#fff'
+  });
+
+  // Add keyboard shortcut to open main process DevTools
+  const { globalShortcut } = require('electron');
+  globalShortcut.register('CommandOrControl+Shift+I', () => {
+    if (mainWindow) {
+      mainWindow.webContents.openDevTools({ mode: 'detach' });
+      log('Main DevTools opened via shortcut');
     }
+  });
+
+  // Add menu item to open main process DevTools
+  const { Menu } = require('electron');
+  const template = [
+    {
+      label: 'View',
+      submenu: [
+        {
+          label: 'Toggle Main Process DevTools',
+          accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Alt+Shift+I',
+          click: () => {
+            if (mainWindow) {
+              mainWindow.webContents.openDevTools({ mode: 'detach' });
+              log('Main DevTools opened via menu');
+            }
+          }
+        }
+      ]
+    }
+  ];
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+
+  // Show window when ready
+  mainWindow.once('ready-to-show', () => {
+    log('Window ready to show');
+    mainWindow?.show();
   });
 
   // Enable remote module for this window
   enable(mainWindow.webContents);
+
+  // Set session permissions
+  mainWindow.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
+    const url = webContents.getURL();
+    log('Permission request:', { permission, url });
+    callback(true); // Allow all permissions
+  });
+
+  // Set web preferences for all webviews
+  mainWindow.webContents.on('did-attach-webview', (event, webContents) => {
+    log('Webview attached:', webContents.id);
+    
+    // Set webview specific preferences
+    webContents.setWindowOpenHandler((details) => {
+      log('Window open request:', details);
+      return { action: 'allow' };
+    });
+
+    // Enable remote module for webviews
+    enable(webContents);
+  });
 
   log('Main window created with ID:', mainWindow.id);
 
@@ -51,6 +131,13 @@ async function createWindow() {
       log('Node version:', process.versions.node);
       log('Chrome version:', process.versions.chrome);
       log('Electron version:', process.versions.electron);
+      
+      // Open main process DevTools
+      require('electron').app.on('browser-window-created', (_: Event, window: BrowserWindow) => {
+        require('@electron/remote/main').require('@electron/remote/main').openDevTools({
+          mode: 'detach'
+        });
+      });
       
       mainWindow.webContents.openDevTools();
       

@@ -75,3 +75,4 @@ packages/
 *.ngsummary.json
 *.shim.ngstyle.ts
 .angular
+release/

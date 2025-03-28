@@ -14,12 +14,35 @@ import { webContents } from '@electron/remote';
             [attr.preload]="preloadPath"
             src='about:blank' 
             [style.width]='screenWidth + "px"'
-            [style.height]='getHeight() + "px"'
+            [style.height]='screenHeight + "px"'
+            style="display:flex; margin:0; padding:0; border:0;"
             nodeintegration
-            webpreferences="nodeIntegration=true,contextIsolation=false"
+            nodeintegrationinsubframes
+            plugins
+            webpreferences="javascript=true,nodeIntegration=true,contextIsolation=false,webviewTag=true,webSecurity=false"
+            allowpopups
+            useragent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            partition="persist:general"
         >
         </webview>
-    `
+    `,
+    styles: [`
+        :host {
+            display: block;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        webview {
+            display: flex;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            border: none;
+            background: #fff;
+        }
+    `]
 })
 export class WebviewComponent implements AfterViewInit, OnDestroy {
     @Input() public tabId: number = 0;
@@ -41,8 +64,8 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
 
     constructor(public store: Store<fromRoot.State>) {
         console.log('[WebView] Constructor called');
-        // Use a relative path for preload script
-        this.preloadPath = './assets/js/preload.js';
+        // Use absolute path for preload script
+        this.preloadPath = './src/assets/js/preload.js';
         console.log('[WebView] Preload script path:', this.preloadPath);
     }
 
@@ -54,6 +77,9 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
 
     public ngAfterViewInit() {
         console.log('[WebView] Setting up webview events');
+        console.log('[WebView] Screen height:', this.screenHeight);
+        console.log('[WebView] Calculated height:', this.getHeight());
+        
         const self = this;
         self.onFirstLoad = true;
 
@@ -79,6 +105,14 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
 
         webviewElm.addEventListener('did-fail-load', (e: any) => {
             console.error('[WebView] Failed to load:', e);
+            if (e.errorCode !== -3) { // Ignore ERR_ABORTED errors
+                console.error('[WebView] Load error:', {
+                    errorCode: e.errorCode,
+                    errorDescription: e.errorDescription,
+                    validatedURL: e.validatedURL,
+                    isMainFrame: e.isMainFrame
+                });
+            }
         });
 
         webviewElm.addEventListener('page-title-updated', (e: any) => {
@@ -139,26 +173,29 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
             console.log('[WebView] DOM ready');
             self.onDomReady.emit('');
 
-            // Get the webContents ID and use it to get the webContents object
             const webContentsId = webviewElm.getWebContentsId();
             console.log('[WebView] WebContents ID:', webContentsId);
             
-            // Use @electron/remote to get the webContents
             const wc = webContents.fromId(webContentsId);
             
             if (wc) {
-                wc.removeListener('context-menu', onContextMenu);
-                wc.on('context-menu', onContextMenu);
+                // Set content security policy
+                wc.session.webRequest.onHeadersReceived((details, callback) => {
+                    callback({
+                        responseHeaders: {
+                            ...details.responseHeaders,
+                            'Content-Security-Policy': ["default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https: http:;"]
+                        }
+                    });
+                });
 
                 // Enable webview devtools for debugging
                 try {
                     wc.openDevTools();
                     console.log('[WebView] DevTools opened for webview');
                     
-                    // Add additional debugging
                     wc.executeJavaScript(`
                         console.log('[WebView Debug] Window location:', window.location.href);
-                        console.log('[WebView Debug] Preload script status:', !!window.electron);
                         console.log('[WebView Debug] Document readyState:', document.readyState);
                     `);
                 } catch (e) {
@@ -218,11 +255,17 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     public loadURL(url: string) {
         console.log('[WebView] Loading URL:', url);
         const webviewElm = this.webview.nativeElement;
-        webviewElm.loadURL(url);
+        try {
+            webviewElm.loadURL(url).catch((err: any) => {
+                console.error('[WebView] Error loading URL:', err);
+            });
+        } catch (e) {
+            console.error('[WebView] Exception loading URL:', e);
+        }
     }
 
-    public getHeight() {
-        return this.screenHeight - 60;
+    public getHeight(): number {
+        return this.screenHeight; // Return exact screen height
     }
 
     private getTabUrl(tabId: number): string {
