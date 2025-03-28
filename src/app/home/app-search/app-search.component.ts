@@ -25,23 +25,23 @@ export class AppSearchComponent {
     @Output() onSearchReplacing = new EventEmitter<any>();
 
     isVisible = false;
-    searchText = '';
+    searchText: any = '';
     selectedIndex = -1;
-    suggestions: IHistoryItem[] = [];
-    historiesSearched: IHistoryItem[] = [];
+    suggestions: any[] = [];
+    historiesSearched: any[] = [];
     gotResult = false;
-    private searchSubject = new Subject<string>();
+    private searchSubject = new Subject<any>();
     private newSearch = true;
 
     constructor(private googleSuggestionService: GoogleSuggestionService) {
         // Set up search debounce
         this.searchSubject.pipe(
-            filter(text => text.length > 0),
+            filter((text: any) => text.length > 0),
             debounceTime(300),
             distinctUntilChanged(),
             switchMap(text => this.googleSuggestionService.getSuggestionWords(text))
         ).subscribe(suggestions => {
-            this.suggestions = suggestions.map(s => {
+            this.suggestions = suggestions.map((s: any) => {
                 const isUrl = this.isPotentialLink(s.key);
                 return {
                     id: 0,
@@ -52,21 +52,21 @@ export class AppSearchComponent {
                     date: new Date(),
                     host: isUrl ? new URL(s.key.startsWith('http') ? s.key : `http://${s.key}`).hostname : '',
                     weight: 0
-                } as IHistoryItem;
+                };
             });
         });
     }
 
-    show(oldUrl?: string) {
+    show(oldUrl?: any) {
         this.isVisible = true;
         this.gotResult = false;
         this.newSearch = !oldUrl;
-        this.searchText = oldUrl || '';
+        this.searchText = typeof oldUrl === 'string' ? oldUrl : '';
         this.selectedIndex = -1;
         this.updateSuggestions();
         setTimeout(() => {
             this.searchInput.nativeElement.focus();
-            if (oldUrl) {
+            if (typeof oldUrl === 'string') {
                 this.searchInput.nativeElement.select();
             }
         }, 100);
@@ -141,6 +141,7 @@ export class AppSearchComponent {
     }
 
     private updateSuggestions() {
+        console.log('updateSuggestions', this.searchText);
         if (!this.searchText || !this.searchText.trim()) {
             this.suggestions = [];
             this.historiesSearched = [];
@@ -150,7 +151,7 @@ export class AppSearchComponent {
         const searchLower = this.searchText.toLowerCase();
         
         // Update history search results
-        this.historiesSearched = (this.histories || []).filter(h => 
+        this.historiesSearched = (this.histories || []).filter((h: any) => 
             (h.title && h.title.toLowerCase().includes(searchLower)) || 
             (h.link && h.link.toLowerCase().includes(searchLower))
         ).slice(0, 5);
@@ -160,7 +161,7 @@ export class AppSearchComponent {
         return this.selectedIndex === index;
     }
 
-    doGoogleSearch(text: string) {
+    doGoogleSearch(text: any) {
         if (!text || !text.trim()) {
             return;
         }
@@ -168,14 +169,14 @@ export class AppSearchComponent {
         this.doSearch(url);
     }
 
-    selectHistoryItem(item: IHistoryItem) {
+    selectHistoryItem(item: any) {
         if (!item || !item.link) {
             return;
         }
         this.doSearch(item.link);
     }
 
-    handleSuggestionClick(suggestion: IHistoryItem) {
+    handleSuggestionClick(suggestion: any) {
         if (!suggestion || !suggestion.link) {
             return;
         }
@@ -186,7 +187,7 @@ export class AppSearchComponent {
         }
     }
 
-    doSearch(link: string) {
+    doSearch(link: any) {
         if (this.gotResult || !link || !link.trim()) {
             return;
         }
@@ -199,7 +200,7 @@ export class AppSearchComponent {
             const currentTab = { ...this.currentTab };
             const currentApp = { ...this.currentApp };
             const newLink = this.isPotentialLink(link) ? link : this.getGoogleSearchLink(link);
-            const webEvent: IWebEvent = {
+            const webEvent: any = {
                 tabId: currentTab.id,
                 eventValue: newLink,
                 app: currentApp,
@@ -210,14 +211,14 @@ export class AppSearchComponent {
         this.hide();
     }
 
-    private getGoogleSearchLink(text: string): string {
+    private getGoogleSearchLink(text: any): string {
         if (!text || !text.trim()) {
             return '';
         }
         return `https://www.google.com/search?ie=UTF-8&q=${encodeURI(text)}`;
     }
 
-    private isPotentialLink(text: string): boolean {
+    private isPotentialLink(text: any): boolean {
         return Boolean(text && text.trim() && 
                (text.startsWith('http://') || text.startsWith('https://') || 
                 (text.includes('.') && !text.includes(' '))));
