@@ -5,6 +5,7 @@ import type { WebviewTag } from 'electron';
 import * as fromRoot from '../../reducers';
 import { Subscription } from 'rxjs';
 import { webContents } from '@electron/remote';
+import { ipcRenderer } from 'electron';
 
 @Component({
     selector: 'web-view',
@@ -200,48 +201,38 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
             }
         });
 
-        const onContextMenu = (e1: any, params: any) => {
-            self.onContextMenu.emit(params);
-        };
-
         webviewElm.addEventListener('dom-ready', () => {
             console.log('[WebView] DOM ready');
-            self.onDomReady.emit('');
-
-            const webContentsId = webviewElm.getWebContentsId();
-            console.log('[WebView] WebContents ID:', webContentsId);
-            
-            const wc = webContents.fromId(webContentsId);
-            
-            if (wc) {
-                // Set content security policy
-                wc.session.webRequest.onHeadersReceived((details, callback) => {
-                    callback({
-                        responseHeaders: {
-                            ...details.responseHeaders,
-                            'Content-Security-Policy': ["default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https: http:;"]
-                        }
-                    });
-                });
-            }
+            self.onDomReady.emit({
+                eventValue: null,
+                eventName: 'domready',
+                tabId: self.tabId,
+                app: null
+            });
 
             if (self.onFirstLoad) {
                 self.onFirstLoad = false;
                 const url = self.getTabUrl(self.tabId);
-                console.log('[WebView] Loading initial URL:', url);
-                webviewElm.loadURL(url);
+                if (url) {
+                    webviewElm.loadURL(url);
+                }
             }
         });
 
-        webviewElm.addEventListener('console-message', (e: any) => {
-            console.log('[WebView Console]', e.message);
-        });
+        // Handle context menu
+        const webContentsId = webviewElm.getWebContentsId();
+        const wc = webContents.fromId(webContentsId);
+        if (wc) {
+            wc.on('context-menu', (e: any, params: any) => {
+                console.log('[WebView] Context menu:', params);
+                self.onContextMenu.emit(params);
+            });
+        }
 
-        webviewElm.addEventListener('ipc-message', (e: any) => {
-            if (e.channel === 'clicked') {
-                console.log('[WebView] Click detected');
-                this.onClicked.emit('clicked');
-            }
+        // Handle click events through IPC
+        ipcRenderer.on('clicked', () => {
+            console.log('[WebView] Click detected');
+            self.onClicked.emit('clicked');
         });
 
         // Add enhanced preload script error handling

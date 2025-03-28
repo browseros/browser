@@ -1,62 +1,40 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import type { ITab } from '../../models/tab.model';
 import type { IApp } from '../../models/app.model';
 import type { IWebEvent } from '../../models/web-event.model';
 import { Subscription } from 'rxjs';
-import { ChangeTabTitleAction, ChangeTabUrlAction, ChangeTabIconAction } from '../../actions/app.actions';
+import type { WebviewTag } from 'electron';
+import { webContents } from '@electron/remote';
+import { ipcRenderer } from 'electron';
 
 @Component({
     selector: 'app-webview',
-    template: `
-        <web-view
-            *ngFor="let tabId of tabIds"
-            [tabId]="tabId"
-            [screenHeight]="screenHeight"
-            [screenWidth]="screenWidth"
-            [style.display]="tabId === currentTabId ? 'block' : 'none'"
-            (onTitleChanged)="onTitleChanged($event, tabId)"
-            (onIconChanged)="onIconChanged($event, tabId)"
-            (onUrlChanged)="onUrlChanged($event, tabId)"
-            (onNewUrl)="onNewUrl($event)"
-            (onContextMenu)="onContextMenu($event)"
-            (onDomReady)="onDomReady($event)"
-            (onClicked)="onClicked($event)">
-        </web-view>
-    `
+    templateUrl: './app-webview.component.html',
+    styleUrls: ['./app-webview.component.scss']
 })
-export class AppWebviewComponent implements OnInit, OnDestroy {
-    public tabIds: number[] = [];
-    public currentTabId: number = 0;
-    public screenHeight: number;
-    public screenWidth: number;
+export class AppWebviewComponent implements AfterViewInit, OnDestroy {
+    @Input() public currentTab: ITab | null = null;
+    @Input() public screenHeight: number = 0;
+    @Input() public screenWidth: number = 0;
+    @Output() public onTitleChanged = new EventEmitter<string>();
+    @Output() public onIconChanged = new EventEmitter<string>();
+    @Output() public onNewUrl = new EventEmitter<string>();
+    @Output() public onUrlChanged = new EventEmitter<string>();
+    @Output() public onContextMenu = new EventEmitter<any>();
+    @Output() public onDomReady = new EventEmitter<IWebEvent>();
+    @Output() public onClicked = new EventEmitter<any>();
+
+    @ViewChild('webview') private webview!: ElementRef<WebviewTag>;
+    private onFirstLoad = true;
     private tabsSub: Subscription | undefined;
     private currentTabSub: Subscription | undefined;
     private currentApp: IApp | undefined;
     private appSub: Subscription | undefined;
 
-    constructor(private store: Store<fromRoot.State>) {
-        this.screenHeight = window.innerHeight;
-        this.screenWidth = window.innerWidth;
-    }
-
-    public ngOnInit() {
-        this.tabsSub = this.store.select(fromRoot.getEventTabs).subscribe((tabs: ITab[]) => {
-            this.tabIds = tabs.map(t => t.id);
-        });
-
-        this.currentTabSub = this.store.select(fromRoot.getEventCurrentTab).subscribe((tab: ITab | null) => {
-            if (tab) {
-                this.currentTabId = tab.id;
-            }
-        });
-
-        this.appSub = this.store.select(fromRoot.getEventCurrentApp).subscribe((app: IApp | null) => {
-            if (app) {
-                this.currentApp = app;
-            }
-        });
+    constructor(public store: Store<fromRoot.State>) {
+        console.log('[AppWebview] Constructor called');
     }
 
     public ngOnDestroy() {
@@ -71,56 +49,85 @@ export class AppWebviewComponent implements OnInit, OnDestroy {
         }
     }
 
-    public onTitleChanged(title: string, tabId: number) {
-        if (!this.currentApp) return;
-        const event: IWebEvent = {
-            tabId,
-            app: this.currentApp,
-            eventName: 'title-changed',
-            eventValue: title
-        };
-        this.store.dispatch(new ChangeTabTitleAction(event));
+    public ngAfterViewInit() {
+        console.log('[AppWebview] Setting up webview events');
+        const self = this;
+        self.onFirstLoad = true;
+
+        const webviewElm = self.webview.nativeElement;
+        console.log('[AppWebview] Webview element:', webviewElm);
+
+        // Handle webview events
+        webviewElm.addEventListener('dom-ready', () => {
+            console.log('[AppWebview] DOM ready');
+            self.onDomReady.emit({
+                eventValue: null,
+                eventName: 'domready',
+                tabId: self.currentTab?.id || 0,
+                app: null
+            });
+        });
+
+        webviewElm.addEventListener('page-title-updated', (e: any) => {
+            console.log('[AppWebview] Title updated:', e.title);
+            self.onTitleChanged.emit(e.title);
+        });
+
+        webviewElm.addEventListener('page-favicon-updated', (e: any) => {
+            console.log('[AppWebview] Favicon updated:', e.favicons[0]);
+            self.onIconChanged.emit(e.favicons[0]);
+        });
+
+        webviewElm.addEventListener('did-navigate', (e: any) => {
+            console.log('[AppWebview] Did navigate:', e.url);
+            self.onUrlChanged.emit(e.url);
+        });
+
+        webviewElm.addEventListener('did-get-redirect-request', (e: any) => {
+            console.log('[AppWebview] Did get redirect request:', e.newURL);
+            self.onUrlChanged.emit(e.newURL);
+        });
+
+        webviewElm.addEventListener('new-window', (e: any) => {
+            console.log('[AppWebview] New window:', e.url);
+            self.onNewUrl.emit(e.url);
+        });
+
+        // Handle click events through IPC
+        ipcRenderer.on('clicked', () => {
+            console.log('[AppWebview] Click detected');
+            self.onClicked.emit('clicked');
+        });
+
+        // Handle context menu
+        const webContentsId = webviewElm.getWebContentsId();
+        const wc = webContents.fromId(webContentsId);
+        if (wc) {
+            wc.on('context-menu', (e: any, params: any) => {
+                console.log('[AppWebview] Context menu:', params);
+                self.onContextMenu.emit(params);
+            });
+        }
     }
 
-    public onIconChanged(icon: string, tabId: number) {
-        if (!this.currentApp) return;
-        const event: IWebEvent = {
-            tabId,
-            app: this.currentApp,
-            eventName: 'icon-changed',
-            eventValue: icon
-        };
-        this.store.dispatch(new ChangeTabIconAction(event));
+    // Event handler methods
+    public handleTitleUpdated(event: any): void {
+        this.onTitleChanged.emit(event.title);
     }
 
-    public onUrlChanged(url: string, tabId: number) {
-        if (!this.currentApp) return;
-        const event: IWebEvent = {
-            tabId,
-            app: this.currentApp,
-            eventName: 'url-changed',
-            eventValue: url
-        };
-        this.store.dispatch(new ChangeTabUrlAction(event));
+    public handleFaviconUpdated(event: any): void {
+        this.onIconChanged.emit(event.favicons[0]);
     }
 
-    public onNewUrl(url: string) {
-        // Handle new URL event
-        console.log('New URL:', url);
+    public handleNavigate(event: any): void {
+        this.onUrlChanged.emit(event.url);
     }
 
-    public onContextMenu(params: any) {
-        // Handle context menu event
-        console.log('Context menu:', params);
+    public handleRedirectRequest(event: any): void {
+        this.onUrlChanged.emit(event.newURL);
     }
 
-    public onDomReady(event: any) {
-        // Handle DOM ready event
-        console.log('DOM ready:', event);
-    }
-
-    public onClicked(event: any) {
-        // Handle click event
-        console.log('Clicked:', event);
+    public handleNewWindow(event: any): void {
+        this.onNewUrl.emit(event.url);
     }
 }

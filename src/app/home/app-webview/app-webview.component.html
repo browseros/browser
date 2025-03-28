@@ -2,14 +2,22 @@
   <div class="webview-content">
     <webview
       #webview
-      [attr.id]="'webview-' + (currentTab?.id || 0)"
+      [id]="'webview-' + (currentTab?.id || 0)"
       [style.height.px]="screenHeight"
       [style.width.px]="screenWidth"
+      [src]="currentTab?.url || 'about:blank'"
       allowpopups
       nodeintegration
       webpreferences="contextIsolation=no, nodeIntegration=yes"
-      [attr.src]="'about:blank'"
-      partition="persist:main">
+      partition="persist:main"
+      (dom-ready)="onDomReady.emit({eventValue: null, eventName: 'domready', tabId: currentTab?.id || 0, app: null})"
+      (page-title-updated)="handleTitleUpdated($event)"
+      (page-favicon-updated)="handleFaviconUpdated($event)"
+      (did-navigate)="handleNavigate($event)"
+      (did-get-redirect-request)="handleRedirectRequest($event)"
+      (new-window)="handleNewWindow($event)"
+      (context-menu)="onContextMenu.emit($event)"
+      (clicked)="onClicked.emit($event)">
     </webview>
   </div>
 </div>

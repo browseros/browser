@@ -237,7 +237,7 @@ export function reducer(state = initialState, action: app.Actions): State {
 
     case app.CLEAR_SUGGESTIONS: {
       return Object.assign({}, state, {
-        suggestions: []
+        suggestions: null
       });
     }
 

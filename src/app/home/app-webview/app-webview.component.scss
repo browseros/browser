@@ -3,6 +3,7 @@
   width: 100%;
   height: 100%;
   background: #fff;
+  z-index: 1;
 
   .webview-content {
     width: 100%;
@@ -12,6 +13,7 @@
       width: 100%;
       height: 100%;
       border: none;
+      z-index: 1;
     }
   }
 } 
