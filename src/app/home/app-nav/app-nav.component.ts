@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import type { IApp } from '../../models/app.model';
-import type { ITab } from '../../models/tab.model';
-import type { IHistoryItem } from '../../models/history-item.model';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { IApp } from '../../models/app.model';
+import { ITab } from '../../models/tab.model';
+import { IHistoryItem } from '../../models/history-item.model';
+import { IWebEvent } from '../../models/web-event.model';
 
 @Component({
     selector: 'app-nav',
@@ -9,63 +10,56 @@ import type { IHistoryItem } from '../../models/history-item.model';
     styleUrls: ['./app-nav.component.scss']
 })
 export class AppNavComponent {
-    @Input() currentApp: IApp = { id: 0, title: '', url: '', icon: '' };
-    @Input() tabs: ITab[] = [];
-    @Input() currentTab: ITab = { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' };
-    @Input() histories: IHistoryItem[] = [];
-    @Input() screenWidth: number = 0;
+    @Input() public currentApp: IApp | null = null;
+    @Input() public tabs: ITab[] = [];
+    @Input() public screenWidth: number = 0;
+    @Input() public histories: IHistoryItem[] = [];
+    @Input() public currentTab: ITab | null = null;
+    @Output() public onSearch = new EventEmitter<any>();
+    @Output() public onNextClick = new EventEmitter<any>();
+    @Output() public onBackClick = new EventEmitter<any>();
+    @Output() public onReloadClick = new EventEmitter<any>();
+    @Output() public onGotoTab = new EventEmitter<any>();
+    @Output() public onCloseTab = new EventEmitter<any>();
+    @Output() public onContextMenu = new EventEmitter<any>();
 
-    @Output() onNextClick = new EventEmitter<any>();
-    @Output() onBackClick = new EventEmitter<any>();
-    @Output() onGotoTab = new EventEmitter<any>();
-    @Output() onContextMenu = new EventEmitter<any>();
-    @Output() onReloadClick = new EventEmitter<any>();
-    @Output() onCloseTab = new EventEmitter<any>();
-    @Output() onSearch = new EventEmitter<any>();
-
-    ngOnInit() {}
-
-    ngOnDestroy() {}
-
-    public show(): void {
-        // Implementation will be updated to use Angular modal
-    }
-
-    public hide(): void {
-        // Implementation will be updated to use Angular modal
-    }
-
-    private onMouseUp(event: MouseEvent, tab: ITab): void {
+    public onMouseUp(event: MouseEvent, tab: ITab): void {
+        // middle button
         if (event.button === 1) {
-            // Middle click
-            event.preventDefault();
             this.onCloseTab.emit(tab);
-        } else if (event.button === 0) {
-            // Left click
-            this.onGotoTab.emit(tab);
         }
     }
 
-    private getHistoryForHost(): IHistoryItem[] {
-        if (!this.currentTab) {
-            return [];
-        }
-        if (!this.histories || this.histories.length === 0) {
-            return [];
+    public getHistoryForHost(): IHistoryItem[] | null {
+        if (!this.currentTab || !this.histories || this.histories.length === 0) {
+            return null;
         }
         return this.histories
             .filter(item =>
-                item.title
-                && item.host.toLocaleLowerCase() === this.currentTab.hostName.toLocaleLowerCase())
+                item.title &&
+                item.host.toLowerCase() === this.currentTab!.hostName.toLowerCase())
             .slice(0, 10);
     }
 
-    private selectHistoryItem(item: IHistoryItem): void {
-        this.onSearch.emit(item.link);
+    public selectHistoryItem(item: IHistoryItem): void {
+        this.doSearch(item.link);
     }
 
-    private getTabWidth(): string {
-        const tabCount = this.tabs ? this.tabs.filter(tab => tab.appId === this.currentApp.id).length : 0;
+    private doSearch(link: string) {
+        if (!this.currentTab || !this.currentApp) return;
+        
+        const webEvent: IWebEvent = {
+            tabId: this.currentTab.id,
+            eventValue: link,
+            app: this.currentApp,
+            eventName: 'urlchanged'
+        };
+        this.onSearch.emit(webEvent);
+    }
+
+    public getTabWidth(): string {
+        if (!this.currentApp) return '0px';
+        const tabCount = this.tabs ? this.tabs.filter(tab => tab.appId === this.currentApp!.id).length : 0;
         if (tabCount === 0) {
             return '0px';
         }

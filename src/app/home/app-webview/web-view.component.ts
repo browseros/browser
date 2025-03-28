@@ -78,7 +78,6 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
     public ngAfterViewInit() {
         console.log('[WebView] Setting up webview events');
         console.log('[WebView] Screen height:', this.screenHeight);
-        console.log('[WebView] Calculated height:', this.getHeight());
         
         const self = this;
         self.onFirstLoad = true;
@@ -89,11 +88,6 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
 
         const webviewElm = self.webview.nativeElement;
         console.log('[WebView] Webview element:', webviewElm);
-
-        // Log webview properties to debug preload script
-        console.log('[WebView] Webview preload path:', webviewElm.getAttribute('preload'));
-        console.log('[WebView] Webview nodeIntegration:', webviewElm.getAttribute('nodeintegration'));
-        console.log('[WebView] Webview webpreferences:', webviewElm.getAttribute('webpreferences'));
 
         webviewElm.addEventListener('did-start-loading', () => {
             console.log('[WebView] Started loading');
@@ -188,19 +182,6 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
                         }
                     });
                 });
-
-                // Enable webview devtools for debugging
-                try {
-                    wc.openDevTools();
-                    console.log('[WebView] DevTools opened for webview');
-                    
-                    wc.executeJavaScript(`
-                        console.log('[WebView Debug] Window location:', window.location.href);
-                        console.log('[WebView Debug] Document readyState:', document.readyState);
-                    `);
-                } catch (e) {
-                    console.log('[WebView] Could not open devtools:', e);
-                }
             }
 
             if (self.onFirstLoad) {
@@ -262,10 +243,6 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
         } catch (e) {
             console.error('[WebView] Exception loading URL:', e);
         }
-    }
-
-    public getHeight(): number {
-        return this.screenHeight; // Return exact screen height
     }
 
     private getTabUrl(tabId: number): string {

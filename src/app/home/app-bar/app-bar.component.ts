@@ -41,11 +41,38 @@ export class AppBarComponent {
 
     public getAppTabs(app: IApp): ITab[] {
         if (!app || !this.tabs) return [];
+        if (this.currentApp && this.currentApp.id !== app.id) return [];
         return this.tabs.filter(tab => tab.appId === app.id);
     }
 
-    public getTabWidth(): string {
-        return `${100 / this.apps.length}%`;
+    public handleAppSelect(app: IApp): void {
+        this.onAppSelect.emit(app);
+    }
+
+    public handleAppClose(event: Event, app: IApp): void {
+        event.stopPropagation();
+        this.onAppClose.emit(app);
+    }
+
+    public handleContextMenu(app: IApp): void {
+        this.onContextMenu.emit(app);
+    }
+
+    public handleAppBarDoubleClick(event: MouseEvent): void {
+        this.onAppBarDoubleClick.emit(event);
+    }
+
+    public handleTabSelect(tab: ITab): void {
+        this.onTabSelect.emit(tab);
+    }
+
+    public handleTabClose(event: Event, tab: ITab): void {
+        event.stopPropagation();
+        this.onTabClose.emit(tab);
+    }
+
+    public handleTabContextMenu(tab: ITab): void {
+        this.onTabContextMenu.emit(tab);
     }
 
     public onMouseUp(event: MouseEvent, app: IApp): void {

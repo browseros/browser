@@ -1,30 +1,54 @@
-<nav class="navbar">
-    <div class="nav-container">
-        <div class="nav-controls">
-            <button class="nav-button" (click)="onBackClick.emit()" title="Go back">
-                <i class="bi bi-chevron-left"></i>
+<div class="navs" *ngIf="tabs && tabs.length > 0">
+    <span *ngIf="currentApp">
+        <div *ngFor="let tab of tabs" 
+             [style.display]="tab.appId !== currentApp.id ? 'none': ''"
+             class="tab-on-nav"
+             [title]="tab.title"
+             [class.active]="currentTab && tab.id === currentTab.id"
+             (click)="onGotoTab.emit(tab)"
+             (contextmenu)="onContextMenu.emit(tab)"
+             (mouseup)="onMouseUp($event, tab)"
+             [style.width]="getTabWidth()">
+            <button class="tab-close" 
+                    (click)="$event.stopPropagation(); onCloseTab.emit(tab)"
+                    title="Close tab">
+                <i class="bi bi-x"></i>
             </button>
-            <button class="nav-button" (click)="onNextClick.emit()" title="Go forward">
-                <i class="bi bi-chevron-right"></i>
-            </button>
-            <button class="nav-button" (click)="onReloadClick.emit()" title="Reload">
-                <i class="bi bi-arrow-clockwise"></i>
-            </button>
+            <span class="tab-title">{{tab.title || 'New Tab'}}</span>
         </div>
-        <div class="tab-container">
-            <div *ngFor="let tab of tabs" 
-                 [class.active]="currentTab.id === tab.id"
-                 class="tab" 
-                 (click)="onGotoTab.emit(tab)"
-                 (contextmenu)="onContextMenu.emit(tab)">
-                <img [src]="tab.icon" width="16" height="16" *ngIf="tab.icon" class="tab-icon" alt=""/>
-                <span class="tab-title">{{tab.title || 'New Tab'}}</span>
-                <button class="tab-close" 
-                        (click)="$event.stopPropagation(); onCloseTab.emit(tab)"
-                        title="Close tab">
-                    <i class="bi bi-x"></i>
-                </button>
-            </div>
+    </span>
+    
+    <div class="nav-actions">
+        <button class="nav-button" (click)="onReloadClick.emit(currentApp)" title="Reload">
+            <i class="bi bi-arrow-clockwise"></i>
+        </button>
+        <button class="nav-button" (click)="onNextClick.emit(currentApp)" title="Forward">
+            <i class="bi bi-chevron-right"></i>
+        </button>
+        <button class="nav-button" (click)="onBackClick.emit(currentApp)" title="Back">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+        
+        <div class="dropdown">
+            <button class="nav-button dropdown-toggle" 
+                    type="button" 
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false"
+                    title="Recent">
+                Recent
+                <i class="bi bi-caret-down-fill"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li *ngFor="let item of getHistoryForHost()">
+                    <a class="dropdown-item recent-item" 
+                       *ngIf="item.title" 
+                       (click)="selectHistoryItem(item)" 
+                       [title]="item.title">
+                        <div class="recent-item-title">{{item.title}}</div>
+                        <div class="recent-item-link">{{item.link}}</div>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
-</nav>
+</div>
