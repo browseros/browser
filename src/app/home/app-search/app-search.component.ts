@@ -53,10 +53,16 @@ export class AppSearchComponent {
     onKeyDown(event: KeyboardEvent) {
         if (event.key === 'Enter') {
             event.preventDefault();
-            if (this.selectedIndex >= 0 && this.selectedIndex < this.suggestions.length) {
-                this.onSearch.emit({ url: this.suggestions[this.selectedIndex].link });
+            if (this.selectedIndex === 0) {
+                // Google search is always first item
+                this.doGoogleSearch(this.searchText);
+            } else if (this.selectedIndex > 0 && this.selectedIndex <= this.suggestions.length) {
+                this.onSearch.emit({ url: this.suggestions[this.selectedIndex - 1].link });
             } else {
-                const url = StateHelper.prepareAppLink(this.searchText);
+                // If no suggestion selected, try to navigate directly or fallback to Google search
+                const url = this.isPotentialLink(this.searchText) ? 
+                    this.searchText : 
+                    `https://www.google.com/search?q=${encodeURIComponent(this.searchText)}`;
                 this.onSearch.emit({ url });
             }
             this.hide();
@@ -64,7 +70,7 @@ export class AppSearchComponent {
             this.hide();
         } else if (event.key === 'ArrowDown') {
             event.preventDefault();
-            this.selectedIndex = Math.min(this.selectedIndex + 1, this.suggestions.length - 1);
+            this.selectedIndex = Math.min(this.selectedIndex + 1, this.suggestions.length);
         } else if (event.key === 'ArrowUp') {
             event.preventDefault();
             this.selectedIndex = Math.max(this.selectedIndex - 1, -1);
@@ -107,13 +113,23 @@ export class AppSearchComponent {
     }
 
     doGoogleSearch(text: string) {
-        const url = `https://www.google.com/search?q=${encodeURIComponent(text)}`;
-        this.onSearch.emit({ url });
+        if (this.isPotentialLink(text)) {
+            this.onSearch.emit({ url: text });
+        } else {
+            const url = `https://www.google.com/search?q=${encodeURIComponent(text)}`;
+            this.onSearch.emit({ url });
+        }
         this.hide();
     }
 
     selectHistoryItem(item: IHistoryItem) {
         this.onSearch.emit({ url: item.link });
         this.hide();
+    }
+
+    private isPotentialLink(text: string): boolean {
+        return Boolean(text && 
+               (text.startsWith('http://') || text.startsWith('https://') || 
+                (text.includes('.') && !text.includes(' '))));
     }
 }
