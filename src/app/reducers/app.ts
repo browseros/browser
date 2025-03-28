@@ -4,6 +4,7 @@ import * as app from '../actions/app.actions';
 import { StateHelper } from './helper';
 import { IHistoryItem } from '../models/history-item.model';
 import { IWebAction } from '../models/web-action.model';
+import { IWebEvent } from '../models/web-event.model';
 
 export interface WebAction {
   tab: ITab;
@@ -238,6 +239,85 @@ export function reducer(state = initialState, action: app.Actions): State {
       return Object.assign({}, state, {
         suggestions: []
       });
+    }
+
+    case app.DOM_READY: {
+      const payload = action.payload as IWebEvent;
+      if (!payload || !payload.tabId) {
+        return state;
+      }
+      const tab = state.tabs.find(t => t.id === payload.tabId);
+      if (!tab) {
+        return state;
+      }
+      const app = state.apps.find(a => a.id === tab.appId);
+      if (!app) {
+        return state;
+      }
+
+      const historyItem: IHistoryItem = {
+        link: tab.url,
+        date: new Date(),
+        host: tab.hostName,
+        title: tab.title,
+        weight: 0,
+        icon: app.icon
+      };
+
+      // Add to regular history
+      const newHistories = [...state.histories, historyItem];
+
+      // Update weighted history
+      let newHistoryWithWeights = state.historyWithWeights;
+      const historyWithWeightItemIndex = state.historyWithWeights.findIndex(h =>
+        h.link.toLowerCase() === historyItem.link.toLowerCase());
+
+      if (historyWithWeightItemIndex < 0) {
+        // New item
+        const historyWithWeightItem = { ...historyItem, weight: 1 };
+        newHistoryWithWeights = [...newHistoryWithWeights, historyWithWeightItem];
+      } else {
+        // Increment weight of existing item
+        const historyWithWeightItem = newHistoryWithWeights[historyWithWeightItemIndex];
+        const newHistoryWithWeightItem = { ...historyWithWeightItem, weight: historyWithWeightItem.weight + 1 };
+        newHistoryWithWeights = [
+          ...newHistoryWithWeights.slice(0, historyWithWeightItemIndex),
+          newHistoryWithWeightItem,
+          ...newHistoryWithWeights.slice(historyWithWeightItemIndex + 1)
+        ];
+      }
+
+      // Update top apps
+      let newTopApps = state.topApps;
+      const appIndex = state.topApps.findIndex(ta => ta.host.toLowerCase() === tab.hostName.toLowerCase());
+
+      if (appIndex < 0) {
+        // New app
+        const appItem = { ...historyItem, weight: 1 };
+        newTopApps = [...newTopApps, appItem];
+      } else {
+        // Increment weight of existing app
+        const appItem = newTopApps[appIndex];
+        const newAppItem = { ...appItem, weight: appItem.weight + 1 };
+        newTopApps = [
+          ...newTopApps.slice(0, appIndex),
+          newAppItem,
+          ...newTopApps.slice(appIndex + 1)
+        ];
+      }
+
+      // Sort by weight
+      newHistoryWithWeights = newHistoryWithWeights.sort((item1, item2) =>
+        item2.weight - item1.weight);
+      newTopApps = newTopApps.sort((item1, item2) =>
+        item2.weight - item1.weight);
+
+      return {
+        ...state,
+        histories: newHistories,
+        historyWithWeights: newHistoryWithWeights,
+        topApps: newTopApps
+      };
     }
 
     default: {

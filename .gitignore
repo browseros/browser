@@ -76,3 +76,4 @@ packages/
 *.shim.ngstyle.ts
 .angular
 release/
+yarn.lock

@@ -39,7 +39,7 @@
     "@ngrx/entity": "^17.1.0",
     "@ngrx/store": "^17.2.0",
     "@ngrx/store-devtools": "^17.2.0",
-    "bootstrap": "^5.3.2",
+    "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "electron-is-dev": "^2.0.0",
     "ngrx-store-freeze": "^0.2.4",
