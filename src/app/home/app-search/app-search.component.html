@@ -1,18 +1,18 @@
 <div class="search-modal" [class.show]="isVisible">
-    <div class="search-container">
+    <div class="search-container" #searchBox>
         <div class="search-header">
             <button type="button" class="close" (click)="hide()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             <div class="search-input-wrapper">
-                <i class="bi bi-search"></i>
                 <input #searchInput
                        type="text"
                        class="search-input"
                        [(ngModel)]="searchText"
                        (keyup)="keyUp($event)"
                        (input)="onSearchChanged()"
-                       placeholder="Search URL or App">
+                       placeholder="Type to search...">
+                <i class="bi bi-search"></i>
             </div>
         </div>
 
@@ -37,14 +37,14 @@
                     <i *ngIf="!suggestion.icon" class="bi bi-search search-item-icon"></i>
                     <div class="search-item-content">
                         <div class="search-item-title">{{suggestion.title}}</div>
-                        <div class="search-item-url">{{suggestion.link}}</div>
+                        <div class="search-item-url" *ngIf="suggestion.link">{{suggestion.link}}</div>
                     </div>
                 </div>
             </div>
 
             <!-- History Results -->
             <div class="search-section" *ngIf="historiesSearched.length > 0">
-                <div class="search-section-title">History</div>
+                <div class="search-section-title">Recent</div>
                 <div class="search-item" *ngFor="let item of historiesSearched"
                      (click)="selectHistoryItem(item)">
                     <img [src]="item.icon" *ngIf="item.icon" class="search-item-icon" alt="">
@@ -58,7 +58,7 @@
 
             <!-- Top Apps -->
             <div class="search-section" *ngIf="!searchText && topApps.length > 0">
-                <div class="search-section-title">Top Apps</div>
+                <div class="search-section-title">Frequently Used</div>
                 <div class="search-item" *ngFor="let app of topApps"
                      (click)="selectHistoryItem(app)">
                     <img [src]="app.icon" *ngIf="app.icon" class="search-item-icon" alt="">
@@ -72,10 +72,17 @@
         </div>
 
         <div class="search-footer">
-            <button type="button" class="btn btn-default" (click)="hide()">Close</button>
-            <button type="button" class="btn btn-primary" (click)="doSearch(searchText)">
-                <i class="bi bi-search"></i> Search
-            </button>
+            <div class="keyboard-hint">
+                <kbd>↑</kbd><kbd>↓</kbd> to navigate
+                <kbd>Enter</kbd> to select
+                <kbd>Esc</kbd> to close
+            </div>
+            <div>
+                <button type="button" class="btn btn-default" (click)="hide()">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="doSearch(searchText)">
+                    <i class="bi bi-search"></i>Search
+                </button>
+            </div>
         </div>
     </div>
 </div>
