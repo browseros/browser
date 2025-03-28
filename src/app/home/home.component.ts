@@ -122,8 +122,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     const webEvent: IWebEvent = {
       eventValue: url,
       eventName: 'newurl',
-      tabId: 0,
-      app: null
+      tabId: this.currentTab.id,
+      app: this.currentApp
     };
     this.store.dispatch(new appActions.ChangeTabUrlAction(webEvent));
   }
@@ -132,8 +132,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     const webEvent: IWebEvent = {
       eventValue: title,
       eventName: 'titlechanged',
-      tabId: 0,
-      app: null
+      tabId: this.currentTab.id,
+      app: this.currentApp
     };
     this.store.dispatch(new appActions.ChangeTabTitleAction(webEvent));
   }
@@ -142,8 +142,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     const webEvent: IWebEvent = {
       eventValue: icon,
       eventName: 'iconchanged',
-      tabId: 0,
-      app: null
+      tabId: this.currentTab.id,
+      app: this.currentApp
     };
     this.store.dispatch(new appActions.ChangeTabIconAction(webEvent));
   }
@@ -152,18 +152,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     const webEvent: IWebEvent = {
       eventValue: url,
       eventName: 'urlchanged',
-      tabId: 0,
-      app: null
+      tabId: this.currentTab.id,
+      app: this.currentApp
     };
     this.store.dispatch(new appActions.ChangeTabUrlAction(webEvent));
   }
 
-  onDomReady(): void {
+  onDomReady(event: IWebEvent): void {
     const webEvent: IWebEvent = {
       eventValue: null,
       eventName: 'domready',
-      tabId: 0,
-      app: null
+      tabId: this.currentTab.id,
+      app: this.currentApp
     };
     this.store.dispatch(new appActions.DomReadyAction(webEvent));
   }

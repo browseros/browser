@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import type { WebviewTag } from 'electron';
 import { webContents } from '@electron/remote';
 import { ipcRenderer } from 'electron';
+import * as appActions from '../../actions/app.actions';
 
 @Component({
     selector: 'app-webview',
@@ -28,13 +29,23 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
 
     @ViewChild('webview') private webview!: ElementRef<WebviewTag>;
     private onFirstLoad = true;
-    private tabsSub: Subscription | undefined;
-    private currentTabSub: Subscription | undefined;
-    private currentApp: IApp | undefined;
-    private appSub: Subscription | undefined;
+    private tabsSub: Subscription;
+    private currentTabSub: Subscription;
+    private currentApp: IApp;
+    private appSub: Subscription;
+    private backSub: Subscription;
+    private nextSub: Subscription;
+    private reloadSub: Subscription;
 
     constructor(public store: Store<fromRoot.State>) {
         console.log('[AppWebview] Constructor called');
+        this.tabsSub = new Subscription();
+        this.currentTabSub = new Subscription();
+        this.currentApp = { id: 0, title: '', url: '', icon: '' };
+        this.appSub = new Subscription();
+        this.backSub = new Subscription();
+        this.nextSub = new Subscription();
+        this.reloadSub = new Subscription();
     }
 
     public ngOnDestroy() {
@@ -47,6 +58,15 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
         if (this.appSub) {
             this.appSub.unsubscribe();
         }
+        if (this.backSub) {
+            this.backSub.unsubscribe();
+        }
+        if (this.nextSub) {
+            this.nextSub.unsubscribe();
+        }
+        if (this.reloadSub) {
+            this.reloadSub.unsubscribe();
+        }
     }
 
     public ngAfterViewInit() {
@@ -57,15 +77,39 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
         const webviewElm = self.webview.nativeElement;
         console.log('[AppWebview] Webview element:', webviewElm);
 
+        // Subscribe to navigation actions
+        this.backSub = this.store.select(fromRoot.getIsNavigatingBack).subscribe((action: any) => {
+            if (action?.isCalling && this.currentTab?.id && action.tab.id === this.currentTab.id) {
+                this.goBack();
+                this.store.dispatch(new appActions.DoBackCompleteAction(action.app));
+            }
+        });
+
+        this.nextSub = this.store.select(fromRoot.getIsNavigatingNext).subscribe((action: any) => {
+            if (action?.isCalling && this.currentTab?.id && action.tab.id === this.currentTab.id) {
+                this.goForward();
+                this.store.dispatch(new appActions.DoNextCompleteAction(action.app));
+            }
+        });
+
+        this.reloadSub = this.store.select(fromRoot.getIsNavigatingReload).subscribe((action: any) => {
+            if (action?.isCalling && this.currentTab?.id && action.tab.id === this.currentTab.id) {
+                this.reload();
+                this.store.dispatch(new appActions.DoReloadCompleteAction(action.app));
+            }
+        });
+
         // Handle webview events
         webviewElm.addEventListener('dom-ready', () => {
             console.log('[AppWebview] DOM ready');
-            self.onDomReady.emit({
-                eventValue: null,
-                eventName: 'domready',
-                tabId: self.currentTab?.id || 0,
-                app: null
-            });
+            if (this.currentTab && this.currentApp) {
+                self.onDomReady.emit({
+                    eventValue: null,
+                    eventName: 'domready',
+                    tabId: this.currentTab.id,
+                    app: this.currentApp || null
+                });
+            }
         });
 
         webviewElm.addEventListener('page-title-updated', (e: any) => {
@@ -108,6 +152,26 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
                 self.onContextMenu.emit(params);
             });
         }
+    }
+
+    // Navigation methods
+    public goBack(): void {
+        const webviewElm = this.webview.nativeElement;
+        if (webviewElm.canGoBack()) {
+            webviewElm.goBack();
+        }
+    }
+
+    public goForward(): void {
+        const webviewElm = this.webview.nativeElement;
+        if (webviewElm.canGoForward()) {
+            webviewElm.goForward();
+        }
+    }
+
+    public reload(): void {
+        const webviewElm = this.webview.nativeElement;
+        webviewElm.reload();
     }
 
     // Event handler methods
