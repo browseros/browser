@@ -1,6 +1,9 @@
 <div class="search-modal" [class.show]="isVisible">
     <div class="search-container">
         <div class="search-header">
+            <button type="button" class="close" (click)="hide()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
             <div class="search-input-wrapper">
                 <i class="bi bi-search"></i>
                 <input #searchInput
@@ -29,10 +32,12 @@
                 <div class="search-section-title">Suggestions</div>
                 <div class="search-item" *ngFor="let suggestion of suggestions; let i = index"
                      [class.active]="isCurrentSelectedSearchItem(i + 1)"
-                     (click)="doGoogleSearch(suggestion.link)">
-                    <i class="bi bi-search search-item-icon"></i>
+                     (click)="handleSuggestionClick(suggestion)">
+                    <img [src]="suggestion.icon" *ngIf="suggestion.icon" class="search-item-icon" alt="">
+                    <i *ngIf="!suggestion.icon" class="bi bi-search search-item-icon"></i>
                     <div class="search-item-content">
                         <div class="search-item-title">{{suggestion.title}}</div>
+                        <div class="search-item-url">{{suggestion.link}}</div>
                     </div>
                 </div>
             </div>
@@ -64,6 +69,13 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="search-footer">
+            <button type="button" class="btn btn-default" (click)="hide()">Close</button>
+            <button type="button" class="btn btn-primary" (click)="doSearch(searchText)">
+                <i class="bi bi-search"></i> Search
+            </button>
         </div>
     </div>
 </div>

@@ -1,16 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 
-@Injectable()
+export interface GoogleSuggestion {
+    key: string;
+    title: string;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class GoogleSuggestionService {
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
-    public getSuggestionWords(key: string) {
-        let link = 'http://suggestqueries.google.com/complete/search?output=chrome&q=' + encodeURI(key);
-        return this.http.get(link)
-            .map((res: Response) => {
-                return res.json();
-            });
+    getSuggestionWords(key: string): Observable<GoogleSuggestion[]> {
+        const link = `http://suggestqueries.google.com/complete/search?output=chrome&q=${encodeURIComponent(key)}`;
+        return this.http.get<[string, string[], string[], string[]]>(link).pipe(
+            map(res => {
+                const words = res[1];
+                const titles = res[2];
+                return words.map((word, i) => ({
+                    key: word,
+                    title: titles[i] || word
+                }));
+            })
+        );
     }
 }

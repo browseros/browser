@@ -12,7 +12,6 @@ import { createNewHosts } from '@angularclass/hmr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { NoContentComponent } from './no-content/no-content.component';
 import { environment } from '../environments/environment';
 import { ENV_PROVIDERS } from './environment';
@@ -20,10 +19,12 @@ import { HomeModule } from './home/home.module';
 import { reducers } from './reducers';
 import { AppEffects } from './effects/app.effects';
 import { HistoryEffects } from './effects/history.effects';
+import { GoogleSuggestionService } from './services/google-suggestion.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NoContentComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +45,8 @@ import { HistoryEffects } from './effects/history.effects';
     })
   ],
   providers: [
-    ENV_PROVIDERS
+    ENV_PROVIDERS,
+    GoogleSuggestionService
   ],
   bootstrap: [AppComponent]
 })
