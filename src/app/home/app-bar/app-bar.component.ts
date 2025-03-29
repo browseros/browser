@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import type { IApp } from '../../models/app.model';
 import type { ITab } from '../../models/tab.model';
+import { BrowserWindow } from '@electron/remote';
 
 declare const window: any;
 
@@ -90,20 +91,27 @@ export class AppBarComponent {
     }
 
     public handleMinimize() {
-        if (window.electron) {
-            window.electron.minimize();
+        const win = BrowserWindow.getFocusedWindow();
+        if (win) {
+            win.minimize();
         }
     }
 
     public handleMaximize() {
-        if (window.electron) {
-            window.electron.maximize();
+        const win = BrowserWindow.getFocusedWindow();
+        if (win) {
+            if (win.isMaximized()) {
+                win.unmaximize();
+            } else {
+                win.maximize();
+            }
         }
     }
 
     public handleClose() {
-        if (window.electron) {
-            window.electron.close();
+        const win = BrowserWindow.getFocusedWindow();
+        if (win) {
+            win.close();
         }
     }
 }
