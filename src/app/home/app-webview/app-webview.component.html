@@ -16,7 +16,7 @@
       (did-navigate)="handleNavigate($event)"
       (did-get-redirect-request)="handleRedirectRequest($event)"
       (new-window)="handleNewWindow($event)"
-      (context-menu)="onContextMenu.emit($event)"
+      (context-menu)="handleContextMenu($event)"
       (clicked)="onClicked.emit($event)">
     </webview>
   </div>

@@ -307,7 +307,21 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
     }
 
-    menu.popup({ window: BrowserWindow.getFocusedWindow()! });
+    // If no menu items were added, add a default "Copy" option
+    if (menu.items.length === 0) {
+      menu.append(new MenuItem({
+        label: 'Copy',
+        click: () => {
+          clipboard.writeText(params.selectionText || '');
+        }
+      }));
+    }
+
+    // Get the current window and show the menu
+    const win = BrowserWindow.getFocusedWindow();
+    if (win) {
+      menu.popup({ window: win, x: params.x, y: params.y });
+    }
   }
 
   private saveUrlToFolder(url: string, folderPath: string): void {

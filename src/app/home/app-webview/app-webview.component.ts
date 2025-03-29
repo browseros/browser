@@ -163,9 +163,30 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
         const webContentsId = webviewElm.getWebContentsId();
         const wc = webContents.fromId(webContentsId);
         if (wc) {
+            wc.removeAllListeners('context-menu');
             wc.on('context-menu', (e: any, params: any) => {
-                console.log('[AppWebview] Context menu:', params);
-                self.onContextMenu.emit(params);
+                console.log('[AppWebview] Context menu params:', params);
+                this.onContextMenu.emit({
+                    ...params,
+                    x: e.x,
+                    y: e.y
+                });
+            });
+        }
+    }
+
+    public handleContextMenu(event: any) {
+        console.log('[AppWebview] Context menu event:', event);
+        // Get the webContents to get the context menu parameters
+        const webviewElm = this.webview.nativeElement;
+        const webContentsId = webviewElm.getWebContentsId();
+        const wc = webContents.fromId(webContentsId);
+        
+        if (wc) {
+            wc.on('context-menu', (e: any, params: any) => {
+                console.log('[AppWebview] Context menu params:', params);
+                // Emit the context menu parameters to the parent component
+                this.onContextMenu.emit(params);
             });
         }
     }
