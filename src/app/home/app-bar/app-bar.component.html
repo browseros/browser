@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <div class="window-controls">
+    <div class="window-controls" (contextmenu)="handleWindowControlsContextMenu($event)">
         <button class="window-button minimize" title="Minimize" (click)="handleMinimize()">
             <i class="bi bi-dash-lg"></i>
         </button>

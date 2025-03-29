@@ -11,12 +11,14 @@ app-bar {
   flex: 0 0 auto;
   width: 100%;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 app-nav {
   flex: 0 0 auto;
   width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 app-webview {
@@ -24,4 +26,5 @@ app-webview {
   width: 100%;
   overflow: hidden;
   position: relative;
+  z-index: 1;
 } 

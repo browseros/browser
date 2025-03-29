@@ -12,6 +12,8 @@ import * as appActions from '../actions/app.actions';
 import { NewHistoryAction } from '../reducers/app';
 import { AppSearchComponent } from './app-search/app-search.component';
 import { StateHelper } from '../utils/state.helper';
+import { Menu, MenuItem, BrowserWindow, app, dialog } from '@electron/remote';
+import { clipboard } from 'electron';
 
 @Component({
   selector: 'app-home',
@@ -207,8 +209,110 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log('Clicked:', event);
   }
 
-  onContextMenu(event: any) {
-    // Handle context menu
+  onContextMenu(params: any) {
+    console.log('[Home] Context menu:', params);
+    const menu = new Menu();
+
+    // Handle link context menu
+    if (params.linkURL) {
+      menu.append(new MenuItem({
+        label: 'Open link in new tab',
+        click: () => {
+          const hostName = StateHelper.extractHostname(params.linkURL);
+          this.store.dispatch(new appActions.AddTabAction({
+            id: 0,
+            appId: 0,
+            hostName,
+            title: '',
+            url: params.linkURL
+          }));
+        }
+      }));
+
+      menu.append(new MenuItem({
+        label: 'Copy link address',
+        click: () => {
+          clipboard.writeText(params.linkURL);
+        }
+      }));
+    }
+
+    // Handle text selection context menu
+    if (params.selectionText) {
+      menu.append(new MenuItem({
+        label: 'Copy',
+        click: () => {
+          clipboard.writeText(params.selectionText);
+        }
+      }));
+    }
+
+    // Handle image context menu
+    if (params.mediaType === 'image' && params.srcURL) {
+      menu.append(new MenuItem({
+        label: 'Download image to "Downloads"',
+        click: () => {
+          const downloadsFolder = app.getPath('downloads');
+          if (!downloadsFolder) return;
+          this.saveUrlToFolder(params.srcURL, downloadsFolder);
+        }
+      }));
+
+      menu.append(new MenuItem({
+        label: 'Save image to...',
+        click: () => {
+          const win = BrowserWindow.getFocusedWindow();
+          if (!win) return;
+
+          const options = {
+            properties: ['openDirectory' as const]
+          };
+
+          dialog.showOpenDialog(win, options).then(result => {
+            if (!result.canceled && result.filePaths.length > 0) {
+              this.saveUrlToFolder(params.srcURL, result.filePaths[0]);
+            }
+          });
+        }
+      }));
+    }
+
+    // Handle video context menu
+    if (params.mediaType === 'video' && params.srcURL) {
+      menu.append(new MenuItem({
+        label: 'Download video to "Downloads"',
+        click: () => {
+          const downloadsFolder = app.getPath('downloads');
+          if (!downloadsFolder) return;
+          this.saveUrlToFolder(params.srcURL, downloadsFolder);
+        }
+      }));
+
+      menu.append(new MenuItem({
+        label: 'Save video to...',
+        click: () => {
+          const win = BrowserWindow.getFocusedWindow();
+          if (!win) return;
+
+          const options = {
+            properties: ['openDirectory' as const]
+          };
+
+          dialog.showOpenDialog(win, options).then(result => {
+            if (!result.canceled && result.filePaths.length > 0) {
+              this.saveUrlToFolder(params.srcURL, result.filePaths[0]);
+            }
+          });
+        }
+      }));
+    }
+
+    menu.popup({ window: BrowserWindow.getFocusedWindow()! });
+  }
+
+  private saveUrlToFolder(url: string, folderPath: string): void {
+    // TODO: Implement file download functionality
+    console.log('[Home] Saving URL to folder:', { url, folderPath });
   }
 
   doSearch(event: { url: string }) {

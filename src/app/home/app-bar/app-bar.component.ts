@@ -1,7 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import type { IApp } from '../../models/app.model';
 import type { ITab } from '../../models/tab.model';
-import { BrowserWindow } from '@electron/remote';
+import { BrowserWindow, Menu, MenuItem } from '@electron/remote';
+import { Store } from '@ngrx/store';
+import * as appActions from '../../actions/app.actions';
 
 declare const window: any;
 
@@ -33,6 +35,8 @@ export class AppBarComponent {
     @Output() public onAppContextMenu = new EventEmitter<any>();
     @Output() public closeApp = new EventEmitter<any>();
 
+    constructor(private store: Store) {}
+
     public getHost(app: IApp): string {
         if (!app || !app.url) return '';
         try {
@@ -58,7 +62,20 @@ export class AppBarComponent {
     }
 
     public handleContextMenu(app: IApp): void {
-        this.onAppContextMenu.emit(app);
+        const menu = new Menu();
+        menu.append(new MenuItem({
+            label: 'Close app',
+            click: () => {
+                this.store.dispatch(new appActions.CloseAppAction(app));
+            }
+        }));
+        menu.append(new MenuItem({
+            label: 'Close other apps',
+            click: () => {
+                this.store.dispatch(new appActions.CloseOtherAppsAction(app));
+            }
+        }));
+        menu.popup({ window: BrowserWindow.getFocusedWindow()! });
     }
 
     public handleAppBarDoubleClick(event: MouseEvent): void {
@@ -75,19 +92,58 @@ export class AppBarComponent {
     }
 
     public handleTabContextMenu(tab: ITab): void {
-        this.onTabContextMenu.emit(tab);
+        const menu = new Menu();
+        menu.append(new MenuItem({
+            label: 'Close tab',
+            click: () => {
+                this.store.dispatch(new appActions.CloseTabAction(tab));
+            }
+        }));
+        menu.append(new MenuItem({
+            label: 'Close other tabs of this app',
+            click: () => {
+                this.store.dispatch(new appActions.CloseOtherTabsAction(tab));
+            }
+        }));
+        menu.append(new MenuItem({
+            label: 'Close other tabs of all apps',
+            click: () => {
+                this.store.dispatch(new appActions.CloseOtherTabsAllAppsAction(tab));
+            }
+        }));
+        menu.popup({ window: BrowserWindow.getFocusedWindow()! });
     }
 
-    public onMouseUp(event: MouseEvent, app: IApp): void {
-        if (event.button === 1) {
-            this.onAppClose.emit(app);
-        }
-    }
-
-    public onTabMouseUp(event: MouseEvent, tab: ITab): void {
-        if (event.button === 1) {
-            this.onTabClose.emit(tab);
-        }
+    public handleWindowControlsContextMenu(event: MouseEvent): void {
+        const menu = new Menu();
+        menu.append(new MenuItem({
+            label: 'Close window',
+            click: () => {
+                const win = BrowserWindow.getFocusedWindow();
+                if (win) win.close();
+            }
+        }));
+        menu.append(new MenuItem({
+            label: 'Minimize',
+            click: () => {
+                const win = BrowserWindow.getFocusedWindow();
+                if (win) win.minimize();
+            }
+        }));
+        menu.append(new MenuItem({
+            label: 'Maximize',
+            click: () => {
+                const win = BrowserWindow.getFocusedWindow();
+                if (win) {
+                    if (win.isMaximized()) {
+                        win.unmaximize();
+                    } else {
+                        win.maximize();
+                    }
+                }
+            }
+        }));
+        menu.popup({ window: BrowserWindow.getFocusedWindow()! });
     }
 
     public handleMinimize() {
