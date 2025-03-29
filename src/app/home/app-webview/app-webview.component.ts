@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, Input, AfterViewInit, ViewChildren, QueryList, ElementRef, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import type { ITab } from '../../models/tab.model';
@@ -20,6 +20,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
     @Input() public currentTab: ITab | null = null;
     @Input() public screenHeight: number = 0;
     @Input() public screenWidth: number = 0;
+    @Input() public tabIds: number[] = [];
     @Output() public onTitleChanged = new EventEmitter<string>();
     @Output() public onIconChanged = new EventEmitter<string>();
     @Output() public onNewUrl = new EventEmitter<string>();
@@ -28,9 +29,10 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
     @Output() public onDomReady = new EventEmitter<IWebEvent>();
     @Output() public onClicked = new EventEmitter<any>();
 
-    @ViewChild('webview') private webview!: ElementRef<WebviewTag>;
-    private onFirstLoad = true;
+    @ViewChildren('webview') private webviews!: QueryList<ElementRef<WebviewTag>>;
+    private onFirstLoad: { [key: number]: boolean } = {};
     private tabsSub: Subscription;
+    private tabs: ITab[] = [];
     private currentTabSub: Subscription;
     private currentApp: IApp;
     private appSub: Subscription;
@@ -48,51 +50,51 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
         this.nextSub = new Subscription();
         this.reloadSub = new Subscription();
 
+        // Subscribe to tabs
+        this.tabsSub = this.store.select(fromRoot.getEventTabs).pipe(
+            map(tabs => tabs || [])
+        ).subscribe(tabs => {
+            console.log('[AppWebview] Tabs updated:', tabs);
+            // Only update if tabs array actually changed
+            if (JSON.stringify(this.tabs) !== JSON.stringify(tabs)) {
+                this.tabs = tabs;
+            }
+        });
+
         // Subscribe to current app and tab
         this.currentTabSub = this.store.select(fromRoot.getEventCurrentTab).pipe(
             map(tab => tab || { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' })
         ).subscribe(tab => {
             console.log('[AppWebview] Current tab updated:', tab);
-            this.currentTab = tab;
+            // Only update if tab actually changed
+            if (JSON.stringify(this.currentTab) !== JSON.stringify(tab)) {
+                this.currentTab = tab;
+            }
         });
 
         this.appSub = this.store.select(fromRoot.getEventCurrentApp).pipe(
             map(app => app || { id: 0, title: '', url: '', icon: '' })
         ).subscribe(app => {
             console.log('[AppWebview] Current app updated:', app);
-            this.currentApp = app;
+            // Only update if app actually changed
+            if (JSON.stringify(this.currentApp) !== JSON.stringify(app)) {
+                this.currentApp = app;
+            }
         });
     }
 
     public ngOnDestroy() {
-        if (this.tabsSub) {
-            this.tabsSub.unsubscribe();
-        }
-        if (this.currentTabSub) {
-            this.currentTabSub.unsubscribe();
-        }
-        if (this.appSub) {
-            this.appSub.unsubscribe();
-        }
-        if (this.backSub) {
-            this.backSub.unsubscribe();
-        }
-        if (this.nextSub) {
-            this.nextSub.unsubscribe();
-        }
-        if (this.reloadSub) {
-            this.reloadSub.unsubscribe();
-        }
+        if (this.tabsSub) this.tabsSub.unsubscribe();
+        if (this.currentTabSub) this.currentTabSub.unsubscribe();
+        if (this.appSub) this.appSub.unsubscribe();
+        if (this.backSub) this.backSub.unsubscribe();
+        if (this.nextSub) this.nextSub.unsubscribe();
+        if (this.reloadSub) this.reloadSub.unsubscribe();
     }
 
     public ngAfterViewInit() {
         console.log('[AppWebview] Setting up webview events');
-        const self = this;
-        self.onFirstLoad = true;
-
-        const webviewElm = self.webview.nativeElement;
-        console.log('[AppWebview] Webview element:', webviewElm);
-
+        
         // Subscribe to navigation actions
         this.backSub = this.store.select(fromRoot.getIsNavigatingBack).subscribe((action: any) => {
             if (action?.isCalling && this.currentTab?.id && action.tab.id === this.currentTab.id) {
@@ -115,100 +117,142 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
             }
         });
 
-        // Handle webview events
-        webviewElm.addEventListener('dom-ready', () => {
-            console.log('[AppWebview] DOM ready');
-            if (this.currentTab && this.currentApp) {
-                self.onDomReady.emit({
-                    eventValue: null,
-                    eventName: 'domready',
-                    tabId: this.currentTab.id,
-                    app: this.currentApp || null
+        // Handle webview events for each webview
+        this.webviews.changes.subscribe(webviews => {
+            webviews.forEach((webviewRef: ElementRef<WebviewTag>, index: number) => {
+                const webviewElm = webviewRef.nativeElement;
+                const tabId = this.tabIds[index];
+                
+                console.log(`[AppWebview] Setting up events for webview ${tabId}`);
+
+                // Handle webview events
+                webviewElm.addEventListener('dom-ready', () => {
+                    const currentUrl = webviewElm.getURL();
+                    console.log(`[AppWebview] DOM ready for tab ${tabId}:`, {
+                        currentUrl,
+                        tabs: this.tabs
+                    });
+
+                    // Setup context menu after DOM is ready
+                    try {
+                        const webContentsId = webviewElm.getWebContentsId();
+                        const wc = webContents.fromId(webContentsId);
+                        if (wc) {
+                            wc.removeAllListeners('context-menu');
+                            wc.on('context-menu', (e: any, params: any) => {
+                                console.log(`[AppWebview] Context menu params for tab ${tabId}:`, params);
+                                this.onContextMenu.emit({
+                                    ...params,
+                                    x: e.x,
+                                    y: e.y
+                                });
+                            });
+                        }
+                    } catch (err) {
+                        console.error(`[AppWebview] Error setting up context menu for tab ${tabId}:`, err);
+                    }
+
+                    // Always emit dom-ready event
+                    this.onDomReady.emit({
+                        eventValue: null,
+                        eventName: 'domready',
+                        tabId: tabId,
+                        app: this.currentApp || null
+                    });
                 });
-            }
-        });
 
-        webviewElm.addEventListener('page-title-updated', (e: any) => {
-            console.log('[AppWebview] Title updated:', e.title);
-            self.onTitleChanged.emit(e.title);
-        });
+                webviewElm.addEventListener('did-start-loading', () => {
+                    console.log(`[AppWebview] Started loading for tab ${tabId}:`, webviewElm.getURL());
+                });
 
-        webviewElm.addEventListener('page-favicon-updated', (e: any) => {
-            console.log('[AppWebview] Favicon updated:', e.favicons[0]);
-            self.onIconChanged.emit(e.favicons[0]);
-        });
+                webviewElm.addEventListener('did-stop-loading', () => {
+                    console.log(`[AppWebview] Stopped loading for tab ${tabId}:`, webviewElm.getURL());
+                });
 
-        webviewElm.addEventListener('did-navigate', (e: any) => {
-            console.log('[AppWebview] Did navigate:', e.url);
-            self.onUrlChanged.emit(e.url);
-        });
+                webviewElm.addEventListener('did-fail-load', (e: any) => {
+                    console.error(`[AppWebview] Failed to load for tab ${tabId}:`, {
+                        errorCode: e.errorCode,
+                        errorDescription: e.errorDescription,
+                        validatedURL: e.validatedURL,
+                        isMainFrame: e.isMainFrame
+                    });
+                });
 
-        webviewElm.addEventListener('did-get-redirect-request', (e: any) => {
-            console.log('[AppWebview] Did get redirect request:', e.newURL);
-            self.onUrlChanged.emit(e.newURL);
-        });
+                webviewElm.addEventListener('page-title-updated', (e: any) => {
+                    console.log(`[AppWebview] Title updated for tab ${tabId}:`, e.title);
+                    this.onTitleChanged.emit(e.title);
+                });
 
-        webviewElm.addEventListener('new-window', (e: any) => {
-            console.log('[AppWebview] New window:', e.url);
-            self.onNewUrl.emit(e.url);
+                webviewElm.addEventListener('page-favicon-updated', (e: any) => {
+                    console.log(`[AppWebview] Favicon updated for tab ${tabId}:`, e.favicons[0]);
+                    this.onIconChanged.emit(e.favicons[0]);
+                });
+
+                webviewElm.addEventListener('did-navigate', (e: any) => {
+                    console.log(`[AppWebview] Did navigate for tab ${tabId}:`, e.url);
+                    this.onUrlChanged.emit(e.url);
+                });
+
+                webviewElm.addEventListener('did-get-redirect-request', (e: any) => {
+                    console.log(`[AppWebview] Did get redirect request for tab ${tabId}:`, e.newURL);
+                    this.onUrlChanged.emit(e.newURL);
+                });
+
+                webviewElm.addEventListener('new-window', (e: any) => {
+                    console.log(`[AppWebview] New window for tab ${tabId}:`, e.url);
+                    this.onNewUrl.emit(e.url);
+                });
+            });
         });
 
         // Handle click events through IPC
         ipcRenderer.on('clicked', () => {
             console.log('[AppWebview] Click detected');
-            self.onClicked.emit('clicked');
+            this.onClicked.emit('clicked');
         });
+    }
 
-        // Handle context menu
-        const webContentsId = webviewElm.getWebContentsId();
-        const wc = webContents.fromId(webContentsId);
-        if (wc) {
-            wc.removeAllListeners('context-menu');
-            wc.on('context-menu', (e: any, params: any) => {
-                console.log('[AppWebview] Context menu params:', params);
-                this.onContextMenu.emit({
-                    ...params,
-                    x: e.x,
-                    y: e.y
-                });
-            });
-        }
+    public getTabUrl(tabId: number): string {
+        const tab = this.tabs.find(t => t.id === tabId);
+        console.log(`[AppWebview] Getting URL for tab ${tabId}:`, tab?.url);
+        return tab?.url || '';
     }
 
     public handleContextMenu(event: any) {
         console.log('[AppWebview] Context menu event:', event);
-        // Get the webContents to get the context menu parameters
-        const webviewElm = this.webview.nativeElement;
-        const webContentsId = webviewElm.getWebContentsId();
-        const wc = webContents.fromId(webContentsId);
-        
-        if (wc) {
-            wc.on('context-menu', (e: any, params: any) => {
-                console.log('[AppWebview] Context menu params:', params);
-                // Emit the context menu parameters to the parent component
-                this.onContextMenu.emit(params);
-            });
+        const webviewElm = this.webviews.find(w => w.nativeElement.id === `webview-${this.currentTab?.id}`)?.nativeElement;
+        if (webviewElm) {
+            const webContentsId = webviewElm.getWebContentsId();
+            const wc = webContents.fromId(webContentsId);
+            if (wc) {
+                wc.on('context-menu', (e: any, params: any) => {
+                    console.log('[AppWebview] Context menu params:', params);
+                    this.onContextMenu.emit(params);
+                });
+            }
         }
     }
 
     // Navigation methods
     public goBack(): void {
-        const webviewElm = this.webview.nativeElement;
-        if (webviewElm.canGoBack()) {
+        const webviewElm = this.webviews.find(w => w.nativeElement.id === `webview-${this.currentTab?.id}`)?.nativeElement;
+        if (webviewElm && webviewElm.canGoBack()) {
             webviewElm.goBack();
         }
     }
 
     public goForward(): void {
-        const webviewElm = this.webview.nativeElement;
-        if (webviewElm.canGoForward()) {
+        const webviewElm = this.webviews.find(w => w.nativeElement.id === `webview-${this.currentTab?.id}`)?.nativeElement;
+        if (webviewElm && webviewElm.canGoForward()) {
             webviewElm.goForward();
         }
     }
 
     public reload(): void {
-        const webviewElm = this.webview.nativeElement;
-        webviewElm.reload();
+        const webviewElm = this.webviews.find(w => w.nativeElement.id === `webview-${this.currentTab?.id}`)?.nativeElement;
+        if (webviewElm) {
+            webviewElm.reload();
+        }
     }
 
     // Event handler methods

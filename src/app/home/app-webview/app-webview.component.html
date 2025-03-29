@@ -1,23 +1,25 @@
 <div class="webview-container">
-  <div class="webview-content">
-    <webview
-      #webview
-      [id]="'webview-' + (currentTab?.id || 0)"
-      [style.height.px]="screenHeight"
-      [style.width.px]="screenWidth"
-      [src]="currentTab?.url || 'about:blank'"
-      allowpopups
-      nodeintegration
-      webpreferences="contextIsolation=no, nodeIntegration=yes"
-      partition="persist:main"
-      (dom-ready)="onDomReady.emit({eventValue: null, eventName: 'domready', tabId: currentTab?.id || 0, app: null})"
-      (page-title-updated)="handleTitleUpdated($event)"
-      (page-favicon-updated)="handleFaviconUpdated($event)"
-      (did-navigate)="handleNavigate($event)"
-      (did-get-redirect-request)="handleRedirectRequest($event)"
-      (new-window)="handleNewWindow($event)"
-      (context-menu)="handleContextMenu($event)"
-      (clicked)="onClicked.emit($event)">
-    </webview>
+  <div *ngFor="let tabId of tabIds" [style.width.px]="screenWidth">
+    <div [hidden]="!currentTab || tabId !== currentTab.id" [style.width.px]="screenWidth">
+      <webview
+        #webview
+        [id]="'webview-' + tabId"
+        [style.height.px]="screenHeight"
+        [style.width.px]="screenWidth"
+        [attr.src]="getTabUrl(tabId)"
+        allowpopups
+        nodeintegration
+        webpreferences="contextIsolation=no, nodeIntegration=yes"
+        partition="persist:main"
+        (dom-ready)="onDomReady.emit({eventValue: null, eventName: 'domready', tabId: tabId, app: null})"
+        (page-title-updated)="handleTitleUpdated($event)"
+        (page-favicon-updated)="handleFaviconUpdated($event)"
+        (did-navigate)="handleNavigate($event)"
+        (did-get-redirect-request)="handleRedirectRequest($event)"
+        (new-window)="handleNewWindow($event)"
+        (context-menu)="handleContextMenu($event)"
+        (clicked)="onClicked.emit($event)">
+      </webview>
+    </div>
   </div>
 </div>

@@ -75,7 +75,7 @@
 }
 
 .search-modal {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -89,14 +89,14 @@
   opacity: 0;
   visibility: hidden;
   transition: all 0.2s ease;
-  z-index: 1000;
+  z-index: 9999;
   
   &.show {
     opacity: 1;
     visibility: visible;
     
     .search-container {
-      transform: translate(-50%, -50%);
+      transform: translateY(0);
       opacity: 1;
     }
   }
@@ -104,9 +104,10 @@
 
 .search-container {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -60%);
+  // center
+  top: calc(50% - 325px);
+  left: calc(50% - 325px);
+  transform: translate(-50%, -50%);
   width: 90%;
   max-width: 650px;
   background-color: rgba(255, 255, 255, 0.98);
@@ -114,7 +115,7 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   opacity: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  max-height: 80vh;
+  max-height: calc(100vh - 120px);
   overflow-y: auto;
 }
 
