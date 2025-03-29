@@ -22,11 +22,11 @@
         <button class="nav-button" (click)="onReload()" [disabled]="!currentApp?.id" title="Reload">
             <i class="bi bi-arrow-clockwise"></i>
         </button>
-        <button class="nav-button" (click)="onBack()" [disabled]="!currentApp?.id" title="Back">
-            <i class="bi bi-chevron-left"></i>
-        </button>
         <button class="nav-button" (click)="onNext()" [disabled]="!currentApp?.id" title="Forward">
             <i class="bi bi-chevron-right"></i>
+        </button>
+        <button class="nav-button" (click)="onBack()" [disabled]="!currentApp?.id" title="Back">
+            <i class="bi bi-chevron-left"></i>
         </button>
         
         <div class="dropdown" *ngIf="currentApp?.id">
@@ -37,6 +37,7 @@
                     (click)="updateHistories()"
                     title="Recent">
                 <span>Recent</span>
+                <i class="bi bi-caret-down-fill"></i>
             </button>
             <ul class="dropdown-menu">
                 <li *ngFor="let item of filteredHistories">
