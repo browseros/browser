@@ -199,18 +199,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Create history item
-    const historyItem: IHistoryItem = {
-      link: this.currentTab.url,
-      host: this.currentTab.hostName,
-      title: this.currentTab.title || '',
-      icon: this.currentTab.icon || '',
-      date: new Date(),
-      weight: 0
-    };
-
-    // Dispatch actions
-    this.store.dispatch(new NewHistoryAction(historyItem));
+    // Dispatch only the DomReadyAction - history will be handled in the reducer
     this.store.dispatch(new appActions.DomReadyAction(event));
   }
 
