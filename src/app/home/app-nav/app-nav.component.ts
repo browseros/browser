@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IApp } from '../../models/app.model';
 import { ITab } from '../../models/tab.model';
 import { IHistoryItem } from '../../models/history-item.model';
@@ -9,7 +9,7 @@ import { IWebEvent } from '../../models/web-event.model';
     templateUrl: './app-nav.component.html',
     styleUrls: ['./app-nav.component.scss']
 })
-export class AppNavComponent {
+export class AppNavComponent implements OnChanges {
     @Input() public currentApp: IApp | null = null;
     @Input() public tabs: ITab[] = [];
     @Input() public screenWidth: number = 0;
@@ -23,6 +23,21 @@ export class AppNavComponent {
     @Output() public onCloseTab = new EventEmitter<ITab>();
     @Output() public onContextMenu = new EventEmitter<ITab>();
 
+    public filteredHistories: IHistoryItem[] = [];
+
+    ngOnChanges(changes: SimpleChanges) {
+        console.log('[AppNav] Changes:', changes);
+        if (changes['histories']) {
+            console.log('[AppNav] Histories changed:', changes['histories'].currentValue);
+        }
+        if (changes['currentTab']) {
+            console.log('[AppNav] Current tab changed:', changes['currentTab'].currentValue);
+        }
+        if (changes['histories'] || changes['currentTab']) {
+            this.updateHistories();
+        }
+    }
+
     public onMouseUp(event: MouseEvent, tab: ITab): void {
         // middle button
         if (event.button === 1) {
@@ -30,23 +45,37 @@ export class AppNavComponent {
         }
     }
 
-    public getHistoryForHost(): IHistoryItem[] {
-        console.log('[AppNav] Getting history for host. Current tab:', this.currentTab);
-        console.log('[AppNav] All histories:', this.histories);
+    public updateHistories(): void {
+        console.log('[AppNav] Updating histories');
+        console.log('[AppNav] Current histories:', this.histories);
+        console.log('[AppNav] Current tab:', this.currentTab);
         
-        if (!this.currentTab || !this.histories || this.histories.length === 0) {
+        if (!this.currentTab) {
+            console.log('[AppNav] No current tab');
+            this.filteredHistories = [];
+            return;
+        }
+        if (!this.histories || this.histories.length === 0) {
             console.log('[AppNav] No histories available');
-            return [];
+            this.filteredHistories = [];
+            return;
         }
         
-        const filteredHistories = this.histories
-            .filter(item =>
-                item.title &&
-                item.host.toLowerCase() === this.currentTab!.hostName.toLowerCase())
+        // Filter and sort by date (most recent first)
+        this.filteredHistories = this.histories
+            .filter(item => {
+                console.log('[AppNav] History item:', item);
+                console.log('[AppNav] Comparing:', item.host?.toLowerCase(), 'with', this.currentTab!.hostName.toLowerCase());
+                return item.host?.toLowerCase() === this.currentTab!.hostName.toLowerCase();
+            })
+            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
             .slice(0, 10);
             
-        console.log('[AppNav] Filtered histories:', filteredHistories);
-        return filteredHistories;
+        console.log('[AppNav] Filtered histories:', this.filteredHistories);
+    }
+
+    public getHistoryForHost(): IHistoryItem[] {
+        return this.filteredHistories;
     }
 
     public selectHistoryItem(item: IHistoryItem): void {
