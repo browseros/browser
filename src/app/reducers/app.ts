@@ -242,18 +242,24 @@ export function reducer(state = initialState, action: app.Actions): State {
     }
 
     case app.DOM_READY: {
+      console.log('[AppReducer] Handling DOM_READY action:', action.payload);
       const payload = action.payload as IWebEvent;
       if (!payload || !payload.tabId) {
+        console.log('[AppReducer] Invalid payload or missing tabId');
         return state;
       }
       const tab = state.tabs.find(t => t.id === payload.tabId);
       if (!tab) {
+        console.log('[AppReducer] Tab not found:', payload.tabId);
         return state;
       }
       const app = state.apps.find(a => a.id === tab.appId);
       if (!app) {
+        console.log('[AppReducer] App not found for tab:', tab);
         return state;
       }
+
+      console.log('[AppReducer] Found tab and app:', { tab, app });
 
       const historyItem: IHistoryItem = {
         link: tab.url,
@@ -264,8 +270,11 @@ export function reducer(state = initialState, action: app.Actions): State {
         icon: app.icon
       };
 
+      console.log('[AppReducer] Created history item:', historyItem);
+
       // Add to regular history
       const newHistories = [...state.histories, historyItem];
+      console.log('[AppReducer] Updated histories:', newHistories);
 
       // Update weighted history
       let newHistoryWithWeights = state.historyWithWeights;
@@ -312,6 +321,7 @@ export function reducer(state = initialState, action: app.Actions): State {
       newTopApps = newTopApps.sort((item1, item2) =>
         item2.weight - item1.weight);
 
+      console.log('[AppReducer] Returning new state with updated histories');
       return {
         ...state,
         histories: newHistories,

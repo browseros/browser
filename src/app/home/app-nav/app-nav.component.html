@@ -48,7 +48,7 @@
                         <div class="recent-item-link">{{item.link}}</div>
                     </a>
                 </li>
-                <li *ngIf="!getHistoryForHost() || getHistoryForHost()?.length === 0">
+                <li *ngIf="getHistoryForHost().length === 0">
                     <span class="dropdown-item disabled">No recent items</span>
                 </li>
             </ul>

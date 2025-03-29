@@ -9,6 +9,7 @@ import type { WebviewTag } from 'electron';
 import { webContents } from '@electron/remote';
 import { ipcRenderer } from 'electron';
 import * as appActions from '../../actions/app.actions';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-webview',
@@ -46,6 +47,21 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
         this.backSub = new Subscription();
         this.nextSub = new Subscription();
         this.reloadSub = new Subscription();
+
+        // Subscribe to current app and tab
+        this.currentTabSub = this.store.select(fromRoot.getEventCurrentTab).pipe(
+            map(tab => tab || { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' })
+        ).subscribe(tab => {
+            console.log('[AppWebview] Current tab updated:', tab);
+            this.currentTab = tab;
+        });
+
+        this.appSub = this.store.select(fromRoot.getEventCurrentApp).pipe(
+            map(app => app || { id: 0, title: '', url: '', icon: '' })
+        ).subscribe(app => {
+            console.log('[AppWebview] Current app updated:', app);
+            this.currentApp = app;
+        });
     }
 
     public ngOnDestroy() {

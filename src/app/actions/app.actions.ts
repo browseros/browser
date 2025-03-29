@@ -238,12 +238,14 @@ export class CloseOtherAppsCompleteAction implements Action {
 export class DomReadyAction implements Action {
   public readonly type = DOM_READY;
 
-  constructor(public payload?: IWebEvent) { }
+  constructor(public payload: IWebEvent) { }
 }
 
 // tslint:disable-next-line:max-classes-per-file
 export class ClearSuggestionsAction implements Action {
   public readonly type = CLEAR_SUGGESTIONS;
+
+  constructor() { }
 }
 
 // tslint:disable-next-line:max-classes-per-file
@@ -260,8 +262,10 @@ export class GetSuggestionsCompleteAction implements Action {
   constructor(public payload: any[]) { }
 }
 
+// tslint:disable-next-line:max-classes-per-file
 export class AddAppAction implements Action {
-  readonly type = ADD_APP;
+  public readonly type = ADD_APP;
+
   constructor(public payload: IApp) { }
 }
 

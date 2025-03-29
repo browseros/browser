@@ -30,15 +30,23 @@ export class AppNavComponent {
         }
     }
 
-    public getHistoryForHost(): IHistoryItem[] | null {
+    public getHistoryForHost(): IHistoryItem[] {
+        console.log('[AppNav] Getting history for host. Current tab:', this.currentTab);
+        console.log('[AppNav] All histories:', this.histories);
+        
         if (!this.currentTab || !this.histories || this.histories.length === 0) {
-            return null;
+            console.log('[AppNav] No histories available');
+            return [];
         }
-        return this.histories
+        
+        const filteredHistories = this.histories
             .filter(item =>
                 item.title &&
                 item.host.toLowerCase() === this.currentTab!.hostName.toLowerCase())
             .slice(0, 10);
+            
+        console.log('[AppNav] Filtered histories:', filteredHistories);
+        return filteredHistories;
     }
 
     public selectHistoryItem(item: IHistoryItem): void {

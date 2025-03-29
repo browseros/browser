@@ -159,12 +159,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onDomReady(event: IWebEvent): void {
+    console.log('[HomeComponent] DOM ready event received:', event);
+    console.log('[HomeComponent] Current tab:', this.currentTab);
+    console.log('[HomeComponent] Current app:', this.currentApp);
+    
     const webEvent: IWebEvent = {
       eventValue: null,
       eventName: 'domready',
       tabId: this.currentTab.id,
       app: this.currentApp
     };
+    console.log('[HomeComponent] Dispatching DOM_READY action with:', webEvent);
     this.store.dispatch(new appActions.DomReadyAction(webEvent));
   }
 
