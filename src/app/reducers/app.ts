@@ -5,6 +5,7 @@ import { StateHelper } from './helper';
 import { IHistoryItem } from '../models/history-item.model';
 import { IWebAction } from '../models/web-action.model';
 import { IWebEvent } from '../models/web-event.model';
+import { Action } from '@ngrx/store';
 
 export interface WebAction {
   tab: ITab;
@@ -63,7 +64,18 @@ export const initialState: State = {
   suggestions: []
 };
 
-export function reducer(state = initialState, action: app.Actions): State {
+// Action types
+export const NEW_HISTORY = '[History] New History';
+
+// Action class
+export class NewHistoryAction implements Action {
+  readonly type = NEW_HISTORY;
+  constructor(public payload: IHistoryItem) {}
+}
+
+export type Actions = app.Actions | NewHistoryAction;
+
+export function reducer(state = initialState, action: Actions): State {
   switch (action.type) {
     case app.ADD_TAB: {
       let tab = JSON.parse(JSON.stringify(action.payload)) as ITab;
@@ -334,6 +346,19 @@ export function reducer(state = initialState, action: app.Actions): State {
         histories: newHistories,
         historyWithWeights: newHistoryWithWeights,
         topApps: newTopApps
+      };
+    }
+
+    case NEW_HISTORY: {
+      const newHistory = (action as NewHistoryAction).payload;
+      if (!newHistory || !newHistory.link || !newHistory.host) {
+        return state;
+      }
+
+      const histories = [newHistory, ...state.histories].slice(0, 1000);
+      return {
+        ...state,
+        histories
       };
     }
 

@@ -1,39 +1,32 @@
-import { ActionReducer, ActionReducerMap, combineReducers } from '@ngrx/store';
-import { createSelector } from 'reselect';
+import { ActionReducer, ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
 import * as fromApp from './app';
-import * as fromHistory from './history';
 import * as appActions from '../actions/app.actions';
-import * as historyActions from '../actions/history.actions';
 import { IWebAction } from '../models/web-action.model';
 
 export interface State {
   app: fromApp.State;
-  history: fromHistory.State;
 }
 
 type AppAction = appActions.Actions;
-type HistoryAction = historyActions.Actions;
-type AllActions = AppAction | HistoryAction;
+type AllActions = AppAction;
 
 export const reducers: ActionReducerMap<State, AllActions> = {
-  app: fromApp.reducer as ActionReducer<fromApp.State, AllActions>,
-  history: fromHistory.reducer as ActionReducer<fromHistory.State, AllActions>
+  app: fromApp.reducer,
 };
-
-const developmentReducer: ActionReducer<State, AllActions> = combineReducers(reducers);
-const productionReducer: ActionReducer<State, AllActions> = combineReducers(reducers);
 
 export function reducer(state: State | undefined, action: AllActions) {
   if (process.env['NODE_ENV'] === 'production') {
-    return productionReducer(state, action);
+    return reducers.app(state?.app, action);
   } else {
-    return storeFreeze(developmentReducer)(state, action);
+    return storeFreeze((state: State | undefined, action: AllActions) => ({
+      app: reducers.app(state?.app, action)
+    }))(state, action);
   }
 }
 
 // App Selectors
-export const getAppState = (state: State) => state.app;
+export const getAppState = createFeatureSelector<fromApp.State>('app');
 
 export const getEventApps = createSelector(
   getAppState,
@@ -76,11 +69,9 @@ export const getCurrentTabs = createSelector(
 );
 
 // History Selectors
-export const getHistoryState = (state: State) => state.history;
-
 export const getHistories = createSelector(
-  getHistoryState,
-  state => state.histories
+  getAppState,
+  fromApp.getHistories
 );
 
 export const getTopApps = createSelector(

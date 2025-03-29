@@ -9,7 +9,7 @@ import type { IHistoryItem } from '../models/history-item.model';
 import type { IWebEvent } from '../models/web-event.model';
 import * as fromRoot from '../reducers';
 import * as appActions from '../actions/app.actions';
-import * as historyActions from '../actions/history.actions';
+import { NewHistoryAction } from '../reducers/app';
 import { AppSearchComponent } from './app-search/app-search.component';
 import { StateHelper } from '../utils/state.helper';
 
@@ -199,39 +199,19 @@ export class HomeComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const webEvent: IWebEvent = {
-      eventValue: null,
-      eventName: 'domready',
-      tabId: this.currentTab.id,
-      app: this.currentApp
+    // Create history item
+    const historyItem: IHistoryItem = {
+      link: this.currentTab.url,
+      host: this.currentTab.hostName,
+      title: this.currentTab.title || '',
+      icon: this.currentTab.icon || '',
+      date: new Date(),
+      weight: 0
     };
 
-    // Only add to history if it's a valid URL
-    try {
-      const url = new URL(this.currentTab.url);
-      if (url.protocol !== 'http:' && url.protocol !== 'https:') {
-        console.log('[HomeComponent] Skipping history update - invalid protocol:', url.protocol);
-        return;
-      }
-
-      // Add to history
-      const historyItem: IHistoryItem = {
-        link: this.currentTab.url,
-        date: new Date(),
-        host: this.currentTab.hostName,
-        title: this.currentTab.title || url.hostname,
-        weight: 0,
-        icon: this.currentApp?.icon || ''
-      };
-      console.log('[HomeComponent] Adding to history:', historyItem.link);
-      this.store.dispatch(new historyActions.NewHistoryAction(historyItem));
-
-    } catch (err) {
-      console.log('[HomeComponent] Skipping history update - invalid URL:', this.currentTab.url);
-      return;
-    }
-
-    this.store.dispatch(new appActions.DomReadyAction(webEvent));
+    // Dispatch actions
+    this.store.dispatch(new NewHistoryAction(historyItem));
+    this.store.dispatch(new appActions.DomReadyAction(event));
   }
 
   onClicked(event: any): void {

@@ -18,7 +18,6 @@ import { ENV_PROVIDERS } from './environment';
 import { HomeModule } from './home/home.module';
 import { reducers } from './reducers';
 import { AppEffects } from './effects/app.effects';
-import { HistoryEffects } from './effects/history.effects';
 import { GoogleSuggestionService } from './services/google-suggestion.service';
 
 @NgModule({
@@ -35,7 +34,7 @@ import { GoogleSuggestionService } from './services/google-suggestion.service';
     AppRoutingModule,
     HomeModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AppEffects, HistoryEffects]),
+    EffectsModule.forRoot([AppEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: process.env['NODE_ENV'] === 'production',
