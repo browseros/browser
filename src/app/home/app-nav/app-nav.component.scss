@@ -164,7 +164,7 @@
     .nav-actions {
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 8px;
         margin-left: 16px;
         position: relative;
         z-index: 1000;
@@ -326,5 +326,34 @@
         overflow: hidden;
         text-overflow: ellipsis;
         font-size: 13px;
+    }
+}
+
+.recent-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    min-width: 100px;
+    width: 100px !important;
+    
+    span {
+        font-size: 13px;
+        font-weight: 400;
+        color: #5f6368;
+    }
+    
+    i {
+        font-size: 14px;
+        color: #5f6368;
+    }
+    
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        
+        span, i {
+            color: #202124;
+        }
     }
 } 

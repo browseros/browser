@@ -30,14 +30,14 @@
         </button>
         
         <div class="dropdown" *ngIf="currentApp?.id">
-            <button class="nav-button" 
+            <button class="nav-button recent-button" 
                     type="button" 
                     data-bs-toggle="dropdown" 
                     aria-expanded="false"
                     (click)="updateHistories()"
                     title="Recent">
                 <span>Recent</span>
-                <i class="bi bi-caret-down-fill"></i>
+                <i class="bi bi-chevron-down"></i>
             </button>
             <ul class="dropdown-menu">
                 <li *ngFor="let item of filteredHistories">
