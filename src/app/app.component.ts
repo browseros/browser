@@ -11,7 +11,7 @@ import { Router, NavigationEnd } from '@angular/router';
 @Component({
   selector: 'app',
   template: `
-    <div class="app-container">
+    <div class="app-container" style="padding: 0; margin: 0;">
       <router-outlet></router-outlet>
     </div>
   `,
