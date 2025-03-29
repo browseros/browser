@@ -21,18 +21,28 @@ import { StateHelper } from '../utils/state.helper';
 export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('appSearch') appSearch!: AppSearchComponent;
 
-  eventApps: Observable<IApp[]> = this.store.select(fromRoot.getEventApps);
-  eventTabs: Observable<ITab[]> = this.store.select(fromRoot.getEventTabs);
-  eventCurrentApp: Observable<IApp> = this.store.select(fromRoot.getEventCurrentApp).pipe(
+  histories$: Observable<IHistoryItem[]> = this.store.select(fromRoot.getHistories).pipe(
+    map(histories => histories || [])
+  );
+  currentApp$: Observable<IApp> = this.store.select(fromRoot.getEventCurrentApp).pipe(
     map(app => app || { id: 0, title: '', url: '', icon: '' })
   );
-  eventCurrentTab: Observable<ITab> = this.store.select(fromRoot.getEventCurrentTab).pipe(
+  currentTab$: Observable<ITab> = this.store.select(fromRoot.getEventCurrentTab).pipe(
     map(tab => tab || { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' })
   );
-  app2Hosts: Observable<{ [id: number]: string }> = this.store.select(fromRoot.getApp2Hosts);
+  apps$: Observable<IApp[]> = this.store.select(fromRoot.getEventApps).pipe(
+    map(apps => apps || [])
+  );
+  tabs$: Observable<ITab[]> = this.store.select(fromRoot.getEventTabs).pipe(
+    map(tabs => tabs || [])
+  );
+  app2Hosts$: Observable<{ [id: number]: string }> = this.store.select(fromRoot.getApp2Hosts).pipe(
+    map(hosts => hosts || {})
+  );
   host2Apps: Observable<{ [hostname: string]: number }> = this.store.select(fromRoot.getHost2Apps);
-  tabIds: Observable<number[]> = this.store.select(fromRoot.getTabIds);
-  histories: Observable<IHistoryItem[]> = this.store.select(fromRoot.getHistories);
+  tabIds$: Observable<number[]> = this.store.select(fromRoot.getTabIds).pipe(
+    map(ids => ids || [])
+  );
   topApps: Observable<IHistoryItem[]> = this.store.select(fromRoot.getTopApps);
   screenWidth: number = window.innerWidth;
   screenHeight: number = window.innerHeight;
@@ -51,12 +61,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {
     console.log('[HomeComponent] Constructor called');
     this.subscriptions.push(
-      this.eventCurrentApp.subscribe(app => this.currentApp = app),
-      this.eventCurrentTab.subscribe(tab => this.currentTab = tab),
-      this.eventApps.subscribe(apps => this.apps = apps),
-      this.eventTabs.subscribe(tabs => this.tabs = tabs),
+      this.currentApp$.subscribe(app => this.currentApp = app),
+      this.currentTab$.subscribe(tab => this.currentTab = tab),
+      this.apps$.subscribe(apps => this.apps = apps),
+      this.tabs$.subscribe(tabs => this.tabs = tabs),
       this.host2Apps.subscribe(h2a => this.host2AppsMap = h2a),
-      this.histories.subscribe(h => {
+      this.histories$.subscribe(h => {
         if (h && Array.isArray(h)) {
           // Filter out empty or invalid items
           const validHistories = h.filter(item => 

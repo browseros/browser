@@ -10,7 +10,7 @@
     "noEmit": false,
     "noEmitHelpers": true,
     "importHelpers": true,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "isolatedModules": true,
     "lib": [
       "ES2022",

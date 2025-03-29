@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { IApp } from '../../models/app.model';
-import { ITab } from '../../models/tab.model';
-import { IHistoryItem } from '../../models/history-item.model';
+import type { IApp } from '../../models/app.model';
+import type { ITab } from '../../models/tab.model';
+import type { IHistoryItem } from '../../models/history-item.model';
 import { IWebEvent } from '../../models/web-event.model';
 
 @Component({
@@ -10,18 +10,18 @@ import { IWebEvent } from '../../models/web-event.model';
     styleUrls: ['./app-nav.component.scss']
 })
 export class AppNavComponent implements OnChanges {
-    @Input() public currentApp: IApp | null = null;
-    @Input() public tabs: ITab[] = [];
-    @Input() public screenWidth: number = 0;
-    @Input() public histories: IHistoryItem[] = [];
-    @Input() public currentTab: ITab | null = null;
-    @Output() public onSearch = new EventEmitter<IWebEvent>();
-    @Output() public onNextClick = new EventEmitter<IApp>();
-    @Output() public onBackClick = new EventEmitter<IApp>();
-    @Output() public onReloadClick = new EventEmitter<IApp>();
-    @Output() public onGotoTab = new EventEmitter<ITab>();
-    @Output() public onCloseTab = new EventEmitter<ITab>();
-    @Output() public onContextMenu = new EventEmitter<ITab>();
+    @Input() currentApp: IApp = { id: 0, title: '', url: '', icon: '' };
+    @Input() tabs: ITab[] = [];
+    @Input() screenWidth = 0;
+    @Input() histories: IHistoryItem[] = [];
+    @Input() currentTab: ITab = { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' };
+    @Output() onSearch = new EventEmitter<any>();
+    @Output() onNextClick = new EventEmitter<IApp>();
+    @Output() onBackClick = new EventEmitter<IApp>();
+    @Output() onReloadClick = new EventEmitter<IApp>();
+    @Output() onGotoTab = new EventEmitter<ITab>();
+    @Output() onCloseTab = new EventEmitter<ITab>();
+    @Output() onContextMenu = new EventEmitter<any>();
 
     public filteredHistories: IHistoryItem[] = [];
 
