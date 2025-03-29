@@ -45,6 +45,9 @@ async function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    frame: false,
+    titleBarStyle: 'hiddenInset',
+    trafficLightPosition: { x: -100, y: -100 }, // Move traffic lights off-screen
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,

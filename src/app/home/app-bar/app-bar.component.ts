@@ -2,6 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import type { IApp } from '../../models/app.model';
 import type { ITab } from '../../models/tab.model';
 
+declare const window: any;
+
 @Component({
     selector: 'app-bar',
     templateUrl: './app-bar.component.html',
@@ -55,11 +57,11 @@ export class AppBarComponent {
     }
 
     public handleContextMenu(app: IApp): void {
-        this.onContextMenu.emit(app);
+        this.onAppContextMenu.emit(app);
     }
 
     public handleAppBarDoubleClick(event: MouseEvent): void {
-        this.onAppBarDoubleClick.emit(event);
+        this.handleMaximize();
     }
 
     public handleTabSelect(tab: ITab): void {
@@ -84,6 +86,24 @@ export class AppBarComponent {
     public onTabMouseUp(event: MouseEvent, tab: ITab): void {
         if (event.button === 1) {
             this.onTabClose.emit(tab);
+        }
+    }
+
+    public handleMinimize() {
+        if (window.electron) {
+            window.electron.minimize();
+        }
+    }
+
+    public handleMaximize() {
+        if (window.electron) {
+            window.electron.maximize();
+        }
+    }
+
+    public handleClose() {
+        if (window.electron) {
+            window.electron.close();
         }
     }
 }

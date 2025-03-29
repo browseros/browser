@@ -1,8 +1,5 @@
 <div class="app-bar">
     <div class="app-bar-left">
-        <div class="app-logo">
-            <i class="bi bi-globe2"></i>
-        </div>
         <div class="app-actions">
             <button class="action-button" (click)="onBtnAddApp.emit()">
                 <i class="bi bi-plus-lg"></i>
@@ -64,5 +61,17 @@
                 </div>
             </ng-container>
         </div>
+    </div>
+
+    <div class="window-controls">
+        <button class="window-button minimize" title="Minimize" (click)="handleMinimize()">
+            <i class="bi bi-dash-lg"></i>
+        </button>
+        <button class="window-button maximize" title="Maximize" (click)="handleMaximize()">
+            <i class="bi bi-square"></i>
+        </button>
+        <button class="window-button close" title="Close" (click)="handleClose()">
+            <i class="bi bi-x-lg"></i>
+        </button>
     </div>
 </div>
