@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import type { IApp } from '../models/app.model';
 import type { ITab } from '../models/tab.model';
@@ -36,44 +36,23 @@ export class HomeComponent implements OnInit, OnDestroy {
   topApps: Observable<IHistoryItem[]> = this.store.select(fromRoot.getTopApps);
   screenWidth: number = window.innerWidth;
   screenHeight: number = window.innerHeight;
-  public historiesArray: IHistoryItem[] = [];
 
   private currentApp: IApp = { id: 0, title: '', url: '', icon: '' };
   private currentTab: ITab = { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' };
   private apps: IApp[] = [];
   private tabs: ITab[] = [];
   private host2AppsMap: { [hostname: string]: number } = {};
-  private subscriptions: Subscription[] = [];
 
   constructor(
     private router: Router,
     private store: Store<fromRoot.State>
   ) {
     console.log('[HomeComponent] Constructor called');
-    this.subscriptions.push(
-      this.eventCurrentApp.subscribe(app => this.currentApp = app),
-      this.eventCurrentTab.subscribe(tab => this.currentTab = tab),
-      this.eventApps.subscribe(apps => this.apps = apps),
-      this.eventTabs.subscribe(tabs => this.tabs = tabs),
-      this.host2Apps.subscribe(h2a => this.host2AppsMap = h2a),
-      this.histories.subscribe(h => {
-        if (h && Array.isArray(h)) {
-          // Filter out empty or invalid items
-          const validHistories = h.filter(item => 
-            item && 
-            item.link && 
-            item.host && 
-            typeof item.link === 'string' && 
-            typeof item.host === 'string'
-          );
-          
-          if (validHistories.length !== this.historiesArray.length) {
-            console.log('[HomeComponent] Histories updated:', validHistories.length, 'valid items');
-            this.historiesArray = validHistories;
-          }
-        }
-      })
-    );
+    this.eventCurrentApp.subscribe(app => this.currentApp = app);
+    this.eventCurrentTab.subscribe(tab => this.currentTab = tab);
+    this.eventApps.subscribe(apps => this.apps = apps);
+    this.eventTabs.subscribe(tabs => this.tabs = tabs);
+    this.host2Apps.subscribe(h2a => this.host2AppsMap = h2a);
   }
 
   ngOnInit() {
@@ -82,7 +61,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('[HomeComponent] ngOnDestroy called');
-    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   @HostListener('window:resize')
@@ -182,45 +160,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onDomReady(event: IWebEvent): void {
     console.log('[HomeComponent] DOM ready event received:', event);
+    console.log('[HomeComponent] Current tab:', this.currentTab);
+    console.log('[HomeComponent] Current app:', this.currentApp);
     
-    // Only proceed if we have valid tab and app
-    if (!this.currentTab?.url || !this.currentTab?.hostName) {
-      console.log('[HomeComponent] Skipping history update - invalid tab data');
-      return;
-    }
-
     const webEvent: IWebEvent = {
       eventValue: null,
       eventName: 'domready',
       tabId: this.currentTab.id,
       app: this.currentApp
     };
-
-    // Only add to history if it's a valid URL
-    try {
-      const url = new URL(this.currentTab.url);
-      if (url.protocol !== 'http:' && url.protocol !== 'https:') {
-        console.log('[HomeComponent] Skipping history update - invalid protocol:', url.protocol);
-        return;
-      }
-
-      // Add to history
-      const historyItem: IHistoryItem = {
-        link: this.currentTab.url,
-        date: new Date(),
-        host: this.currentTab.hostName,
-        title: this.currentTab.title || url.hostname,
-        weight: 0,
-        icon: this.currentApp?.icon || ''
-      };
-      console.log('[HomeComponent] Adding to history:', historyItem.link);
-      this.store.dispatch(new historyActions.NewHistoryAction(historyItem));
-
-    } catch (err) {
-      console.log('[HomeComponent] Skipping history update - invalid URL:', this.currentTab.url);
-      return;
-    }
-
+    console.log('[HomeComponent] Dispatching DOM_READY action with:', webEvent);
     this.store.dispatch(new appActions.DomReadyAction(webEvent));
   }
 

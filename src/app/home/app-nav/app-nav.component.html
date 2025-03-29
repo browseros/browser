@@ -34,21 +34,21 @@
                     type="button" 
                     data-bs-toggle="dropdown" 
                     aria-expanded="false"
-                    (click)="updateHistories()"
                     title="Recent">
                 <span>Recent</span>
                 <i class="bi bi-caret-down-fill"></i>
             </button>
             <ul class="dropdown-menu">
-                <li *ngFor="let item of filteredHistories">
+                <li *ngFor="let item of getHistoryForHost()">
                     <a class="dropdown-item recent-item" 
+                       *ngIf="item.title" 
                        (click)="selectHistoryItem(item)" 
-                       [title]="item.title || item.link">
-                        <div class="recent-item-title">{{item.title || 'Untitled'}}</div>
+                       [title]="item.title">
+                        <div class="recent-item-title">{{item.title}}</div>
                         <div class="recent-item-link">{{item.link}}</div>
                     </a>
                 </li>
-                <li *ngIf="filteredHistories.length === 0">
+                <li *ngIf="getHistoryForHost().length === 0">
                     <span class="dropdown-item disabled">No recent items</span>
                 </li>
             </ul>

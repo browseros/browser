@@ -272,15 +272,8 @@ export function reducer(state = initialState, action: app.Actions): State {
 
       console.log('[AppReducer] Created history item:', historyItem);
 
-      // Check for duplicates in regular history
-      const existingIndex = state.histories.findIndex(h => 
-        h.link.toLowerCase() === historyItem.link.toLowerCase());
-
-      // Add to regular history (avoid duplicates)
-      const newHistories = existingIndex >= 0 
-        ? state.histories // Don't add if already exists
-        : [...state.histories, historyItem];
-
+      // Add to regular history
+      const newHistories = [...state.histories, historyItem];
       console.log('[AppReducer] Updated histories:', newHistories);
 
       // Update weighted history
