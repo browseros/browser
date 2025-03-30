@@ -255,8 +255,102 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
     }
 
-    // Handle text selection context menu
+    // Handle text selection context menu with smart search features
     if (params.selectionText) {
+      const searchText = encodeURIComponent(params.selectionText);
+      
+      // Add search submenu
+      const searchSubmenu = new Menu();
+      searchSubmenu.append(new MenuItem({
+        label: 'Google',
+        click: () => {
+          const hostName = StateHelper.extractHostname(`https://www.google.com/search?q=${searchText}`);
+          this.store.dispatch(new appActions.AddTabAction({
+            id: 0,
+            appId: 0,
+            hostName,
+            title: '',
+            url: `https://www.google.com/search?q=${searchText}`
+          }));
+        }
+      }));
+      
+      searchSubmenu.append(new MenuItem({
+        label: 'Bing',
+        click: () => {
+          const hostName = StateHelper.extractHostname(`https://www.bing.com/search?q=${searchText}`);
+          this.store.dispatch(new appActions.AddTabAction({
+            id: 0,
+            appId: 0,
+            hostName,
+            title: '',
+            url: `https://www.bing.com/search?q=${searchText}`
+          }));
+        }
+      }));
+      
+      searchSubmenu.append(new MenuItem({
+        label: 'DuckDuckGo',
+        click: () => {
+          const hostName = StateHelper.extractHostname(`https://duckduckgo.com/?q=${searchText}`);
+          this.store.dispatch(new appActions.AddTabAction({
+            id: 0,
+            appId: 0,
+            hostName,
+            title: '',
+            url: `https://duckduckgo.com/?q=${searchText}`
+          }));
+        }
+      }));
+
+      menu.append(new MenuItem({
+        label: 'Search with',
+        submenu: searchSubmenu
+      }));
+
+      // Add translate submenu with more languages
+      const translateSubmenu = new Menu();
+      
+      // Common languages
+      const languages = [
+        { code: 'en', name: 'English' },
+        { code: 'vi', name: 'Vietnamese' },
+        { code: 'ja', name: 'Japanese' },
+        { code: 'ko', name: 'Korean' },
+        { code: 'zh', name: 'Chinese' },
+        { code: 'fr', name: 'French' },
+        { code: 'de', name: 'German' },
+        { code: 'es', name: 'Spanish' },
+        { code: 'ru', name: 'Russian' },
+        { code: 'pt', name: 'Portuguese' },
+        { code: 'it', name: 'Italian' },
+        { code: 'nl', name: 'Dutch' },
+        { code: 'pl', name: 'Polish' },
+        { code: 'ar', name: 'Arabic' },
+        { code: 'hi', name: 'Hindi' }
+      ];
+
+      languages.forEach(lang => {
+        translateSubmenu.append(new MenuItem({
+          label: lang.name,
+          click: () => {
+            const hostName = StateHelper.extractHostname(`https://translate.google.com/?sl=auto&tl=${lang.code}&text=${searchText}`);
+            this.store.dispatch(new appActions.AddTabAction({
+              id: 0,
+              appId: 0,
+              hostName,
+              title: '',
+              url: `https://translate.google.com/?sl=auto&tl=${lang.code}&text=${searchText}`
+            }));
+          }
+        }));
+      });
+
+      menu.append(new MenuItem({
+        label: 'Translate to',
+        submenu: translateSubmenu
+      }));
+
       menu.append(new MenuItem({
         label: 'Copy',
         click: () => {
@@ -265,8 +359,24 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
     }
 
-    // Handle image context menu
+    // Handle image context menu with smart search features
     if (params.mediaType === 'image' && params.srcURL) {
+      const imageUrl = encodeURIComponent(params.srcURL);
+      
+      menu.append(new MenuItem({
+        label: 'Search image with Google',
+        click: () => {
+          const hostName = StateHelper.extractHostname(`https://lens.google.com/uploadbyurl?url=${imageUrl}`);
+          this.store.dispatch(new appActions.AddTabAction({
+            id: 0,
+            appId: 0,
+            hostName,
+            title: '',
+            url: `https://lens.google.com/uploadbyurl?url=${imageUrl}`
+          }));
+        }
+      }));
+
       menu.append(new MenuItem({
         label: 'Download image to "Downloads"',
         click: async () => {
