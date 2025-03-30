@@ -213,4 +213,45 @@ Examples:
       })
     );
   }
+
+  extractTextFromImage(base64Image: string): Observable<any> {
+    const prompt = `Please extract all text from this image, get only the main content, ignore ads, banners, and other non-content elements. Return only the extracted text without any additional formatting or explanation.`;
+    return this.sendMessageWithImage(prompt, base64Image);
+  }
+
+  translateText(text: string, targetLang: string): Observable<any> {
+    const prompt = `Translate the following text to ${targetLang}. Return only the translation without any additional formatting or explanation:\n\n${text}`;
+    return this.sendMessage(prompt);
+  }
+
+  private sendMessageWithImage(prompt: string, base64Image: string): Observable<any> {
+    const messages = [
+      {
+        role: 'user',
+        content: [
+          {
+            type: 'text',
+            text: prompt
+          },
+          {
+            type: 'image_url',
+            image_url: {
+              url: base64Image
+            }
+          }
+        ]
+      }
+    ];
+
+    return this.http.post<any>(this.apiUrl, {
+      model: 'gpt-4-turbo',
+      messages: messages,
+      max_tokens: 4096
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.apiKey}`
+      }
+    });
+  }
 } 

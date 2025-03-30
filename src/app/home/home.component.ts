@@ -15,6 +15,7 @@ import { StateHelper } from '../utils/state.helper';
 import { Menu, MenuItem, BrowserWindow, app, dialog } from '@electron/remote';
 import { clipboard } from 'electron';
 import { webContents } from '@electron/remote';
+import { ScreenshotService } from '../services/screenshot.service';
 
 interface DownloadResult {
     success: boolean;
@@ -66,7 +67,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private store: Store<fromRoot.State>
+    private store: Store<fromRoot.State>,
+    private screenshotService: ScreenshotService
   ) {
     console.log('[HomeComponent] Constructor called');
     this.subscriptions.push(
@@ -253,102 +255,15 @@ export class HomeComponent implements OnInit, OnDestroy {
             return;
           }
 
-          const webContentsId = webview.getWebContentsId();
-          const wc = webContents.fromId(webContentsId);
-          if (wc) {
-            // Get page dimensions and original scroll position
-            const pageInfo = await wc.executeJavaScript(`
-              new Promise((resolve) => {
-                const width = Math.max(
-                  document.documentElement.scrollWidth,
-                  document.documentElement.clientWidth,
-                  document.documentElement.offsetWidth,
-                  document.body.scrollWidth,
-                  document.body.offsetWidth
-                );
-                const height = Math.max(
-                  document.documentElement.scrollHeight,
-                  document.documentElement.clientHeight,
-                  document.documentElement.offsetHeight,
-                  document.body.scrollHeight,
-                  document.body.offsetHeight
-                );
+          // Capture the page using the screenshot service
+          const base64Image = await this.screenshotService.captureFullPage(webview);
 
-                // Get device pixel ratio for high DPI displays
-                const devicePixelRatio = window.devicePixelRatio || 1;
-
-                const originalScroll = {
-                  x: window.pageXOffset,
-                  y: window.pageYOffset
-                };
-                resolve({ width, height, originalScroll, devicePixelRatio });
-              });
-            `);
-
-            console.log('[Home] Page dimensions:', pageInfo);
-
-            // Store original zoom
-            const originalZoom = await wc.getZoomFactor();
-            console.log('[Home] Original zoom:', originalZoom);
-
-            // Calculate dynamic zoom factor based on page height
-            // Maximum height we want to capture (in pixels)
-            const maxHeight = 4000; // We'll limit the final image height to this
-            const zoomFactor = Math.min(maxHeight / pageInfo.height, 0.25); // Never zoom larger than 0.25
-            console.log('[Home] Calculated zoom factor:', zoomFactor);
-
-            // Set zoom factor
-            await wc.setZoomFactor(zoomFactor);
-            console.log('[Home] Zoom factor set');
-
-            // Wait longer for zoom to take effect
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-            // Calculate dimensions based on zoom
-            // Use original width to maintain full width capture
-            const captureWidth = Math.ceil(pageInfo.width);
-            const captureHeight = Math.ceil(pageInfo.height * zoomFactor);
-            console.log('[Home] Capture dimensions:', { width: captureWidth, height: captureHeight });
-
-            // Scroll to top and ensure we're at 0,0
-            await wc.executeJavaScript(`
-              window.scrollTo(0, 0);
-              document.documentElement.style.overflow = 'hidden';
-              document.body.style.overflow = 'hidden';
-            `);
-            console.log('[Home] Scrolled to top');
-
-            // Wait for scroll and overflow changes
-            await new Promise(resolve => setTimeout(resolve, 500));
-
-            // Capture the full page
-            console.log('[Home] Capturing page...');
-            const image = await wc.capturePage({
-              x: 0,
-              y: 0,
-              width: captureWidth,
-              height: captureHeight
-            });
-            console.log('[Home] Page captured');
-
-            // Create a temporary link to download the image
-            const link = document.createElement('a');
-            link.download = `screenshot-${new Date().toISOString()}.png`;
-            link.href = image.toDataURL();
-            link.click();
-            console.log('[Home] Screenshot saved');
-
-            // Wait before restoring
-            await new Promise(resolve => setTimeout(resolve, 500));
-
-            // Restore original zoom and scroll position
-            console.log('[Home] Restoring original state...');
-            await wc.setZoomFactor(originalZoom);
-            await wc.executeJavaScript(`
-              window.scrollTo(${pageInfo.originalScroll.x}, ${pageInfo.originalScroll.y});
-            `);
-            console.log('[Home] Original state restored');
-          }
+          // Create a temporary link to download the image
+          const link = document.createElement('a');
+          link.download = `screenshot-${new Date().toISOString()}.png`;
+          link.href = base64Image;
+          link.click();
+          console.log('[Home] Screenshot saved');
         } catch (error) {
           console.error('[Home] Error capturing screenshot:', error);
         }

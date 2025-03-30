@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { ChatGPTService, ChatMessage } from '../../services/chatgpt.service';
 import { State } from '../../reducers';
 import { switchMap } from 'rxjs/operators';
+import { webContents } from '@electron/remote';
+import { ScreenshotService } from '../../services/screenshot.service';
 
 interface Action {
   id: string;
@@ -28,6 +30,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
   error: string | null = null;
   currentUrl: string = '';
   currentAction: string = 'chat';
+  currentTab: any = null;
 
   actions: Action[] = [
     { 
@@ -64,7 +67,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private chatGPTService: ChatGPTService,
-    private store: Store<State>
+    private store: Store<State>,
+    private screenshotService: ScreenshotService
   ) {}
 
   ngOnInit() {
@@ -74,9 +78,16 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
 
     // Subscribe to URL changes from store
     this.store.select(state => state.app.currentTab?.url).subscribe(url => {
-      console.log('Current URL:', url); // Debug log
+      console.log('Current URL:', url);
       if (url) {
         this.currentUrl = url;
+      }
+    });
+
+    // Subscribe to current tab changes
+    this.store.select(state => state.app.currentTab).subscribe(tab => {
+      if (tab) {
+        this.currentTab = tab;
       }
     });
   }
@@ -247,64 +258,87 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
     this.newMessage = '';
     this.isLoading = true;
 
-    console.log('Processing with URL:', this.currentUrl); // Debug log
+    console.log('Processing with URL:', this.currentUrl);
 
-    // First detect the intent
-    this.chatGPTService.detectIntent(message).pipe(
-      switchMap(response => {
-        console.log('Raw response:', response); // Log entire response
-        console.log('Intent response:', response.choices[0].message.content); // Debug log
-        let intent, targetLang;
-        try {
-          const intentResponse = response.choices[0].message.content.trim();
-          console.log('Intent string:', intentResponse);
-          [intent, targetLang] = JSON.parse(intentResponse);
-        } catch (e) {
-          console.error('Error parsing intent:', e);
-          intent = 'chat';
-          targetLang = 'none';
-        }
-        console.log('Parsed intent:', intent, 'targetLang:', targetLang); // Debug log
-        
-        // Get current page content if needed
-        if (['translate', 'summarize', 'explain_code'].includes(intent)) {
-          console.log('Processing URL:', this.currentUrl);
-          console.log('intent:', intent); // Debug log
-          if (!this.currentUrl) {
-            throw new Error('Không thể lấy được URL của trang hiện tại');
-          }
-          console.log('Processing URL:', this.currentUrl); // Debug log
-          alert(intent);
-          alert(this.currentUrl);
-          switch(intent) {
-            case 'translate':
-              return this.chatGPTService.translateWithAI(this.currentUrl, targetLang);
-            case 'summarize':
-              return this.chatGPTService.summarizeWithAI(this.currentUrl);
-            case 'explain_code':
-              return this.chatGPTService.explainCodeWithAI(this.currentUrl);
-            default:
-              throw new Error('Invalid intent');
-          }
-        }
-
-        // For regular chat, just use the original message
-        console.log('Processing as regular chat'); // Debug log
-        return this.chatGPTService.chat('You are a helpful assistant. Please respond in Vietnamese.', message);
-      })
-    ).subscribe({
-      next: (response) => {
-        console.log('Final response:', response); // Log the final response
-        const assistantMessage = response.choices[0].message.content;
-        this.addAssistantMessage(assistantMessage);
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error:', error);
-        this.error = 'Có lỗi xảy ra khi xử lý yêu cầu của bạn';
-        this.isLoading = false;
+    try {
+      // First detect the intent
+      const intentResponse = await this.chatGPTService.detectIntent(message).toPromise();
+      console.log('Intent response:', intentResponse.choices[0].message.content);
+      
+      let intent, targetLang;
+      try {
+        const intentResponseStr = intentResponse.choices[0].message.content.trim();
+        console.log('Intent string:', intentResponseStr);
+        [intent, targetLang] = JSON.parse(intentResponseStr);
+      } catch (e) {
+        console.error('Error parsing intent:', e);
+        intent = 'chat';
+        targetLang = 'none';
       }
-    });
+      console.log('Parsed intent:', intent, 'targetLang:', targetLang);
+
+      // Handle translation intent
+      if (intent === 'translate') {
+        if (!this.currentUrl) {
+          throw new Error('Không thể lấy được URL của trang hiện tại');
+        }
+
+        // Get the current webview
+        const webview = document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag;
+        if (!webview) {
+          throw new Error('Không tìm thấy webview cho tab hiện tại');
+        }
+
+        // Capture the page using the screenshot service
+        const base64Image = await this.screenshotService.captureFullPage(webview);
+
+        // First, extract text from the image
+        const extractResponse = await this.chatGPTService.extractTextFromImage(base64Image).toPromise();
+        const extractedText = extractResponse.choices[0].message.content;
+
+        // Then, translate the extracted text
+        const translateResponse = await this.chatGPTService.translateText(extractedText, targetLang || 'vi').toPromise();
+        const translatedText = translateResponse.choices[0].message.content;
+
+        // Add the translation result
+        this.addAssistantMessage(translatedText);
+        return;
+      }
+
+      // Handle other intents (summarize, explain_code)
+      if (['summarize', 'explain_code'].includes(intent)) {
+        if (!this.currentUrl) {
+          throw new Error('Không thể lấy được URL của trang hiện tại');
+        }
+
+        let response;
+        switch(intent) {
+          case 'summarize':
+            response = await this.chatGPTService.summarizeWithAI(this.currentUrl).toPromise();
+            break;
+          case 'explain_code':
+            response = await this.chatGPTService.explainCodeWithAI(this.currentUrl).toPromise();
+            break;
+        }
+
+        if (response && response.choices && response.choices[0]) {
+          this.addAssistantMessage(response.choices[0].message.content);
+        }
+        return;
+      }
+
+      // For regular chat, just use the original message
+      console.log('Processing as regular chat');
+      const response = await this.chatGPTService.chat('You are a helpful assistant. Please respond in Vietnamese.', message).toPromise();
+      if (response && response.choices && response.choices[0]) {
+        this.addAssistantMessage(response.choices[0].message.content);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      this.error = 'Có lỗi xảy ra khi xử lý yêu cầu của bạn';
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   getButtonIcon(): string {
