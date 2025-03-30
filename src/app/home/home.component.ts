@@ -214,6 +214,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   onDomReady(event: IWebEvent): void {
     console.log('[HomeComponent] DOM ready event received:', event);
     
+    // Reset zoom factor to 1.0 when DOM is ready
+    const webview = document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag;
+    if (webview) {
+      const webContentsId = webview.getWebContentsId();
+      const wc = webContents.fromId(webContentsId);
+      if (wc) {
+        wc.setZoomFactor(1.0);
+      }
+    }
+    
     // Only proceed if we have valid tab and app
     if (!this.currentTab?.url || !this.currentTab?.hostName) {
       console.log('[HomeComponent] Skipping history update - invalid tab data');
@@ -234,23 +244,110 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // Add screenshot option
     menu.append(new MenuItem({
-      label: 'Chụp ảnh màn hình',
+      label: 'Capture full page',
       click: async () => {
         try {
-          const webview = document.querySelector('webview') as Electron.WebviewTag;
-          if (webview) {
-            const webContentsId = webview.getWebContentsId();
-            const wc = webContents.fromId(webContentsId);
-            if (wc) {
-              const image = await wc.capturePage();
-              const dataUrl = image.toDataURL();
-              
-              // Create a temporary link to download the image
-              const link = document.createElement('a');
-              link.download = `screenshot-${new Date().toISOString()}.png`;
-              link.href = dataUrl;
-              link.click();
-            }
+          const webview = document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag;
+          if (!webview) {
+            console.error('[Home] No webview found for current tab:', this.currentTab.id);
+            return;
+          }
+
+          const webContentsId = webview.getWebContentsId();
+          const wc = webContents.fromId(webContentsId);
+          if (wc) {
+            // Get page dimensions and original scroll position
+            const pageInfo = await wc.executeJavaScript(`
+              new Promise((resolve) => {
+                const width = Math.max(
+                  document.documentElement.scrollWidth,
+                  document.documentElement.clientWidth,
+                  document.documentElement.offsetWidth,
+                  document.body.scrollWidth,
+                  document.body.offsetWidth
+                );
+                const height = Math.max(
+                  document.documentElement.scrollHeight,
+                  document.documentElement.clientHeight,
+                  document.documentElement.offsetHeight,
+                  document.body.scrollHeight,
+                  document.body.offsetHeight
+                );
+
+                // Get device pixel ratio for high DPI displays
+                const devicePixelRatio = window.devicePixelRatio || 1;
+
+                const originalScroll = {
+                  x: window.pageXOffset,
+                  y: window.pageYOffset
+                };
+                resolve({ width, height, originalScroll, devicePixelRatio });
+              });
+            `);
+
+            console.log('[Home] Page dimensions:', pageInfo);
+
+            // Store original zoom
+            const originalZoom = await wc.getZoomFactor();
+            console.log('[Home] Original zoom:', originalZoom);
+
+            // Calculate dynamic zoom factor based on page height
+            // Maximum height we want to capture (in pixels)
+            const maxHeight = 4000; // We'll limit the final image height to this
+            const zoomFactor = Math.min(maxHeight / pageInfo.height, 0.25); // Never zoom larger than 0.25
+            console.log('[Home] Calculated zoom factor:', zoomFactor);
+
+            // Set zoom factor
+            await wc.setZoomFactor(zoomFactor);
+            console.log('[Home] Zoom factor set');
+
+            // Wait longer for zoom to take effect
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            // Calculate dimensions based on zoom
+            // Use original width to maintain full width capture
+            const captureWidth = Math.ceil(pageInfo.width);
+            const captureHeight = Math.ceil(pageInfo.height * zoomFactor);
+            console.log('[Home] Capture dimensions:', { width: captureWidth, height: captureHeight });
+
+            // Scroll to top and ensure we're at 0,0
+            await wc.executeJavaScript(`
+              window.scrollTo(0, 0);
+              document.documentElement.style.overflow = 'hidden';
+              document.body.style.overflow = 'hidden';
+            `);
+            console.log('[Home] Scrolled to top');
+
+            // Wait for scroll and overflow changes
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Capture the full page
+            console.log('[Home] Capturing page...');
+            const image = await wc.capturePage({
+              x: 0,
+              y: 0,
+              width: captureWidth,
+              height: captureHeight
+            });
+            console.log('[Home] Page captured');
+
+            // Create a temporary link to download the image
+            const link = document.createElement('a');
+            link.download = `screenshot-${new Date().toISOString()}.png`;
+            link.href = image.toDataURL();
+            link.click();
+            console.log('[Home] Screenshot saved');
+
+            // Wait before restoring
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Restore original zoom and scroll position
+            console.log('[Home] Restoring original state...');
+            await wc.setZoomFactor(originalZoom);
+            await wc.executeJavaScript(`
+              window.scrollTo(${pageInfo.originalScroll.x}, ${pageInfo.originalScroll.y});
+            `);
+            console.log('[Home] Original state restored');
           }
         } catch (error) {
           console.error('[Home] Error capturing screenshot:', error);

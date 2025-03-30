@@ -375,14 +375,40 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
                         );
                     }
 
-                    // Emit the menu items
                     this.onContextMenu.emit({
+                        ...params,
+                        menuItems,
                         x: e.x,
                         y: e.y,
-                        menuItems: menuItems,
                         screenshot: async () => {
                             try {
-                                const image = await wc.capturePage();
+                                // Get the full page size
+                                const pageSize = await wc.executeJavaScript(`
+                                    new Promise((resolve) => {
+                                        resolve({
+                                            width: Math.max(
+                                                document.documentElement.scrollWidth,
+                                                document.documentElement.clientWidth,
+                                                document.documentElement.offsetWidth
+                                            ),
+                                            height: Math.max(
+                                                document.documentElement.scrollHeight,
+                                                document.documentElement.clientHeight,
+                                                document.documentElement.offsetHeight
+                                            )
+                                        });
+                                    });
+                                `);
+
+                                console.log('[AppWebview] Full page size:', pageSize);
+
+                                // Capture the full page
+                                const image = await wc.capturePage({
+                                    x: 0,
+                                    y: 0,
+                                    width: pageSize.width,
+                                    height: pageSize.height
+                                });
                                 const dataUrl = image.toDataURL();
                                 
                                 // Create a temporary link to download the image
@@ -432,7 +458,33 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
             const webContentsId = webviewElm.getWebContentsId();
             const wc = webContents.fromId(webContentsId);
             if (wc) {
-                const image = await wc.capturePage();
+                // Get the full page size
+                const pageSize = await wc.executeJavaScript(`
+                    new Promise((resolve) => {
+                        resolve({
+                            width: Math.max(
+                                document.documentElement.scrollWidth,
+                                document.documentElement.clientWidth,
+                                document.documentElement.offsetWidth
+                            ),
+                            height: Math.max(
+                                document.documentElement.scrollHeight,
+                                document.documentElement.clientHeight,
+                                document.documentElement.offsetHeight
+                            )
+                        });
+                    });
+                `);
+
+                console.log('[AppWebview] Full page size:', pageSize);
+
+                // Capture the full page
+                const image = await wc.capturePage({
+                    x: 0,
+                    y: 0,
+                    width: pageSize.width,
+                    height: pageSize.height
+                });
                 return image.toDataURL();
             }
             throw new Error('Could not get webContents');
