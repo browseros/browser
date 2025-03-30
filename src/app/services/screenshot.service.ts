@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { webContents } from '@electron/remote';
+import html2canvas from 'html2canvas';
 
 export interface PageInfo {
   width: number;
@@ -51,21 +52,46 @@ export class ScreenshotService {
       // Wait for changes to take effect
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Capture the full page
-      const image = await wc.capturePage({
-        x: 0,
-        y: 0,
-        width: Math.ceil(pageInfo.width),
-        height: Math.ceil(pageInfo.height * zoomFactor)
-      });
+      // Capture the full page using html2canvas
+      const canvas = await wc.executeJavaScript(`
+        new Promise((resolve) => {
+          // Ensure we're at the top of the page
+          window.scrollTo(0, 0);
+          
+          // Get the full scrollable height
+          const fullHeight = Math.max(
+            document.documentElement.scrollHeight,
+            document.body.scrollHeight,
+            document.documentElement.offsetHeight,
+            document.body.offsetHeight,
+            document.documentElement.clientHeight
+          );
 
-      // Convert image to base64
-      const base64Image = image.toDataURL();
+          html2canvas(document.documentElement, {
+            scale: ${pageInfo.devicePixelRatio},
+            useCORS: true,
+            allowTaint: true,
+            foreignObjectRendering: true,
+            logging: false,
+            width: ${pageInfo.width},
+            height: fullHeight,
+            windowWidth: ${pageInfo.width},
+            windowHeight: fullHeight,
+            scrollX: 0,
+            scrollY: 0,
+            x: 0,
+            y: 0,
+            backgroundColor: '#ffffff'
+          }).then(canvas => {
+            resolve(canvas.toDataURL('image/png'));
+          });
+        });
+      `);
 
       // Restore original state
       await this.restorePageState(wc, pageInfo, originalZoom);
 
-      return base64Image;
+      return canvas;
     } catch (error) {
       console.error('Error capturing full page:', error);
       throw error;
@@ -114,20 +140,32 @@ export class ScreenshotService {
   private async preparePageForCapture(wc: Electron.WebContents, pageInfo: PageInfo, zoomFactor: number): Promise<void> {
     await wc.setZoomFactor(zoomFactor);
     await wc.executeJavaScript(`
+      // Store original scroll position
+      window._originalScroll = window.pageYOffset;
+      
+      // Reset scroll position
       window.scrollTo(0, 0);
+      
+      // Ensure the page takes up the full height
       document.documentElement.style.overflow = 'hidden';
       document.documentElement.style.height = '${pageInfo.height}px';
       document.documentElement.style.width = '${pageInfo.width}px';
       document.body.style.overflow = 'hidden';
       document.body.style.height = '${pageInfo.height}px';
       document.body.style.width = '${pageInfo.width}px';
+      
+      // Force layout recalculation
+      document.body.offsetHeight;
     `);
   }
 
   private async restorePageState(wc: Electron.WebContents, pageInfo: PageInfo, originalZoom: number): Promise<void> {
     await wc.setZoomFactor(originalZoom);
     await wc.executeJavaScript(`
+      // Restore original scroll position
       window.scrollTo(${pageInfo.originalScroll.x}, ${pageInfo.originalScroll.y});
+      
+      // Restore original styles
       document.documentElement.style.overflow = '${pageInfo.originalStyles.html.overflow}';
       document.documentElement.style.height = '${pageInfo.originalStyles.html.height}';
       document.documentElement.style.width = '${pageInfo.originalStyles.html.width}';
