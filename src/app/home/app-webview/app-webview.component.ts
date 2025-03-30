@@ -41,6 +41,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
     private reloadSub: Subscription;
     public tabIdsInternal: number[] = [];
     private tabIdsSub: Subscription;
+    public currentTabInternal: ITab | null = null;
 
     constructor(
         public store: Store<fromRoot.State>,
@@ -54,7 +55,6 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
         this.backSub = new Subscription();
         this.nextSub = new Subscription();
         this.reloadSub = new Subscription();
-        this.tabIdsSub = new Subscription();
 
         // Subscribe to tabs
         this.tabsSub = this.store.select(fromRoot.getEventTabs).pipe(
@@ -66,22 +66,20 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
                 this.tabs = tabs;
                 // Update tabIdsInternal when tabs change
                 this.updateTabIdsInternal();
-                // this.cdr.detectChanges();
+                this.cdr.detectChanges();
             }
         });
 
-        // Subscribe to current app and tab
+        // Subscribe to current tab
         this.currentTabSub = this.store.select(fromRoot.getEventCurrentTab).pipe(
             map(tab => tab || { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' })
         ).subscribe(tab => {
             console.log('[AppWebview] Current tab updated:', tab);
-            // Only update if tab actually changed
-            if (JSON.stringify(this.currentTab) !== JSON.stringify(tab)) {
-                this.currentTab = tab;
-                //this.cdr.detectChanges();
-            }
+            this.currentTabInternal = tab;
+            this.cdr.detectChanges();
         });
 
+        // Subscribe to current app
         this.appSub = this.store.select(fromRoot.getEventCurrentApp).pipe(
             map(app => app || { id: 0, title: '', url: '', icon: '' })
         ).subscribe(app => {
@@ -89,7 +87,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
             // Only update if app actually changed
             if (JSON.stringify(this.currentApp) !== JSON.stringify(app)) {
                 this.currentApp = app;
-                //this.cdr.detectChanges();
+                this.cdr.detectChanges();
             }
         });
     }
@@ -134,7 +132,6 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
         if (this.backSub) this.backSub.unsubscribe();
         if (this.nextSub) this.nextSub.unsubscribe();
         if (this.reloadSub) this.reloadSub.unsubscribe();
-        if (this.tabIdsSub) this.tabIdsSub.unsubscribe();
     }
 
     public ngAfterViewInit() {
