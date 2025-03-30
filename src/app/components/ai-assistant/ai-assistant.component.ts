@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { ChatGPTService, ChatMessage } from '../../services/chatgpt.service';
+import { State } from '../../reducers';
 
 interface Action {
   id: string;
@@ -15,13 +17,15 @@ interface Action {
 })
 export class AIAssistantComponent implements OnInit, AfterViewChecked {
   @ViewChild('messageContainer') private messageContainer!: ElementRef;
+  @ViewChild('webview') private webview!: ElementRef;
   
   messages: ChatMessage[] = [];
   newMessage: string = '';
   isLoading: boolean = false;
   isOpen: boolean = false;
   error: string | null = null;
-  selectedText: string = '';
+  currentUrl: string = '';
+  currentAction: string = 'chat';
 
   actions: Action[] = [
     { 
@@ -34,19 +38,19 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
       id: 'summarize', 
       icon: 'bi-file-text', 
       label: 'Tóm tắt với AI',
-      description: 'Tóm tắt nội dung được chọn một cách ngắn gọn'
+      description: 'Tóm tắt nội dung trang web hiện tại'
     },
     { 
       id: 'translate', 
       icon: 'bi-translate', 
       label: 'Dịch với AI',
-      description: 'Dịch nội dung sang ngôn ngữ khác'
+      description: 'Dịch nội dung trang web hiện tại'
     },
     { 
       id: 'explain', 
       icon: 'bi-code-slash', 
       label: 'Giải thích code với AI',
-      description: 'Phân tích và giải thích đoạn code'
+      description: 'Phân tích và giải thích code trên trang'
     },
     { 
       id: 'search', 
@@ -56,32 +60,20 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
     }
   ];
 
-  currentAction: string = 'chat';
-
-  getCurrentActionLabel(): string {
-    const action = this.actions.find(a => a.id === this.currentAction);
-    return action ? action.label : '';
-  }
-
-  getCurrentActionDescription(): string {
-    const action = this.actions.find(a => a.id === this.currentAction);
-    return action ? action.description : '';
-  }
-
-  constructor(private chatGPTService: ChatGPTService) {}
+  constructor(
+    private chatGPTService: ChatGPTService,
+    private store: Store<State>
+  ) {}
 
   ngOnInit() {
     this.chatGPTService.getMessages().subscribe(messages => {
       this.messages = messages;
     });
 
-    // Lắng nghe sự kiện chọn text
-    document.addEventListener('mouseup', () => {
-      const selection = window.getSelection();
-      if (selection && selection.toString().trim()) {
-        this.selectedText = selection.toString().trim();
-        // Đảm bảo Angular detect được thay đổi
-        this.error = null;
+    // Lấy URL từ app state store
+    this.store.select(state => state.app.currentTab?.url).subscribe(url => {
+      if (url) {
+        this.currentUrl = url;
       }
     });
   }
@@ -96,46 +88,60 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
   }
 
   async handleAction(actionId: string) {
+    console.log('Current action:', actionId);
+    
     this.currentAction = actionId;
     this.error = null;
 
-    // Kiểm tra lại điều kiện selectedText
     if (['summarize', 'translate', 'explain'].includes(actionId)) {
-      if (!this.selectedText || this.selectedText.length === 0) {
-        this.addAssistantMessage('Vui lòng chọn nội dung trên trang web trước khi sử dụng tính năng này.');
+      if (!this.currentUrl) {
+        this.error = 'Không thể lấy được URL của trang hiện tại';
         return;
       }
+
+      this.isLoading = true;
+      try {
+        let response;
+        switch(actionId) {
+          case 'summarize':
+            response = await this.chatGPTService.summarizeWithAI(this.currentUrl).toPromise();
+            break;
+          case 'translate':
+            response = await this.chatGPTService.translateWithAI(this.currentUrl).toPromise();
+            break;
+          case 'explain':
+            response = await this.chatGPTService.explainCodeWithAI(this.currentUrl).toPromise();
+            break;
+        }
+
+        if (response && response.choices && response.choices[0]) {
+          this.addAssistantMessage(response.choices[0].message.content);
+        }
+      } catch (error: any) {
+        this.handleError(error);
+      } finally {
+        this.isLoading = false;
+      }
+      return;
     }
 
-    this.isLoading = true;
-    try {
-      let response;
-      switch(actionId) {
-        case 'summarize':
-          response = await this.chatGPTService.summarizeWithAI(this.selectedText).toPromise();
-          break;
-        case 'translate':
-          response = await this.chatGPTService.translateWithAI(this.selectedText).toPromise();
-          break;
-        case 'explain':
-          response = await this.chatGPTService.explainCodeWithAI(this.selectedText).toPromise();
-          break;
-        case 'search':
-          if (!this.newMessage) {
-            this.addAssistantMessage('Vui lòng nhập từ khóa tìm kiếm.');
-            return;
-          }
-          response = await this.chatGPTService.searchWithAI(this.newMessage).toPromise();
-          break;
+    // Handle other actions (search, chat)
+    if (actionId === 'search') {
+      if (!this.newMessage) {
+        this.addAssistantMessage('Vui lòng nhập từ khóa tìm kiếm.');
+        return;
       }
-
-      if (response && response.choices && response.choices[0]) {
-        this.addAssistantMessage(response.choices[0].message.content);
+      this.isLoading = true;
+      try {
+        const response = await this.chatGPTService.searchWithAI(this.newMessage).toPromise();
+        if (response && response.choices && response.choices[0]) {
+          this.addAssistantMessage(response.choices[0].message.content);
+        }
+      } catch (error: any) {
+        this.handleError(error);
+      } finally {
+        this.isLoading = false;
       }
-    } catch (error: any) {
-      this.handleError(error);
-    } finally {
-      this.isLoading = false;
     }
   }
 
@@ -224,5 +230,15 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
 
   getButtonIcon(): string {
     return this.currentAction === 'chat' ? 'bi-send' : 'bi-search';
+  }
+
+  getCurrentActionLabel(): string {
+    const action = this.actions.find(a => a.id === this.currentAction);
+    return action ? action.label : '';
+  }
+
+  getCurrentActionDescription(): string {
+    const action = this.actions.find(a => a.id === this.currentAction);
+    return action ? action.description : '';
   }
 } 

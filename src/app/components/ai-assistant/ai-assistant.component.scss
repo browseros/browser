@@ -304,4 +304,35 @@
   50% {
     transform: translateY(-3px);
   }
+}
+
+.web-view {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.current-url {
+  margin: 10px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+
+  .current-url-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    color: #6c757d;
+
+    i {
+      margin-right: 5px;
+    }
+  }
+
+  .current-url-content {
+    font-size: 0.9em;
+    color: #495057;
+    word-break: break-all;
+  }
 } 

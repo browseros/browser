@@ -51,12 +51,12 @@
       </div>
     </div>
 
-    <div class="selected-text" *ngIf="selectedText && ['summarize', 'translate', 'explain'].includes(currentAction)">
-      <div class="selected-text-header">
-        <i class="bi bi-text-paragraph"></i>
-        <span>Nội dung đã chọn:</span>
+    <div class="current-url" *ngIf="currentUrl && ['summarize', 'translate', 'explain'].includes(currentAction)">
+      <div class="current-url-header">
+        <i class="bi bi-link-45deg"></i>
+        <span>Đang xử lý trang:</span>
       </div>
-      <div class="selected-text-content">{{ selectedText }}</div>
+      <div class="current-url-content">{{ currentUrl }}</div>
     </div>
 
     <div class="input-container">
