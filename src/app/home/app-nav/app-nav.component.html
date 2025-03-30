@@ -4,7 +4,7 @@
              [style.display]="tab.appId !== currentApp.id ? 'none': ''"
              class="tab-on-nav"
              [title]="tab.title"
-             [class.active]="currentTab && tab.id === currentTab.id"
+             [class.active]="currentTabInternal && tab.id === currentTabInternal.id"
              (click)="onGotoTab.emit(tab)"
              (contextmenu)="onContextMenu.emit(tab)"
              (mouseup)="onMouseUp($event, tab)"

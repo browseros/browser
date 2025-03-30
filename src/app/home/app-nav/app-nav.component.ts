@@ -29,7 +29,9 @@ export class AppNavComponent implements OnInit, OnDestroy, OnChanges {
 
     public filteredHistories: IHistoryItem[] = [];
     public tabsInternal: ITab[] = [];
+    public currentTabInternal: ITab = { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' };
     private tabsSub: Subscription;
+    private currentTabSub: Subscription;
 
     constructor(
         private cdr: ChangeDetectorRef,
@@ -46,11 +48,23 @@ export class AppNavComponent implements OnInit, OnDestroy, OnChanges {
             this.tabsInternal = [...tabs];
             this.cdr.detectChanges();
         });
+
+        // Subscribe to currentTab from store
+        this.currentTabSub = this.store.select(fromRoot.getEventCurrentTab).pipe(
+            map(tab => tab || { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' })
+        ).subscribe(tab => {
+            console.log('[AppNav] Store currentTab updated:', tab);
+            this.currentTabInternal = tab;
+            this.cdr.detectChanges();
+        });
     }
 
     ngOnDestroy() {
         if (this.tabsSub) {
             this.tabsSub.unsubscribe();
+        }
+        if (this.currentTabSub) {
+            this.currentTabSub.unsubscribe();
         }
     }
 
@@ -68,6 +82,7 @@ export class AppNavComponent implements OnInit, OnDestroy, OnChanges {
         }
         if (changes['currentTab']) {
             console.log('[AppNav] Current tab changed:', changes['currentTab'].currentValue);
+            this.currentTabInternal = changes['currentTab'].currentValue;
         }
         if (changes['histories'] || changes['currentTab']) {
             this.updateHistories();
