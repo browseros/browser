@@ -5,6 +5,7 @@ import { State } from '../../reducers';
 import { switchMap } from 'rxjs/operators';
 import { webContents } from '@electron/remote';
 import { ScreenshotService } from '../../services/screenshot.service';
+import { GoogleAIService } from '../../services/google-ai.service';
 
 interface Action {
   id: string;
@@ -68,7 +69,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
   constructor(
     private chatGPTService: ChatGPTService,
     private store: Store<State>,
-    private screenshotService: ScreenshotService
+    private screenshotService: ScreenshotService,
+    private googleAIService: GoogleAIService
   ) {}
 
   ngOnInit() {
@@ -292,9 +294,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
         // Capture the page using the screenshot service
         const base64Image = await this.screenshotService.captureFullPage(webview);
 
-        // First, extract text from the image
-        const extractResponse = await this.chatGPTService.extractTextFromImage(base64Image).toPromise();
-        const extractedText = extractResponse.choices[0].message.content;
+        // Extract text using Google AI instead of ChatGPT
+        const extractedText = await this.googleAIService.extractTextFromImage(base64Image);
 
         // Then, translate the extracted text
         const translateResponse = await this.chatGPTService.translateText(extractedText, targetLang || 'vi').toPromise();

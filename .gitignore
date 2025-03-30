@@ -77,3 +77,8 @@ packages/
 .angular
 release/
 yarn.lock
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
