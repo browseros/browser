@@ -140,7 +140,7 @@
     align-items: center;
     justify-content: space-between;
     height: 40px;
-    padding: 0 12px;
+    padding: 0 8px;
     background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
     border-bottom: 1px solid #dee2e6;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -152,9 +152,10 @@
         flex: 1;
         overflow-x: auto;
         overflow-y: hidden;
-        margin-right: 180px; // Space for nav-actions
+        margin-right: 140px;
         height: 100%;
         align-items: center;
+        padding-right: 8px;
 
         &::-webkit-scrollbar {
             display: none;
@@ -164,10 +165,14 @@
     .nav-actions {
         display: flex;
         align-items: center;
-        gap: 8px;
-        margin-left: 16px;
-        position: relative;
+        gap: 4px;
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
         z-index: 1000;
+        background: linear-gradient(to left, #f8f9fa 70%, transparent);
+        padding-left: 16px;
 
         .nav-button {
             display: flex;
@@ -175,7 +180,7 @@
             justify-content: center;
             height: 32px;
             min-width: 32px;
-            padding: 0 12px;
+            padding: 0 8px;
             border: none;
             border-radius: 4px;
             background: transparent;
@@ -273,6 +278,27 @@
                 }
             }
         }
+
+        .recent-button {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 8px;
+            border-radius: 4px;
+            min-width: 80px;
+            width: 80px !important;
+            
+            span {
+                font-size: 13px;
+                font-weight: 400;
+                color: #5f6368;
+            }
+            
+            i {
+                font-size: 14px;
+                color: #5f6368;
+            }
+        }
     }
 }
 
@@ -286,8 +312,8 @@
     margin-right: 1px;
     user-select: none;
     cursor: pointer;
-    min-width: 100px;
-    max-width: 200px;
+    min-width: 80px;
+    max-width: 160px;
     position: relative;
 
     &.active {
@@ -326,34 +352,5 @@
         overflow: hidden;
         text-overflow: ellipsis;
         font-size: 13px;
-    }
-}
-
-.recent-button {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 4px;
-    min-width: 100px;
-    width: 100px !important;
-    
-    span {
-        font-size: 13px;
-        font-weight: 400;
-        color: #5f6368;
-    }
-    
-    i {
-        font-size: 14px;
-        color: #5f6368;
-    }
-    
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-        
-        span, i {
-            color: #202124;
-        }
     }
 } 
