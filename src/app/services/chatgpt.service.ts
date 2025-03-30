@@ -65,8 +65,26 @@ export class ChatGPTService {
     );
   }
 
-  summarizeWithAI(content: string): Observable<any> {
-    const prompt = `Hãy tóm tắt nội dung sau bằng tiếng Việt một cách ngắn gọn và dễ hiểu:
+  summarizeWithAI(content: string, targetLang: string = 'vietnamese'): Observable<any> {
+    const languagePrompts: { [key: string]: string } = {
+      vietnamese: 'Hãy tóm tắt nội dung sau bằng tiếng Việt một cách ngắn gọn và dễ hiểu:',
+      english: 'Please summarize the following content in English in a concise and clear way:',
+      japanese: '以下の内容を日本語で簡潔に要約してください：',
+      korean: '다음 내용을 한국어로 간단히 요약해 주세요:',
+      chinese: '请用中文简明扼要地总结以下内容：',
+      french: 'Veuillez résumer le contenu suivant en français de manière concise et claire :',
+      german: 'Bitte fassen Sie den folgenden Inhalt auf Deutsch kurz und prägnant zusammen:',
+      spanish: 'Por favor, resuma el siguiente contenido en español de manera concisa y clara:',
+      russian: 'Пожалуйста, кратко и четко обобщите следующее содержание на русском языке:',
+      portuguese: 'Por favor, resuma o seguinte conteúdo em português de forma concisa e clara:',
+      italian: 'Si prega di riassumere il seguente contenuto in italiano in modo conciso e chiaro:',
+      dutch: 'Vat de volgende inhoud samen in het Nederlands op een beknopte en duidelijke manier:',
+      polish: 'Proszę streścić następującą treść po polsku w zwięzły i jasny sposób:',
+      arabic: 'يرجى تلخيص المحتوى التالي باللغة العربية بشكل موجز وواضح:',
+      hindi: 'कृपया निम्नलिखित सामग्री को हिंदी में संक्षिप्त और स्पष्ट रूप से सारांशित करें:'
+    };
+
+    const prompt = `${languagePrompts[targetLang] || languagePrompts['vietnamese']}
 
 ${content}
 
@@ -180,15 +198,26 @@ Yêu cầu:
 - explain_code: if user wants to explain code
 - chat: for general chat or other requests
 
-2. The target language (only for translate intent): 
-- english: if user wants English translation
-- vietnamese: if user wants Vietnamese translation
-- japanese: if user wants Japanese translation
+2. The target language: 
+- english: if user wants English
+- vietnamese: if user wants Vietnamese
+- japanese: if user wants Japanese
+- korean: if user wants Korean
+- chinese: if user wants Chinese
+- french: if user wants French
+- german: if user wants German
+- spanish: if user wants Spanish
+- russian: if user wants Russian
+- portuguese: if user wants Portuguese
+- italian: if user wants Italian
+- dutch: if user wants Dutch
+- polish: if user wants Polish
+- arabic: if user wants Arabic
+- hindi: if user wants Hindi
+- none: for non-translation/summarization intents
 
 Return ONLY the array in this format without any explanation:
 ["intent", "language"]
-
-For non-translate intents, return "none" as language.
 
 Examples:
 "dịch trang web này sang tiếng anh" -> ["translate", "english"]
@@ -196,7 +225,9 @@ Examples:
 "dịch sang tiếng Nhật" -> ["translate", "japanese"]
 "translate to japanese" -> ["translate", "japanese"]
 "dịch giúp mình trang này" -> ["translate", "vietnamese"]
-"tóm tắt nội dung trang này" -> ["summarize", "none"]
+"tóm tắt nội dung trang này" -> ["summarize", "vietnamese"]
+"summarize this page in English" -> ["summarize", "english"]
+"tóm tắt trang này bằng tiếng Nhật" -> ["summarize", "japanese"]
 "giải thích code trong trang" -> ["explain_code", "none"]
 "thời tiết hôm nay thế nào" -> ["chat", "none"]`
         },

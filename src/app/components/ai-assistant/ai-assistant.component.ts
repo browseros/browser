@@ -306,22 +306,40 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
         return;
       }
 
-      // Handle other intents (summarize, explain_code)
-      if (['summarize', 'explain_code'].includes(intent)) {
+      // Handle summarize intent
+      if (intent === 'summarize') {
         if (!this.currentUrl) {
           throw new Error('Không thể lấy được URL của trang hiện tại');
         }
 
-        let response;
-        switch(intent) {
-          case 'summarize':
-            response = await this.chatGPTService.summarizeWithAI(this.currentUrl).toPromise();
-            break;
-          case 'explain_code':
-            response = await this.chatGPTService.explainCodeWithAI(this.currentUrl).toPromise();
-            break;
+        // Get the current webview
+        const webview = document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag;
+        if (!webview) {
+          throw new Error('Không tìm thấy webview cho tab hiện tại');
         }
 
+        // Capture the page using the screenshot service
+        const base64Image = await this.screenshotService.captureFullPage(webview);
+
+        // Extract text using Google AI
+        const extractedText = await this.googleAIService.extractTextFromImage(base64Image);
+
+        // Then, summarize the extracted text in the target language
+        const summarizeResponse = await this.chatGPTService.summarizeWithAI(extractedText, targetLang || 'vietnamese').toPromise();
+        const summarizedText = summarizeResponse.choices[0].message.content;
+
+        // Add the summary result
+        this.addAssistantMessage(summarizedText);
+        return;
+      }
+
+      // Handle explain_code intent
+      if (intent === 'explain_code') {
+        if (!this.currentUrl) {
+          throw new Error('Không thể lấy được URL của trang hiện tại');
+        }
+
+        const response = await this.chatGPTService.explainCodeWithAI(this.currentUrl).toPromise();
         if (response && response.choices && response.choices[0]) {
           this.addAssistantMessage(response.choices[0].message.content);
         }
