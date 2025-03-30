@@ -23,8 +23,8 @@ export class AppBarComponent {
     @Output() public onAppSelect = new EventEmitter<any>();
     @Output() public onAppClose = new EventEmitter<any>();
     @Output() public onContextMenu = new EventEmitter<any>();
-    @Output() public onBtnAddApp = new EventEmitter<any>();
-    @Output() public onEnteredSearchBox = new EventEmitter<any>();
+    @Output() public onBtnAddApp = new EventEmitter<void>();
+    @Output() public onEnteredSearchBox = new EventEmitter<void>();
     @Output() public onBtnAppAction = new EventEmitter<any>();
     @Output() public onAppBarDoubleClick = new EventEmitter<any>();
     @Output() public onTabSelect = new EventEmitter<any>();
@@ -34,6 +34,7 @@ export class AppBarComponent {
     @Output() public gotoApp = new EventEmitter<any>();
     @Output() public onAppContextMenu = new EventEmitter<any>();
     @Output() public closeApp = new EventEmitter<any>();
+    @Output() public onBtnAIAssistant = new EventEmitter<void>();
 
     constructor(private store: Store) {}
 

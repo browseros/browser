@@ -522,4 +522,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new appActions.AddTabAction(newTab));
     }
   }
+
+  onBtnAIAssistant() {
+    const aiAssistant = document.querySelector('app-ai-assistant') as any;
+    if (aiAssistant) {
+      aiAssistant.toggleAssistant();
+    }
+  }
 }

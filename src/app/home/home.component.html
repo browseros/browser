@@ -5,7 +5,8 @@
   (onContextMenu)='onAppContextMenu($event)'
   (onBtnAppAction)='onBtnAppAction($event)'
   (onAppBarDoubleClick)='onAppBarDoubleClick($event)'
-  (onBtnAddApp)='appSearch.show()'>
+  (onBtnAddApp)='appSearch.show()'
+  (onBtnAIAssistant)='onBtnAIAssistant()'>
 </app-bar>
 <app-nav [currentApp]='(currentApp$ | async) ?? { id: 0, title: "", url: "", icon: "" }' [tabs]='(tabs$ | async) ?? []' [currentTab]='(currentTab$ | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }' (onNextClick)='onNextClick($event)' (onBackClick)='onBackClick($event)' (onGotoTab)='onGotoTab($event)'
   [histories]='historiesArray'
@@ -32,3 +33,4 @@
   (onSearch)='doSearch($event)' 
   (onSearchReplacing)='doSearchReplacing($event)'>
 </app-search>
+<app-ai-assistant></app-ai-assistant>

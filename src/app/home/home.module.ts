@@ -7,6 +7,7 @@ import { AppNavComponent } from './app-nav/app-nav.component';
 import { AppWebviewComponent } from './app-webview/app-webview.component';
 import { WebviewComponent } from './app-webview/web-view.component';
 import { AppSearchComponent } from './app-search/app-search.component';
+import { AIAssistantComponent } from '../components/ai-assistant/ai-assistant.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { AppSearchComponent } from './app-search/app-search.component';
     AppNavComponent,
     AppWebviewComponent,
     WebviewComponent,
-    AppSearchComponent
+    AppSearchComponent,
+    AIAssistantComponent
   ],
   imports: [
     CommonModule,

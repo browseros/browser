@@ -1,0 +1,75 @@
+<div class="ai-assistant" [class.open]="isOpen">
+  <button class="toggle-button" (click)="toggleAssistant()">
+    <i class="bi" [class.bi-robot]="!isOpen" [class.bi-x-lg]="isOpen"></i>
+  </button>
+
+  <div class="chat-container" *ngIf="isOpen">
+    <div class="chat-header">
+      <h3>AI Assistant</h3>
+      <div class="actions">
+        <button *ngFor="let action of actions"
+                class="action-button"
+                [class.active]="currentAction === action.id"
+                (click)="handleAction(action.id)"
+                [title]="action.description">
+          <i class="bi" [class]="action.icon"></i>
+          <span class="action-label">{{ action.label }}</span>
+        </button>
+      </div>
+      <button class="clear-button" (click)="clearChat()" title="Xóa lịch sử chat">
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
+
+    <div class="current-action">
+      <span class="action-title">{{ getCurrentActionLabel() }}</span>
+      <span class="action-description">{{ getCurrentActionDescription() }}</span>
+    </div>
+
+    <div class="messages" #messageContainer>
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+
+      <div *ngFor="let message of messages" 
+           class="message" 
+           [class.user-message]="message.role === 'user'"
+           [class.assistant-message]="message.role === 'assistant'">
+        <div class="message-content">
+          {{ message.content }}
+        </div>
+        <div class="message-timestamp">
+          {{ message.timestamp | date:'short' }}
+        </div>
+      </div>
+
+      <div *ngIf="isLoading" class="message assistant-message">
+        <div class="message-content loading">
+          <i class="bi bi-three-dots"></i>
+          <span>AI đang xử lý...</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="selected-text" *ngIf="selectedText && ['summarize', 'translate', 'explain'].includes(currentAction)">
+      <div class="selected-text-header">
+        <i class="bi bi-text-paragraph"></i>
+        <span>Nội dung đã chọn:</span>
+      </div>
+      <div class="selected-text-content">{{ selectedText }}</div>
+    </div>
+
+    <div class="input-container">
+      <textarea 
+        [(ngModel)]="newMessage" 
+        (keyup.enter)="handleInputEnter()"
+        [placeholder]="getPlaceholder()"
+        [disabled]="isLoading">
+      </textarea>
+      <button (click)="handleButtonClick()" 
+              [disabled]="isLoading || !newMessage.trim()">
+        <i class="bi" [ngClass]="getButtonIcon()"></i>
+      </button>
+    </div>
+  </div>
+</div> 
