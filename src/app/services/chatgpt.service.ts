@@ -78,11 +78,13 @@ Tóm tắt nên bao gồm:
   }
 
   translateWithAI(url: string, targetLang: string = 'vietnamese'): Observable<any> {
-    const prompt = `Translate the following content to ${targetLang}: 
+    // Get the current page content
+    const pageContent = document.body.innerText || document.body.textContent || '';
     
-    ${url}
-    `;
-    return this.sendMessage(prompt);
+    let systemMessage = `You are a translator. Translate the following content to ${targetLang} for this URL: ${url}. Only return the translated text without any explanations:
+    ${pageContent}`;
+
+    return this.sendMessage(systemMessage);
   }
 
   explainCodeWithAI(code: string): Observable<any> {
