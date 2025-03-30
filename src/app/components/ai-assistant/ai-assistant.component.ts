@@ -230,43 +230,6 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
   async handleInputEnter() {
     if (!this.newMessage.trim()) return;
 
-    // Phân tích ý định của người dùng thông qua ChatGPT
-    this.isLoading = true;
-    try {
-      const intentResponse = await this.chatGPTService.detectIntent(this.newMessage).toPromise();
-      if (intentResponse && intentResponse.choices && intentResponse.choices[0]) {
-        const intent = intentResponse.choices[0].message.content;
-        
-        // Xử lý dựa trên intent được phát hiện
-        if (intent === 'translate') {
-          this.currentAction = 'translate';
-          await this.handleAction('translate');
-        } else if (intent === 'summarize') {
-          this.currentAction = 'summarize';
-          await this.handleAction('summarize');
-        } else if (intent === 'explain_code') {
-          this.currentAction = 'explain';
-          await this.handleAction('explain');
-        } else {
-          // Xử lý như chat bình thường
-          this.addUserMessage(this.newMessage);
-          const response = await this.chatGPTService.chat('You are a helpful assistant. Please respond in Vietnamese.', this.newMessage).toPromise();
-          if (response && response.choices && response.choices[0]) {
-            this.addAssistantMessage(response.choices[0].message.content);
-          }
-        }
-      }
-    } catch (error: any) {
-      this.handleError(error);
-    } finally {
-      this.isLoading = false;
-      this.newMessage = '';
-    }
-  }
-
-  async handleButtonClick() {
-    if (!this.newMessage.trim()) return;
-
     const message = this.newMessage.trim();
     this.addUserMessage(message);
     this.newMessage = '';
@@ -291,40 +254,28 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
         }
         console.log('Parsed intent:', intent, 'targetLang:', targetLang); // Debug log
         
-        // Prepare system message based on intent
-        let systemMessage = '';
-        switch(intent) {
-          case 'translate':
-            systemMessage = targetLang === 'english' 
-              ? 'You are a translator. Your task is to translate the following content to English. Only return the translated text without any explanations or additional text.'
-              : 'You are a translator. Your task is to translate the following content to Vietnamese. Only return the translated text without any explanations or additional text.';
-            break;
-          case 'summarize':
-            systemMessage = 'You are a summarizer. Provide a concise summary of the following content in Vietnamese:';
-            break;
-          case 'explain_code':
-            systemMessage = 'You are a code explainer. Explain the following code in Vietnamese:';
-            break;
-          default:
-            systemMessage = 'You are a helpful assistant. Please respond in Vietnamese.';
-        }
-
-        console.log('Using system message:', systemMessage); // Debug log
-
         // Get current page content if needed
         if (['translate', 'summarize', 'explain_code'].includes(intent)) {
           if (!this.currentUrl) {
             throw new Error('Không thể lấy được URL của trang hiện tại');
           }
           console.log('Processing URL:', this.currentUrl); // Debug log
-          const pageContent = document.body.innerText;
-          console.log('Page content length:', pageContent.length);
-          return this.chatGPTService.chat(systemMessage, pageContent);
+          
+          switch(intent) {
+            case 'translate':
+              return this.chatGPTService.translateWithAI(this.currentUrl, targetLang);
+            case 'summarize':
+              return this.chatGPTService.summarizeWithAI(this.currentUrl);
+            case 'explain_code':
+              return this.chatGPTService.explainCodeWithAI(this.currentUrl);
+            default:
+              throw new Error('Invalid intent');
+          }
         }
 
         // For regular chat, just use the original message
         console.log('Processing as regular chat'); // Debug log
-        return this.chatGPTService.chat(systemMessage, message);
+        return this.chatGPTService.chat('You are a helpful assistant. Please respond in Vietnamese.', message);
       })
     ).subscribe({
       next: (response) => {

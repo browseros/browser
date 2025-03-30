@@ -70,9 +70,11 @@
         [placeholder]="getPlaceholder()"
         [disabled]="isLoading">
       </textarea>
-      <button (click)="handleButtonClick()" 
-              [disabled]="isLoading || !newMessage.trim()">
-        <i class="bi" [ngClass]="getButtonIcon()"></i>
+      <button 
+        [disabled]="isLoading || !newMessage.trim()" 
+        (click)="handleInputEnter()"
+        [class.loading]="isLoading">
+        <i [class]="getButtonIcon()"></i>
       </button>
     </div>
   </div>
