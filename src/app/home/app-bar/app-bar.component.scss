@@ -3,18 +3,23 @@
 .app-bar {
     display: flex;
     align-items: center;
-    height: 48px;
-    background: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     padding: 0 8px;
     user-select: none;
     -webkit-app-region: drag;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.05);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
 }
 
 .app-bar-left {
     display: flex;
     align-items: center;
     min-width: 100px;
+    padding-right: 8px;
     -webkit-app-region: no-drag;
 }
 
@@ -22,19 +27,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     margin-right: 8px;
     
     i {
-        font-size: 20px;
-        color: #1976d2;
+        font-size: 18px;
+        color: #1a73e8;
+        filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.05));
     }
 }
 
 .app-actions {
     display: flex;
     align-items: center;
+    gap: 2px;
     -webkit-app-region: no-drag;
     
     .action-button {
@@ -46,12 +53,17 @@
         border: none;
         border-radius: 4px;
         background: transparent;
-        color: #333333;
+        color: #5f6368;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.15s ease;
         
         &:hover {
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(32, 33, 36, 0.04);
+            color: #202124;
+        }
+
+        &:active {
+            background: rgba(32, 33, 36, 0.08);
         }
         
         i {
@@ -62,14 +74,14 @@
 
 .app-bar-center {
     flex: 1;
-    padding: 0 16px;
+    padding: 0 8px;
     min-width: 0;
     -webkit-app-region: no-drag;
 }
 
 .search-container {
     position: relative;
-    max-width: 600px;
+    max-width: 720px;
     margin: 0 auto;
     -webkit-app-region: no-drag;
     
@@ -78,29 +90,37 @@
         left: 12px;
         top: 50%;
         transform: translateY(-50%);
-        color: #666666;
+        color: #5f6368;
         font-size: 14px;
+        pointer-events: none;
     }
     
     .search-input {
         width: 100%;
         height: 32px;
         padding: 0 12px 0 36px;
-        border: 1px solid #e0e0e0;
+        border: 1px solid rgba(32, 33, 36, 0.1);
         border-radius: 16px;
-        background: #f5f5f5;
-        color: #333333;
-        font-size: 14px;
-        transition: all 0.2s ease;
+        background: rgba(32, 33, 36, 0.02);
+        color: #202124;
+        font-size: 13.5px;
+        transition: all 0.15s ease;
+        
+        &:hover {
+            background: rgba(32, 33, 36, 0.03);
+            border-color: rgba(32, 33, 36, 0.12);
+        }
         
         &:focus {
             outline: none;
-            border-color: #1976d2;
-            background: white;
+            background: #ffffff;
+            border-color: #1a73e8;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
         
         &::placeholder {
-            color: #666666;
+            color: #5f6368;
+            font-weight: 400;
         }
     }
 }
@@ -111,18 +131,11 @@
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-app-region: no-drag;
+    margin-left: 4px;
     
     &::-webkit-scrollbar {
-        height: 3px;
-    }
-    
-    &::-webkit-scrollbar-track {
+        height: 0;
         background: transparent;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.1);
-        border-radius: 3px;
     }
 }
 
@@ -130,6 +143,7 @@
     display: flex;
     height: 100%;
     padding: 4px 0;
+    gap: 1px;
     -webkit-app-region: no-drag;
 }
 
@@ -138,31 +152,50 @@
     flex-direction: column;
     min-width: 180px;
     max-width: 240px;
-    margin-right: 1px;
-    background: #ffffff;
-    border-radius: 6px;
-    transition: all 0.2s ease;
+    background: transparent;
+    border-radius: 6px 6px 0 0;
+    transition: background-color 0.15s ease;
     
     &.active {
-        background: #e3f2fd;
+        background: #fff;
         
         .app-header {
-            background: #bbdefb;
+            background: #fff;
+            
+            .app-title {
+                color: #202124;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -1px;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: #1a73e8;
+                border-radius: 1px;
+            }
         }
     }
     
     &:hover:not(.active) {
-        background: #f5f5f5;
+        .app-header {
+            background: rgba(32, 33, 36, 0.04);
+        }
     }
 }
 
 .app-header {
     display: flex;
     align-items: center;
-    padding: 6px 8px;
+    height: 32px;
+    padding: 0 10px;
     border-radius: 6px 6px 0 0;
-    background: #f5f5f5;
+    background: transparent;
     cursor: pointer;
+    transition: all 0.15s ease;
+    position: relative;
     
     .app-icon {
         width: 16px;
@@ -172,18 +205,20 @@
         
         &.bi {
             font-size: 14px;
-            color: #666666;
+            color: #5f6368;
         }
     }
     
     .app-title {
         flex: 1;
         font-size: 12px;
-        font-weight: 500;
-        color: #333333;
+        font-weight: 400;
+        color: #5f6368;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        transition: color 0.15s ease;
+        margin-top: 1px;
     }
     
     .app-close {
@@ -194,15 +229,19 @@
         height: 16px;
         margin-left: 4px;
         border: none;
-        border-radius: 3px;
+        border-radius: 50%;
         background: transparent;
-        color: #666666;
+        color: #5f6368;
         opacity: 0;
-        transition: all 0.2s ease;
+        transition: all 0.15s ease;
+        
+        i {
+            font-size: 12px;
+        }
         
         &:hover {
-            background: rgba(0, 0, 0, 0.1);
-            color: #333333;
+            background: rgba(32, 33, 36, 0.06);
+            color: #202124;
         }
     }
     
@@ -212,88 +251,13 @@
 }
 
 .app-tabs {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 4px;
-    gap: 2px;
-    transition: all 0.3s ease;
-}
-
-.tab-item {
-    display: flex;
-    align-items: center;
-    padding: 6px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    
-    &:hover {
-        background: #f5f5f5;
-    }
-    
-    &.active {
-        background: #e3f2fd;
-        
-        .tab-title {
-            color: #333333;
-        }
-    }
-    
-    .tab-icon {
-        width: 14px;
-        height: 14px;
-        margin-right: 6px;
-        object-fit: contain;
-        
-        &.bi {
-            font-size: 12px;
-            color: #666666;
-        }
-    }
-    
-    .tab-title {
-        flex: 1;
-        font-size: 11px;
-        color: #666666;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    
-    .tab-close {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 14px;
-        height: 14px;
-        margin-left: 4px;
-        border: none;
-        border-radius: 2px;
-        background: transparent;
-        color: #666666;
-        opacity: 0;
-        transition: all 0.2s ease;
-        
-        &:hover {
-            background: rgba(0, 0, 0, 0.1);
-            color: #333333;
-        }
-        
-        i {
-            font-size: 10px;
-        }
-    }
-    
-    &:hover .tab-close {
-        opacity: 1;
-    }
+    display: none;
 }
 
 .window-controls {
     display: flex;
     align-items: center;
-    margin-left: 8px;
+    margin-left: 4px;
     -webkit-app-region: no-drag;
 }
 
@@ -301,8 +265,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 46px;
-    height: 32px;
+    width: 44px;
+    height: 28px;
     border: none;
     background: transparent;
     color: #5f6368;
@@ -310,17 +274,19 @@
     transition: all 0.15s ease;
 
     &:hover {
-        background: rgba(0, 0, 0, 0.05);
+        background: rgba(32, 33, 36, 0.04);
+    }
+
+    &:active {
+        background: rgba(32, 33, 36, 0.08);
     }
 
     i {
-        font-size: 14px;
+        font-size: 12px;
     }
 
-    &.minimize {
-        i {
-            margin-top: -2px;
-        }
+    &.minimize i {
+        margin-top: -2px;
     }
 
     &.close {
