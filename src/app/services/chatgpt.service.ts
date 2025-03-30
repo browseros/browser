@@ -124,7 +124,7 @@ Yêu cầu:
     this.messages.next([]);
   }
 
-  chat(message: string): Observable<any> {
+  chat(systemMessage: string, userMessage: string): Observable<any> {
     if (!this.apiKey) {
       console.error('OpenAI API key is missing');
       return throwError(() => new Error('OpenAI API key is missing'));
@@ -138,11 +138,71 @@ Yêu cầu:
     const body = {
       model: this.model,
       messages: [
-        { role: 'system', content: 'You are a helpful assistant that helps users understand web content.' },
-        { role: 'user', content: message }
+        {
+          role: 'system',
+          content: systemMessage
+        },
+        {
+          role: 'user',
+          content: userMessage
+        }
       ],
       temperature: 0.7,
-      max_tokens: 500
+      max_tokens: 1000
+    };
+
+    return this.http.post(this.apiUrl, body, { headers }).pipe(
+      catchError(error => {
+        console.error('OpenAI API error:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  detectIntent(message: string): Observable<any> {
+    if (!this.apiKey) {
+      console.error('OpenAI API key is missing');
+      return throwError(() => new Error('OpenAI API key is missing'));
+    }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.apiKey}`
+    });
+
+    const body = {
+      model: this.model,
+      messages: [
+        {
+          role: 'system',
+          content: `You are an intent detection system. Analyze the user's message and return an array with two elements:
+1. The intent: one of these values
+- translate: if user wants to translate content
+- summarize: if user wants to summarize content
+- explain_code: if user wants to explain code
+- chat: for general chat or other requests
+
+2. The target language (only for translate intent): 
+- english: if user wants English translation
+- vietnamese: if user wants Vietnamese translation
+
+Return ONLY the array in this format without any explanation:
+["intent", "language"]
+
+For non-translate intents, return "none" as language.
+
+Examples:
+"dịch trang web này sang tiếng anh" -> ["translate", "english"]
+"translate this to english" -> ["translate", "english"]
+"dịch giúp mình trang này" -> ["translate", "vietnamese"]
+"tóm tắt nội dung trang này" -> ["summarize", "none"]
+"giải thích code trong trang" -> ["explain_code", "none"]
+"thời tiết hôm nay thế nào" -> ["chat", "none"]`
+        },
+        { role: 'user', content: message }
+      ],
+      temperature: 0,
+      max_tokens: 10
     };
 
     return this.http.post(this.apiUrl, body, { headers }).pipe(

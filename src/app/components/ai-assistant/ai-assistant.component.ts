@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@ang
 import { Store } from '@ngrx/store';
 import { ChatGPTService, ChatMessage } from '../../services/chatgpt.service';
 import { State } from '../../reducers';
+import { switchMap } from 'rxjs/operators';
 
 interface Action {
   id: string;
@@ -71,8 +72,9 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
       this.messages = messages;
     });
 
-    // Lấy URL từ app state store
+    // Subscribe to URL changes from store
     this.store.select(state => state.app.currentTab?.url).subscribe(url => {
+      console.log('Current URL:', url); // Debug log
       if (url) {
         this.currentUrl = url;
       }
@@ -228,35 +230,31 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
   async handleInputEnter() {
     if (!this.newMessage.trim()) return;
 
-    // Phân tích nội dung tin nhắn để xác định action
-    const message = this.newMessage.toLowerCase().trim();
-    let detectedAction = '';
-
-    if (message.includes('dịch') && (message.includes('trang') || message.includes('trang này'))) {
-      detectedAction = 'translate';
-    } else if (message.includes('tóm tắt') && (message.includes('trang') || message.includes('trang này'))) {
-      detectedAction = 'summarize';
-    } else if ((message.includes('giải thích') || message.includes('phân tích')) && 
-               (message.includes('code') || message.includes('mã')) && 
-               (message.includes('trang') || message.includes('trang này'))) {
-      detectedAction = 'explain';
-    }
-
-    // Nếu phát hiện action liên quan đến trang hiện tại
-    if (detectedAction) {
-      this.currentAction = detectedAction;
-      await this.handleAction(detectedAction);
-      return;
-    }
-
-    // Xử lý tin nhắn thông thường
-    this.addUserMessage(this.newMessage);
+    // Phân tích ý định của người dùng thông qua ChatGPT
     this.isLoading = true;
-
     try {
-      const response = await this.chatGPTService.chat(this.newMessage).toPromise();
-      if (response && response.choices && response.choices[0]) {
-        this.addAssistantMessage(response.choices[0].message.content);
+      const intentResponse = await this.chatGPTService.detectIntent(this.newMessage).toPromise();
+      if (intentResponse && intentResponse.choices && intentResponse.choices[0]) {
+        const intent = intentResponse.choices[0].message.content;
+        
+        // Xử lý dựa trên intent được phát hiện
+        if (intent === 'translate') {
+          this.currentAction = 'translate';
+          await this.handleAction('translate');
+        } else if (intent === 'summarize') {
+          this.currentAction = 'summarize';
+          await this.handleAction('summarize');
+        } else if (intent === 'explain_code') {
+          this.currentAction = 'explain';
+          await this.handleAction('explain');
+        } else {
+          // Xử lý như chat bình thường
+          this.addUserMessage(this.newMessage);
+          const response = await this.chatGPTService.chat('You are a helpful assistant. Please respond in Vietnamese.', this.newMessage).toPromise();
+          if (response && response.choices && response.choices[0]) {
+            this.addAssistantMessage(response.choices[0].message.content);
+          }
+        }
       }
     } catch (error: any) {
       this.handleError(error);
@@ -267,24 +265,80 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
   }
 
   async handleButtonClick() {
-    if (this.currentAction === 'chat') {
-      await this.handleInputEnter();
-    } else if (this.currentAction === 'search' && this.newMessage) {
-      this.addUserMessage(this.newMessage);
-      this.isLoading = true;
+    if (!this.newMessage.trim()) return;
 
-      try {
-        const response = await this.chatGPTService.searchWithAI(this.newMessage).toPromise();
-        if (response && response.choices && response.choices[0]) {
-          this.addAssistantMessage(response.choices[0].message.content);
+    const message = this.newMessage.trim();
+    this.addUserMessage(message);
+    this.newMessage = '';
+    this.isLoading = true;
+
+    console.log('Processing with URL:', this.currentUrl); // Debug log
+
+    // First detect the intent
+    this.chatGPTService.detectIntent(message).pipe(
+      switchMap(response => {
+        console.log('Raw response:', response); // Log entire response
+        console.log('Intent response:', response.choices[0].message.content); // Debug log
+        let intent, targetLang;
+        try {
+          const intentResponse = response.choices[0].message.content.trim();
+          console.log('Intent string:', intentResponse);
+          [intent, targetLang] = JSON.parse(intentResponse);
+        } catch (e) {
+          console.error('Error parsing intent:', e);
+          intent = 'chat';
+          targetLang = 'none';
         }
-      } catch (error: any) {
-        this.handleError(error);
-      } finally {
+        console.log('Parsed intent:', intent, 'targetLang:', targetLang); // Debug log
+        
+        // Prepare system message based on intent
+        let systemMessage = '';
+        switch(intent) {
+          case 'translate':
+            systemMessage = targetLang === 'english' 
+              ? 'You are a translator. Your task is to translate the following content to English. Only return the translated text without any explanations or additional text.'
+              : 'You are a translator. Your task is to translate the following content to Vietnamese. Only return the translated text without any explanations or additional text.';
+            break;
+          case 'summarize':
+            systemMessage = 'You are a summarizer. Provide a concise summary of the following content in Vietnamese:';
+            break;
+          case 'explain_code':
+            systemMessage = 'You are a code explainer. Explain the following code in Vietnamese:';
+            break;
+          default:
+            systemMessage = 'You are a helpful assistant. Please respond in Vietnamese.';
+        }
+
+        console.log('Using system message:', systemMessage); // Debug log
+
+        // Get current page content if needed
+        if (['translate', 'summarize', 'explain_code'].includes(intent)) {
+          if (!this.currentUrl) {
+            throw new Error('Không thể lấy được URL của trang hiện tại');
+          }
+          console.log('Processing URL:', this.currentUrl); // Debug log
+          const pageContent = document.body.innerText;
+          console.log('Page content length:', pageContent.length);
+          return this.chatGPTService.chat(systemMessage, pageContent);
+        }
+
+        // For regular chat, just use the original message
+        console.log('Processing as regular chat'); // Debug log
+        return this.chatGPTService.chat(systemMessage, message);
+      })
+    ).subscribe({
+      next: (response) => {
+        console.log('Final response:', response); // Log the final response
+        const assistantMessage = response.choices[0].message.content;
+        this.addAssistantMessage(assistantMessage);
         this.isLoading = false;
-        this.newMessage = '';
+      },
+      error: (error) => {
+        console.error('Error:', error);
+        this.error = 'Có lỗi xảy ra khi xử lý yêu cầu của bạn';
+        this.isLoading = false;
       }
-    }
+    });
   }
 
   getButtonIcon(): string {
