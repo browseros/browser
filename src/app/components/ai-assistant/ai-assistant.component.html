@@ -65,14 +65,14 @@
 
     <div class="input-container">
       <textarea 
-        [(ngModel)]="newMessage" 
+        [(ngModel)]="newMessage"
         (keyup.enter)="handleInputEnter()"
         [placeholder]="getPlaceholder()"
         [disabled]="isLoading">
       </textarea>
       <button 
         [disabled]="isLoading || !newMessage.trim()" 
-        (click)="handleInputEnter()"
+        (click)="handleButtonClick()"
         [class.loading]="isLoading">
         <i [class]="getButtonIcon()"></i>
       </button>

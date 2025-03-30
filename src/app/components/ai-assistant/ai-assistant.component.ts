@@ -228,9 +228,21 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
   }
 
   async handleInputEnter() {
+    console.log('handleInputEnter called');
+    await this.processUserInput();
+  }
+
+  async handleButtonClick() {
+    console.log('handleButtonClick called');
+    await this.processUserInput();
+  }
+
+  private async processUserInput() {
+    console.log('processUserInput called');
     if (!this.newMessage.trim()) return;
 
     const message = this.newMessage.trim();
+    console.log('Processing message:', message);
     this.addUserMessage(message);
     this.newMessage = '';
     this.isLoading = true;
@@ -256,11 +268,14 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
         
         // Get current page content if needed
         if (['translate', 'summarize', 'explain_code'].includes(intent)) {
+          console.log('Processing URL:', this.currentUrl);
+          console.log('intent:', intent); // Debug log
           if (!this.currentUrl) {
             throw new Error('Không thể lấy được URL của trang hiện tại');
           }
           console.log('Processing URL:', this.currentUrl); // Debug log
-          
+          alert(intent);
+          alert(this.currentUrl);
           switch(intent) {
             case 'translate':
               return this.chatGPTService.translateWithAI(this.currentUrl, targetLang);

@@ -77,15 +77,11 @@ Tóm tắt nên bao gồm:
     return this.sendMessage(prompt);
   }
 
-  translateWithAI(content: string, targetLang: string = 'Vietnamese'): Observable<any> {
-    const prompt = `Hãy dịch nội dung sau sang ${targetLang} một cách tự nhiên và chính xác:
-
-${content}
-
-Yêu cầu:
-1. Giữ nguyên ý nghĩa gốc
-2. Sử dụng ngôn ngữ tự nhiên
-3. Giải thích các thuật ngữ khó (nếu có)`;
+  translateWithAI(url: string, targetLang: string = 'vietnamese'): Observable<any> {
+    const prompt = `Translate the following content to ${targetLang}: 
+    
+    ${url}
+    `;
     return this.sendMessage(prompt);
   }
 
@@ -185,6 +181,7 @@ Yêu cầu:
 2. The target language (only for translate intent): 
 - english: if user wants English translation
 - vietnamese: if user wants Vietnamese translation
+- japanese: if user wants Japanese translation
 
 Return ONLY the array in this format without any explanation:
 ["intent", "language"]
@@ -194,6 +191,8 @@ For non-translate intents, return "none" as language.
 Examples:
 "dịch trang web này sang tiếng anh" -> ["translate", "english"]
 "translate this to english" -> ["translate", "english"]
+"dịch sang tiếng Nhật" -> ["translate", "japanese"]
+"translate to japanese" -> ["translate", "japanese"]
 "dịch giúp mình trang này" -> ["translate", "vietnamese"]
 "tóm tắt nội dung trang này" -> ["summarize", "none"]
 "giải thích code trong trang" -> ["explain_code", "none"]
