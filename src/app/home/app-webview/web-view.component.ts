@@ -303,4 +303,20 @@ export class WebviewComponent implements AfterViewInit, OnDestroy {
         webviewElm.reload();
         this.store.dispatch({ type: '[App] Do Reload Complete' });
     }
+
+    public async captureScreenshot(): Promise<string> {
+        const webviewElm = this.webview.nativeElement;
+        try {
+            const webContentsId = webviewElm.getWebContentsId();
+            const wc = webContents.fromId(webContentsId);
+            if (wc) {
+                const image = await wc.capturePage();
+                return image.toDataURL();
+            }
+            throw new Error('Could not get webContents');
+        } catch (error) {
+            console.error('[WebView] Error capturing screenshot:', error);
+            throw error;
+        }
+    }
 }

@@ -14,6 +14,7 @@ import { AppSearchComponent } from './app-search/app-search.component';
 import { StateHelper } from '../utils/state.helper';
 import { Menu, MenuItem, BrowserWindow, app, dialog } from '@electron/remote';
 import { clipboard } from 'electron';
+import { webContents } from '@electron/remote';
 
 interface DownloadResult {
     success: boolean;
@@ -230,6 +231,32 @@ export class HomeComponent implements OnInit, OnDestroy {
   onContextMenu(params: any) {
     console.log('[Home] Context menu:', params);
     const menu = new Menu();
+
+    // Add screenshot option
+    menu.append(new MenuItem({
+      label: 'Chụp ảnh màn hình',
+      click: async () => {
+        try {
+          const webview = document.querySelector('webview') as Electron.WebviewTag;
+          if (webview) {
+            const webContentsId = webview.getWebContentsId();
+            const wc = webContents.fromId(webContentsId);
+            if (wc) {
+              const image = await wc.capturePage();
+              const dataUrl = image.toDataURL();
+              
+              // Create a temporary link to download the image
+              const link = document.createElement('a');
+              link.download = `screenshot-${new Date().toISOString()}.png`;
+              link.href = dataUrl;
+              link.click();
+            }
+          }
+        } catch (error) {
+          console.error('[Home] Error capturing screenshot:', error);
+        }
+      }
+    }));
 
     // Handle link context menu
     if (params.linkURL) {

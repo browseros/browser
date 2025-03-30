@@ -11,6 +11,13 @@ import { ipcRenderer } from 'electron';
 import * as appActions from '../../actions/app.actions';
 import { map } from 'rxjs/operators';
 
+interface IContextMenuItem {
+    id: string;
+    label: string;
+    visible: boolean;
+    role?: string;
+}
+
 @Component({
     selector: 'app-webview',
     templateUrl: './app-webview.component.html',
@@ -191,10 +198,63 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
                             wc.removeAllListeners('context-menu');
                             wc.on('context-menu', (e: any, params: any) => {
                                 console.log(`[AppWebview] Context menu params for tab ${tabId}:`, params);
+                                
+                                // Create menu items array with default items and screenshot option
+                                const menuItems: IContextMenuItem[] = [
+                                    {
+                                        id: 'screenshot',
+                                        label: 'Chụp ảnh màn hình',
+                                        visible: true
+                                    }
+                                ];
+
+                                // Add standard context menu items if text is selected
+                                if (params.selectionText) {
+                                    menuItems.unshift(
+                                        {
+                                            id: 'copy',
+                                            label: 'Copy',
+                                            role: 'copy',
+                                            visible: true
+                                        }
+                                    );
+                                }
+
+                                // Add link-related items if there's a link
+                                if (params.linkURL) {
+                                    menuItems.unshift(
+                                        {
+                                            id: 'openLink',
+                                            label: 'Open link in new tab',
+                                            visible: true
+                                        },
+                                        {
+                                            id: 'copyLink',
+                                            label: 'Copy link address',
+                                            visible: true
+                                        }
+                                    );
+                                }
+
                                 this.onContextMenu.emit({
                                     ...params,
+                                    menuItems,
                                     x: e.x,
-                                    y: e.y
+                                    y: e.y,
+                                    screenshot: async () => {
+                                        try {
+                                            const image = await wc.capturePage();
+                                            const dataUrl = image.toDataURL();
+                                            
+                                            // Create a temporary link to download the image
+                                            const link = document.createElement('a');
+                                            link.download = `screenshot-${new Date().toISOString()}.png`;
+                                            link.href = dataUrl;
+                                            link.click();
+                                        } catch (error) {
+                                            console.error('[AppWebview] Error capturing screenshot:', error);
+                                        }
+                                    }
                                 });
                             });
                         }
@@ -275,9 +335,66 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
             const webContentsId = webviewElm.getWebContentsId();
             const wc = webContents.fromId(webContentsId);
             if (wc) {
-                wc.on('context-menu', (e: any, params: any) => {
+                wc.on('context-menu', async (e: any, params: any) => {
                     console.log('[AppWebview] Context menu params:', params);
-                    this.onContextMenu.emit(params);
+                    
+                    // Create menu items array with default items and screenshot option
+                    const menuItems: IContextMenuItem[] = [
+                        {
+                            id: 'screenshot',
+                            label: 'Chụp ảnh màn hình',
+                            visible: true
+                        }
+                    ];
+
+                    // Add standard context menu items if text is selected
+                    if (params.selectionText) {
+                        menuItems.unshift(
+                            {
+                                id: 'copy',
+                                label: 'Copy',
+                                role: 'copy',
+                                visible: true
+                            }
+                        );
+                    }
+
+                    // Add link-related items if there's a link
+                    if (params.linkURL) {
+                        menuItems.unshift(
+                            {
+                                id: 'openLink',
+                                label: 'Open link in new tab',
+                                visible: true
+                            },
+                            {
+                                id: 'copyLink',
+                                label: 'Copy link address',
+                                visible: true
+                            }
+                        );
+                    }
+
+                    // Emit the menu items
+                    this.onContextMenu.emit({
+                        x: e.x,
+                        y: e.y,
+                        menuItems: menuItems,
+                        screenshot: async () => {
+                            try {
+                                const image = await wc.capturePage();
+                                const dataUrl = image.toDataURL();
+                                
+                                // Create a temporary link to download the image
+                                const link = document.createElement('a');
+                                link.download = `screenshot-${new Date().toISOString()}.png`;
+                                link.href = dataUrl;
+                                link.click();
+                            } catch (error) {
+                                console.error('[AppWebview] Error capturing screenshot:', error);
+                            }
+                        }
+                    });
                 });
             }
         }
@@ -302,6 +419,26 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
         const webviewElm = this.webviews.find(w => w.nativeElement.id === `webview-${this.currentTab?.id}`)?.nativeElement;
         if (webviewElm) {
             webviewElm.reload();
+        }
+    }
+
+    public async captureCurrentTabScreenshot(): Promise<string> {
+        const webviewElm = this.webviews.find(w => w.nativeElement.id === `webview-${this.currentTab?.id}`)?.nativeElement;
+        if (!webviewElm) {
+            throw new Error('No active webview found');
+        }
+
+        try {
+            const webContentsId = webviewElm.getWebContentsId();
+            const wc = webContents.fromId(webContentsId);
+            if (wc) {
+                const image = await wc.capturePage();
+                return image.toDataURL();
+            }
+            throw new Error('Could not get webContents');
+        } catch (error) {
+            console.error('[AppWebview] Error capturing screenshot:', error);
+            throw error;
         }
     }
 
