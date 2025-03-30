@@ -12,7 +12,7 @@ export class GoogleAIService {
   constructor() {
     // Initialize the Google AI client with API key from environment
     this.genAI = new GoogleGenerativeAI(environment.geminiApiKey);
-    this.model = this.genAI.getGenerativeModel({ model: 'gemini-pro-vision' });
+    this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-pro-exp-03-25' });
   }
 
   async extractTextFromImage(base64Image: string): Promise<string> {
@@ -20,13 +20,10 @@ export class GoogleAIService {
       // Remove the data URL prefix if present
       const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, '');
       
-      // Convert base64 to Uint8Array
-      const imageData = this.base64ToUint8Array(base64Data);
-
       // Create the prompt
-      const prompt = "Please extract all text from this image. Return only the extracted text without any additional explanation or formatting.";
+      const prompt = `Please extract all text from this image, get only the main content, ignore ads, banners, and other non-content elements. Return only the extracted text without any additional formatting or explanation.`;
 
-      // Generate content
+      // Generate content with proper error handling
       const result = await this.model.generateContent([
         prompt,
         {
@@ -37,11 +34,24 @@ export class GoogleAIService {
         }
       ]);
 
+      if (!result || !result.response) {
+        throw new Error('No response from Gemini API');
+      }
+
       const response = await result.response;
-      return response.text();
-    } catch (error) {
+      const text = response.text();
+      
+      if (!text) {
+        throw new Error('No text extracted from image');
+      }
+
+      return text;
+    } catch (error: any) {
       console.error('Error extracting text from image:', error);
-      throw error;
+      if (error.message?.includes('404')) {
+        throw new Error('API endpoint not found. Please check your API key and endpoint configuration.');
+      }
+      throw new Error(`Failed to extract text: ${error.message || 'Unknown error'}`);
     }
   }
 

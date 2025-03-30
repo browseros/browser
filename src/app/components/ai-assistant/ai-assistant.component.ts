@@ -298,7 +298,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
         const extractedText = await this.googleAIService.extractTextFromImage(base64Image);
 
         // Then, translate the extracted text
-        const translateResponse = await this.chatGPTService.translateText(extractedText, targetLang || 'vi').toPromise();
+        const translateResponse = await this.chatGPTService.translateText(extractedText, targetLang || 'english').toPromise();
         const translatedText = translateResponse.choices[0].message.content;
 
         // Add the translation result
