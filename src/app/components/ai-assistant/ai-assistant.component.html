@@ -5,29 +5,30 @@
 
   <div class="chat-container" *ngIf="isOpen">
     <div class="chat-header">
-      <h3>AI Assistant</h3>
-      <div class="actions">
-        <button *ngFor="let action of actions"
-                class="action-button"
-                [class.active]="currentAction === action.id"
-                (click)="handleAction(action.id)"
-                [title]="action.description">
-          <i class="bi" [class]="action.icon"></i>
-          <span class="action-label">{{ action.label }}</span>
+      <div class="dropdown">
+        <button class="dropdown-toggle" (click)="toggleDropdown()">
+          <i class="bi" [ngClass]="getCurrentActionIcon()"></i>
+          <span>{{ getCurrentActionLabel() }}</span>
+          <i class="bi bi-chevron-down"></i>
         </button>
+        <div class="dropdown-menu" [class.show]="isDropdownOpen">
+          <button *ngFor="let action of actions" 
+                  class="dropdown-item"
+                  [class.active]="currentAction === action.id"
+                  (click)="handleAction(action.id)">
+            <i class="bi" [ngClass]="action.icon"></i>
+            <div class="action-info">
+              <span class="action-label">{{ action.label }}</span>
+              <span class="action-description">{{ action.description }}</span>
+            </div>
+          </button>
+        </div>
       </div>
-      <button class="clear-button" (click)="clearChat()" title="Xóa lịch sử chat">
-        <i class="bi bi-trash"></i>
-      </button>
-    </div>
-
-    <div class="current-action">
-      <span class="action-title">{{ getCurrentActionLabel() }}</span>
-      <span class="action-description">{{ getCurrentActionDescription() }}</span>
     </div>
 
     <div class="messages" #messageContainer>
       <div *ngIf="error" class="error-message">
+        <i class="bi bi-exclamation-circle"></i>
         {{ error }}
       </div>
 
@@ -45,8 +46,11 @@
 
       <div *ngIf="isLoading" class="message assistant-message">
         <div class="message-content loading">
-          <i class="bi bi-three-dots"></i>
-          <span>AI đang xử lý...</span>
+          <div class="typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </div>
       </div>
     </div>

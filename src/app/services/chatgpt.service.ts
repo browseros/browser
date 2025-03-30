@@ -15,8 +15,9 @@ export interface ChatMessage {
 })
 export class ChatGPTService {
   private apiKey = environment.openaiApiKey;
-  private apiUrl = 'https://api.openai.com/v1/chat/completions';
+  private apiUrl = environment.apiUrl;
   private messages = new BehaviorSubject<ChatMessage[]>([]);
+  private model = 'gpt-3.5-turbo';
 
   constructor(private http: HttpClient) {
     console.log('ChatGPT Service initialized with API key:', this.apiKey ? 'Present' : 'Missing');
@@ -121,5 +122,34 @@ Yêu cầu:
 
   clearMessages() {
     this.messages.next([]);
+  }
+
+  chat(message: string): Observable<any> {
+    if (!this.apiKey) {
+      console.error('OpenAI API key is missing');
+      return throwError(() => new Error('OpenAI API key is missing'));
+    }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.apiKey}`
+    });
+
+    const body = {
+      model: this.model,
+      messages: [
+        { role: 'system', content: 'You are a helpful assistant that helps users understand web content.' },
+        { role: 'user', content: message }
+      ],
+      temperature: 0.7,
+      max_tokens: 500
+    };
+
+    return this.http.post(this.apiUrl, body, { headers }).pipe(
+      catchError(error => {
+        console.error('OpenAI API error:', error);
+        return throwError(() => error);
+      })
+    );
   }
 } 

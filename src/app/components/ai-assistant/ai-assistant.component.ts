@@ -23,6 +23,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
   newMessage: string = '';
   isLoading: boolean = false;
   isOpen: boolean = false;
+  isDropdownOpen: boolean = false;
   error: string | null = null;
   currentUrl: string = '';
   currentAction: string = 'chat';
@@ -87,10 +88,13 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
     this.error = null;
   }
 
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
   async handleAction(actionId: string) {
-    console.log('Current action:', actionId);
-    
     this.currentAction = actionId;
+    this.isDropdownOpen = false; // Close dropdown after selection
     this.error = null;
 
     if (['summarize', 'translate', 'explain'].includes(actionId)) {
@@ -177,13 +181,22 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  private addAssistantMessage(content: string) {
-    const message: ChatMessage = {
+  addAssistantMessage(content: string) {
+    this.messages.push({
       role: 'assistant',
-      content: content,
+      content,
       timestamp: new Date()
-    };
-    this.chatGPTService.addMessage(message);
+    });
+    this.scrollToBottom();
+  }
+
+  addUserMessage(content: string) {
+    this.messages.push({
+      role: 'user',
+      content,
+      timestamp: new Date()
+    });
+    this.scrollToBottom();
   }
 
   private handleError(error: any) {
@@ -212,19 +225,65 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
     return this.currentAction === 'search' ? 'Nhập từ khóa tìm kiếm...' : 'Nhập tin nhắn...';
   }
 
-  handleInputEnter(): void {
-    if (this.currentAction === 'chat') {
-      this.sendMessage();
-    } else {
-      this.handleAction(this.currentAction);
+  async handleInputEnter() {
+    if (!this.newMessage.trim()) return;
+
+    // Phân tích nội dung tin nhắn để xác định action
+    const message = this.newMessage.toLowerCase().trim();
+    let detectedAction = '';
+
+    if (message.includes('dịch') && (message.includes('trang') || message.includes('trang này'))) {
+      detectedAction = 'translate';
+    } else if (message.includes('tóm tắt') && (message.includes('trang') || message.includes('trang này'))) {
+      detectedAction = 'summarize';
+    } else if ((message.includes('giải thích') || message.includes('phân tích')) && 
+               (message.includes('code') || message.includes('mã')) && 
+               (message.includes('trang') || message.includes('trang này'))) {
+      detectedAction = 'explain';
+    }
+
+    // Nếu phát hiện action liên quan đến trang hiện tại
+    if (detectedAction) {
+      this.currentAction = detectedAction;
+      await this.handleAction(detectedAction);
+      return;
+    }
+
+    // Xử lý tin nhắn thông thường
+    this.addUserMessage(this.newMessage);
+    this.isLoading = true;
+
+    try {
+      const response = await this.chatGPTService.chat(this.newMessage).toPromise();
+      if (response && response.choices && response.choices[0]) {
+        this.addAssistantMessage(response.choices[0].message.content);
+      }
+    } catch (error: any) {
+      this.handleError(error);
+    } finally {
+      this.isLoading = false;
+      this.newMessage = '';
     }
   }
 
-  handleButtonClick(): void {
+  async handleButtonClick() {
     if (this.currentAction === 'chat') {
-      this.sendMessage();
-    } else {
-      this.handleAction(this.currentAction);
+      await this.handleInputEnter();
+    } else if (this.currentAction === 'search' && this.newMessage) {
+      this.addUserMessage(this.newMessage);
+      this.isLoading = true;
+
+      try {
+        const response = await this.chatGPTService.searchWithAI(this.newMessage).toPromise();
+        if (response && response.choices && response.choices[0]) {
+          this.addAssistantMessage(response.choices[0].message.content);
+        }
+      } catch (error: any) {
+        this.handleError(error);
+      } finally {
+        this.isLoading = false;
+        this.newMessage = '';
+      }
     }
   }
 
@@ -240,5 +299,10 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
   getCurrentActionDescription(): string {
     const action = this.actions.find(a => a.id === this.currentAction);
     return action ? action.description : '';
+  }
+
+  getCurrentActionIcon(): string {
+    const action = this.actions.find(a => a.id === this.currentAction);
+    return action ? action.icon : 'bi-chat';
   }
 } 
