@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import { initialize, enable } from '@electron/remote/main';
+import { setupDownloadHandler } from './download-handler';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -227,6 +228,9 @@ async function createWindow() {
 app.on('ready', () => {
   log('App is ready');
   log('Command line args:', process.argv);
+  createWindow().then(() => {
+    setupDownloadHandler();
+  });
 });
 
 app.on('window-all-closed', () => {

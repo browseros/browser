@@ -15,6 +15,12 @@ import { StateHelper } from '../utils/state.helper';
 import { Menu, MenuItem, BrowserWindow, app, dialog } from '@electron/remote';
 import { clipboard } from 'electron';
 
+interface DownloadResult {
+    success: boolean;
+    path?: string;
+    error?: string;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -86,6 +92,18 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       })
     );
+
+    // Listen for download complete events
+    const { ipcRenderer } = require('electron');
+    ipcRenderer.on('download-complete', (_event: Electron.IpcRendererEvent, result: DownloadResult) => {
+      if (result.success) {
+        console.log('[HomeComponent] Download completed:', result.path);
+        // You can add a notification or toast message here
+      } else {
+        console.error('[HomeComponent] Download failed:', result.error);
+        // You can show an error message to the user here
+      }
+    });
   }
 
   ngOnInit() {
@@ -251,28 +269,43 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (params.mediaType === 'image' && params.srcURL) {
       menu.append(new MenuItem({
         label: 'Download image to "Downloads"',
-        click: () => {
+        click: async () => {
           const downloadsFolder = app.getPath('downloads');
           if (!downloadsFolder) return;
-          this.saveUrlToFolder(params.srcURL, downloadsFolder);
+          
+          // Extract filename from URL or generate one
+          const urlObj = new URL(params.srcURL);
+          const filename = urlObj.pathname.split('/').pop() || 'image.png';
+          const targetPath = require('path').join(downloadsFolder, filename);
+          
+          this.saveUrlToFolder(params.srcURL, targetPath);
         }
       }));
 
       menu.append(new MenuItem({
         label: 'Save image to...',
-        click: () => {
+        click: async () => {
           const win = BrowserWindow.getFocusedWindow();
           if (!win) return;
 
-          const options = {
-            properties: ['openDirectory' as const]
-          };
-
-          dialog.showOpenDialog(win, options).then(result => {
-            if (!result.canceled && result.filePaths.length > 0) {
-              this.saveUrlToFolder(params.srcURL, result.filePaths[0]);
-            }
+          const { canceled, filePath } = await dialog.showSaveDialog(win, {
+            defaultPath: require('path').join(app.getPath('downloads'), 'image.png'),
+            filters: [
+              { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'webp'] },
+              { name: 'All Files', extensions: ['*'] }
+            ]
           });
+
+          if (!canceled && filePath) {
+            this.saveUrlToFolder(params.srcURL, filePath);
+          }
+        }
+      }));
+
+      menu.append(new MenuItem({
+        label: 'Copy image',
+        click: () => {
+          clipboard.writeImage(params.srcURL);
         }
       }));
     }
@@ -281,28 +314,36 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (params.mediaType === 'video' && params.srcURL) {
       menu.append(new MenuItem({
         label: 'Download video to "Downloads"',
-        click: () => {
+        click: async () => {
           const downloadsFolder = app.getPath('downloads');
           if (!downloadsFolder) return;
-          this.saveUrlToFolder(params.srcURL, downloadsFolder);
+          
+          // Extract filename from URL or generate one
+          const urlObj = new URL(params.srcURL);
+          const filename = urlObj.pathname.split('/').pop() || 'video.mp4';
+          const targetPath = require('path').join(downloadsFolder, filename);
+          
+          this.saveUrlToFolder(params.srcURL, targetPath);
         }
       }));
 
       menu.append(new MenuItem({
         label: 'Save video to...',
-        click: () => {
+        click: async () => {
           const win = BrowserWindow.getFocusedWindow();
           if (!win) return;
 
-          const options = {
-            properties: ['openDirectory' as const]
-          };
-
-          dialog.showOpenDialog(win, options).then(result => {
-            if (!result.canceled && result.filePaths.length > 0) {
-              this.saveUrlToFolder(params.srcURL, result.filePaths[0]);
-            }
+          const { canceled, filePath } = await dialog.showSaveDialog(win, {
+            defaultPath: require('path').join(app.getPath('downloads'), 'video.mp4'),
+            filters: [
+              { name: 'Videos', extensions: ['mp4', 'webm', 'ogg'] },
+              { name: 'All Files', extensions: ['*'] }
+            ]
           });
+
+          if (!canceled && filePath) {
+            this.saveUrlToFolder(params.srcURL, filePath);
+          }
         }
       }));
     }
@@ -325,8 +366,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private saveUrlToFolder(url: string, folderPath: string): void {
-    // TODO: Implement file download functionality
-    console.log('[Home] Saving URL to folder:', { url, folderPath });
+    const { ipcRenderer } = require('electron');
+    ipcRenderer.send('download-file', {
+      url: url,
+      targetPath: folderPath
+    });
   }
 
   doSearch(event: { url: string }) {
