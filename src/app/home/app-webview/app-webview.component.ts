@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, AfterViewInit, ViewChildren, QueryList, ElementRef, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, Input, AfterViewInit, ViewChildren, QueryList, ElementRef, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import type { ITab } from '../../models/tab.model';
@@ -39,8 +39,13 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
     private backSub: Subscription;
     private nextSub: Subscription;
     private reloadSub: Subscription;
+    public tabIdsInternal: number[] = [];
+    private tabIdsSub: Subscription;
 
-    constructor(public store: Store<fromRoot.State>) {
+    constructor(
+        public store: Store<fromRoot.State>,
+        private cdr: ChangeDetectorRef
+    ) {
         console.log('[AppWebview] Constructor called');
         this.tabsSub = new Subscription();
         this.currentTabSub = new Subscription();
@@ -49,6 +54,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
         this.backSub = new Subscription();
         this.nextSub = new Subscription();
         this.reloadSub = new Subscription();
+        this.tabIdsSub = new Subscription();
 
         // Subscribe to tabs
         this.tabsSub = this.store.select(fromRoot.getEventTabs).pipe(
@@ -58,6 +64,9 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
             // Only update if tabs array actually changed
             if (JSON.stringify(this.tabs) !== JSON.stringify(tabs)) {
                 this.tabs = tabs;
+                // Update tabIdsInternal when tabs change
+                this.updateTabIdsInternal();
+                // this.cdr.detectChanges();
             }
         });
 
@@ -69,6 +78,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
             // Only update if tab actually changed
             if (JSON.stringify(this.currentTab) !== JSON.stringify(tab)) {
                 this.currentTab = tab;
+                //this.cdr.detectChanges();
             }
         });
 
@@ -79,8 +89,42 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
             // Only update if app actually changed
             if (JSON.stringify(this.currentApp) !== JSON.stringify(app)) {
                 this.currentApp = app;
+                //this.cdr.detectChanges();
             }
         });
+    }
+
+    private updateTabIdsInternal() {
+        // Get current tab IDs from tabs array
+        const currentTabIds = this.tabs.map(tab => tab.id);
+        
+        // Find tabs to add (in currentTabIds but not in tabIdsInternal)
+        const tabsToAdd = currentTabIds.filter(id => !this.tabIdsInternal.includes(id));
+        
+        // Find tabs to remove (in tabIdsInternal but not in currentTabIds)
+        const tabsToRemove = this.tabIdsInternal.filter(id => !currentTabIds.includes(id));
+        
+        const tabIdsInternal = [...this.tabIdsInternal];
+        // Add new tabs
+        tabsToAdd.forEach(id => {
+            console.log('[AppWebview] Adding tab:', id);
+            //this.tabIdsInternal.push(id);
+            tabIdsInternal.push(id);
+        });
+        
+        // Remove old tabs
+        tabsToRemove.forEach(id => {
+            console.log('[AppWebview] Removing tab:', id);
+            const index = this.tabIdsInternal.indexOf(id);
+            if (index > -1) {
+                //this.tabIdsInternal.splice(index, 1);
+                tabIdsInternal.splice(index, 1);
+            }
+        });
+
+        this.tabIdsInternal = tabIdsInternal;
+        // Force change detection
+        this.cdr.detectChanges();
     }
 
     public ngOnDestroy() {
@@ -90,11 +134,20 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
         if (this.backSub) this.backSub.unsubscribe();
         if (this.nextSub) this.nextSub.unsubscribe();
         if (this.reloadSub) this.reloadSub.unsubscribe();
+        if (this.tabIdsSub) this.tabIdsSub.unsubscribe();
     }
 
     public ngAfterViewInit() {
         console.log('[AppWebview] Setting up webview events');
         
+        // Subscribe to tabIds changes
+        this.tabIdsSub = this.store.select(fromRoot.getTabIds).pipe(
+            map(ids => ids || [])
+        ).subscribe(ids => {
+            console.log('[AppWebview] TabIds updated:', ids);
+            this.updateTabIdsInternal();
+        });
+
         // Subscribe to navigation actions
         this.backSub = this.store.select(fromRoot.getIsNavigatingBack).subscribe((action: any) => {
             if (action?.isCalling && this.currentTab?.id && action.tab.id === this.currentTab.id) {

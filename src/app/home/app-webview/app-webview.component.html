@@ -1,5 +1,5 @@
 <div class="webview-container">
-  <div *ngFor="let tabId of tabIds" [style.width.px]="screenWidth">
+  <div *ngFor="let tabId of tabIdsInternal" [style.width.px]="screenWidth">
     <div [hidden]="!currentTab || tabId !== currentTab.id" [style.width.px]="screenWidth">
       <webview
         #webview
