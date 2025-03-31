@@ -89,7 +89,7 @@ export class AppSearchComponent {
         this.onInput({ target: this.searchInput.nativeElement } as unknown as Event);
     }
 
-    onKeyDown(event: KeyboardEvent) {
+    onKeyDown(event: any) {
         if (event.key === 'Enter') {
             event.preventDefault();
             if (this.gotResult) {
@@ -132,6 +132,29 @@ export class AppSearchComponent {
                 this.selectedIndex--;
             }
         }
+    }
+
+    handleCopy(event: any) {
+        event.preventDefault();
+        const input = event.target as HTMLInputElement;
+        const selectedText = input.value.substring(input.selectionStart, input.selectionEnd);
+        if (selectedText) {
+            navigator.clipboard.writeText(selectedText);
+        }
+    }
+
+    handlePaste(event: any) {
+        event.preventDefault();
+        navigator.clipboard.readText().then(text => {
+            const input = event.target as HTMLInputElement;
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            this.searchText = this.searchText.substring(0, start) + text + this.searchText.substring(end);
+            // Set cursor position after pasted text
+            setTimeout(() => {
+                input.selectionStart = input.selectionEnd = start + text.length;
+            });
+        });
     }
 
     onInput(event: Event) {

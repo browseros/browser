@@ -11,6 +11,9 @@
             id="openaiApiKey"
             formControlName="openaiApiKey"
             class="form-control"
+            (copy)="handleCopy($event)"
+            (paste)="handlePaste($event)"
+            (contextmenu)="$event.preventDefault()"
             placeholder="Enter your OpenAI API key"
           >
           <button type="button" class="toggle-visibility" (click)="toggleKeyVisibility('openaiApiKey')">
@@ -29,6 +32,9 @@
             id="geminiApiKey"
             formControlName="geminiApiKey"
             class="form-control"
+            (copy)="handleCopy($event)"
+            (paste)="handlePaste($event)"
+            (contextmenu)="$event.preventDefault()"
             placeholder="Enter your Gemini API key"
           >
           <button type="button" class="toggle-visibility" (click)="toggleKeyVisibility('geminiApiKey')">

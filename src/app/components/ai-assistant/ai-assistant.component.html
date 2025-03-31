@@ -63,6 +63,9 @@
       <textarea 
         [(ngModel)]="newMessage"
         (keyup.enter)="handleInputEnter()"
+        (keydown.control.c)="handleCopy($event)"
+        (keydown.control.v)="handlePaste($event)"
+        (paste)="handlePaste($event)"
         [placeholder]="getPlaceholder()"
         [disabled]="isLoading">
       </textarea>

@@ -16,6 +16,18 @@ import { environment } from './environments/environment';
  */
 export function main(): Promise<any> {
   console.log('[Angular Bootstrap] Starting bootstrap process');
+  
+  // Add clipboard permissions for browser environment
+  if (navigator.permissions && navigator.permissions.query) {
+    navigator.permissions.query({ name: 'clipboard-read' as PermissionName })
+      .then(result => {
+        console.log('[Angular Bootstrap] Clipboard permissions:', result.state);
+      })
+      .catch(err => {
+        console.warn('[Angular Bootstrap] Clipboard permissions check failed:', err);
+      });
+  }
+
   return platformBrowserDynamic()
     .bootstrapModule(AppModule)
     .then((moduleRef) => {

@@ -10,6 +10,8 @@
                        class="search-input"
                        [(ngModel)]="searchText"
                        (keyup)="keyUp($event)"
+                       (keydown.control.c)="handleCopy($event)"
+                       (keydown.control.v)="handlePaste($event)"
                        (input)="onSearchChanged()"
                        placeholder="Type to search...">
                 <i class="bi bi-search"></i>

@@ -4,10 +4,11 @@ import { ChatGPTService, ChatMessage } from '../../services/chatgpt.service';
 import { AIAssistantService } from '../../services/ai-assistant.service';
 import { State } from '../../reducers';
 import { switchMap } from 'rxjs/operators';
-import { webContents } from '@electron/remote';
+import { webContents, Menu, MenuItem } from '@electron/remote';
 import { ScreenshotService } from '../../services/screenshot.service';
 import { GoogleAIService } from '../../services/google-ai.service';
 import { Subscription } from 'rxjs';
+import { ClipboardService } from '../../services/clipboard.service';
 
 interface Action {
   id: string;
@@ -74,7 +75,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     private store: Store<State>,
     private screenshotService: ScreenshotService,
     private googleAIService: GoogleAIService,
-    private aiAssistantService: AIAssistantService
+    private aiAssistantService: AIAssistantService,
+    private clipboardService: ClipboardService
   ) {
     // Listen for storage changes to update API keys
     window.addEventListener('storage', (e) => {
@@ -114,6 +116,44 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     this.store.select(state => state.app.currentTab).subscribe(tab => {
       if (tab) {
         this.currentTab = tab;
+      }
+    });
+
+    // Add context menu event listener
+    setTimeout(() => {
+      const textarea = document.querySelector('.input-container textarea');
+      if (textarea) {
+        textarea.addEventListener('contextmenu', (e: any) => {
+          e.preventDefault();
+          const menu = new Menu();
+          menu.append(new MenuItem({
+            label: 'Copy',
+            click: () => {
+              const selectedText = (textarea as HTMLTextAreaElement).value.substring(
+                (textarea as HTMLTextAreaElement).selectionStart,
+                (textarea as HTMLTextAreaElement).selectionEnd
+              );
+              if (selectedText) {
+                navigator.clipboard.writeText(selectedText);
+              }
+            }
+          }));
+          menu.append(new MenuItem({
+            label: 'Paste',
+            click: () => {
+              navigator.clipboard.readText().then(text => {
+                const textareaEl = textarea as HTMLTextAreaElement;
+                const start = textareaEl.selectionStart;
+                const end = textareaEl.selectionEnd;
+                this.newMessage = this.newMessage.substring(0, start) + text + this.newMessage.substring(end);
+                setTimeout(() => {
+                  textareaEl.selectionStart = textareaEl.selectionEnd = start + text.length;
+                });
+              });
+            }
+          }));
+          menu.popup({ x: e.clientX, y: e.clientY });
+        });
       }
     });
   }
@@ -262,6 +302,28 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   async handleInputEnter() {
     console.log('handleInputEnter called');
     await this.processUserInput();
+  }
+
+  async handleCopy(event: any) {
+    event.preventDefault();
+    const textarea = event.target as HTMLTextAreaElement;
+    const selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
+    if (selectedText) {
+      await this.clipboardService.copy(selectedText);
+    }
+  }
+
+  async handlePaste(event: any) {
+    event.preventDefault();
+    const textarea = event.target as HTMLTextAreaElement;
+    const text = await this.clipboardService.paste();
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    textarea.value = textarea.value.substring(0, start) + text + textarea.value.substring(end);
+    // Set cursor position after pasted text
+    setTimeout(() => {
+      textarea.selectionStart = textarea.selectionEnd = start + text.length;
+    });
   }
 
   async handleButtonClick() {
