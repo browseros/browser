@@ -60,15 +60,19 @@
     </div>
 
     <div class="input-container">
-      <textarea 
+      <textarea
+        #messageInput
         [(ngModel)]="newMessage"
         (keyup.enter)="handleInputEnter()"
-        (keydown.control.c)="handleCopy($event)"
         (keydown.control.v)="handlePaste($event)"
+        (keydown.meta.v)="handlePaste($event)"
+        (keydown.control.c)="handleCopy($event)"
+        (keydown.meta.c)="handleCopy($event)"
         (paste)="handlePaste($event)"
+        (contextmenu)="handleContextMenu($event)"
         [placeholder]="getPlaceholder()"
-        [disabled]="isLoading">
-      </textarea>
+        class="form-control"
+      ></textarea>
       <button 
         [disabled]="isLoading || !newMessage.trim()" 
         (click)="handleButtonClick()"

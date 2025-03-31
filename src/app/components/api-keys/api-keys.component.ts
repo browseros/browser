@@ -40,6 +40,7 @@ export class ApiKeysComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       const inputs = document.querySelectorAll('.form-control');
       inputs.forEach(input => {
+        // Context menu
         input.addEventListener('contextmenu', (e: any) => {
           e.preventDefault();
           const menu = new Menu();
@@ -73,6 +74,39 @@ export class ApiKeysComponent implements OnInit, AfterViewInit {
             }
           }));
           menu.popup({ x: e.clientX, y: e.clientY });
+        });
+
+        // Keyboard shortcuts
+        input.addEventListener('keydown', (e: Event) => {
+          const keyboardEvent = e as KeyboardEvent;
+          // Check for Command+V (Mac) or Ctrl+V (Windows/Linux)
+          if ((keyboardEvent.metaKey || keyboardEvent.ctrlKey) && keyboardEvent.key === 'v') {
+            e.preventDefault();
+            const inputEl = input as HTMLInputElement;
+            const formControl = this.apiKeysForm.get(inputEl.id);
+            if (formControl) {
+              this.clipboardService.paste().then(text => {
+                const start = inputEl.selectionStart;
+                const end = inputEl.selectionEnd;
+                const currentValue = formControl.value || '';
+                formControl.setValue(currentValue.substring(0, start) + text + currentValue.substring(end));
+                setTimeout(() => {
+                  inputEl.selectionStart = inputEl.selectionEnd = start + text.length;
+                });
+              });
+            }
+          }
+          // Check for Command+C (Mac) or Ctrl+C (Windows/Linux)
+          if ((keyboardEvent.metaKey || keyboardEvent.ctrlKey) && keyboardEvent.key === 'c') {
+            e.preventDefault();
+            const selectedText = (input as HTMLInputElement).value.substring(
+              (input as HTMLInputElement).selectionStart,
+              (input as HTMLInputElement).selectionEnd
+            );
+            if (selectedText) {
+              this.clipboardService.copy(selectedText);
+            }
+          }
         });
       });
     });

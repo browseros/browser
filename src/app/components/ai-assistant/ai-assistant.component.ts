@@ -1,14 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked, OnDestroy, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ChatGPTService, ChatMessage } from '../../services/chatgpt.service';
-import { AIAssistantService } from '../../services/ai-assistant.service';
-import { State } from '../../reducers';
-import { switchMap } from 'rxjs/operators';
-import { webContents, Menu, MenuItem } from '@electron/remote';
 import { ScreenshotService } from '../../services/screenshot.service';
 import { GoogleAIService } from '../../services/google-ai.service';
 import { Subscription } from 'rxjs';
 import { ClipboardService } from '../../services/clipboard.service';
+import { Menu, MenuItem } from '@electron/remote';
 
 interface Action {
   id: string;
@@ -17,25 +14,36 @@ interface Action {
   description: string;
 }
 
+interface AppState {
+  app: {
+    currentTab?: {
+      url?: string;
+      id?: string;
+    };
+  };
+}
+
 @Component({
   selector: 'app-ai-assistant',
   templateUrl: './ai-assistant.component.html',
   styleUrls: ['./ai-assistant.component.scss']
 })
-export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy, AfterViewInit {
   @ViewChild('messageContainer') private messageContainer!: ElementRef;
   @ViewChild('webview') private webview!: ElementRef;
+  @ViewChild('messageInput') private messageInput!: ElementRef;
   
-  private subscription: Subscription = new Subscription();
+  private subscription: Subscription | null = null;
   messages: ChatMessage[] = [];
-  newMessage: string = '';
-  isLoading: boolean = false;
-  isOpen: boolean = false;
-  isDropdownOpen: boolean = false;
+  newMessage = '';
+  isLoading = false;
+  isOpen = false;
+  isDropdownOpen = false;
   error: string | null = null;
-  currentUrl: string = '';
-  currentAction: string = 'chat';
+  currentUrl = '';
+  currentAction = 'chat';
   currentTab: any = null;
+  selectedModel = 'gpt-4';
 
   actions: Action[] = [
     { 
@@ -72,38 +80,21 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
 
   constructor(
     private chatGPTService: ChatGPTService,
-    private store: Store<State>,
+    private store: Store<AppState>,
     private screenshotService: ScreenshotService,
     private googleAIService: GoogleAIService,
-    private aiAssistantService: AIAssistantService,
     private clipboardService: ClipboardService
   ) {
     // Listen for storage changes to update API keys
     window.addEventListener('storage', (e) => {
       if (e.key === 'apiKeys') {
-        this.updateApiKeys();
+        this.chatGPTService.updateApiKey();
+        this.googleAIService.updateApiKey();
       }
     });
   }
 
-  private updateApiKeys() {
-    // Update both services with new API keys
-    this.chatGPTService.updateApiKey();
-    this.googleAIService.updateApiKey();
-  }
-
   ngOnInit() {
-    // Subscribe to AI Assistant state
-    this.subscription.add(
-      this.aiAssistantService.isOpen$.subscribe(
-        isOpen => this.isOpen = isOpen
-      )
-    );
-
-    this.chatGPTService.getMessages().subscribe(messages => {
-      this.messages = messages;
-    });
-
     // Subscribe to URL changes from store
     this.store.select(state => state.app.currentTab?.url).subscribe(url => {
       console.log('Current URL:', url);
@@ -160,6 +151,38 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
 
   ngAfterViewChecked() {
     this.scrollToBottom();
+  }
+
+  ngAfterViewInit() {
+    // Add keyboard shortcut handling for the chat input
+    setTimeout(() => {
+      const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
+      if (textarea) {
+        textarea.addEventListener('keydown', (e: Event) => {
+          const keyboardEvent = e as KeyboardEvent;
+          // Check for Command+V (Mac) or Ctrl+V (Windows/Linux)
+          if ((keyboardEvent.metaKey || keyboardEvent.ctrlKey) && keyboardEvent.key === 'v') {
+            e.preventDefault();
+            this.clipboardService.paste().then(text => {
+              const start = textarea.selectionStart;
+              const end = textarea.selectionEnd;
+              this.newMessage = this.newMessage.substring(0, start) + text + this.newMessage.substring(end);
+              setTimeout(() => {
+                textarea.selectionStart = textarea.selectionEnd = start + text.length;
+              });
+            });
+          }
+          // Check for Command+C (Mac) or Ctrl+C (Windows/Linux)
+          if ((keyboardEvent.metaKey || keyboardEvent.ctrlKey) && keyboardEvent.key === 'c') {
+            e.preventDefault();
+            const selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
+            if (selectedText) {
+              this.clipboardService.copy(selectedText);
+            }
+          }
+        });
+      }
+    });
   }
 
   toggleDropdown() {
@@ -459,6 +482,40 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
+  }
+
+  handleContextMenu(event: MouseEvent) {
+    event.preventDefault();
+    const textarea = event.target as HTMLTextAreaElement;
+    const menu = new Menu();
+    
+    menu.append(new MenuItem({
+      label: 'Copy',
+      click: () => {
+        const selectedText = textarea.value.substring(
+          textarea.selectionStart,
+          textarea.selectionEnd
+        );
+        if (selectedText) {
+          this.clipboardService.copy(selectedText);
+        }
+      }
+    }));
+
+    menu.append(new MenuItem({
+      label: 'Paste',
+      click: async () => {
+        const text = await this.clipboardService.paste();
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        this.newMessage = this.newMessage.substring(0, start) + text + this.newMessage.substring(end);
+        setTimeout(() => {
+          textarea.selectionStart = textarea.selectionEnd = start + text.length;
+        });
+      }
+    }));
+
+    menu.popup({ x: event.clientX, y: event.clientY });
   }
 } 
