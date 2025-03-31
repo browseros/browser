@@ -313,12 +313,11 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         // Capture the page using the screenshot service
         const base64Image = await this.screenshotService.captureFullPage(webview);
 
-        // Extract text using Google AI instead of ChatGPT
+        // Extract text using Google AI
         const extractedText = await this.googleAIService.extractTextFromImage(base64Image);
 
-        // Then, translate the extracted text
-        const translateResponse = await this.chatGPTService.translateText(extractedText, targetLang || 'english').toPromise();
-        const translatedText = translateResponse.choices[0].message.content;
+        // Then, translate the extracted text using Google AI
+        const translatedText = await this.googleAIService.translateText(extractedText, targetLang || 'vietnamese');
 
         // Add the translation result
         this.addAssistantMessage(translatedText);
@@ -343,9 +342,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         // Extract text using Google AI
         const extractedText = await this.googleAIService.extractTextFromImage(base64Image);
 
-        // Then, summarize the extracted text in the target language
-        const summarizeResponse = await this.chatGPTService.summarizeWithAI(extractedText, targetLang || 'vietnamese').toPromise();
-        const summarizedText = summarizeResponse.choices[0].message.content;
+        // Then, summarize the extracted text using Google AI
+        const summarizedText = await this.googleAIService.summarizeText(extractedText, targetLang || 'vietnamese');
 
         // Add the summary result
         this.addAssistantMessage(summarizedText);
@@ -365,7 +363,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         return;
       }
 
-      // For regular chat, just use the original message
+      // For regular chat, just use the original message with ChatGPT
       console.log('Processing as regular chat');
       const response = await this.chatGPTService.chat('You are a helpful assistant. Please respond in Vietnamese.', message).toPromise();
       if (response && response.choices && response.choices[0]) {
