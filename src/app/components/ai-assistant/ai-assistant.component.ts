@@ -154,32 +154,18 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   }
 
   ngAfterViewInit() {
-    // Add keyboard shortcut handling for the chat input
+    // Set up clipboard functionality for the textarea
     setTimeout(() => {
       const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
       if (textarea) {
-        textarea.addEventListener('keydown', (e: Event) => {
-          const keyboardEvent = e as KeyboardEvent;
-          // Check for Command+V (Mac) or Ctrl+V (Windows/Linux)
-          if ((keyboardEvent.metaKey || keyboardEvent.ctrlKey) && keyboardEvent.key === 'v') {
-            e.preventDefault();
-            this.clipboardService.paste().then(text => {
-              const start = textarea.selectionStart;
-              const end = textarea.selectionEnd;
-              this.newMessage = this.newMessage.substring(0, start) + text + this.newMessage.substring(end);
-              setTimeout(() => {
-                textarea.selectionStart = textarea.selectionEnd = start + text.length;
-              });
-            });
-          }
-          // Check for Command+C (Mac) or Ctrl+C (Windows/Linux)
-          if ((keyboardEvent.metaKey || keyboardEvent.ctrlKey) && keyboardEvent.key === 'c') {
-            e.preventDefault();
-            const selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
-            if (selectedText) {
-              this.clipboardService.copy(selectedText);
-            }
-          }
+        // Set up keyboard shortcuts
+        this.clipboardService.setupKeyboardShortcuts(textarea, (newValue: string) => {
+          this.newMessage = newValue;
+        });
+
+        // Set up context menu
+        this.clipboardService.setupContextMenu(textarea, (newValue: string) => {
+          this.newMessage = newValue;
         });
       }
     });
@@ -490,6 +476,13 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     const textarea = event.target as HTMLTextAreaElement;
     const menu = new Menu();
     
+    menu.append(new MenuItem({
+      label: 'Select All',
+      click: () => {
+        textarea.select();
+      }
+    }));
+
     menu.append(new MenuItem({
       label: 'Copy',
       click: () => {

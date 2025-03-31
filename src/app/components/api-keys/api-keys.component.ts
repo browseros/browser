@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { ClipboardService } from '../../services/clipboard.service';
-import { Menu, MenuItem } from '@electron/remote';
 
 @Component({
   selector: 'app-api-keys',
@@ -36,76 +35,23 @@ export class ApiKeysComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Add context menu event listeners for API key inputs
+    // Set up clipboard functionality for all input fields
     setTimeout(() => {
-      const inputs = document.querySelectorAll('.form-control');
+      const inputs = document.querySelectorAll('.form-control') as NodeListOf<HTMLInputElement>;
       inputs.forEach(input => {
-        // Context menu
-        input.addEventListener('contextmenu', (e: any) => {
-          e.preventDefault();
-          const menu = new Menu();
-          menu.append(new MenuItem({
-            label: 'Copy',
-            click: () => {
-              const selectedText = (input as HTMLInputElement).value.substring(
-                (input as HTMLInputElement).selectionStart,
-                (input as HTMLInputElement).selectionEnd
-              );
-              if (selectedText) {
-                this.clipboardService.copy(selectedText);
-              }
-            }
-          }));
-          menu.append(new MenuItem({
-            label: 'Paste',
-            click: async () => {
-              const text = await this.clipboardService.paste();
-              const inputEl = input as HTMLInputElement;
-              const start = inputEl.selectionStart;
-              const end = inputEl.selectionEnd;
-              const formControl = this.apiKeysForm.get(inputEl.id);
-              if (formControl) {
-                const currentValue = formControl.value || '';
-                formControl.setValue(currentValue.substring(0, start) + text + currentValue.substring(end));
-                setTimeout(() => {
-                  inputEl.selectionStart = inputEl.selectionEnd = start + text.length;
-                });
-              }
-            }
-          }));
-          menu.popup({ x: e.clientX, y: e.clientY });
+        // Set up keyboard shortcuts
+        this.clipboardService.setupKeyboardShortcuts(input, (newValue: string) => {
+          const control = this.apiKeysForm.get(input.id);
+          if (control) {
+            control.setValue(newValue);
+          }
         });
 
-        // Keyboard shortcuts
-        input.addEventListener('keydown', (e: Event) => {
-          const keyboardEvent = e as KeyboardEvent;
-          // Check for Command+V (Mac) or Ctrl+V (Windows/Linux)
-          if ((keyboardEvent.metaKey || keyboardEvent.ctrlKey) && keyboardEvent.key === 'v') {
-            e.preventDefault();
-            const inputEl = input as HTMLInputElement;
-            const formControl = this.apiKeysForm.get(inputEl.id);
-            if (formControl) {
-              this.clipboardService.paste().then(text => {
-                const start = inputEl.selectionStart;
-                const end = inputEl.selectionEnd;
-                const currentValue = formControl.value || '';
-                formControl.setValue(currentValue.substring(0, start) + text + currentValue.substring(end));
-                setTimeout(() => {
-                  inputEl.selectionStart = inputEl.selectionEnd = start + text.length;
-                });
-              });
-            }
-          }
-          // Check for Command+C (Mac) or Ctrl+C (Windows/Linux)
-          if ((keyboardEvent.metaKey || keyboardEvent.ctrlKey) && keyboardEvent.key === 'c') {
-            e.preventDefault();
-            const selectedText = (input as HTMLInputElement).value.substring(
-              (input as HTMLInputElement).selectionStart,
-              (input as HTMLInputElement).selectionEnd
-            );
-            if (selectedText) {
-              this.clipboardService.copy(selectedText);
-            }
+        // Set up context menu
+        this.clipboardService.setupContextMenu(input, (newValue: string) => {
+          const control = this.apiKeysForm.get(input.id);
+          if (control) {
+            control.setValue(newValue);
           }
         });
       });
@@ -143,32 +89,5 @@ export class ApiKeysComponent implements OnInit, AfterViewInit {
     this.apiKeysForm.reset();
     environment.openaiApiKey = '';
     environment.geminiApiKey = '';
-  }
-
-  async handleCopy(event: any) {
-    event.preventDefault();
-    const input = event.target as HTMLInputElement;
-    const selectedText = input.value.substring(input.selectionStart, input.selectionEnd);
-    if (selectedText) {
-      await this.clipboardService.copy(selectedText);
-    }
-  }
-
-  async handlePaste(event: any) {
-    event.preventDefault();
-    const input = event.target as HTMLInputElement;
-    const formControl = this.apiKeysForm.get(input.id);
-    
-    if (formControl) {
-      const text = await this.clipboardService.paste();
-      const start = input.selectionStart;
-      const end = input.selectionEnd;
-      const currentValue = formControl.value || '';
-      formControl.setValue(currentValue.substring(0, start) + text + currentValue.substring(end));
-      // Set cursor position after pasted text
-      setTimeout(() => {
-        input.selectionStart = input.selectionEnd = start + text.length;
-      });
-    }
   }
 } 
