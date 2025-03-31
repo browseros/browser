@@ -1,0 +1,56 @@
+<div class="api-keys-container">
+  <div class="card">
+    <h2>API Keys Management</h2>
+    
+    <form [formGroup]="apiKeysForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="openaiApiKey">OpenAI API Key</label>
+        <div class="input-group">
+          <input
+            [type]="showOpenAIKey ? 'text' : 'password'"
+            id="openaiApiKey"
+            formControlName="openaiApiKey"
+            class="form-control"
+            placeholder="Enter your OpenAI API key"
+          >
+          <button type="button" class="toggle-visibility" (click)="toggleKeyVisibility('openaiApiKey')">
+            <span class="material-icons">
+              {{showOpenAIKey ? 'visibility_off' : 'visibility'}}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="geminiApiKey">Gemini API Key</label>
+        <div class="input-group">
+          <input
+            [type]="showGeminiKey ? 'text' : 'password'"
+            id="geminiApiKey"
+            formControlName="geminiApiKey"
+            class="form-control"
+            placeholder="Enter your Gemini API key"
+          >
+          <button type="button" class="toggle-visibility" (click)="toggleKeyVisibility('geminiApiKey')">
+            <span class="material-icons">
+              {{showGeminiKey ? 'visibility_off' : 'visibility'}}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" [disabled]="!apiKeysForm.valid" class="btn btn-primary">
+          Save API Keys
+        </button>
+        <button type="button" (click)="clearKeys()" class="btn btn-danger">
+          Clear Keys
+        </button>
+      </div>
+    </form>
+
+    <div *ngIf="showSuccessMessage" class="alert alert-success">
+      API keys saved successfully!
+    </div>
+  </div>
+</div> 

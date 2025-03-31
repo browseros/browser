@@ -1,6 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home.component';
 import { AppBarComponent } from './app-bar/app-bar.component';
 import { AppNavComponent } from './app-nav/app-nav.component';
@@ -8,6 +8,7 @@ import { AppWebviewComponent } from './app-webview/app-webview.component';
 import { WebviewComponent } from './app-webview/web-view.component';
 import { AppSearchComponent } from './app-search/app-search.component';
 import { AIAssistantComponent } from '../components/ai-assistant/ai-assistant.component';
+import { ApiKeysComponent } from '../components/api-keys/api-keys.component';
 
 @NgModule({
   declarations: [
@@ -17,11 +18,13 @@ import { AIAssistantComponent } from '../components/ai-assistant/ai-assistant.co
     AppWebviewComponent,
     WebviewComponent,
     AppSearchComponent,
-    AIAssistantComponent
+    AIAssistantComponent,
+    ApiKeysComponent
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     HomeComponent

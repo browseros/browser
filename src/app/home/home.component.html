@@ -6,8 +6,20 @@
   (onBtnAppAction)='onBtnAppAction($event)'
   (onAppBarDoubleClick)='onAppBarDoubleClick($event)'
   (onBtnAddApp)='appSearch.show()'
-  (onBtnAIAssistant)='onBtnAIAssistant()'>
+  (onBtnAIAssistant)='onBtnAIAssistant()'
+  (onBtnSettings)='toggleSettings()'>
 </app-bar>
+
+<div class="settings-overlay" *ngIf="showSettings">
+  <div class="settings-container">
+    <div class="settings-header">
+      <h2>Settings</h2>
+      <button class="close-btn" (click)="toggleSettings()">×</button>
+    </div>
+    <app-api-keys></app-api-keys>
+  </div>
+</div>
+
 <app-nav [currentApp]='(currentApp$ | async) ?? { id: 0, title: "", url: "", icon: "" }' [tabs]='(tabs$ | async) ?? []' [currentTab]='(currentTab$ | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }' (onNextClick)='onNextClick($event)' (onBackClick)='onBackClick($event)' (onGotoTab)='onGotoTab($event)'
   [histories]='historiesArray'
   [screenWidth]='screenWidth'

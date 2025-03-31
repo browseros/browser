@@ -44,6 +44,7 @@
     "bootstrap-icons": "^1.11.3",
     "dotenv": "^16.4.7",
     "electron-is-dev": "^2.0.0",
+    "electron-store": "^10.0.1",
     "html2canvas": "^1.4.1",
     "ngrx-store-freeze": "^0.2.4",
     "reselect": "^5.1.1",

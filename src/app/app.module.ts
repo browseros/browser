@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ApplicationRef, NgModuleRef } from '@angular/core';
 import { createNewHosts } from '@angularclass/hmr';
+import { firstValueFrom } from 'rxjs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +30,7 @@ import { GoogleSuggestionService } from './services/google-suggestion.service';
     BrowserModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
     AppRoutingModule,
@@ -50,22 +52,39 @@ import { GoogleSuggestionService } from './services/google-suggestion.service';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef) {
-    console.log('[AppModule] Initialized');
-  }
+  constructor(
+    public appRef: ApplicationRef,
+    private appState: Store<any>,
+    private store: Store<any>
+  ) {}
 
   hmrOnInit(store: any) {
-    console.log('[HMR] OnInit');
+    if (!store || !store.state) return;
+    console.log('HMR Store', store);
+    this.appRef.tick();
+    delete store.state;
   }
 
   hmrOnDestroy(store: any) {
     const cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
+    this.store = store;
+    firstValueFrom(this.appState).then((state: any) => {
+      store.state = state;
+    });
     store.disposeOldHosts = createNewHosts(cmpLocation);
-    console.log('[HMR] OnDestroy');
+    store.restoreInputValues = () => {
+      for (const prop in store.oldInputValues) {
+        const hostCmp = this.appRef.components.find(cmp => cmp.location.nativeElement === store.disposeOldHosts[prop]);
+        if (hostCmp) {
+          hostCmp.instance[prop] = store.oldInputValues[prop];
+        }
+      }
+    };
+    setTimeout(store.disposeOldHosts);
   }
 
   hmrAfterDestroy(store: any) {
     store.disposeOldHosts();
-    console.log('[HMR] AfterDestroy');
+    delete store.disposeOldHosts;
   }
 }

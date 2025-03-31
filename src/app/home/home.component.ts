@@ -31,6 +31,8 @@ interface DownloadResult {
 export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('appSearch') appSearch!: AppSearchComponent;
 
+  showSettings = false;
+
   histories$: Observable<IHistoryItem[]> = this.store.select(fromRoot.getHistories).pipe(
     map(histories => histories || [])
   );
@@ -567,5 +569,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (aiAssistant) {
       aiAssistant.toggleAssistant();
     }
+  }
+
+  toggleSettings() {
+    this.showSettings = !this.showSettings;
   }
 }

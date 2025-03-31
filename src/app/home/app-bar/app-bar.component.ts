@@ -35,6 +35,7 @@ export class AppBarComponent {
     @Output() public onAppContextMenu = new EventEmitter<any>();
     @Output() public closeApp = new EventEmitter<any>();
     @Output() public onBtnAIAssistant = new EventEmitter<void>();
+    @Output() public onBtnSettings = new EventEmitter<void>();
 
     constructor(private store: Store) {}
 

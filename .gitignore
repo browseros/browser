@@ -4,6 +4,11 @@
 logs
 *.log
 
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
 # Runtime data
 pids
 *.pid
@@ -77,8 +82,3 @@ packages/
 .angular
 release/
 yarn.lock
-
-# Environment Variables
-.env
-.env.local
-.env.*.local
