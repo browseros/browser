@@ -71,7 +71,20 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
     private store: Store<State>,
     private screenshotService: ScreenshotService,
     private googleAIService: GoogleAIService
-  ) {}
+  ) {
+    // Listen for storage changes to update API keys
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'apiKeys') {
+        this.updateApiKeys();
+      }
+    });
+  }
+
+  private updateApiKeys() {
+    // Update both services with new API keys
+    this.chatGPTService.updateApiKey();
+    this.googleAIService.updateApiKey();
+  }
 
   ngOnInit() {
     this.chatGPTService.getMessages().subscribe(messages => {

@@ -10,9 +10,27 @@ export class GoogleAIService {
   private model: any;
 
   constructor() {
-    // Initialize the Google AI client with API key from environment
-    this.genAI = new GoogleGenerativeAI(environment.geminiApiKey);
+    this.initializeAI();
+  }
+
+  private getApiKey(): string {
+    const keys = localStorage.getItem('apiKeys');
+    if (keys) {
+      const parsedKeys = JSON.parse(keys);
+      return parsedKeys.geminiApiKey || '';
+    }
+    return '';
+  }
+
+  private initializeAI() {
+    const apiKey = this.getApiKey();
+    this.genAI = new GoogleGenerativeAI(apiKey);
     this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-pro-exp-03-25' });
+  }
+
+  // Method to reinitialize the AI with new API key
+  updateApiKey() {
+    this.initializeAI();
   }
 
   async extractTextFromImage(base64Image: string): Promise<string> {

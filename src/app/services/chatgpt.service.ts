@@ -14,13 +14,26 @@ export interface ChatMessage {
   providedIn: 'root'
 })
 export class ChatGPTService {
-  private apiKey = environment.openaiApiKey;
   private apiUrl = environment.apiUrl;
   private messages = new BehaviorSubject<ChatMessage[]>([]);
   private model = 'gpt-3.5-turbo';
 
   constructor(private http: HttpClient) {
-    console.log('ChatGPT Service initialized with API key:', this.apiKey ? 'Present' : 'Missing');
+    console.log('ChatGPT Service initialized with API key:', this.getApiKey() ? 'Present' : 'Missing');
+  }
+
+  private getApiKey(): string {
+    const keys = localStorage.getItem('apiKeys');
+    if (keys) {
+      const parsedKeys = JSON.parse(keys);
+      return parsedKeys.openaiApiKey || '';
+    }
+    return '';
+  }
+
+  updateApiKey(): void {
+    // This method exists to trigger a refresh of the API key
+    console.log('ChatGPT Service API key updated');
   }
 
   getMessages(): Observable<ChatMessage[]> {
@@ -28,14 +41,15 @@ export class ChatGPTService {
   }
 
   sendMessage(content: string, context?: string): Observable<any> {
-    if (!this.apiKey) {
+    const apiKey = this.getApiKey();
+    if (!apiKey) {
       console.error('OpenAI API key is missing');
       return throwError(() => new Error('OpenAI API key is missing'));
     }
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.apiKey}`
+      'Authorization': `Bearer ${apiKey}`
     });
 
     const messages = [
@@ -141,14 +155,15 @@ Yêu cầu:
   }
 
   chat(systemMessage: string, userMessage: string): Observable<any> {
-    if (!this.apiKey) {
+    const apiKey = this.getApiKey();
+    if (!apiKey) {
       console.error('OpenAI API key is missing');
       return throwError(() => new Error('OpenAI API key is missing'));
     }
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.apiKey}`
+      'Authorization': `Bearer ${apiKey}`
     });
 
     const body = {
@@ -176,14 +191,15 @@ Yêu cầu:
   }
 
   detectIntent(message: string): Observable<any> {
-    if (!this.apiKey) {
+    const apiKey = this.getApiKey();
+    if (!apiKey) {
       console.error('OpenAI API key is missing');
       return throwError(() => new Error('OpenAI API key is missing'));
     }
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.apiKey}`
+      'Authorization': `Bearer ${apiKey}`
     });
 
     const body = {
@@ -256,6 +272,12 @@ Examples:
   }
 
   private sendMessageWithImage(prompt: string, base64Image: string): Observable<any> {
+    const apiKey = this.getApiKey();
+    if (!apiKey) {
+      console.error('OpenAI API key is missing');
+      return throwError(() => new Error('OpenAI API key is missing'));
+    }
+
     const messages = [
       {
         role: 'user',
@@ -281,7 +303,7 @@ Examples:
     }, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.apiKey}`
+        'Authorization': `Bearer ${apiKey}`
       }
     });
   }
