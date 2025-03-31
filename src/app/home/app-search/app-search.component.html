@@ -5,15 +5,15 @@
                 <span aria-hidden="true">&times;</span>
             </button>
             <div class="search-input-wrapper">
-                <input #searchInput
-                       type="text"
-                       class="search-input"
-                       [(ngModel)]="searchText"
-                       (keyup)="keyUp($event)"
-                       (keydown.control.c)="handleCopy($event)"
-                       (keydown.control.v)="handlePaste($event)"
-                       (input)="onSearchChanged()"
-                       placeholder="Type to search...">
+                <input 
+                    #searchInput
+                    type="text"
+                    class="search-input"
+                    [(ngModel)]="searchText"
+                    (input)="onInput($event)"
+                    (keyup)="keyUp($event)"
+                    placeholder="Type to search..."
+                >
                 <i class="bi bi-search"></i>
             </div>
         </div>

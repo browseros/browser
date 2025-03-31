@@ -313,28 +313,6 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     await this.processUserInput();
   }
 
-  async handleCopy(event: any) {
-    event.preventDefault();
-    const textarea = event.target as HTMLTextAreaElement;
-    const selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
-    if (selectedText) {
-      await this.clipboardService.copy(selectedText);
-    }
-  }
-
-  async handlePaste(event: any) {
-    event.preventDefault();
-    const textarea = event.target as HTMLTextAreaElement;
-    const text = await this.clipboardService.paste();
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    textarea.value = textarea.value.substring(0, start) + text + textarea.value.substring(end);
-    // Set cursor position after pasted text
-    setTimeout(() => {
-      textarea.selectionStart = textarea.selectionEnd = start + text.length;
-    });
-  }
-
   async handleButtonClick() {
     console.log('handleButtonClick called');
     await this.processUserInput();
@@ -469,46 +447,5 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
-  }
-
-  handleContextMenu(event: MouseEvent) {
-    event.preventDefault();
-    const textarea = event.target as HTMLTextAreaElement;
-    const menu = new Menu();
-    
-    menu.append(new MenuItem({
-      label: 'Select All',
-      click: () => {
-        textarea.select();
-      }
-    }));
-
-    menu.append(new MenuItem({
-      label: 'Copy',
-      click: () => {
-        const selectedText = textarea.value.substring(
-          textarea.selectionStart,
-          textarea.selectionEnd
-        );
-        if (selectedText) {
-          this.clipboardService.copy(selectedText);
-        }
-      }
-    }));
-
-    menu.append(new MenuItem({
-      label: 'Paste',
-      click: async () => {
-        const text = await this.clipboardService.paste();
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
-        this.newMessage = this.newMessage.substring(0, start) + text + this.newMessage.substring(end);
-        setTimeout(() => {
-          textarea.selectionStart = textarea.selectionEnd = start + text.length;
-        });
-      }
-    }));
-
-    menu.popup({ x: event.clientX, y: event.clientY });
   }
 } 

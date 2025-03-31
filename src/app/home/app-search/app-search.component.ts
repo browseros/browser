@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import type { IApp } from '../../models/app.model';
@@ -6,13 +6,14 @@ import type { ITab } from '../../models/tab.model';
 import type { IHistoryItem } from '../../models/history-item.model';
 import type { IWebEvent } from '../../models/web-event.model';
 import { GoogleSuggestionService } from '../../services/google-suggestion.service';
+import { ClipboardService } from '../../services/clipboard.service';
 
 @Component({
     selector: 'app-search',
     templateUrl: './app-search.component.html',
     styleUrls: ['./app-search.component.scss']
 })
-export class AppSearchComponent {
+export class AppSearchComponent implements AfterViewInit {
     @ViewChild('searchInput') searchInput!: ElementRef;
     @ViewChild('searchBox') searchBox!: ElementRef;
 
@@ -33,7 +34,10 @@ export class AppSearchComponent {
     private searchSubject = new Subject<any>();
     private newSearch = true;
 
-    constructor(private googleSuggestionService: GoogleSuggestionService) {
+    constructor(
+        private googleSuggestionService: GoogleSuggestionService,
+        private clipboardService: ClipboardService
+    ) {
         // Set up search debounce
         this.searchSubject.pipe(
             filter((text: any) => text.length > 0),
@@ -54,6 +58,26 @@ export class AppSearchComponent {
                     weight: 0
                 };
             });
+        });
+    }
+
+    ngAfterViewInit() {
+        // Set up clipboard functionality for the search input
+        setTimeout(() => {
+            const input = this.searchInput.nativeElement as HTMLInputElement;
+            if (input) {
+                // Set up keyboard shortcuts
+                this.clipboardService.setupKeyboardShortcuts(input, (newValue: string) => {
+                    this.searchText = newValue;
+                    this.onSearchChanged();
+                });
+
+                // Set up context menu
+                this.clipboardService.setupContextMenu(input, (newValue: string) => {
+                    this.searchText = newValue;
+                    this.onSearchChanged();
+                });
+            }
         });
     }
 
@@ -132,29 +156,6 @@ export class AppSearchComponent {
                 this.selectedIndex--;
             }
         }
-    }
-
-    handleCopy(event: any) {
-        event.preventDefault();
-        const input = event.target as HTMLInputElement;
-        const selectedText = input.value.substring(input.selectionStart, input.selectionEnd);
-        if (selectedText) {
-            navigator.clipboard.writeText(selectedText);
-        }
-    }
-
-    handlePaste(event: any) {
-        event.preventDefault();
-        navigator.clipboard.readText().then(text => {
-            const input = event.target as HTMLInputElement;
-            const start = input.selectionStart;
-            const end = input.selectionEnd;
-            this.searchText = this.searchText.substring(0, start) + text + this.searchText.substring(end);
-            // Set cursor position after pasted text
-            setTimeout(() => {
-                input.selectionStart = input.selectionEnd = start + text.length;
-            });
-        });
     }
 
     onInput(event: Event) {
