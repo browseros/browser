@@ -1,9 +1,5 @@
 <div class="ai-assistant" [class.open]="isOpen">
-  <button class="toggle-button" (click)="toggleAssistant()">
-    <i class="bi" [class.bi-robot]="!isOpen" [class.bi-x-lg]="isOpen"></i>
-  </button>
-
-  <div class="chat-container" *ngIf="isOpen">
+  <div class="chat-container">
     <div class="chat-header">
       <div class="dropdown">
         <button class="dropdown-toggle" (click)="toggleDropdown()">

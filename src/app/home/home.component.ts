@@ -16,6 +16,7 @@ import { Menu, MenuItem, BrowserWindow, app, dialog } from '@electron/remote';
 import { clipboard } from 'electron';
 import { webContents } from '@electron/remote';
 import { ScreenshotService } from '../services/screenshot.service';
+import { AIAssistantService } from '../services/ai-assistant.service';
 
 interface DownloadResult {
     success: boolean;
@@ -70,7 +71,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private store: Store<fromRoot.State>,
-    private screenshotService: ScreenshotService
+    private screenshotService: ScreenshotService,
+    private aiAssistantService: AIAssistantService
   ) {
     console.log('[HomeComponent] Constructor called');
     this.subscriptions.push(
@@ -565,10 +567,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onBtnAIAssistant() {
-    const aiAssistant = document.querySelector('app-ai-assistant') as any;
-    if (aiAssistant) {
-      aiAssistant.toggleAssistant();
-    }
+    this.aiAssistantService.toggleAssistant();
   }
 
   toggleSettings() {

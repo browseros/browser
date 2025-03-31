@@ -1,11 +1,13 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ChatGPTService, ChatMessage } from '../../services/chatgpt.service';
+import { AIAssistantService } from '../../services/ai-assistant.service';
 import { State } from '../../reducers';
 import { switchMap } from 'rxjs/operators';
 import { webContents } from '@electron/remote';
 import { ScreenshotService } from '../../services/screenshot.service';
 import { GoogleAIService } from '../../services/google-ai.service';
+import { Subscription } from 'rxjs';
 
 interface Action {
   id: string;
@@ -19,10 +21,11 @@ interface Action {
   templateUrl: './ai-assistant.component.html',
   styleUrls: ['./ai-assistant.component.scss']
 })
-export class AIAssistantComponent implements OnInit, AfterViewChecked {
+export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('messageContainer') private messageContainer!: ElementRef;
   @ViewChild('webview') private webview!: ElementRef;
   
+  private subscription: Subscription = new Subscription();
   messages: ChatMessage[] = [];
   newMessage: string = '';
   isLoading: boolean = false;
@@ -70,7 +73,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
     private chatGPTService: ChatGPTService,
     private store: Store<State>,
     private screenshotService: ScreenshotService,
-    private googleAIService: GoogleAIService
+    private googleAIService: GoogleAIService,
+    private aiAssistantService: AIAssistantService
   ) {
     // Listen for storage changes to update API keys
     window.addEventListener('storage', (e) => {
@@ -87,6 +91,13 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    // Subscribe to AI Assistant state
+    this.subscription.add(
+      this.aiAssistantService.isOpen$.subscribe(
+        isOpen => this.isOpen = isOpen
+      )
+    );
+
     this.chatGPTService.getMessages().subscribe(messages => {
       this.messages = messages;
     });
@@ -109,11 +120,6 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked() {
     this.scrollToBottom();
-  }
-
-  toggleAssistant() {
-    this.isOpen = !this.isOpen;
-    this.error = null;
   }
 
   toggleDropdown() {
@@ -390,5 +396,9 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked {
   getCurrentActionIcon(): string {
     const action = this.actions.find(a => a.id === this.currentAction);
     return action ? action.icon : 'bi-chat';
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 } 
