@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<fromRoot.State>,
     private screenshotService: ScreenshotService,
-    private aiAssistantService: AIAssistantService
+    public aiAssistantService: AIAssistantService
   ) {
     console.log('[HomeComponent] Constructor called');
     this.subscriptions.push(

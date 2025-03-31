@@ -1,4 +1,4 @@
-<div class="webview-container">
+<div class="webview-container" [class.ai-assistant-open]="isAIAssistantOpen">
   <div *ngFor="let tabId of tabIdsInternal" [style.width.px]="screenWidth">
     <div [hidden]="!currentTabInternal || tabId !== currentTabInternal.id" [style.width.px]="screenWidth">
       <webview

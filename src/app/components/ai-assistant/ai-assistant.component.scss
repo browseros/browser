@@ -1,11 +1,8 @@
 .ai-assistant {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 33.33%; // Takes up 1/3 of the screen width
-  z-index: 900; // Below the app bar
-  background: white;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #fff;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
   transform: translateX(100%);
   transition: transform 0.3s ease;
@@ -17,50 +14,48 @@
   }
 
   .chat-container {
-    position: relative;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    background: #fff;
 
     .chat-header {
-      padding: 15px;
-      background: #f8f9fa;
+      padding: 12px 16px;
       border-bottom: 1px solid #e9ecef;
+      background: white;
+      z-index: 1;
 
       .dropdown {
         position: relative;
+        width: 100%;
 
         .dropdown-toggle {
-          width: 100%;
-          padding: 12px 16px;
-          background: white;
-          border: 1px solid #dee2e6;
-          border-radius: 8px;
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 8px;
+          width: 100%;
+          padding: 8px 12px;
+          border: 1px solid #dee2e6;
+          border-radius: 6px;
+          background: white;
           cursor: pointer;
           transition: all 0.2s ease;
 
           &:hover {
-            background: #f8f9fa;
+            border-color: #adb5bd;
           }
 
           i {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: #0d6efd;
           }
 
           span {
-            font-size: 1.1rem;
-          }
-
-          .bi-chevron-down {
-            margin-left: auto;
-            font-size: 1.1rem;
-            color: #6c757d;
+            flex: 1;
+            text-align: left;
+            font-weight: 500;
           }
         }
 
@@ -132,10 +127,10 @@
       padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
 
       .message {
-        max-width: 90%;
+        max-width: 85%;
         padding: 12px 16px;
         border-radius: 12px;
         position: relative;
@@ -144,31 +139,22 @@
           align-self: flex-end;
           background: #0d6efd;
           color: white;
-
-          .message-timestamp {
-            color: rgba(255, 255, 255, 0.7);
-          }
         }
 
         &.assistant-message {
           align-self: flex-start;
           background: #f8f9fa;
           color: #212529;
-
-          .message-timestamp {
-            color: #6c757d;
-          }
         }
 
         .message-content {
-          font-size: 1.05rem;
           margin-bottom: 4px;
           line-height: 1.5;
         }
 
         .message-timestamp {
-          font-size: 0.85rem;
-          opacity: 0.8;
+          font-size: 0.8rem;
+          opacity: 0.7;
         }
 
         &.loading {
@@ -235,36 +221,33 @@
 
     .input-container {
       padding: 16px;
-      background: #f8f9fa;
       border-top: 1px solid #e9ecef;
+      background: white;
       display: flex;
-      gap: 10px;
+      gap: 12px;
 
       textarea {
         flex: 1;
-        padding: 12px 16px;
+        min-height: 40px;
+        max-height: 120px;
+        padding: 8px 12px;
         border: 1px solid #dee2e6;
-        border-radius: 8px;
+        border-radius: 6px;
         resize: none;
-        height: 50px;
         font-family: inherit;
-        font-size: 1.05rem;
-        line-height: 1.4;
-        transition: all 0.2s ease;
 
         &:focus {
           outline: none;
           border-color: #0d6efd;
-          box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
         }
       }
 
       button {
-        width: 50px;
-        height: 50px;
-        border-radius: 8px;
-        background: #0d6efd;
+        width: 40px;
+        height: 40px;
         border: none;
+        border-radius: 20px;
+        background: #0d6efd;
         color: white;
         display: flex;
         align-items: center;
@@ -277,12 +260,12 @@
         }
 
         &:disabled {
-          background: #6c757d;
+          opacity: 0.6;
           cursor: not-allowed;
         }
 
         i {
-          font-size: 1.4rem;
+          font-size: 1.2rem;
         }
       }
     }

@@ -10,6 +10,41 @@
   (onBtnSettings)='toggleSettings()'>
 </app-bar>
 
+<app-nav [currentApp]='(currentApp$ | async) ?? { id: 0, title: "", url: "", icon: "" }'
+  [currentTab]='(currentTab$ | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }'
+  [tabs]='(tabs$ | async) ?? []'
+  (onNextClick)='onNextClick($event)'
+  (onBackClick)='onBackClick($event)'
+  (onGotoTab)='onGotoTab($event)'
+  (onReloadClick)='onReloadClick($event)'
+  (onCloseTab)='onCloseTab($event)'
+  (onTabContextMenu)='onTabContextMenu($event)'>
+</app-nav>
+
+<div class="home-container">
+  <app-webview [class.ai-assistant-open]="(aiAssistantService.isOpen$ | async)"
+    [tabIds]='(tabIds$ | async) ?? []' [currentTab]='(currentTab$ | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }' (onNewUrl)='onNewUrl($event)' 
+    [screenWidth]='screenWidth'
+    [screenHeight]='screenHeight'
+    (onTitleChanged)='onTitleChanged($event)'
+    (onIconChanged)='onIconChanged($event)' 
+    (onUrlChanged)='onUrlChanged($event)'
+    (onDomReady)='onDomReady($event)'
+    (onClicked)='onClicked($event)'
+    (onContextMenu)='onContextMenu($event)'>
+  </app-webview>
+  
+  <app-ai-assistant [class.open]="(aiAssistantService.isOpen$ | async)"></app-ai-assistant>
+</div>
+
+<app-search #appSearch [currentApp]='(currentApp$ | async) ?? { id: 0, title: "", url: "", icon: "" }' 
+  [currentTab]='(currentTab$ | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }'
+  [histories]='(histories$ | async) ?? []'
+  [topApps]='(topApps | async) ?? []'
+  (onSearch)='doSearch($event)' 
+  (onSearchReplacing)='doSearchReplacing($event)'>
+</app-search>
+
 <div class="settings-overlay" *ngIf="showSettings">
   <div class="settings-container">
     <div class="settings-header">
@@ -19,30 +54,3 @@
     <app-api-keys></app-api-keys>
   </div>
 </div>
-
-<app-nav [currentApp]='(currentApp$ | async) ?? { id: 0, title: "", url: "", icon: "" }' [tabs]='(tabs$ | async) ?? []' [currentTab]='(currentTab$ | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }' (onNextClick)='onNextClick($event)' (onBackClick)='onBackClick($event)' (onGotoTab)='onGotoTab($event)'
-  [histories]='historiesArray'
-  [screenWidth]='screenWidth'
-  (onSearch)='doSearchReplacing($event)'
-  (onContextMenu)='onTabContextMenu($event)'
-  (onReloadClick)='onReloadClick($event)'
-  (onCloseTab)='onCloseTab($event)'>
-</app-nav>
-<app-webview [tabIds]='(tabIds$ | async) ?? []' [currentTab]='(currentTab$ | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }' (onNewUrl)='onNewUrl($event)' 
-  [screenWidth]='screenWidth'
-  [screenHeight]='screenHeight'
-  (onTitleChanged)='onTitleChanged($event)'
-  (onIconChanged)='onIconChanged($event)' 
-  (onUrlChanged)='onUrlChanged($event)'
-  (onDomReady)='onDomReady($event)'
-  (onClicked)='onClicked($event)'
-  (onContextMenu)='onContextMenu($event)'>
-</app-webview>
-<app-search #appSearch [currentApp]='(currentApp$ | async) ?? { id: 0, title: "", url: "", icon: "" }' 
-  [currentTab]='(currentTab$ | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }'
-  [histories]='(histories$ | async) ?? []'
-  [topApps]='(topApps | async) ?? []'
-  (onSearch)='doSearch($event)' 
-  (onSearchReplacing)='doSearchReplacing($event)'>
-</app-search>
-<app-ai-assistant></app-ai-assistant>

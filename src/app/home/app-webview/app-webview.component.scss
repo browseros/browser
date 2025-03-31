@@ -1,21 +1,22 @@
 .webview-container {
-  position: relative;
   width: 100%;
   height: 100%;
   background: #fff;
-  z-index: 1;
+  transition: width 0.3s ease;
+
+  &.ai-assistant-open {
+    width: 66.67%;
+  }
 
   .webview-content {
     width: 100%;
     height: 100%;
     position: relative;
-    z-index: 1;
     
     webview {
-      width: 100%;
-      height: 100%;
-      border: none;
-      z-index: 1;
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
     }
   }
 } 

@@ -10,6 +10,7 @@ import { webContents } from '@electron/remote';
 import { ipcRenderer } from 'electron';
 import * as appActions from '../../actions/app.actions';
 import { map } from 'rxjs/operators';
+import { AIAssistantService } from '../../services/ai-assistant.service';
 
 interface IContextMenuItem {
     id: string;
@@ -50,9 +51,13 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
     private tabIdsSub: Subscription;
     public currentTabInternal: ITab | null = null;
 
+    isAIAssistantOpen: boolean = false;
+    private subscription: Subscription = new Subscription();
+
     constructor(
         public store: Store<fromRoot.State>,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        private aiAssistantService: AIAssistantService
     ) {
         console.log('[AppWebview] Constructor called');
         this.tabsSub = new Subscription();
@@ -97,6 +102,12 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
                 this.cdr.detectChanges();
             }
         });
+
+        this.subscription.add(
+            this.aiAssistantService.isOpen$.subscribe(
+                isOpen => this.isAIAssistantOpen = isOpen
+            )
+        );
     }
 
     private updateTabIdsInternal() {
@@ -139,6 +150,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
         if (this.backSub) this.backSub.unsubscribe();
         if (this.nextSub) this.nextSub.unsubscribe();
         if (this.reloadSub) this.reloadSub.unsubscribe();
+        this.subscription.unsubscribe();
     }
 
     public ngAfterViewInit() {

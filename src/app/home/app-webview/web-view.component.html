@@ -1,8 +1,14 @@
-<webview
-    #webview 
-    preload="./js/preload.js"
-    src='about:blank' 
-    [style.width]='screenWidth + "px"'
-    [style.height]='getHeight() + "px"'
->
-</webview>
+<div class="web-view">
+  <webview
+    #webview
+    [attr.id]="'webview-' + tab.id"
+    [attr.src]="tab.url"
+    [attr.preload]="preloadPath"
+    [style.width.px]="width"
+    [style.height.px]="height"
+    webpreferences="contextIsolation=yes"
+    allowpopups
+    useragent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    partition="persist:general">
+  </webview>
+</div>
