@@ -256,7 +256,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       timestamp: new Date()
     };
 
-    this.chatGPTService.addMessage(userMessage);
+    this.messages.push(userMessage);
     this.isLoading = true;
     this.error = null;
     const messageText = this.newMessage;
@@ -266,17 +266,20 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     this.addAssistantMessage('Đang xử lý yêu cầu của bạn...');
 
     try {
-      const response = await this.chatGPTService.sendMessage(messageText).toPromise();
+      const response = await this.googleAIService.chat(
+        'You are a helpful AI assistant that provides clear and accurate responses in Vietnamese.',
+        messageText
+      );
+
       // Remove processing message
       this.messages.pop();
-      if (response && response.choices && response.choices[0]) {
-        const assistantMessage: ChatMessage = {
-          role: 'assistant',
-          content: response.choices[0].message.content,
-          timestamp: new Date()
-        };
-        this.chatGPTService.addMessage(assistantMessage);
-      }
+
+      const assistantMessage: ChatMessage = {
+        role: 'assistant',
+        content: response,
+        timestamp: new Date()
+      };
+      this.messages.push(assistantMessage);
     } catch (error: any) {
       // Remove processing message on error
       this.messages.pop();
@@ -312,7 +315,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       content: 'Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại.',
       timestamp: new Date()
     };
-    this.chatGPTService.addMessage(errorMessage);
+    this.messages.push(errorMessage);
   }
 
   private scrollToBottom(): void {
@@ -322,7 +325,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   }
 
   clearChat() {
-    this.chatGPTService.clearMessages();
+    this.messages = [];
     this.error = null;
   }
 
@@ -422,12 +425,13 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         return;
       }
 
-      // For regular chat, just use the original message with ChatGPT
+      // For regular chat, just use the original message with Google AI
       console.log('Processing as regular chat');
-      const response = await this.chatGPTService.chat('You are a helpful assistant. Please respond in Vietnamese.', message).toPromise();
-      if (response && response.choices && response.choices[0]) {
-        this.addAssistantMessage(response.choices[0].message.content);
-      }
+      const response = await this.googleAIService.chat(
+        'You are a helpful AI assistant that provides clear and accurate responses in Vietnamese.',
+        message
+      );
+      this.addAssistantMessage(response);
     } catch (error) {
       console.error('Error:', error);
       this.error = 'Có lỗi xảy ra khi xử lý yêu cầu của bạn';

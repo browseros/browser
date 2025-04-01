@@ -25,7 +25,7 @@ export class GoogleAIService {
   private initializeAI() {
     const apiKey = this.getApiKey();
     this.genAI = new GoogleGenerativeAI(apiKey);
-    this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-pro-exp-03-25' });
+    this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
   }
 
   // Method to reinitialize the AI with new API key
@@ -323,6 +323,33 @@ Tóm tắt nên bao gồm:
         throw new Error('API endpoint not found. Please check your API key and endpoint configuration.');
       }
       throw new Error(`Failed to summarize image: ${error.message || 'Unknown error'}`);
+    }
+  }
+
+  async chat(systemMessage: string, userMessage: string): Promise<string> {
+    try {
+      const prompt = `${systemMessage}
+
+User: ${userMessage}
+
+Please provide a helpful response in Vietnamese.`;
+
+      const result = await this.model.generateContent(prompt);
+      if (!result || !result.response) {
+        throw new Error('No response from Gemini API');
+      }
+
+      const response = await result.response;
+      const text = response.text();
+      
+      if (!text) {
+        throw new Error('No response generated');
+      }
+
+      return text;
+    } catch (error: any) {
+      console.error('Error in chat:', error);
+      throw new Error(`Failed to generate chat response: ${error.message || 'Unknown error'}`);
     }
   }
 
