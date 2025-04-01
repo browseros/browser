@@ -12,6 +12,7 @@
 
 <app-nav [currentApp]='(currentApp$ | async) ?? { id: 0, title: "", url: "", icon: "" }'
   [currentTab]='(currentTab$ | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }'
+  [histories]='historiesArray'
   [tabs]='(tabs$ | async) ?? []'
   (onNextClick)='onNextClick($event)'
   (onBackClick)='onBackClick($event)'
