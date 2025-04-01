@@ -187,6 +187,9 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       }
 
       this.isLoading = true;
+      // Add processing message
+      this.addAssistantMessage('Đang xử lý yêu cầu của bạn...');
+
       try {
         let response;
         switch(actionId) {
@@ -201,10 +204,15 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
             break;
         }
 
+        // Remove processing message
+        this.messages.pop();
+
         if (response && response.choices && response.choices[0]) {
           this.addAssistantMessage(response.choices[0].message.content);
         }
       } catch (error: any) {
+        // Remove processing message on error
+        this.messages.pop();
         this.handleError(error);
       } finally {
         this.isLoading = false;
@@ -219,12 +227,19 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         return;
       }
       this.isLoading = true;
+      // Add processing message
+      this.addAssistantMessage('Đang xử lý yêu cầu của bạn...');
+
       try {
         const response = await this.chatGPTService.searchWithAI(this.newMessage).toPromise();
+        // Remove processing message
+        this.messages.pop();
         if (response && response.choices && response.choices[0]) {
           this.addAssistantMessage(response.choices[0].message.content);
         }
       } catch (error: any) {
+        // Remove processing message on error
+        this.messages.pop();
         this.handleError(error);
       } finally {
         this.isLoading = false;
@@ -247,8 +262,13 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     const messageText = this.newMessage;
     this.newMessage = '';
 
+    // Add processing message
+    this.addAssistantMessage('Đang xử lý yêu cầu của bạn...');
+
     try {
       const response = await this.chatGPTService.sendMessage(messageText).toPromise();
+      // Remove processing message
+      this.messages.pop();
       if (response && response.choices && response.choices[0]) {
         const assistantMessage: ChatMessage = {
           role: 'assistant',
@@ -258,6 +278,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         this.chatGPTService.addMessage(assistantMessage);
       }
     } catch (error: any) {
+      // Remove processing message on error
+      this.messages.pop();
       this.handleError(error);
     } finally {
       this.isLoading = false;
@@ -328,12 +350,18 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     this.newMessage = '';
     this.isLoading = true;
 
+    // Add processing message
+    this.addAssistantMessage('Đang xử lý yêu cầu của bạn...');
+
     console.log('Processing with URL:', this.currentUrl);
 
     try {
       // First detect the intent
       const [intent, targetLang] = await this.googleAIService.detectIntent(message);
       console.log('Detected intent:', intent, 'targetLang:', targetLang);
+
+      // Remove the processing message
+      this.messages.pop();
 
       // Handle translation intent
       if (intent === 'translate') {
@@ -350,11 +378,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         // Capture the page using the screenshot service
         const base64Image = await this.screenshotService.captureFullPage(webview);
 
-        // Extract text using Google AI
-        const extractedText = await this.googleAIService.extractTextFromImage(base64Image);
-
-        // Then, translate the extracted text using Google AI
-        const translatedText = await this.googleAIService.translateText(extractedText, targetLang || 'vietnamese');
+        // Translate the image content directly using Google AI
+        const translatedText = await this.googleAIService.translateImage(base64Image, targetLang || 'vietnamese');
 
         // Add the translation result
         this.addAssistantMessage(translatedText);
@@ -431,6 +456,43 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   getCurrentActionIcon(): string {
     const action = this.actions.find(a => a.id === this.currentAction);
     return action ? action.icon : 'bi-chat';
+  }
+
+  async copyMessage(content: string) {
+    try {
+      await navigator.clipboard.writeText(content);
+      // Show a temporary success message
+      const originalContent = this.newMessage;
+      this.newMessage = 'Đã copy nội dung!';
+      setTimeout(() => {
+        this.newMessage = originalContent;
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+      this.error = 'Không thể copy nội dung. Vui lòng thử lại.';
+    }
+  }
+
+  async shareMessage(content: string) {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Chia sẻ tin nhắn',
+          text: content
+        });
+      } else {
+        // Fallback to clipboard if Web Share API is not available
+        await navigator.clipboard.writeText(content);
+        const originalContent = this.newMessage;
+        this.newMessage = 'Đã copy nội dung để chia sẻ!';
+        setTimeout(() => {
+          this.newMessage = originalContent;
+        }, 2000);
+      }
+    } catch (err) {
+      console.error('Failed to share text: ', err);
+      this.error = 'Không thể chia sẻ nội dung. Vui lòng thử lại.';
+    }
   }
 
   ngOnDestroy() {

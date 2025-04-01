@@ -98,6 +98,48 @@ ${text}`;
     }
   }
 
+  async translateImage(base64Image: string, targetLang: string = 'vietnamese'): Promise<string> {
+    try {
+      // Remove the data URL prefix if present
+      const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, '');
+      
+      // Create the prompt for both extraction and translation
+      const prompt = `Please extract all text from this image and translate it to ${targetLang}. 
+      Get only the main content, ignore ads, banners, and other non-content elements. 
+      Return only the translated text without any additional formatting or explanation.`;
+
+      // Generate content with proper error handling
+      const result = await this.model.generateContent([
+        prompt,
+        {
+          inlineData: {
+            mimeType: "image/png",
+            data: base64Data
+          }
+        }
+      ]);
+
+      if (!result || !result.response) {
+        throw new Error('No response from Gemini API');
+      }
+
+      const response = await result.response;
+      const translatedText = response.text();
+      
+      if (!translatedText) {
+        throw new Error('No text extracted and translated from image');
+      }
+
+      return translatedText;
+    } catch (error: any) {
+      console.error('Error translating image:', error);
+      if (error.message?.includes('404')) {
+        throw new Error('API endpoint not found. Please check your API key and endpoint configuration.');
+      }
+      throw new Error(`Failed to translate image: ${error.message || 'Unknown error'}`);
+    }
+  }
+
   async summarizeText(text: string, targetLang: string = 'vietnamese'): Promise<string> {
     try {
       const languagePrompts: { [key: string]: string } = {
