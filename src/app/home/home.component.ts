@@ -423,13 +423,31 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
     }
 
-    // Handle image context menu with smart search features
+    // Handle image context menu with AI Assistant and other features
     if (params.mediaType === 'image' && params.srcURL) {
-      const imageUrl = encodeURIComponent(params.srcURL);
-      
+      // Add AI Assistant option at the top
+      menu.append(new MenuItem({
+        label: 'Send to AI Assistant',
+        click: () => {
+          // Open AI Assistant if not already open
+          this.aiAssistantService.toggleAssistant();
+          
+          // Send the image to AI Assistant
+          this.aiAssistantService.addImageToChat({
+            imageUrl: params.srcURL,
+            srcUrl: params.pageURL || ''
+          });
+        }
+      }));
+
+      // Add separator after AI Assistant option
+      menu.append(new MenuItem({ type: 'separator' }));
+
+      // Rest of the image context menu items
       menu.append(new MenuItem({
         label: 'Search image with Google',
         click: () => {
+          const imageUrl = encodeURIComponent(params.srcURL);
           const hostName = StateHelper.extractHostname(`https://lens.google.com/uploadbyurl?url=${imageUrl}`);
           this.store.dispatch(new appActions.AddTabAction({
             id: 0,

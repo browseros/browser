@@ -6,7 +6,7 @@ import type { IApp } from '../../models/app.model';
 import type { IWebEvent } from '../../models/web-event.model';
 import { Subscription } from 'rxjs';
 import type { WebviewTag } from 'electron';
-import { webContents } from '@electron/remote';
+import { webContents, Menu, MenuItem } from '@electron/remote';
 import { ipcRenderer } from 'electron';
 import * as appActions from '../../actions/app.actions';
 import { map } from 'rxjs/operators';
@@ -36,6 +36,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
     @Output() public onContextMenu = new EventEmitter<any>();
     @Output() public onDomReady = new EventEmitter<IWebEvent>();
     @Output() public onClicked = new EventEmitter<any>();
+    @Output() public onImageToAI = new EventEmitter<{ imageUrl: string, srcUrl: string }>();
 
     @ViewChildren('webview') private webviews!: QueryList<ElementRef<WebviewTag>>;
     private onFirstLoad: { [key: number]: boolean } = {};
@@ -323,6 +324,36 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
                 webviewElm.addEventListener('new-window', (e: any) => {
                     console.log(`[AppWebview] New window for tab ${tabId}:`, e.url);
                     this.onNewUrl.emit(e.url);
+                });
+
+                webviewElm.addEventListener('context-menu', (e: any) => {
+                    e.preventDefault();
+                    
+                    const { mediaType, srcURL } = e.params;
+                    const isImage = mediaType === 'image';
+                    
+                    const menu = new Menu();
+                    
+                    // Add AI Assistant option for images
+                    if (isImage) {
+                        menu.append(new MenuItem({
+                            label: 'Send to AI Assistant',
+                            click: () => {
+                                this.onImageToAI.emit({
+                                    imageUrl: e.params.srcURL,
+                                    srcUrl: e.params.pageURL
+                                });
+                                // Open AI Assistant if not already open
+                                this.aiAssistantService.toggleAssistant();
+                            }
+                        }));
+                        menu.append(new MenuItem({ type: 'separator' }));
+                    }
+                    
+                    // Add other default context menu items
+                    // ... existing context menu code ...
+                    
+                    menu.popup();
                 });
             });
         });

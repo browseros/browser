@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked, OnDestroy, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ChatGPTService, ChatMessage } from '../../services/chatgpt.service';
+import { ChatGPTService } from '../../services/chatgpt.service';
 import { ScreenshotService } from '../../services/screenshot.service';
 import { GoogleAIService } from '../../services/google-ai.service';
 import { Subscription } from 'rxjs';
@@ -8,7 +8,7 @@ import { ClipboardService } from '../../services/clipboard.service';
 import { Menu, MenuItem } from '@electron/remote';
 import { marked } from 'marked';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { AIAssistantService } from '../../services/ai-assistant.service';
+import { AIAssistantService, ImageToChat, ChatMessage } from '../../services/ai-assistant.service';
 
 interface Action {
   id: string;
@@ -47,6 +47,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   currentAction = 'chat';
   currentTab: any = null;
   selectedModel = 'gpt-4';
+  pendingImage: ImageToChat | null = null;
 
   actions: Action[] = [
     { 
@@ -88,7 +89,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     private googleAIService: GoogleAIService,
     private clipboardService: ClipboardService,
     private sanitizer: DomSanitizer,
-    private aiAssistantService: AIAssistantService
+    private aiAssistantService: AIAssistantService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     // Listen for storage changes to update API keys
     window.addEventListener('storage', (e) => {
@@ -102,7 +104,6 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   ngOnInit() {
     // Subscribe to URL changes from store
     this.store.select(state => state.app.currentTab?.url).subscribe(url => {
-      console.log('Current URL:', url);
       if (url) {
         this.currentUrl = url;
       }
@@ -114,6 +115,33 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         this.currentTab = tab;
       }
     });
+
+    // Subscribe to panel visibility
+    this.subscription = new Subscription();
+    this.subscription.add(
+      this.aiAssistantService.isOpen$.subscribe(isOpen => {
+        this.isOpen = isOpen;
+        if (isOpen) {
+          // When panel opens, focus the textarea
+          setTimeout(() => {
+            const textarea = document.querySelector('.input-container textarea');
+            if (textarea) {
+              (textarea as HTMLTextAreaElement).focus();
+            }
+          });
+        }
+      })
+    );
+
+    // Subscribe to image events
+    this.subscription.add(
+      this.aiAssistantService.image$.subscribe((image: ImageToChat) => {
+        console.log('Received image:', image);
+        this.pendingImage = image;
+        // Force change detection
+        this.changeDetectorRef.detectChanges();
+      })
+    );
 
     // Add context menu event listener
     setTimeout(() => {
@@ -253,42 +281,44 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   }
 
   async sendMessage() {
-    if (!this.newMessage.trim() || this.isLoading) return;
+    if (!this.newMessage.trim() && !this.pendingImage) {
+      return;
+    }
 
+    // Add user message with image if exists
     const userMessage: ChatMessage = {
-      role: 'user',
+      type: this.pendingImage ? 'image' : 'text',
       content: this.newMessage,
+      imageUrl: this.pendingImage?.imageUrl,
+      srcUrl: this.pendingImage?.srcUrl,
+      isUser: true,
       timestamp: new Date()
     };
-
     this.messages.push(userMessage);
-    this.isLoading = true;
-    this.error = null;
-    const messageText = this.newMessage;
-    this.newMessage = '';
 
-    // Add processing message
-    this.addAssistantMessage('Đang xử lý yêu cầu của bạn...');
+    const messageToSend = this.newMessage;
+    this.newMessage = '';
+    this.isLoading = true;
 
     try {
-      const response = await this.googleAIService.chat(
-        'You are a helpful AI assistant that provides clear and accurate responses in Vietnamese.',
-        messageText
-      );
-
-      // Remove processing message
-      this.messages.pop();
-
-      const assistantMessage: ChatMessage = {
-        role: 'assistant',
+      // Call AI service with text and pending image
+      const response = await this.aiAssistantService.sendMessage(messageToSend, this.pendingImage ? userMessage : null);
+      
+      // Add AI response
+      const aiMessage: ChatMessage = {
+        type: 'text',
         content: response,
-        timestamp: new Date()
+        isUser: false,
+        timestamp: new Date(),
+        htmlContent: this.sanitizer.bypassSecurityTrustHtml(response)
       };
-      this.messages.push(assistantMessage);
-    } catch (error: any) {
-      // Remove processing message on error
-      this.messages.pop();
-      this.handleError(error);
+      this.messages.push(aiMessage);
+
+      // Clear pending image after sending
+      this.pendingImage = null;
+    } catch (error) {
+      this.error = 'Failed to get response from AI';
+      console.error('Error sending message:', error);
     } finally {
       this.isLoading = false;
     }
@@ -299,21 +329,25 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     const htmlContent = await marked(content);
     const safeHtml = this.sanitizer.bypassSecurityTrustHtml(htmlContent);
     
-    this.messages.push({
-      role: 'assistant',
+    const message: ChatMessage = {
+      type: 'text',
       content: content,
       htmlContent: safeHtml,
+      isUser: false,
       timestamp: new Date()
-    });
+    };
+    this.messages.push(message);
     this.scrollToBottom();
   }
 
   addUserMessage(content: string) {
-    this.messages.push({
-      role: 'user',
+    const message: ChatMessage = {
+      type: 'text',
       content,
+      isUser: true,
       timestamp: new Date()
-    });
+    };
+    this.messages.push(message);
     this.scrollToBottom();
   }
 
@@ -321,8 +355,9 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     console.error('Error:', error);
     this.error = error.message || 'Đã xảy ra lỗi. Vui lòng thử lại.';
     const errorMessage: ChatMessage = {
-      role: 'assistant',
+      type: 'text',
       content: 'Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại.',
+      isUser: false,
       timestamp: new Date()
     };
     this.messages.push(errorMessage);
@@ -684,5 +719,39 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
 
   close() {
     this.aiAssistantService.close();
+  }
+
+  addImageMessage(image: ImageToChat) {
+    const message: ChatMessage = {
+      type: 'image',
+      content: '',
+      imageUrl: image.imageUrl,
+      srcUrl: image.srcUrl,
+      isUser: true,
+      timestamp: new Date(),
+      processed: false
+    };
+    this.messages.push(message);
+  }
+
+  hasImageToSend(): boolean {
+    return this.pendingImage !== null;
+  }
+
+  clearPendingImage() {
+    this.pendingImage = null;
+  }
+
+  openImage(imageUrl: string | undefined) {
+    if (imageUrl) {
+      window.open(imageUrl, '_blank');
+    }
+  }
+
+  handleEnterKey(event: any) {
+    if (!event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage();
+    }
   }
 } 

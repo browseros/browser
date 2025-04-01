@@ -326,15 +326,42 @@ Tóm tắt nên bao gồm:
     }
   }
 
-  async chat(systemMessage: string, userMessage: string): Promise<string> {
+  async chat(systemMessage: string, userMessage: string, imageUrl?: string): Promise<string> {
     try {
-      const prompt = `${systemMessage}
+      let prompt = `${systemMessage}\n\nUser: ${userMessage}`;
+      let parts: any[] = [prompt];
 
-User: ${userMessage}
+      // If there's an image, add it to the parts array
+      if (imageUrl) {
+        // Convert image URL to base64 if needed
+        if (imageUrl.startsWith('data:image')) {
+          const base64Data = imageUrl.replace(/^data:image\/\w+;base64,/, '');
+          parts.push({
+            inlineData: {
+              mimeType: "image/png",
+              data: base64Data
+            }
+          });
+        } else {
+          // For regular URLs, we'll need to fetch and convert to base64
+          try {
+            const response = await fetch(imageUrl);
+            const blob = await response.blob();
+            const base64Data = await this.blobToBase64(blob);
+            parts.push({
+              inlineData: {
+                mimeType: blob.type,
+                data: base64Data.replace(/^data:image\/\w+;base64,/, '')
+              }
+            });
+          } catch (error) {
+            console.error('Error loading image:', error);
+            // Continue without the image if there's an error
+          }
+        }
+      }
 
-Please provide a helpful response in Vietnamese.`;
-
-      const result = await this.model.generateContent(prompt);
+      const result = await this.model.generateContent(parts);
       if (!result || !result.response) {
         throw new Error('No response from Gemini API');
       }
@@ -351,6 +378,15 @@ Please provide a helpful response in Vietnamese.`;
       console.error('Error in chat:', error);
       throw new Error(`Failed to generate chat response: ${error.message || 'Unknown error'}`);
     }
+  }
+
+  private async blobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
   }
 
   private base64ToUint8Array(base64: string): Uint8Array {

@@ -22,31 +22,35 @@
 
       <div *ngFor="let message of messages" 
            class="message" 
-           [class.user-message]="message.role === 'user'"
-           [class.assistant-message]="message.role === 'assistant'">
-        <div class="message-content" [innerHTML]="message.htmlContent || message.content"></div>
-        <div class="message-actions">
-          <button class="action-button" (click)="copyMessage(message.content)" title="Copy message">
-            <i class="bi bi-clipboard"></i>
-            <span>Copy</span>
-          </button>
-          <button class="action-button" (click)="shareMessage(message.content)" title="Share message">
-            <i class="bi bi-share"></i>
-            <span>Chia sẻ</span>
-          </button>
+           [class.user-message]="message.isUser"
+           [class.assistant-message]="!message.isUser">
+        <div class="message-content">
+          <!-- Image message -->
+          <div *ngIf="message.type === 'image'" class="image-message">
+            <img [src]="message.imageUrl" alt="Shared image" 
+                 (click)="openImage(message.imageUrl)"
+                 class="chat-image"/>
+            <div *ngIf="message.content" class="message-text">
+              {{ message.content }}
+            </div>
+          </div>
+          
+          <!-- Text message -->
+          <div *ngIf="message.type === 'text'" class="text-message">
+            <div *ngIf="message.htmlContent" [innerHTML]="message.htmlContent"></div>
+            <div *ngIf="!message.htmlContent">{{ message.content }}</div>
+          </div>
         </div>
         <div class="message-timestamp">
           {{ message.timestamp | date:'short' }}
         </div>
       </div>
 
-      <div *ngIf="isLoading" class="message assistant-message">
-        <div class="message-content loading">
-          <div class="typing-indicator">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+      <div *ngIf="isLoading" class="message assistant-message loading">
+        <div class="typing-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
       </div>
     </div>
@@ -59,20 +63,28 @@
       <div class="current-url-content">{{ currentUrl }}</div>
     </div>
 
-    <div class="input-container">
-      <textarea
-        #messageInput
-        [(ngModel)]="newMessage"
-        (keyup.enter)="handleInputEnter()"
-        [placeholder]="getPlaceholder()"
-        class="form-control"
-      ></textarea>
-      <button 
-        [disabled]="isLoading || !newMessage.trim()" 
-        (click)="handleButtonClick()"
-        [class.loading]="isLoading">
-        <i [class]="getButtonIcon()"></i>
-      </button>
+    <div class="input-area">
+      <!-- Pending image preview -->
+      <div *ngIf="pendingImage" class="pending-image">
+        <img [src]="pendingImage.imageUrl" alt="Pending image" class="pending-image-preview"/>
+        <button class="remove-image" (click)="clearPendingImage()">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+
+      <div class="input-container">
+        <textarea 
+          [(ngModel)]="newMessage"
+          (keydown.enter)="handleEnterKey($event)"
+          [placeholder]="pendingImage ? 'Add a message about this image...' : 'Type your message...'"
+          [disabled]="isLoading">
+        </textarea>
+        <button 
+          [disabled]="isLoading || (!newMessage.trim() && !pendingImage)" 
+          (click)="sendMessage()">
+          <i class="bi" [class.bi-send]="!isLoading" [class.bi-three-dots]="isLoading"></i>
+        </button>
+      </div>
     </div>
   </div>
 </div> 
