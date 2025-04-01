@@ -401,11 +401,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         // Capture the page using the screenshot service
         const base64Image = await this.screenshotService.captureFullPage(webview);
 
-        // Extract text using Google AI
-        const extractedText = await this.googleAIService.extractTextFromImage(base64Image);
-
-        // Then, summarize the extracted text using Google AI
-        const summarizedText = await this.googleAIService.summarizeText(extractedText, targetLang || 'vietnamese');
+        // Summarize the image content directly using Google AI
+        const summarizedText = await this.googleAIService.summarizeImage(base64Image, targetLang || 'vietnamese');
 
         // Add the summary result
         this.addAssistantMessage(summarizedText);
