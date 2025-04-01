@@ -46,6 +46,7 @@
     "electron-is-dev": "^2.0.0",
     "electron-store": "^10.0.1",
     "html2canvas": "^1.4.1",
+    "marked": "^15.0.7",
     "ngrx-store-freeze": "^0.2.4",
     "reselect": "^5.1.1",
     "rxjs": "~7.8.1",

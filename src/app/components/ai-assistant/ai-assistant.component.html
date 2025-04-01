@@ -32,9 +32,7 @@
            class="message" 
            [class.user-message]="message.role === 'user'"
            [class.assistant-message]="message.role === 'assistant'">
-        <div class="message-content">
-          {{ message.content }}
-        </div>
+        <div class="message-content" [innerHTML]="message.htmlContent || message.content"></div>
         <div class="message-actions">
           <button class="action-button" (click)="copyMessage(message.content)" title="Copy message">
             <i class="bi bi-clipboard"></i>

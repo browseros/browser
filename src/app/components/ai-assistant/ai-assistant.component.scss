@@ -137,6 +137,80 @@
         .message-content {
           margin-bottom: 8px;
           line-height: 1.5;
+
+          // Markdown styles
+          :deep(p) {
+            margin: 0.5em 0;
+          }
+
+          :deep(code) {
+            background-color: var(--code-bg);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: monospace;
+          }
+
+          :deep(pre) {
+            background-color: var(--code-bg);
+            padding: 1em;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 0.5em 0;
+
+            code {
+              background-color: transparent;
+              padding: 0;
+            }
+          }
+
+          :deep(blockquote) {
+            border-left: 4px solid var(--border-color);
+            margin: 0.5em 0;
+            padding-left: 1em;
+            color: var(--text-secondary);
+          }
+
+          :deep(ul), :deep(ol) {
+            margin: 0.5em 0;
+            padding-left: 1.5em;
+          }
+
+          :deep(h1), :deep(h2), :deep(h3), :deep(h4), :deep(h5), :deep(h6) {
+            margin: 0.5em 0;
+            color: var(--text-primary);
+          }
+
+          :deep(a) {
+            color: var(--link-color);
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+
+          :deep(img) {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin: 0.5em 0;
+          }
+
+          :deep(table) {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0.5em 0;
+
+            th, td {
+              border: 1px solid var(--border-color);
+              padding: 0.5em;
+              text-align: left;
+            }
+
+            th {
+              background-color: var(--table-header-bg);
+            }
+          }
         }
 
         .message-actions {

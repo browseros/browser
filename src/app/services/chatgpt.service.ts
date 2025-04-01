@@ -3,10 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { SafeHtml } from '@angular/platform-browser';
 
 export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
+  htmlContent?: SafeHtml;
   timestamp: Date;
 }
 

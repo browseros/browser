@@ -6,6 +6,8 @@ import { GoogleAIService } from '../../services/google-ai.service';
 import { Subscription } from 'rxjs';
 import { ClipboardService } from '../../services/clipboard.service';
 import { Menu, MenuItem } from '@electron/remote';
+import { marked } from 'marked';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 interface Action {
   id: string;
@@ -83,7 +85,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     private store: Store<AppState>,
     private screenshotService: ScreenshotService,
     private googleAIService: GoogleAIService,
-    private clipboardService: ClipboardService
+    private clipboardService: ClipboardService,
+    private sanitizer: DomSanitizer
   ) {
     // Listen for storage changes to update API keys
     window.addEventListener('storage', (e) => {
@@ -289,10 +292,15 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     }
   }
 
-  addAssistantMessage(content: string) {
+  async addAssistantMessage(content: string) {
+    // Convert markdown to HTML and sanitize
+    const htmlContent = await marked(content);
+    const safeHtml = this.sanitizer.bypassSecurityTrustHtml(htmlContent);
+    
     this.messages.push({
       role: 'assistant',
-      content,
+      content: content,
+      htmlContent: safeHtml,
       timestamp: new Date()
     });
     this.scrollToBottom();
