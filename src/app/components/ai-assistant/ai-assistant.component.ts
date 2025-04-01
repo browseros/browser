@@ -92,6 +92,13 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     private aiAssistantService: AIAssistantService,
     private changeDetectorRef: ChangeDetectorRef
   ) {
+    // Configure marked options
+    marked.setOptions({
+      breaks: true, // Enable line breaks
+      gfm: true, // Enable GitHub Flavored Markdown
+      pedantic: false // Don't be pedantic about markdown spec
+    });
+
     // Listen for storage changes to update API keys
     window.addEventListener('storage', (e) => {
       if (e.key === 'apiKeys') {
@@ -322,13 +329,17 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       // Call AI service with text and pending image
       const response = await this.aiAssistantService.sendMessage(messageToSend, this.pendingImage ? userMessage : null);
       
+      // Convert markdown to HTML and sanitize
+      const htmlContent = await marked(response);
+      const safeHtml = this.sanitizer.bypassSecurityTrustHtml(htmlContent);
+
       // Add AI response
       const aiMessage: ChatMessage = {
         type: 'text',
         content: response,
         isUser: false,
         timestamp: new Date(),
-        htmlContent: this.sanitizer.bypassSecurityTrustHtml(response)
+        htmlContent: safeHtml
       };
       this.messages.push(aiMessage);
 
@@ -429,6 +440,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       // Remove the processing message
       this.messages.pop();
 
+      let response: string;
+
       // Handle translation intent
       if (intent === 'translate') {
         if (!this.currentUrl) {
@@ -445,10 +458,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         const base64Image = await this.screenshotService.captureFullPage(webview);
 
         // Translate the image content directly using Google AI
-        const translatedText = await this.googleAIService.translateImage(base64Image, targetLang || 'vietnamese');
-
-        // Add the translation result
-        this.addAssistantMessage(translatedText);
+        response = await this.googleAIService.translateImage(base64Image, targetLang || 'vietnamese');
+        await this.addAssistantMessage(response);
         return;
       }
 
@@ -468,10 +479,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         const base64Image = await this.screenshotService.captureFullPage(webview);
 
         // Summarize the image content directly using Google AI
-        const summarizedText = await this.googleAIService.summarizeImage(base64Image, targetLang || 'vietnamese');
-
-        // Add the summary result
-        this.addAssistantMessage(summarizedText);
+        response = await this.googleAIService.summarizeImage(base64Image, targetLang || 'vietnamese');
+        await this.addAssistantMessage(response);
         return;
       }
 
@@ -481,20 +490,20 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
           throw new Error('Không thể lấy được URL của trang hiện tại');
         }
 
-        const response = await this.chatGPTService.explainCodeWithAI(this.currentUrl).toPromise();
-        if (response && response.choices && response.choices[0]) {
-          this.addAssistantMessage(response.choices[0].message.content);
+        const aiResponse = await this.chatGPTService.explainCodeWithAI(this.currentUrl).toPromise();
+        if (aiResponse && aiResponse.choices && aiResponse.choices[0]) {
+          await this.addAssistantMessage(aiResponse.choices[0].message.content);
         }
         return;
       }
 
       // For regular chat, just use the original message with Google AI
       console.log('Processing as regular chat');
-      const response = await this.googleAIService.chat(
+      response = await this.googleAIService.chat(
         'You are a helpful AI assistant that provides clear and accurate responses in Vietnamese.',
         message
       );
-      this.addAssistantMessage(response);
+      await this.addAssistantMessage(response);
     } catch (error) {
       console.error('Error:', error);
       this.error = 'Có lỗi xảy ra khi xử lý yêu cầu của bạn';

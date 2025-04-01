@@ -88,17 +88,54 @@
           line-height: 1.5;
           overflow: hidden;
 
-          p {
-            margin: 0;
-            padding: 0;
-          }
-
-          img {
-            display: block;
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin: 8px 0;
+          // Common markdown styles
+          :deep {
+            p { margin: 0.5em 0; }
+            code {
+              background-color: var(--code-bg);
+              padding: 0.2em 0.4em;
+              border-radius: 3px;
+              font-family: monospace;
+            }
+            pre {
+              background-color: var(--code-bg);
+              padding: 1em;
+              border-radius: 4px;
+              overflow-x: auto;
+              code { background: none; padding: 0; }
+            }
+            ul, ol {
+              margin: 0.5em 0;
+              padding-left: 2em;
+            }
+            li { margin: 0.3em 0; }
+            blockquote {
+              margin: 0.5em 0;
+              padding-left: 1em;
+              border-left: 3px solid #ccc;
+              color: #666;
+            }
+            h1, h2, h3, h4, h5, h6 {
+              margin: 0.5em 0;
+              font-weight: bold;
+            }
+            strong { font-weight: bold; }
+            em { font-style: italic; }
+            a {
+              color: #0366d6;
+              text-decoration: none;
+              &:hover { text-decoration: underline; }
+            }
+            table {
+              border-collapse: collapse;
+              margin: 0.5em 0;
+              width: 100%;
+            }
+            th, td {
+              border: 1px solid #ddd;
+              padding: 0.5em;
+            }
+            th { background-color: #f6f8fa; }
           }
         }
 
@@ -107,6 +144,18 @@
           .message-content {
             background-color: #0084ff;
             color: white;
+
+            :deep {
+              code { background-color: rgba(255, 255, 255, 0.1); }
+              a {
+                color: #fff;
+                text-decoration: underline;
+              }
+              blockquote {
+                border-left-color: rgba(255, 255, 255, 0.4);
+                color: rgba(255, 255, 255, 0.8);
+              }
+            }
           }
         }
 
@@ -140,6 +189,12 @@
             line-height: 1.5;
             white-space: pre-wrap;
             word-break: break-word;
+
+            :deep p {
+              margin: 0.5em 0;
+              &:first-child { margin-top: 0; }
+              &:last-child { margin-bottom: 0; }
+            }
           }
         }
 
@@ -180,9 +235,7 @@
         align-items: center;
         gap: 8px;
 
-        i {
-          font-size: 1.2rem;
-        }
+        i { font-size: 1.2rem; }
       }
     }
 
@@ -201,9 +254,7 @@
         color: #6c757d;
         margin-bottom: 5px;
 
-        i {
-          font-size: 1.2rem;
-        }
+        i { font-size: 1.2rem; }
       }
 
       .current-url-content {
@@ -232,9 +283,7 @@
           cursor: pointer;
           transition: opacity 0.2s;
 
-          &:hover {
-            opacity: 0.9;
-          }
+          &:hover { opacity: 0.9; }
         }
 
         .remove-image {
@@ -257,24 +306,7 @@
             font-size: 14px;
           }
 
-          &:hover {
-            background: rgba(0, 0, 0, 0.7);
-          }
-        }
-
-        .image-source {
-          margin-top: 8px;
-          font-size: 12px;
-          color: #6c757d;
-
-          a {
-            color: #0d6efd;
-            text-decoration: none;
-
-            &:hover {
-              text-decoration: underline;
-            }
-          }
+          &:hover { background: rgba(0, 0, 0, 0.7); }
         }
       }
 
@@ -318,18 +350,13 @@
           cursor: pointer;
           transition: all 0.2s ease;
 
-          &:hover:not(:disabled) {
-            background: #0b5ed7;
-          }
-
+          &:hover:not(:disabled) { background: #0b5ed7; }
           &:disabled {
             background: #ccc;
             cursor: not-allowed;
           }
 
-          i {
-            font-size: 1.2rem;
-          }
+          i { font-size: 1.2rem; }
         }
       }
     }
