@@ -332,20 +332,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
 
     try {
       // First detect the intent
-      const intentResponse = await this.chatGPTService.detectIntent(message).toPromise();
-      console.log('Intent response:', intentResponse.choices[0].message.content);
-      
-      let intent, targetLang;
-      try {
-        const intentResponseStr = intentResponse.choices[0].message.content.trim();
-        console.log('Intent string:', intentResponseStr);
-        [intent, targetLang] = JSON.parse(intentResponseStr);
-      } catch (e) {
-        console.error('Error parsing intent:', e);
-        intent = 'chat';
-        targetLang = 'none';
-      }
-      console.log('Parsed intent:', intent, 'targetLang:', targetLang);
+      const [intent, targetLang] = await this.googleAIService.detectIntent(message);
+      console.log('Detected intent:', intent, 'targetLang:', targetLang);
 
       // Handle translation intent
       if (intent === 'translate') {

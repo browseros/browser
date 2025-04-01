@@ -146,6 +146,79 @@ Tóm tắt nên bao gồm:
     }
   }
 
+  async detectIntent(message: string): Promise<[string, string]> {
+    try {
+      const prompt = `You are an intent detection system. Analyze the user's message and return an array with two elements:
+1. The intent: one of these values
+- translate: if user wants to translate content
+- summarize: if user wants to summarize content
+- explain_code: if user wants to explain code
+- chat: for general chat or other requests
+
+2. The target language: 
+- english: if user wants English
+- vietnamese: if user wants Vietnamese
+- japanese: if user wants Japanese
+- korean: if user wants Korean
+- chinese: if user wants Chinese
+- french: if user wants French
+- german: if user wants German
+- spanish: if user wants Spanish
+- russian: if user wants Russian
+- portuguese: if user wants Portuguese
+- italian: if user wants Italian
+- dutch: if user wants Dutch
+- polish: if user wants Polish
+- arabic: if user wants Arabic
+- hindi: if user wants Hindi
+- none: for non-translation/summarization intents
+
+Return ONLY the array in this format without any explanation:
+["intent", "language"]
+
+Examples:
+"dịch trang web này sang tiếng anh" -> ["translate", "english"]
+"translate this to english" -> ["translate", "english"]
+"dịch sang tiếng Nhật" -> ["translate", "japanese"]
+"translate to japanese" -> ["translate", "japanese"]
+"dịch giúp mình trang này" -> ["translate", "vietnamese"]
+"tóm tắt nội dung trang này" -> ["summarize", "vietnamese"]
+"summarize this page in English" -> ["summarize", "english"]
+"tóm tắt trang này bằng tiếng Nhật" -> ["summarize", "japanese"]
+"giải thích code trong trang" -> ["explain_code", "none"]
+"thời tiết hôm nay thế nào" -> ["chat", "none"]
+
+User message: ${message}`;
+
+      const result = await this.model.generateContent(prompt);
+      if (!result || !result.response) {
+        throw new Error('No response from Gemini API');
+      }
+
+      const response = await result.response;
+      const text = response.text();
+      
+      if (!text) {
+        throw new Error('No intent detected');
+      }
+
+      try {
+        // text result can be: ```json["intent", "language"]```
+        // so we need to remove the ```json and ```
+        const jsonText = text.trim().replace(/^```json/, '').replace(/```$/, '');
+        const [intent, language] = JSON.parse(jsonText.trim());
+        console.log('Intent:', intent, 'Language:', language);
+        return [intent, language];
+      } catch (e) {
+        console.error('Error parsing intent response:', e);
+        return ['chat', 'none'];
+      }
+    } catch (error: any) {
+      console.error('Error detecting intent:', error);
+      throw new Error(`Failed to detect intent: ${error.message || 'Unknown error'}`);
+    }
+  }
+
   private base64ToUint8Array(base64: string): Uint8Array {
     const binaryString = window.atob(base64);
     const bytes = new Uint8Array(binaryString.length);
