@@ -513,11 +513,51 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   showHelp() {
     // Create help dialog content
     const helpContent = [
-      { title: 'Chat with AI', description: 'Have natural conversations with AI about any topic' },
-      { title: 'Summarize Content', description: 'Get AI-powered summaries of web pages' },
-      { title: 'Translate Content', description: 'Translate web content using AI' },
-      { title: 'Explain Code', description: 'Get AI explanations of code on the page' },
-      { title: 'Smart Search', description: 'Search with AI-powered suggestions' }
+      { 
+        title: 'Chat with AI', 
+        description: 'Have natural conversations with AI about any topic',
+        examples: [
+          'How does photosynthesis work?',
+          'What are the best practices for React?',
+          'Explain quantum computing'
+        ]
+      },
+      { 
+        title: 'Summarize Content', 
+        description: 'Get AI-powered summaries of web pages',
+        examples: [
+          'Summarize this article',
+          'Give me the key points',
+          'What are the main ideas?'
+        ]
+      },
+      { 
+        title: 'Translate Content', 
+        description: 'Translate web content using AI',
+        examples: [
+          'Translate this page to Vietnamese',
+          'Translate the selected text to English',
+          'What does this mean in French?'
+        ]
+      },
+      { 
+        title: 'Explain Code', 
+        description: 'Get AI explanations of code on the page',
+        examples: [
+          'Explain this function',
+          'How does this code work?',
+          'What does this algorithm do?'
+        ]
+      },
+      { 
+        title: 'Smart Search', 
+        description: 'Search with AI-powered suggestions',
+        examples: [
+          'Find articles about machine learning',
+          'Search for React component examples',
+          'Look up JavaScript best practices'
+        ]
+      }
     ];
 
     // Show help dialog
@@ -531,6 +571,14 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
             <div class="help-item">
               <h3>${item.title}</h3>
               <p>${item.description}</p>
+              <div class="examples">
+                <h4>Example queries:</h4>
+                <ul>
+                  ${item.examples.map(example => `
+                    <li>${example}</li>
+                  `).join('')}
+                </ul>
+              </div>
             </div>
           `).join('')}
         </div>
@@ -583,8 +631,27 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         color: #212529;
       }
       .help-item p {
-        margin: 0;
+        margin: 0 0 12px;
         color: #6c757d;
+      }
+      .help-item .examples {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #dee2e6;
+      }
+      .help-item .examples h4 {
+        font-size: 14px;
+        color: #495057;
+        margin: 0 0 8px;
+      }
+      .help-item .examples ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+      .help-item .examples li {
+        color: #6c757d;
+        margin-bottom: 4px;
+        font-size: 13px;
       }
       .close-help {
         display: block;
