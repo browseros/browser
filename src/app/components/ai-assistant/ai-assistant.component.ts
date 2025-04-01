@@ -739,17 +739,24 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     this.aiAssistantService.close();
   }
 
-  addImageMessage(image: ImageToChat) {
+  async addImageMessage(imageUrl: string, content?: string) {
+    // Convert content to HTML if it exists
+    let htmlContent;
+    if (content) {
+      const markedContent = await marked(content);
+      htmlContent = this.sanitizer.bypassSecurityTrustHtml(markedContent);
+    }
+
     const message: ChatMessage = {
       type: 'image',
-      content: '',
-      imageUrl: image.imageUrl,
-      srcUrl: image.srcUrl,
+      imageUrl,
+      content,
+      htmlContent,
       isUser: true,
-      timestamp: new Date(),
-      processed: false
+      timestamp: new Date()
     };
     this.messages.push(message);
+    this.scrollToBottom();
   }
 
   hasImageToSend(): boolean {

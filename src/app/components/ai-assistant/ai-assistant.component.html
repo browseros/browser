@@ -31,7 +31,8 @@
                  (click)="openImage(message.imageUrl)"
                  class="chat-image"/>
             <div *ngIf="message.content" class="message-text">
-              {{ message.content }}
+              <div *ngIf="message.htmlContent" [innerHTML]="message.htmlContent"></div>
+              <div *ngIf="!message.htmlContent">{{ message.content }}</div>
             </div>
           </div>
           
