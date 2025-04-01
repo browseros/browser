@@ -173,4 +173,23 @@ export class AppNavComponent implements OnInit, OnDestroy, OnChanges {
             this.onReloadClick.emit(this.currentApp);
         }
     }
+
+    public getShortenedUrl(url: string): string {
+        try {
+            if (!url) return '';
+            // If URL is shorter than 40 chars, return as is
+            if (url.length <= 40) return url;
+            
+            const urlObj = new URL(url);
+            const path = urlObj.pathname;
+            // Get the first path segment
+            const firstSegment = path.split('/').filter(s => s)[0];
+            if (!firstSegment) return urlObj.origin;
+            
+            return `${urlObj.origin}/${firstSegment}-...`;
+        } catch {
+            // If invalid URL, truncate the string directly
+            return url.substring(0, 40) + '...';
+        }
+    }
 }

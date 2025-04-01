@@ -45,7 +45,7 @@
                        (click)="selectHistoryItem(item)" 
                        [title]="item.title || item.link">
                         <div class="recent-item-title">{{item.title || 'Untitled'}}</div>
-                        <div class="recent-item-link">{{item.link}}</div>
+                        <div class="recent-item-link" [title]="item.link">{{getShortenedUrl(item.link)}}</div>
                     </a>
                 </li>
                 <li *ngIf="filteredHistories.length === 0">
