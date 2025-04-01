@@ -14,7 +14,7 @@ app-bar {
 }
 
 app-nav {
-  flex: 0 0 20px;
+  flex: 0 0 40px;
   width: 100%;
   z-index: 2;
   background: #fff;
@@ -22,11 +22,8 @@ app-nav {
 }
 
 .home-container {
-  position: absolute;
-  top: 68px;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  flex: 1;
+  position: relative;
   background: #fff;
   overflow: hidden;
 }
@@ -46,11 +43,11 @@ app-webview {
 }
 
 app-ai-assistant {
-  position: fixed;
-  top: 68px;
+  position: absolute;
+  top: 0;
   right: 0;
   width: 33.33%;
-  height: calc(100vh - 68px);
+  height: 100%;
   z-index: 10;
   transform: translateX(100%);
   transition: transform 0.3s ease;
