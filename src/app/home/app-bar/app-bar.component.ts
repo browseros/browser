@@ -37,7 +37,17 @@ export class AppBarComponent {
     @Output() public onBtnAIAssistant = new EventEmitter<void>();
     @Output() public onBtnSettings = new EventEmitter<void>();
 
-    constructor(private store: Store) {}
+    public isDropdownOpen: boolean = false;
+
+    constructor(private store: Store) {
+        // Add click outside listener to close dropdown
+        document.addEventListener('click', (event) => {
+            const dropdown = document.querySelector('.dropdown');
+            if (dropdown && !dropdown.contains(event.target as Node) && this.isDropdownOpen) {
+                this.isDropdownOpen = false;
+            }
+        });
+    }
 
     public getHost(app: IApp): string {
         if (!app || !app.url) return '';
@@ -171,5 +181,9 @@ export class AppBarComponent {
         if (win) {
             win.close();
         }
+    }
+
+    public toggleDropdown(): void {
+        this.isDropdownOpen = !this.isDropdownOpen;
     }
 }

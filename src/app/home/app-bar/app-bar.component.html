@@ -1,14 +1,19 @@
 <div class="app-bar">
     <div class="app-bar-left">
         <div class="app-actions">
-            <button class="action-button" (click)="onBtnAddApp.emit()">
-                <i class="bi bi-plus-lg"></i>
-            </button>
+            <div class="dropdown">
+                <button class="action-button" (click)="toggleDropdown()" title="Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="dropdown-menu" [class.show]="isDropdownOpen">
+                    <button class="dropdown-item" (click)="onBtnSettings.emit()">
+                        <i class="bi bi-gear"></i>
+                        Settings
+                    </button>
+                </div>
+            </div>
             <button class="action-button" (click)="onBtnAIAssistant.emit()" title="AI Assistant">
                 <i class="bi bi-robot"></i>
-            </button>
-            <button class="action-button" (click)="onBtnSettings.emit()" title="Settings">
-                <i class="bi bi-gear"></i>
             </button>
         </div>
     </div>
