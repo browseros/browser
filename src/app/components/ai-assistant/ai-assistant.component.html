@@ -42,8 +42,18 @@
             <div *ngIf="!message.htmlContent">{{ message.content }}</div>
           </div>
         </div>
-        <div class="message-timestamp">
-          {{ message.timestamp | date:'short' }}
+        <div class="message-footer">
+          <div class="message-timestamp">
+            {{ message.timestamp | date:'short' }}
+          </div>
+          <div class="message-actions">
+            <button class="action-button" (click)="copyMessage(message.content)" title="Copy message">
+              <i class="bi bi-clipboard"></i>
+            </button>
+            <button class="action-button" (click)="shareMessage(message.content)" title="Share message">
+              <i class="bi bi-share"></i>
+            </button>
+          </div>
         </div>
       </div>
 
