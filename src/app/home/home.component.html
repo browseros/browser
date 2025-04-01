@@ -14,12 +14,14 @@
   [currentTab]='(currentTab$ | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }'
   [histories]='historiesArray'
   [tabs]='(tabs$ | async) ?? []'
+  [screenWidth]='screenWidth'
   (onNextClick)='onNextClick($event)'
   (onBackClick)='onBackClick($event)'
   (onGotoTab)='onGotoTab($event)'
   (onReloadClick)='onReloadClick($event)'
   (onCloseTab)='onCloseTab($event)'
-  (onTabContextMenu)='onTabContextMenu($event)'>
+  (onTabContextMenu)='onTabContextMenu($event)'
+  (onSearch)='doSearchReplacing($event)'>
 </app-nav>
 
 <div class="home-container">

@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { HistoryService } from '../../services/history.service';
 
 @Component({
     selector: 'app-nav',
@@ -35,7 +36,8 @@ export class AppNavComponent implements OnInit, OnDestroy, OnChanges {
 
     constructor(
         private cdr: ChangeDetectorRef,
-        private store: Store<fromRoot.State>
+        private store: Store<fromRoot.State>,
+        private historyService: HistoryService
     ) {}
 
     ngOnInit() {
@@ -55,6 +57,7 @@ export class AppNavComponent implements OnInit, OnDestroy, OnChanges {
         ).subscribe(tab => {
             console.log('[AppNav] Store currentTab updated:', tab);
             this.currentTabInternal = tab;
+            this.updateHistories();
             this.cdr.detectChanges();
         });
     }
@@ -77,14 +80,9 @@ export class AppNavComponent implements OnInit, OnDestroy, OnChanges {
             this.cdr.detectChanges();
         }
         
-        if (changes['histories']) {
-            console.log('[AppNav] Histories changed:', changes['histories'].currentValue);
-        }
         if (changes['currentTab']) {
             console.log('[AppNav] Current tab changed:', changes['currentTab'].currentValue);
             this.currentTabInternal = changes['currentTab'].currentValue;
-        }
-        if (changes['histories'] || changes['currentTab']) {
             this.updateHistories();
         }
     }
@@ -98,35 +96,16 @@ export class AppNavComponent implements OnInit, OnDestroy, OnChanges {
 
     public updateHistories(): void {
         console.log('[AppNav] Updating histories');
-        console.log('[AppNav] Current histories:', this.histories);
         console.log('[AppNav] Current tab:', this.currentTab);
         
-        if (!this.currentTab) {
-            console.log('[AppNav] No current tab');
+        if (!this.currentTab?.hostName) {
+            console.log('[AppNav] No current tab or hostname');
             this.filteredHistories = [];
             return;
         }
-        if (!this.histories || this.histories.length === 0) {
-            console.log('[AppNav] No histories available');
-            this.filteredHistories = [];
-            return;
-        }
-        
-        // Filter and sort by date (most recent first)
-        this.filteredHistories = this.histories
-            .filter(item => {
-                console.log('[AppNav] History item:', item);
-                console.log('[AppNav] Comparing:', item.host?.toLowerCase(), 'with', this.currentTab!.hostName.toLowerCase());
-                return item.host?.toLowerCase() === this.currentTab!.hostName.toLowerCase();
-            })
-            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-            .slice(0, 10);
-            
-        console.log('[AppNav] Filtered histories:', this.filteredHistories);
-    }
 
-    public getHistoryForHost(): IHistoryItem[] {
-        return this.filteredHistories;
+        this.filteredHistories = this.historyService.getHistoryByHost(this.currentTab.hostName);
+        console.log('[AppNav] Filtered histories:', this.filteredHistories);
     }
 
     public selectHistoryItem(item: IHistoryItem): void {

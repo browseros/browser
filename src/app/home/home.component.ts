@@ -17,6 +17,7 @@ import { clipboard } from 'electron';
 import { webContents } from '@electron/remote';
 import { ScreenshotService } from '../services/screenshot.service';
 import { AIAssistantService } from '../services/ai-assistant.service';
+import { HistoryService } from '../services/history.service';
 
 interface DownloadResult {
     success: boolean;
@@ -72,7 +73,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<fromRoot.State>,
     private screenshotService: ScreenshotService,
-    public aiAssistantService: AIAssistantService
+    public aiAssistantService: AIAssistantService,
+    private historyService: HistoryService
   ) {
     console.log('[HomeComponent] Constructor called');
     this.subscriptions.push(
@@ -208,13 +210,32 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onUrlChanged(url: any): void {
+    if (!url || !this.currentTab) return;
+
     const webEvent: IWebEvent = {
-      eventValue: url,
-      eventName: 'urlchanged',
-      tabId: this.currentTab.id,
-      app: this.currentApp
+        eventValue: url,
+        eventName: 'urlchanged',
+        tabId: this.currentTab.id,
+        app: this.currentApp
     };
+    
+    // Update tab URL in store
     this.store.dispatch(new appActions.ChangeTabUrlAction(webEvent));
+
+    try {
+        // Save to history
+        const urlObj = new URL(url);
+        this.historyService.addHistoryItem({
+            title: this.currentTab.title || urlObj.hostname,
+            link: url,
+            host: urlObj.hostname,
+            icon: this.currentTab.icon,
+            date: new Date(),
+            weight: 1 // Initialize with weight 1
+        });
+    } catch (error) {
+        console.error('[HomeComponent] Error saving history:', error);
+    }
   }
 
   onDomReady(event: IWebEvent): void {
