@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Menu, MenuItem } from '@electron/remote';
+import { Menu, MenuItem, clipboard, nativeImage } from '@electron/remote';
+import { ipcRenderer } from 'electron';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class ClipboardService {
 
   async copy(text: string): Promise<void> {
     try {
-      await navigator.clipboard.writeText(text);
+      clipboard.writeText(text);
     } catch (error) {
       console.error('Failed to copy text:', error);
       throw error;
@@ -18,7 +19,7 @@ export class ClipboardService {
 
   async paste(): Promise<string> {
     try {
-      return await navigator.clipboard.readText();
+      return clipboard.readText();
     } catch (error) {
       console.error('Failed to paste text:', error);
       throw error;
@@ -27,16 +28,9 @@ export class ClipboardService {
 
   async pasteImage(): Promise<string | null> {
     try {
-      const items = await navigator.clipboard.read();
-      for (const item of items) {
-        if (item.types.includes('image/png') || item.types.includes('image/jpeg')) {
-          const blob = await item.getType(item.types.find(type => type.startsWith('image/')) || 'image/png');
-          return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result as string);
-            reader.readAsDataURL(blob);
-          });
-        }
+      const image = clipboard.readImage();
+      if (!image.isEmpty()) {
+        return `data:image/png;base64,${image.toPNG().toString('base64')}`;
       }
       return null;
     } catch (error) {
@@ -47,6 +41,19 @@ export class ClipboardService {
 
   selectAll(element: HTMLInputElement | HTMLTextAreaElement): void {
     element.select();
+  }
+
+  async copyImage(imageUrl: string): Promise<void> {
+    try {
+      const success = await ipcRenderer.invoke('copy-image', imageUrl);
+      if (!success) {
+        throw new Error('Failed to copy image');
+      }
+    } catch (error) {
+      console.error('Failed to copy image:', error);
+      // If all else fails, try to open the image in a new tab
+      window.open(imageUrl, '_blank');
+    }
   }
 
   setupKeyboardShortcuts(element: HTMLInputElement | HTMLTextAreaElement, onTextChange?: (text: string) => void, onImagePaste?: (imageUrl: string) => void): void {
@@ -101,6 +108,25 @@ export class ClipboardService {
       const mouseEvent = e as MouseEvent;
       mouseEvent.preventDefault();
       const menu = new Menu();
+
+      // Get the target element
+      const target = mouseEvent.target as HTMLElement;
+      const isImage = target.tagName === 'IMG';
+
+      if (isImage) {
+        // Add image-specific menu items
+        menu.append(new MenuItem({
+          label: 'Copy Image',
+          click: async () => {
+            const imgElement = target as HTMLImageElement;
+            if (imgElement.src) {
+              await this.copyImage(imgElement.src);
+            }
+          }
+        }));
+
+        menu.append(new MenuItem({ type: 'separator' }));
+      }
 
       menu.append(new MenuItem({
         label: 'Select All',

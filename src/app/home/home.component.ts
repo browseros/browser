@@ -12,12 +12,14 @@ import * as appActions from '../actions/app.actions';
 import { NewHistoryAction } from '../reducers/app';
 import { AppSearchComponent } from './app-search/app-search.component';
 import { StateHelper } from '../utils/state.helper';
-import { Menu, MenuItem, BrowserWindow, app, dialog } from '@electron/remote';
-import { clipboard } from 'electron';
+import { Menu, MenuItem, BrowserWindow, app, dialog, clipboard, nativeImage } from '@electron/remote';
 import { webContents } from '@electron/remote';
 import { ScreenshotService } from '../services/screenshot.service';
 import { AIAssistantService } from '../services/ai-assistant.service';
 import { HistoryService } from '../services/history.service';
+
+// Get ipcRenderer from electron
+const { ipcRenderer } = require('electron');
 
 interface DownloadResult {
     success: boolean;
@@ -103,7 +105,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
 
     // Listen for download complete events
-    const { ipcRenderer } = require('electron');
     ipcRenderer.on('download-complete', (_event: Electron.IpcRendererEvent, result: DownloadResult) => {
       if (result.success) {
         console.log('[HomeComponent] Download completed:', result.path);
@@ -496,8 +497,58 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       menu.append(new MenuItem({
         label: 'Copy image',
-        click: () => {
-          clipboard.writeImage(params.srcURL);
+        click: async () => {
+          try {
+            console.log('[Home] Attempting to copy image:', params.srcURL);
+            
+            // Create an image element to load the image
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            
+            await new Promise((resolve, reject) => {
+              img.onload = () => {
+                try {
+                  // Create a canvas to draw the image
+                  const canvas = document.createElement('canvas');
+                  canvas.width = img.width;
+                  canvas.height = img.height;
+                  
+                  // Draw the image on canvas
+                  const ctx = canvas.getContext('2d');
+                  if (!ctx) {
+                    reject(new Error('Failed to get canvas context'));
+                    return;
+                  }
+                  
+                  ctx.drawImage(img, 0, 0);
+                  
+                  // Convert canvas to PNG buffer
+                  const dataURL = canvas.toDataURL('image/png');
+                  const base64Data = dataURL.replace(/^data:image\/png;base64,/, '');
+                  const imageBuffer = Buffer.from(base64Data, 'base64');
+                  
+                  // Create native image and write to clipboard
+                  const image = nativeImage.createFromBuffer(imageBuffer);
+                  clipboard.writeImage(image);
+                  
+                  resolve(true);
+                } catch (err) {
+                  reject(err);
+                }
+              };
+              
+              img.onerror = () => reject(new Error('Failed to load image'));
+              img.src = params.srcURL;
+            });
+            
+            console.log('[Home] Image copied successfully');
+          } catch (error) {
+            console.error('[Home] Error copying image:', error);
+            // Only open in new tab if it's a web URL
+            if (params.srcURL.startsWith('http')) {
+              window.open(params.srcURL, '_blank');
+            }
+          }
         }
       }));
     }
@@ -558,7 +609,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private saveUrlToFolder(url: string, folderPath: string): void {
-    const { ipcRenderer } = require('electron');
     ipcRenderer.send('download-file', {
       url: url,
       targetPath: folderPath

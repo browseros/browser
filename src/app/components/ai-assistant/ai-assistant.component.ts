@@ -226,6 +226,32 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
           }
         );
       }
+
+      // Set up context menu for chat messages
+      const messagesContainer = document.querySelector('.messages');
+      if (messagesContainer) {
+        messagesContainer.addEventListener('contextmenu', (e: Event) => {
+          const mouseEvent = e as MouseEvent;
+          const target = mouseEvent.target as HTMLElement;
+          
+          // If right-clicking on an image, use the clipboard service's context menu
+          if (target.tagName === 'IMG') {
+            mouseEvent.preventDefault();
+            this.clipboardService.setupContextMenu(
+              textarea,
+              (newValue: string) => {
+                this.newMessage = newValue;
+              },
+              (imageUrl: string) => {
+                this.aiAssistantService.addImageToChat({
+                  imageUrl: imageUrl,
+                  srcUrl: 'Pasted image'
+                });
+              }
+            );
+          }
+        });
+      }
     });
   }
 
