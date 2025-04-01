@@ -11,4 +11,8 @@ export class AIAssistantService {
   toggleAssistant() {
     this.isOpenSubject.next(!this.isOpenSubject.value);
   }
+
+  close() {
+    this.isOpenSubject.next(false);
+  }
 } 

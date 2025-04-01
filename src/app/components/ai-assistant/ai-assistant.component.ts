@@ -8,6 +8,7 @@ import { ClipboardService } from '../../services/clipboard.service';
 import { Menu, MenuItem } from '@electron/remote';
 import { marked } from 'marked';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { AIAssistantService } from '../../services/ai-assistant.service';
 
 interface Action {
   id: string;
@@ -86,7 +87,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     private screenshotService: ScreenshotService,
     private googleAIService: GoogleAIService,
     private clipboardService: ClipboardService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private aiAssistantService: AIAssistantService
   ) {
     // Listen for storage changes to update API keys
     window.addEventListener('storage', (e) => {
@@ -506,5 +508,114 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+  }
+
+  showHelp() {
+    // Create help dialog content
+    const helpContent = [
+      { title: 'Chat with AI', description: 'Have natural conversations with AI about any topic' },
+      { title: 'Summarize Content', description: 'Get AI-powered summaries of web pages' },
+      { title: 'Translate Content', description: 'Translate web content using AI' },
+      { title: 'Explain Code', description: 'Get AI explanations of code on the page' },
+      { title: 'Smart Search', description: 'Search with AI-powered suggestions' }
+    ];
+
+    // Show help dialog
+    const dialog = document.createElement('div');
+    dialog.className = 'help-dialog';
+    dialog.innerHTML = `
+      <div class="help-content">
+        <h2>AI Assistant Features</h2>
+        <div class="help-items">
+          ${helpContent.map(item => `
+            <div class="help-item">
+              <h3>${item.title}</h3>
+              <p>${item.description}</p>
+            </div>
+          `).join('')}
+        </div>
+        <button class="close-help">Close</button>
+      </div>
+    `;
+
+    // Add styles
+    const style = document.createElement('style');
+    style.textContent = `
+      .help-dialog {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+      .help-content {
+        background: white;
+        border-radius: 8px;
+        padding: 24px;
+        max-width: 500px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .help-content h2 {
+        margin: 0 0 16px;
+        font-size: 20px;
+        color: #212529;
+      }
+      .help-items {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .help-item {
+        padding: 16px;
+        background: #f8f9fa;
+        border-radius: 6px;
+      }
+      .help-item h3 {
+        margin: 0 0 8px;
+        font-size: 16px;
+        color: #212529;
+      }
+      .help-item p {
+        margin: 0;
+        color: #6c757d;
+      }
+      .close-help {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        margin-top: 16px;
+        border: none;
+        background: #0d6efd;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .close-help:hover {
+        background: #0b5ed7;
+      }
+    `;
+
+    dialog.appendChild(style);
+    document.body.appendChild(dialog);
+
+    // Handle close
+    const closeBtn = dialog.querySelector('.close-help');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        document.body.removeChild(dialog);
+      });
+    }
+  }
+
+  close() {
+    this.aiAssistantService.close();
   }
 } 

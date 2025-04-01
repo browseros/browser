@@ -1,22 +1,14 @@
 <div class="ai-assistant" [class.open]="isOpen">
   <div class="chat-container">
     <div class="chat-header">
-      <div class="dropdown">
-        <button class="dropdown-toggle" (click)="toggleDropdown()">
-          <i class="bi" [ngClass]="getCurrentActionIcon()"></i>
-          <span>{{ getCurrentActionLabel() }}</span>
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="dropdown-menu" [class.show]="isDropdownOpen">
-          <button *ngFor="let action of actions" 
-                  class="dropdown-item"
-                  [class.active]="currentAction === action.id"
-                  (click)="handleAction(action.id)">
-            <i class="bi" [ngClass]="action.icon"></i>
-            <div class="action-info">
-              <span class="action-label">{{ action.label }}</span>
-              <span class="action-description">{{ action.description }}</span>
-            </div>
+      <div class="title-bar">
+        <span class="title">AI Assistant</span>
+        <div class="header-actions">
+          <button class="header-button" (click)="showHelp()" title="Help">
+            <i class="bi bi-question-circle"></i>
+          </button>
+          <button class="header-button" (click)="close()" title="Close">
+            <i class="bi bi-x-lg"></i>
           </button>
         </div>
       </div>
