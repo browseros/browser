@@ -25,11 +25,31 @@ export class ClipboardService {
     }
   }
 
+  async pasteImage(): Promise<string | null> {
+    try {
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        if (item.types.includes('image/png') || item.types.includes('image/jpeg')) {
+          const blob = await item.getType(item.types.find(type => type.startsWith('image/')) || 'image/png');
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.readAsDataURL(blob);
+          });
+        }
+      }
+      return null;
+    } catch (error) {
+      console.error('Failed to paste image:', error);
+      return null;
+    }
+  }
+
   selectAll(element: HTMLInputElement | HTMLTextAreaElement): void {
     element.select();
   }
 
-  setupKeyboardShortcuts(element: HTMLInputElement | HTMLTextAreaElement, onTextChange?: (text: string) => void): void {
+  setupKeyboardShortcuts(element: HTMLInputElement | HTMLTextAreaElement, onTextChange?: (text: string) => void, onImagePaste?: (imageUrl: string) => void): void {
     element.addEventListener('keydown', async (e: Event) => {
       const keyboardEvent = e as KeyboardEvent;
       // Select All (Ctrl+A/Command+A)
@@ -48,6 +68,15 @@ export class ClipboardService {
       // Paste (Ctrl+V/Command+V)
       if ((keyboardEvent.metaKey || keyboardEvent.ctrlKey) && keyboardEvent.key === 'v') {
         e.preventDefault();
+        // Try to paste image first
+        if (onImagePaste) {
+          const imageUrl = await this.pasteImage();
+          if (imageUrl) {
+            onImagePaste(imageUrl);
+            return;
+          }
+        }
+        // If no image, paste text
         const text = await this.paste();
         const start = element.selectionStart || 0;
         const end = element.selectionEnd || 0;
@@ -67,7 +96,7 @@ export class ClipboardService {
     });
   }
 
-  setupContextMenu(element: HTMLInputElement | HTMLTextAreaElement, onTextChange?: (text: string) => void): void {
+  setupContextMenu(element: HTMLInputElement | HTMLTextAreaElement, onTextChange?: (text: string) => void, onImagePaste?: (imageUrl: string) => void): void {
     element.addEventListener('contextmenu', (e: Event) => {
       const mouseEvent = e as MouseEvent;
       mouseEvent.preventDefault();
@@ -96,6 +125,15 @@ export class ClipboardService {
       menu.append(new MenuItem({
         label: 'Paste',
         click: async () => {
+          // Try to paste image first
+          if (onImagePaste) {
+            const imageUrl = await this.pasteImage();
+            if (imageUrl) {
+              onImagePaste(imageUrl);
+              return;
+            }
+          }
+          // If no image, paste text
           const text = await this.paste();
           const start = element.selectionStart || 0;
           const end = element.selectionEnd || 0;

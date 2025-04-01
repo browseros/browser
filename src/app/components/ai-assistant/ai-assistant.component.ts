@@ -189,17 +189,35 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   ngAfterViewInit() {
     // Set up clipboard functionality for the textarea
     setTimeout(() => {
-      const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
+      const textarea = document.querySelector('.input-container textarea') as HTMLTextAreaElement;
       if (textarea) {
-        // Set up keyboard shortcuts
-        this.clipboardService.setupKeyboardShortcuts(textarea, (newValue: string) => {
-          this.newMessage = newValue;
-        });
+        // Set up keyboard shortcuts with image paste support
+        this.clipboardService.setupKeyboardShortcuts(
+          textarea, 
+          (newValue: string) => {
+            this.newMessage = newValue;
+          },
+          (imageUrl: string) => {
+            this.aiAssistantService.addImageToChat({
+              imageUrl: imageUrl,
+              srcUrl: 'Pasted image'
+            });
+          }
+        );
 
-        // Set up context menu
-        this.clipboardService.setupContextMenu(textarea, (newValue: string) => {
-          this.newMessage = newValue;
-        });
+        // Set up context menu with image paste support
+        this.clipboardService.setupContextMenu(
+          textarea, 
+          (newValue: string) => {
+            this.newMessage = newValue;
+          },
+          (imageUrl: string) => {
+            this.aiAssistantService.addImageToChat({
+              imageUrl: imageUrl,
+              srcUrl: 'Pasted image'
+            });
+          }
+        );
       }
     });
   }
