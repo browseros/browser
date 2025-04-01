@@ -352,9 +352,46 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     this.isLoading = true;
 
     try {
-      // Call AI service with text and pending image
-      const response = await this.aiAssistantService.sendMessage(messageToSend, this.pendingImage ? userMessage : null);
+      let response: string;
       
+      // If there's a pending image, use the original flow
+      if (this.pendingImage) {
+        response = await this.aiAssistantService.sendMessage(messageToSend, userMessage);
+      } else {
+        // For text-only messages, check for intents
+        const [intent, targetLang] = await this.googleAIService.detectIntent(messageToSend);
+        console.log('Detected intent:', intent, 'targetLang:', targetLang);
+
+        if (intent === 'translate') {
+          if (!this.currentTab?.id) {
+            throw new Error('Không thể lấy được tab hiện tại');
+          }
+
+          const webview = document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag;
+          if (!webview) {
+            throw new Error('Không tìm thấy webview cho tab hiện tại');
+          }
+
+          this.addAssistantMessage('Đang xử lý yêu cầu dịch của bạn...');
+
+          try {
+            const base64Image = await this.screenshotService.captureFullPage(webview);
+            console.log('Captured screenshot for translation');
+
+            response = await this.googleAIService.translateImage(base64Image, targetLang || 'english');
+            
+            this.messages.pop(); // Remove processing message
+          } catch (error) {
+            console.error('Translation error:', error);
+            this.messages.pop(); // Remove processing message
+            throw error;
+          }
+        } else {
+          // For regular chat
+          response = await this.aiAssistantService.sendMessage(messageToSend);
+        }
+      }
+
       // Convert markdown to HTML and sanitize
       const htmlContent = await marked(response);
       const safeHtml = this.sanitizer.bypassSecurityTrustHtml(htmlContent);
@@ -371,8 +408,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
 
       // Clear pending image after sending
       this.pendingImage = null;
-    } catch (error) {
-      this.error = 'Failed to get response from AI';
+    } catch (error: any) {
+      this.error = `Có lỗi xảy ra: ${error.message || 'Không xác định'}`;
       console.error('Error sending message:', error);
     } finally {
       this.isLoading = false;
@@ -435,107 +472,12 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
 
   async handleInputEnter() {
     console.log('handleInputEnter called');
-    await this.processUserInput();
+    await this.sendMessage();
   }
 
   async handleButtonClick() {
     console.log('handleButtonClick called');
-    await this.processUserInput();
-  }
-
-  private async processUserInput() {
-    console.log('processUserInput called');
-    if (!this.newMessage.trim()) return;
-
-    const message = this.newMessage.trim();
-    console.log('Processing message:', message);
-    this.addUserMessage(message);
-    this.newMessage = '';
-    this.isLoading = true;
-
-    // Add processing message
-    this.addAssistantMessage('Đang xử lý yêu cầu của bạn...');
-
-    console.log('Processing with URL:', this.currentUrl);
-
-    try {
-      // First detect the intent
-      const [intent, targetLang] = await this.googleAIService.detectIntent(message);
-      console.log('Detected intent:', intent, 'targetLang:', targetLang);
-
-      // Remove the processing message
-      this.messages.pop();
-
-      let response: string;
-
-      // Handle translation intent
-      if (intent === 'translate') {
-        if (!this.currentUrl) {
-          throw new Error('Không thể lấy được URL của trang hiện tại');
-        }
-
-        // Get the current webview
-        const webview = document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag;
-        if (!webview) {
-          throw new Error('Không tìm thấy webview cho tab hiện tại');
-        }
-
-        // Capture the page using the screenshot service
-        const base64Image = await this.screenshotService.captureFullPage(webview);
-
-        // Translate the image content directly using Google AI
-        response = await this.googleAIService.translateImage(base64Image, targetLang || 'vietnamese');
-        await this.addAssistantMessage(response);
-        return;
-      }
-
-      // Handle summarize intent
-      if (intent === 'summarize') {
-        if (!this.currentUrl) {
-          throw new Error('Không thể lấy được URL của trang hiện tại');
-        }
-
-        // Get the current webview
-        const webview = document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag;
-        if (!webview) {
-          throw new Error('Không tìm thấy webview cho tab hiện tại');
-        }
-
-        // Capture the page using the screenshot service
-        const base64Image = await this.screenshotService.captureFullPage(webview);
-
-        // Summarize the image content directly using Google AI
-        response = await this.googleAIService.summarizeImage(base64Image, targetLang || 'vietnamese');
-        await this.addAssistantMessage(response);
-        return;
-      }
-
-      // Handle explain_code intent
-      if (intent === 'explain_code') {
-        if (!this.currentUrl) {
-          throw new Error('Không thể lấy được URL của trang hiện tại');
-        }
-
-        const aiResponse = await this.chatGPTService.explainCodeWithAI(this.currentUrl).toPromise();
-        if (aiResponse && aiResponse.choices && aiResponse.choices[0]) {
-          await this.addAssistantMessage(aiResponse.choices[0].message.content);
-        }
-        return;
-      }
-
-      // For regular chat, just use the original message with Google AI
-      console.log('Processing as regular chat');
-      response = await this.googleAIService.chat(
-        'You are a helpful AI assistant that provides clear and accurate responses in Vietnamese.',
-        message
-      );
-      await this.addAssistantMessage(response);
-    } catch (error) {
-      console.error('Error:', error);
-      this.error = 'Có lỗi xảy ra khi xử lý yêu cầu của bạn';
-    } finally {
-      this.isLoading = false;
-    }
+    await this.sendMessage();
   }
 
   getButtonIcon(): string {

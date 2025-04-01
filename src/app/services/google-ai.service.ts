@@ -190,47 +190,59 @@ Tóm tắt nên bao gồm:
 
   async detectIntent(message: string): Promise<[string, string]> {
     try {
-      const prompt = `You are an intent detection system. Analyze the user's message and return an array with two elements:
-1. The intent: one of these values
-- translate: if user wants to translate content
-- summarize: if user wants to summarize content
-- explain_code: if user wants to explain code
+      const prompt = `Analyze the following Vietnamese/English message and detect the user's intent and target language. Return ONLY a JSON array with two elements: ["intent", "language"]
+
+Available intents:
+- translate: for translation requests
+- summarize: for summarization requests
+- explain_code: for code explanation requests
 - chat: for general chat or other requests
 
-2. The target language: 
-- english: if user wants English
-- vietnamese: if user wants Vietnamese
-- japanese: if user wants Japanese
-- korean: if user wants Korean
-- chinese: if user wants Chinese
-- french: if user wants French
-- german: if user wants German
-- spanish: if user wants Spanish
-- russian: if user wants Russian
-- portuguese: if user wants Portuguese
-- italian: if user wants Italian
-- dutch: if user wants Dutch
-- polish: if user wants Polish
-- arabic: if user wants Arabic
-- hindi: if user wants Hindi
-- none: for non-translation/summarization intents
+Available languages:
+- english: for English
+- vietnamese: for Vietnamese
+- japanese: for Japanese
+- korean: for Korean
+- chinese: for Chinese
+- french: for French
+- german: for German
+- spanish: for Spanish
+- russian: for Russian
+- portuguese: for Portuguese
+- italian: for Italian
+- dutch: for Dutch
+- polish: for Polish
+- arabic: for Arabic
+- hindi: for Hindi
+- none: for non-translation requests
 
-Return ONLY the array in this format without any explanation:
-["intent", "language"]
+Common translation patterns in Vietnamese:
+- "dịch ... sang ..."
+- "dịch ... ra ..."
+- "chuyển ... sang ..."
+- "dịch giúp mình ..."
+- "dịch trang này ..."
+- "dịch nội dung này ..."
+
+Common translation patterns in English:
+- "translate ... to ..."
+- "translate ... into ..."
+- "translate this ..."
+- "convert ... to ..."
 
 Examples:
-"dịch trang web này sang tiếng anh" -> ["translate", "english"]
+"dịch trang này sang tiếng anh" -> ["translate", "english"]
+"dịch ra tiếng Anh" -> ["translate", "english"]
 "translate this to english" -> ["translate", "english"]
 "dịch sang tiếng Nhật" -> ["translate", "japanese"]
 "translate to japanese" -> ["translate", "japanese"]
 "dịch giúp mình trang này" -> ["translate", "vietnamese"]
-"tóm tắt nội dung trang này" -> ["summarize", "vietnamese"]
-"summarize this page in English" -> ["summarize", "english"]
-"tóm tắt trang này bằng tiếng Nhật" -> ["summarize", "japanese"]
-"giải thích code trong trang" -> ["explain_code", "none"]
-"thời tiết hôm nay thế nào" -> ["chat", "none"]
+"tóm tắt nội dung" -> ["summarize", "vietnamese"]
+"summarize this page" -> ["summarize", "english"]
+"giải thích code" -> ["explain_code", "none"]
+"thời tiết hôm nay" -> ["chat", "none"]
 
-User message: ${message}`;
+Analyze this message: ${message}`;
 
       const result = await this.model.generateContent(prompt);
       if (!result || !result.response) {
@@ -238,18 +250,18 @@ User message: ${message}`;
       }
 
       const response = await result.response;
-      const text = response.text();
+      const text = response.text().trim();
       
       if (!text) {
         throw new Error('No intent detected');
       }
 
       try {
-        // text result can be: ```json["intent", "language"]```
-        // so we need to remove the ```json and ```
-        const jsonText = text.trim().replace(/^```json/, '').replace(/```$/, '');
-        const [intent, language] = JSON.parse(jsonText.trim());
-        console.log('Intent:', intent, 'Language:', language);
+        // Remove any markdown formatting and get just the array
+        const cleanText = text.replace(/```json/g, '').replace(/```/g, '').trim();
+        const [intent, language] = JSON.parse(cleanText);
+        
+        console.log('Detected intent:', intent, 'language:', language);
         return [intent, language];
       } catch (e) {
         console.error('Error parsing intent response:', e);
@@ -257,7 +269,7 @@ User message: ${message}`;
       }
     } catch (error: any) {
       console.error('Error detecting intent:', error);
-      throw new Error(`Failed to detect intent: ${error.message || 'Unknown error'}`);
+      return ['chat', 'none']; // Fallback to chat intent
     }
   }
 
