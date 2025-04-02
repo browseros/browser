@@ -174,4 +174,102 @@ export class ScreenshotService {
       document.body.style.width = '${pageInfo.originalStyles.body.width}';
     `);
   }
+
+  private async getViewportInfo(wc: Electron.WebContents): Promise<{
+    viewportWidth: number;
+    viewportHeight: number;
+    scrollX: number;
+    scrollY: number;
+    devicePixelRatio: number;
+  }> {
+    return await wc.executeJavaScript(`
+      new Promise((resolve) => {
+        // Get the actual viewport dimensions
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const devicePixelRatio = window.devicePixelRatio || 1;
+        const scrollX = window.pageXOffset;
+        const scrollY = window.pageYOffset;
+        
+        resolve({
+          viewportWidth,
+          viewportHeight,
+          scrollX,
+          scrollY,
+          devicePixelRatio
+        });
+      });
+    `);
+  }
+
+  async captureVisibleArea(webview: Electron.WebviewTag): Promise<string> {
+    try {
+      const webContentsId = webview.getWebContentsId();
+      const wc = webContents.fromId(webContentsId);
+      if (!wc) {
+        throw new Error('Cannot get webContents');
+      }
+
+      // Store original zoom and reset to 1.0
+      const originalZoom = await wc.getZoomFactor();
+      await wc.setZoomFactor(1.0);
+
+      // Wait for zoom changes to take effect
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Get viewport dimensions and scroll position from the webview
+      const viewportInfo = await wc.executeJavaScript(`
+        new Promise((resolve) => {
+          const rect = document.documentElement.getBoundingClientRect();
+          resolve({
+            viewportWidth: window.innerWidth,
+            viewportHeight: window.innerHeight,
+            scrollX: window.scrollX || window.pageXOffset,
+            scrollY: window.scrollY || window.pageYOffset,
+            devicePixelRatio: window.devicePixelRatio || 1
+          });
+        });
+      `);
+
+      console.log('[ScreenshotService] Viewport info:', viewportInfo);
+
+      // Capture the visible area using webview's capturePage
+      const image = await new Promise<Electron.NativeImage>((resolve, reject) => {
+        const bounds = {
+          x: 0, // Always start from left edge
+          y: 0, // Always start from top edge
+          width: Math.round(viewportInfo.viewportWidth),
+          height: Math.round(viewportInfo.viewportHeight)
+        };
+
+        console.log('[ScreenshotService] Capture bounds:', bounds);
+
+        webview.capturePage(bounds)
+          .then((img: Electron.NativeImage) => {
+            if (img.isEmpty()) {
+              console.error('[ScreenshotService] Captured image is empty');
+              reject(new Error('Captured image is empty'));
+              return;
+            }
+            console.log('[ScreenshotService] Image captured successfully');
+            resolve(img);
+          })
+          .catch(error => {
+            console.error('[ScreenshotService] Capture error:', error);
+            reject(error);
+          });
+      });
+
+      // Convert to base64
+      const base64Image = image.toDataURL();
+
+      // Restore original zoom
+      await wc.setZoomFactor(originalZoom);
+
+      return base64Image;
+    } catch (error) {
+      console.error('[ScreenshotService] Error capturing visible area:', error);
+      throw error;
+    }
+  }
 } 

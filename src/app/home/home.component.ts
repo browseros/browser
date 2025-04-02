@@ -296,6 +296,31 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }));
 
+    menu.append(new MenuItem({
+      label: 'Capture visible area',
+      click: async () => {
+        try {
+          const webview = document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag;
+          if (!webview) {
+            console.error('[Home] No webview found for current tab:', this.currentTab.id);
+            return;
+          }
+
+          // Capture the visible area using the screenshot service
+          const base64Image = await this.screenshotService.captureVisibleArea(webview);
+
+          // Create a temporary link to download the image
+          const link = document.createElement('a');
+          link.download = `screenshot-visible-${new Date().toISOString()}.png`;
+          link.href = base64Image;
+          link.click();
+          console.log('[Home] Visible area screenshot saved');
+        } catch (error) {
+          console.error('[Home] Error capturing visible area screenshot:', error);
+        }
+      }
+    }));
+
     // Handle link context menu
     if (params.linkURL) {
       menu.append(new MenuItem({
