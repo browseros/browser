@@ -24,6 +24,16 @@ export interface PageInfo {
   };
 }
 
+interface CaptureSection {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  scrollPosition: number; // Position to scroll to
+  captureY: number; // Y position to start capture from
+  captureHeight: number; // Height to capture
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,64 +48,187 @@ export class ScreenshotService {
 
       // Get page dimensions and original scroll position
       const pageInfo = await this.getPageInfo(wc);
+      console.log('[ScreenshotService] Page info:', pageInfo);
       
-      // Store original zoom
+      // Store original zoom and scroll position
       const originalZoom = await wc.getZoomFactor();
+      const originalScroll = await wc.executeJavaScript('({ x: window.scrollX, y: window.scrollY })');
+      await wc.setZoomFactor(1.0);
 
-      // Calculate dynamic zoom factor based on page height
-      const maxHeight = 4000;
-      const zoomFactor = Math.min(maxHeight / pageInfo.height, 0.25);
-
-      // Set zoom factor and prepare page for capture
-      await this.preparePageForCapture(wc, pageInfo, zoomFactor);
-
-      // Wait for changes to take effect
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Capture the full page using html2canvas
-      const canvas = await wc.executeJavaScript(`
-        new Promise((resolve) => {
-          // Ensure we're at the top of the page
-          window.scrollTo(0, 0);
-          
-          // Get the full scrollable height
-          const fullHeight = Math.max(
-            document.documentElement.scrollHeight,
-            document.body.scrollHeight,
-            document.documentElement.offsetHeight,
-            document.body.offsetHeight,
-            document.documentElement.clientHeight
-          );
-
-          html2canvas(document.documentElement, {
-            scale: ${pageInfo.devicePixelRatio},
-            useCORS: true,
-            allowTaint: true,
-            foreignObjectRendering: true,
-            logging: false,
-            width: ${pageInfo.width},
-            height: fullHeight,
-            windowWidth: ${pageInfo.width},
-            windowHeight: fullHeight,
-            scrollX: 0,
-            scrollY: 0,
-            x: 0,
-            y: 0,
-            backgroundColor: '#ffffff'
-          }).then(canvas => {
-            resolve(canvas.toDataURL('image/png'));
-          });
-        });
+      // Set viewport to match full page width
+      await wc.executeJavaScript(`
+        document.documentElement.style.width = '${pageInfo.width}px';
+        document.body.style.width = '${pageInfo.width}px';
+        document.documentElement.style.overflowX = 'hidden';
+        document.body.style.overflowX = 'hidden';
       `);
 
-      // Restore original state
-      await this.restorePageState(wc, pageInfo, originalZoom);
+      // Wait for zoom change to take effect
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-      return canvas;
+      // Get viewport dimensions
+      const viewportInfo = await wc.executeJavaScript(`
+        ({
+          width: Math.max(
+            document.documentElement.scrollWidth,
+            document.body.scrollWidth,
+            document.documentElement.offsetWidth,
+            document.body.offsetWidth,
+            window.innerWidth
+          ),
+          height: window.innerHeight
+        })
+      `);
+
+      // Calculate sections to capture
+      const sections = this.calculateCaptureSections(viewportInfo, pageInfo);
+      console.log('[ScreenshotService] Sections to capture:', sections);
+      
+      // Capture each section
+      const sectionImages = await this.captureSections(webview, wc, sections);
+      console.log('[ScreenshotService] Captured sections:', sectionImages.length);
+      
+      // Merge sections into final image
+      const finalImage = await this.mergeSections(sectionImages, pageInfo);
+
+      // Restore original state
+      await wc.executeJavaScript(`
+        document.documentElement.style.width = '${pageInfo.originalStyles.html.width}';
+        document.body.style.width = '${pageInfo.originalStyles.body.width}';
+        document.documentElement.style.overflowX = '${pageInfo.originalStyles.html.overflow}';
+        document.body.style.overflowX = '${pageInfo.originalStyles.body.overflow}';
+        window.scrollTo(${originalScroll.x}, ${originalScroll.y});
+      `);
+      await wc.setZoomFactor(originalZoom);
+
+      return finalImage;
     } catch (error) {
-      console.error('Error capturing full page:', error);
+      console.error('[ScreenshotService] Error capturing full page:', error);
       throw error;
     }
+  }
+
+  private calculateCaptureSections(viewportInfo: { width: number, height: number }, pageInfo: PageInfo): CaptureSection[] {
+    const sections: CaptureSection[] = [];
+    const halfViewport = Math.floor(viewportInfo.height / 2);
+
+    // First section: capture full viewport
+    sections.push({
+      x: 0,
+      y: 0,
+      width: pageInfo.width,
+      height: viewportInfo.height,
+      scrollPosition: 0,
+      captureY: 0,
+      captureHeight: viewportInfo.height
+    });
+
+    // Calculate remaining sections
+    let currentY = halfViewport;
+    while (currentY < pageInfo.height) {
+      sections.push({
+        x: 0,
+        y: currentY,
+        width: pageInfo.width,
+        height: halfViewport,
+        scrollPosition: currentY,
+        captureY: halfViewport,
+        captureHeight: halfViewport
+      });
+      currentY += halfViewport;
+    }
+
+    return sections;
+  }
+
+  private async captureSections(webview: Electron.WebviewTag, wc: Electron.WebContents, sections: CaptureSection[]): Promise<string[]> {
+    const images: string[] = [];
+    
+    for (const section of sections) {
+      // Scroll to section position
+      await wc.executeJavaScript(`
+        window.scrollTo({
+          top: ${section.scrollPosition},
+          left: 0,
+          behavior: 'instant'
+        });
+      `);
+      
+      // Wait for scroll and repaint
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      try {
+        // Capture the section
+        const image = await webview.capturePage({
+          x: 0,
+          y: section.captureY,
+          width: Math.round(section.width),
+          height: Math.round(section.captureHeight)
+        });
+
+        if (image.isEmpty()) {
+          console.error('[ScreenshotService] Empty capture for section:', section);
+          throw new Error('Captured image is empty');
+        }
+
+        images.push(image.toDataURL());
+        console.log('[ScreenshotService] Successfully captured section:', section);
+      } catch (error) {
+        console.error('[ScreenshotService] Error capturing section:', section, error);
+        throw error;
+      }
+    }
+
+    return images;
+  }
+
+  private async mergeSections(sectionImages: string[], pageInfo: PageInfo): Promise<string> {
+    return await new Promise((resolve, reject) => {
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          throw new Error('Failed to get canvas context');
+        }
+
+        canvas.width = pageInfo.width;
+        canvas.height = pageInfo.height;
+
+        let loadedImages = 0;
+        const images: HTMLImageElement[] = [];
+
+        sectionImages.forEach((dataUrl, index) => {
+          const img = new Image();
+          img.onload = () => {
+            images[index] = img;
+            loadedImages++;
+
+            if (loadedImages === sectionImages.length) {
+              // Draw first section (full viewport)
+              ctx.drawImage(images[0], 0, 0);
+              
+              // Draw remaining sections
+              let currentY = images[0].height - 1;
+              for (let i = 1; i < images.length; i++) {
+                const img = images[i];
+                ctx.drawImage(img, 0, currentY);
+                currentY += Math.floor(images[0].height / 2) - 1;
+              }
+              
+              resolve(canvas.toDataURL('image/png'));
+            }
+          };
+          img.onerror = (error) => {
+            console.error('[ScreenshotService] Error loading section image:', error);
+            reject(error);
+          };
+          img.src = dataUrl;
+        });
+      } catch (error) {
+        console.error('[ScreenshotService] Error merging sections:', error);
+        reject(error);
+      }
+    });
   }
 
   private async getPageInfo(wc: Electron.WebContents): Promise<PageInfo> {
@@ -134,44 +267,6 @@ export class ScreenshotService {
         };
         resolve({ width, height, originalScroll, devicePixelRatio, originalStyles });
       });
-    `);
-  }
-
-  private async preparePageForCapture(wc: Electron.WebContents, pageInfo: PageInfo, zoomFactor: number): Promise<void> {
-    await wc.setZoomFactor(zoomFactor);
-    await wc.executeJavaScript(`
-      // Store original scroll position
-      window._originalScroll = window.pageYOffset;
-      
-      // Reset scroll position
-      window.scrollTo(0, 0);
-      
-      // Ensure the page takes up the full height
-      document.documentElement.style.overflow = 'hidden';
-      document.documentElement.style.height = '${pageInfo.height}px';
-      document.documentElement.style.width = '${pageInfo.width}px';
-      document.body.style.overflow = 'hidden';
-      document.body.style.height = '${pageInfo.height}px';
-      document.body.style.width = '${pageInfo.width}px';
-      
-      // Force layout recalculation
-      document.body.offsetHeight;
-    `);
-  }
-
-  private async restorePageState(wc: Electron.WebContents, pageInfo: PageInfo, originalZoom: number): Promise<void> {
-    await wc.setZoomFactor(originalZoom);
-    await wc.executeJavaScript(`
-      // Restore original scroll position
-      window.scrollTo(${pageInfo.originalScroll.x}, ${pageInfo.originalScroll.y});
-      
-      // Restore original styles
-      document.documentElement.style.overflow = '${pageInfo.originalStyles.html.overflow}';
-      document.documentElement.style.height = '${pageInfo.originalStyles.html.height}';
-      document.documentElement.style.width = '${pageInfo.originalStyles.html.width}';
-      document.body.style.overflow = '${pageInfo.originalStyles.body.overflow}';
-      document.body.style.height = '${pageInfo.originalStyles.body.height}';
-      document.body.style.width = '${pageInfo.originalStyles.body.width}';
     `);
   }
 
