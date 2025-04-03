@@ -386,6 +386,30 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
             this.messages.pop(); // Remove processing message
             throw error;
           }
+        } else if (intent === 'summarize') {
+          if (!this.currentTab?.id) {
+            throw new Error('Không thể lấy được tab hiện tại');
+          }
+
+          const webview = document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag;
+          if (!webview) {
+            throw new Error('Không tìm thấy webview cho tab hiện tại');
+          }
+
+          this.addAssistantMessage('Đang xử lý yêu cầu tóm tắt của bạn...');
+
+          try {
+            const base64Image = await this.screenshotService.captureFullPage(webview);
+            console.log('Captured screenshot for summarization');
+
+            response = await this.googleAIService.summarizeImage(base64Image, targetLang || 'vietnamese');
+            
+            this.messages.pop(); // Remove processing message
+          } catch (error) {
+            console.error('Summarization error:', error);
+            this.messages.pop(); // Remove processing message
+            throw error;
+          }
         } else {
           // For regular chat
           response = await this.aiAssistantService.sendMessage(messageToSend);
