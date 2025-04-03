@@ -338,9 +338,17 @@ Tóm tắt nên bao gồm:
     }
   }
 
-  async chat(systemMessage: string, userMessage: string, imageUrl?: string): Promise<string> {
+  async chat(systemMessage: string, userMessage: string, imageUrl?: string, conversationContext?: string): Promise<string> {
     try {
-      let prompt = `${systemMessage}\n\nUser: ${userMessage}`;
+      let prompt = `${systemMessage}\n\n`;
+      
+      // Add conversation context if available
+      if (conversationContext) {
+        prompt += `Previous conversation:\n${conversationContext}\n\n`;
+      }
+      
+      prompt += `User: ${userMessage}`;
+      
       let parts: any[] = [prompt];
 
       // If there's an image, add it to the parts array

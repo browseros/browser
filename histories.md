@@ -28,3 +28,16 @@
 - Reason: To improve reliability and performance of visible area screenshot capture
 - Files modified:
   - `src/app/services/screenshot.service.ts` 
+  
+- Added chat history functionality to maintain conversation context
+- Added new methods in AIAssistantService:
+  - `addToChatHistory`: Store chat messages in history
+  - `getChatHistory`: Retrieve chat history
+  - `clearChatHistory`: Clear chat history
+- Added conversation context support in GoogleAIService chat method
+- Modified AIAssistantService.sendMessage to include conversation context
+- Updated AIAssistantComponent to use chat history functionality
+- Enhanced chat prompt to include previous conversation context
+- To improve chat experience by maintaining conversation context
+- To enable AI to provide more relevant and contextual responses
+- To make chat interactions more natural and continuous

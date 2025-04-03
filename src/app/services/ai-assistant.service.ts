@@ -30,6 +30,8 @@ export class AIAssistantService {
   private imageSubject = new Subject<ImageToChat>();
   image$ = this.imageSubject.asObservable();
 
+  private chatHistory: ChatMessage[] = [];
+
   constructor(private googleAI: GoogleAIService) {}
 
   toggleAssistant() {
@@ -38,6 +40,7 @@ export class AIAssistantService {
 
   close() {
     this.isOpenSubject.next(false);
+    this.clearChatHistory();
   }
 
   addImageToChat(image: ImageToChat) {
@@ -47,17 +50,37 @@ export class AIAssistantService {
     this.imageSubject.next(image);
   }
 
+  addToChatHistory(message: ChatMessage) {
+    this.chatHistory.push(message);
+  }
+
+  getChatHistory(): ChatMessage[] {
+    return this.chatHistory;
+  }
+
+  clearChatHistory() {
+    this.chatHistory = [];
+  }
+
   async sendMessage(text: string, image?: ChatMessage | null): Promise<string> {
     try {
       const systemMessage = 'You are a helpful AI assistant that provides clear and accurate responses in Vietnamese.';
       
+      // Build the conversation context
+      let conversationContext = '';
+      if (this.chatHistory.length > 0) {
+        conversationContext = this.chatHistory
+          .map(msg => `${msg.isUser ? 'User' : 'Assistant'}: ${msg.content}`)
+          .join('\n');
+      }
+
       // If there's an image, include it in the chat
       if (image && image.imageUrl) {
-        return await this.googleAI.chat(systemMessage, text, image.imageUrl);
+        return await this.googleAI.chat(systemMessage, text, image.imageUrl, conversationContext);
       }
       
-      // Otherwise, just send text
-      return await this.googleAI.chat(systemMessage, text);
+      // Otherwise, just send text with conversation context
+      return await this.googleAI.chat(systemMessage, text, undefined, conversationContext);
     } catch (error) {
       console.error('Error in sendMessage:', error);
       throw error;

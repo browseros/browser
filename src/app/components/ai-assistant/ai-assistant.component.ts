@@ -346,6 +346,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       timestamp: new Date()
     };
     this.messages.push(userMessage);
+    this.aiAssistantService.addToChatHistory(userMessage);
 
     const messageToSend = this.newMessage;
     this.newMessage = '';
@@ -429,6 +430,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         htmlContent: safeHtml
       };
       this.messages.push(aiMessage);
+      this.aiAssistantService.addToChatHistory(aiMessage);
 
       // Clear pending image after sending
       this.pendingImage = null;
@@ -487,6 +489,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
 
   clearChat() {
     this.messages = [];
+    this.aiAssistantService.clearChatHistory();
     this.error = null;
   }
 
