@@ -452,6 +452,24 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
             this.messages.pop(); // Remove processing message
             throw error;
           }
+        } else if (intent === 'enter_input') {
+          if (!this.currentTab?.id) {
+            throw new Error('Cannot get current tab');
+          }
+
+          this.addAssistantMessage('Đang xử lý yêu cầu điền input...');
+
+          try {
+            const result = await this.aiAssistantService.handleInputFilling(messageToSend, this.currentTab);
+            if (result) {
+              response = result;
+            } else {
+              throw new Error('Failed to fill input');
+            }
+          } catch (error) {
+            console.error('Input filling error:', error);
+            throw error;
+          }
         } else {
           // For regular chat
           response = await this.aiAssistantService.sendMessage(messageToSend);
@@ -476,7 +494,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       // Clear pending image after sending
       this.pendingImage = null;
     } catch (error: any) {
-      this.error = `Có lỗi xảy ra: ${error.message || 'Không xác định'}`;
+      this.error = `Error: ${error.message || 'Unknown error'}`;
       console.error('Error sending message:', error);
     } finally {
       this.isLoading = false;
@@ -663,6 +681,16 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
           'Capture the full page',
           'Take a full page screenshot',
           'Save the complete page'
+        ]
+      },
+      { 
+        title: 'Fill Input Fields', 
+        description: 'Automatically fill form inputs with appropriate values',
+        examples: [
+          'Fill in email with test@example.com',
+          'Enter phone number in phone field',
+          'Fill name in name field',
+          'Enter password in password field'
         ]
       }
     ];

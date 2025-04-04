@@ -10,6 +10,17 @@ import * as http from 'http';
 // Initialize remote module
 initialize();
 
+// Handle IPC for webview script execution
+ipcMain.handle('execute-in-webview', async (event, script) => {
+  try {
+    const webContents = event.sender;
+    const result = await webContents.executeJavaScript(script);
+    return { success: true, result };
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Unknown error' };
+  }
+});
+
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 1200,
@@ -17,8 +28,16 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      webSecurity: true
+      webSecurity: true,
+      webviewTag: true,
+      nodeIntegrationInSubFrames: true, // Enable for webviews
+      allowRunningInsecureContent: true // Allow running scripts in webview
     }
+  });
+
+  // Enable webview permissions
+  mainWindow.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
+    callback(true); // Allow all permissions for now
   });
 
   // Enable remote module for this window

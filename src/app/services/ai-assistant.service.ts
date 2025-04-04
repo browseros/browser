@@ -123,4 +123,156 @@ export class AIAssistantService {
       return null;
     }
   }
+
+  async handleInputFilling(message: string, currentTab: any): Promise<string | null> {
+    try {
+      if (!currentTab?.id) {
+        throw new Error('Cannot get current tab');
+      }
+
+      const webview = document.querySelector(`webview#webview-${currentTab.id}`) as Electron.WebviewTag;
+      if (!webview) {
+        throw new Error('Cannot find webview for current tab');
+      }
+
+      // First, let's inspect the DOM structure
+      const domInfo = await webview.executeJavaScript(`
+        (function() {
+          // Get all input elements
+          const inputs = document.querySelectorAll('input, textarea, [contenteditable="true"]');
+          
+          // Map their properties for inspection
+          const inputsInfo = Array.from(inputs).map(input => ({
+            tagName: input.tagName,
+            id: input.id,
+            className: input.className,
+            type: input.type,
+            placeholder: input.placeholder,
+            'aria-label': input.getAttribute('aria-label'),
+            role: input.getAttribute('role'),
+            name: input.name
+          }));
+
+          console.log('Found inputs:', inputsInfo);
+          return inputsInfo;
+        })();
+      `);
+
+      console.log('DOM Structure:', domInfo);
+
+      // Extract input identifier and value from message
+      const [inputIdentifier, valueToFill] = await this.googleAI.extractInputInfo(message);
+      
+      // Generate value if needed
+      let value = valueToFill;
+      if (valueToFill === 'random_question') {
+        value = await this.generateRandomQuestion();
+      } else if (valueToFill.startsWith('random_')) {
+        value = await this.generateRandomValue(valueToFill.replace('random_', ''));
+      }
+
+      // Now try to fill the input
+      const result = await webview.executeJavaScript(`
+        (function() {
+          try {
+            // Try ChatGPT's main textarea first
+            let input = document.querySelector('#prompt-textarea');
+            
+            if (!input) {
+              // Try common chat textareas
+              input = document.querySelector('textarea[placeholder*="message" i], textarea[placeholder*="chat" i], textarea[placeholder*="type" i]');
+            }
+
+            if (!input) {
+              // Try contenteditable divs
+              input = document.querySelector('[contenteditable="true"]');
+            }
+
+            if (!input) {
+              // Try any textarea or text input
+              input = document.querySelector('textarea, input[type="text"]');
+            }
+
+            if (input) {
+              console.log('Found input:', input);
+              
+              // Set the value
+              if (input.hasAttribute('contenteditable')) {
+                input.textContent = "${value}";
+              } else {
+                input.value = "${value}";
+              }
+
+              // Trigger input event
+              const inputEvent = new InputEvent('input', {
+                bubbles: true,
+                cancelable: true,
+                composed: true
+              });
+              input.dispatchEvent(inputEvent);
+
+              // Trigger change event
+              const changeEvent = new Event('change', {
+                bubbles: true,
+                cancelable: true
+              });
+              input.dispatchEvent(changeEvent);
+
+              return { success: true, message: 'Input filled successfully' };
+            }
+
+            return { success: false, message: 'Could not find input element' };
+          } catch (error) {
+            console.error('Error:', error);
+            return { success: false, message: error.toString() };
+          }
+        })();
+      `);
+
+      console.log('Fill result:', result);
+      
+      if (result.success) {
+        return `Successfully filled input with "${value}"`;
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error) {
+      console.error('Error in handleInputFilling:', error);
+      return null;
+    }
+  }
+
+  private async generateRandomQuestion(): Promise<string> {
+    const questions = [
+      "What are your thoughts on artificial intelligence and its impact on society?",
+      "How would you explain quantum computing to a beginner?",
+      "What are the most effective ways to learn a new programming language?",
+      "Can you explain the concept of blockchain in simple terms?",
+      "What are the biggest challenges in cybersecurity today?",
+      "How do you see the future of remote work evolving?",
+      "What are the ethical considerations in AI development?",
+      "How can we make technology more accessible to everyone?",
+      "What role will virtual reality play in the future of education?",
+      "How can we balance privacy and convenience in digital services?"
+    ];
+    return questions[Math.floor(Math.random() * questions.length)];
+  }
+
+  private async generateRandomValue(type: string): Promise<string> {
+    switch (type.toLowerCase()) {
+      case 'email':
+        return `test${Math.random().toString(36).substring(2, 8)}@example.com`;
+      case 'phone':
+        return `+84${Math.floor(Math.random() * 900000000 + 100000000)}`;
+      case 'name':
+        const names = ['John', 'Jane', 'Mike', 'Sarah', 'David', 'Emily'];
+        return names[Math.floor(Math.random() * names.length)];
+      case 'password':
+        return Math.random().toString(36).substring(2, 10);
+      case 'question':
+        return await this.generateRandomQuestion();
+      default:
+        return Math.random().toString(36).substring(2, 8);
+    }
+  }
 } 

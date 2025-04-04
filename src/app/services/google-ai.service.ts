@@ -198,6 +198,7 @@ Available intents:
 - explain_code: for code explanation requests
 - capture: for capturing visible area
 - capture_full_page: for capturing full page
+- enter_input: for filling form inputs
 - chat: for general chat or other requests
 
 Available languages:
@@ -246,6 +247,20 @@ Common capture patterns in English:
 - "capture full page ..."
 - "capture everything ..."
 
+Common input patterns in Vietnamese:
+- "điền vào ô [tên] giá trị [yêu cầu]"
+- "nhập [giá trị] vào [tên input]"
+- "tạo [loại dữ liệu] cho [tên input]"
+- "điền email vào ô email"
+- "điền số điện thoại vào ô phone"
+
+Common input patterns in English:
+- "fill in [name] with [value]"
+- "enter [value] into [input name]"
+- "generate [data type] for [input name]"
+- "fill email in email field"
+- "enter phone number in phone field"
+
 Examples:
 "dịch trang này sang tiếng anh" -> ["translate", "english"]
 "dịch ra tiếng Anh" -> ["translate", "english"]
@@ -258,6 +273,8 @@ Examples:
 "giải thích code" -> ["explain_code", "none"]
 "chụp màn hình giúp tôi" -> ["capture", "none"]
 "chụp toàn trang này" -> ["capture_full_page", "none"]
+"điền email vào ô email" -> ["enter_input", "none"]
+"fill in email with test@example.com" -> ["enter_input", "none"]
 "thời tiết hôm nay" -> ["chat", "none"]
 
 Analyze this message: ${message}`;
@@ -434,5 +451,62 @@ Tóm tắt nên bao gồm:
       bytes[i] = binaryString.charCodeAt(i);
     }
     return bytes;
+  }
+
+  async extractInputInfo(message: string): Promise<[string, string]> {
+    try {
+      const prompt = `Analyze the following message and extract the input identifier and value to fill. Return ONLY a JSON array with two elements: ["inputIdentifier", "valueToFill"]
+
+The input identifier can be:
+- The exact input name/id/placeholder
+- A descriptive word about the input (e.g. "chat", "message", "prompt")
+- Any text that might help identify the input
+
+The value to fill can be:
+- An exact value specified in the message
+- "random_question" for generating a random question
+- "random_email" for generating a random email
+- "random_phone" for generating a random phone number
+- "random_name" for generating a random name
+- Empty string if no value is specified
+
+Examples:
+"điền vào ô chat câu hỏi về AI" -> ["chat", "What are your thoughts on artificial intelligence?"]
+"điền câu hỏi ngẫu nhiên vào chatgpt" -> ["chat", "random_question"]
+"nhập hello vào ô chat" -> ["chat", "hello"]
+"điền email ngẫu nhiên" -> ["email", "random_email"]
+"nhập John vào ô tên" -> ["name", "John"]
+"điền số điện thoại ngẫu nhiên" -> ["phone", "random_phone"]
+"điền vào ô tìm kiếm từ khóa AI" -> ["search", "AI"]
+
+Analyze this message: ${message}`;
+
+      const result = await this.model.generateContent(prompt);
+      if (!result || !result.response) {
+        throw new Error('No response from Gemini API');
+      }
+
+      const response = await result.response;
+      const text = response.text().trim();
+      
+      if (!text) {
+        throw new Error('No input info extracted');
+      }
+
+      try {
+        // Remove any markdown formatting and get just the array
+        const cleanText = text.replace(/```json/g, '').replace(/```/g, '').trim();
+        const [inputIdentifier, valueToFill] = JSON.parse(cleanText);
+        
+        console.log('Extracted input info:', inputIdentifier, valueToFill);
+        return [inputIdentifier, valueToFill];
+      } catch (e) {
+        console.error('Error parsing input info response:', e);
+        return ['', ''];
+      }
+    } catch (error: any) {
+      console.error('Error extracting input info:', error);
+      return ['', ''];
+    }
   }
 } 
