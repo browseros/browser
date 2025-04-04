@@ -381,42 +381,120 @@ Tóm tắt nên bao gồm:
       if (conversationContext) {
         prompt += `Previous conversation:\n${conversationContext}\n\n`;
       }
-      
-      prompt += `User: ${userMessage}`;
-      
-      let parts: any[] = [prompt];
 
-      // If there's an image, add it to the parts array
+      // If we already have an image, proceed with normal chat
       if (imageUrl) {
-        // Convert image URL to base64 if needed
-        if (imageUrl.startsWith('data:image')) {
-          const base64Data = imageUrl.replace(/^data:image\/\w+;base64,/, '');
-          parts.push({
-            inlineData: {
-              mimeType: "image/png",
-              data: base64Data
-            }
-          });
-        } else {
-          // For regular URLs, we'll need to fetch and convert to base64
-          try {
-            const response = await fetch(imageUrl);
-            const blob = await response.blob();
-            const base64Data = await this.blobToBase64(blob);
-            parts.push({
-              inlineData: {
-                mimeType: blob.type,
-                data: base64Data.replace(/^data:image\/\w+;base64,/, '')
-              }
-            });
-          } catch (error) {
-            console.error('Error loading image:', error);
-            // Continue without the image if there's an error
+        prompt += `User: ${userMessage}`;
+        let parts: any[] = [prompt];
+        parts.push({
+          inlineData: {
+            mimeType: "image/png",
+            data: imageUrl.replace(/^data:image\/\w+;base64,/, '')
           }
+        });
+
+        const result = await this.model.generateContent(parts);
+        if (!result || !result.response) {
+          throw new Error('No response from Gemini API');
         }
+
+        const response = await result.response;
+        const text = response.text();
+        
+        if (!text) {
+          throw new Error('No response generated');
+        }
+
+        return text;
       }
 
-      const result = await this.model.generateContent(parts);
+      // For text-only messages, first check if we need more context
+      const contextCheckPrompt = `${prompt}
+Analyze if you need visual context from the current webpage to provide a better answer.
+
+User message: "${userMessage}"
+
+Important rules:
+1. If you don't fully understand what the user is asking about, you MUST set needsScreenshot to true
+2. If the user is asking about something that might be visible on the webpage, you MUST set needsScreenshot to true
+3. If understandsContext is false, needsScreenshot MUST be true
+4. Only set both understandsContext and needsScreenshot to false if the question is completely independent of the webpage
+
+Consider:
+1. Is the user asking about something that might be visible on the current webpage?
+2. Would seeing the webpage help you provide a more accurate or detailed answer?
+3. Is the user referring to specific content, elements, or issues on the page?
+4. Do you have enough context without seeing the page?
+
+Return a JSON object in this exact format:
+{
+  "understandsContext": boolean,
+  "needsScreenshot": boolean,
+  "reason": "brief explanation in Vietnamese",
+  "message": "message to show user when taking screenshot (in Vietnamese)"
+}
+
+Example responses:
+For "giải thích đoạn code này":
+{
+  "understandsContext": false,
+  "needsScreenshot": true,
+  "reason": "Cần xem đoạn code cụ thể để giải thích",
+  "message": "Để tôi chụp màn hình đoạn code để giải thích chi tiết cho bạn..."
+}
+
+For "Việt Nam đã đề nghị như thế nào?":
+{
+  "understandsContext": false,
+  "needsScreenshot": true,
+  "reason": "Cần xem nội dung bài viết để biết đề nghị cụ thể",
+  "message": "Để tôi chụp màn hình nội dung để trả lời chi tiết cho bạn..."
+}
+
+For "thời tiết hôm nay thế nào":
+{
+  "understandsContext": true,
+  "needsScreenshot": false,
+  "reason": "Câu hỏi không liên quan đến nội dung trang web",
+  "message": ""
+}
+
+Remember: If understandsContext is false, needsScreenshot MUST be true.`;
+
+      const contextCheck = await this.model.generateContent(contextCheckPrompt);
+      if (!contextCheck || !contextCheck.response) {
+        throw new Error('No response from context check');
+      }
+
+      const contextResponse = contextCheck.response.text().trim();
+      try {
+        // Clean up the response and parse as JSON
+        const cleanResponse = contextResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+        const analysis = JSON.parse(cleanResponse);
+
+        // Force needsScreenshot to true if understandsContext is false
+        if (!analysis.understandsContext) {
+          analysis.needsScreenshot = true;
+        }
+
+        // If we need a screenshot, return the analysis
+        if (analysis.needsScreenshot) {
+          return JSON.stringify(analysis);
+        }
+      } catch (e) {
+        console.error('Error parsing context analysis:', e);
+        // If parsing fails, assume we need a screenshot
+        return JSON.stringify({
+          understandsContext: false,
+          needsScreenshot: true,
+          reason: "Không thể phân tích ngữ cảnh, cần chụp màn hình để đảm bảo",
+          message: "Để tôi chụp màn hình để hiểu rõ hơn về câu hỏi của bạn..."
+        });
+      }
+
+      // If we don't need a screenshot or if analysis failed, proceed with normal chat
+      prompt += `User: ${userMessage}`;
+      const result = await this.model.generateContent(prompt);
       if (!result || !result.response) {
         throw new Error('No response from Gemini API');
       }

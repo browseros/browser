@@ -3,6 +3,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { SafeHtml } from '@angular/platform-browser';
 import { GoogleAIService } from './google-ai.service';
 import { ScreenshotService } from './screenshot.service';
+import { Store } from '@ngrx/store';
 
 export interface ImageToChat {
   imageUrl: string;
@@ -32,8 +33,20 @@ export class AIAssistantService {
   image$ = this.imageSubject.asObservable();
 
   private chatHistory: ChatMessage[] = [];
+  private currentTab: any = null;
 
-  constructor(private googleAI: GoogleAIService, private screenshotService: ScreenshotService) {}
+  constructor(
+    private googleAI: GoogleAIService, 
+    private screenshotService: ScreenshotService,
+    private store: Store<any>
+  ) {
+    // Subscribe to current tab changes
+    this.store.select(state => state.app.currentTab).subscribe(tab => {
+      if (tab) {
+        this.currentTab = tab;
+      }
+    });
+  }
 
   toggleAssistant() {
     this.isOpenSubject.next(!this.isOpenSubject.value);
@@ -75,13 +88,61 @@ export class AIAssistantService {
           .join('\n');
       }
 
-      // If there's an image, include it in the chat
+      // If there's a pending image, use it directly
       if (image && image.imageUrl) {
         return await this.googleAI.chat(systemMessage, text, image.imageUrl, conversationContext);
       }
+
+      // For text-only messages, first check context understanding
+      const response = await this.googleAI.chat(systemMessage, text, undefined, conversationContext);
       
-      // Otherwise, just send text with conversation context
-      return await this.googleAI.chat(systemMessage, text, undefined, conversationContext);
+      try {
+        // Try to parse the response as JSON
+        const contextCheck = JSON.parse(response);
+        
+        // If AI indicates it needs a screenshot
+        if (contextCheck.needsScreenshot === true) {
+          // First send a message to user about taking screenshot
+          const message: ChatMessage = {
+            type: 'text',
+            content: contextCheck.message || 'Để tôi chụp màn hình để hiểu rõ hơn về câu hỏi của bạn...',
+            isUser: false,
+            timestamp: new Date()
+          };
+          this.chatHistory.push(message);
+
+          // Take the screenshot
+          const base64Image = await this.screenshotService.captureVisibleArea(
+            document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag
+          );
+
+          // Create a new message with the screenshot
+          const screenshotMessage: ChatMessage = {
+            type: 'image',
+            content: text,
+            imageUrl: base64Image,
+            srcUrl: 'Context screenshot',
+            isUser: true,
+            timestamp: new Date()
+          };
+          this.chatHistory.push(screenshotMessage);
+
+          // Now send the message again with the screenshot
+          const finalResponse = await this.googleAI.chat(
+            systemMessage,
+            text,
+            base64Image,
+            conversationContext
+          );
+
+          return finalResponse;
+        }
+      } catch (e) {
+        // If response is not JSON or parsing fails, it's a regular chat response
+        console.log('Response is not JSON, treating as regular chat response');
+      }
+
+      return response;
     } catch (error) {
       console.error('Error in sendMessage:', error);
       throw error;
@@ -396,5 +457,15 @@ export class AIAssistantService {
       default:
         return Math.random().toString(36).substring(2, 8);
     }
+  }
+
+  async addAssistantMessage(content: string) {
+    const message: ChatMessage = {
+      type: 'text',
+      content: content,
+      isUser: false,
+      timestamp: new Date()
+    };
+    this.chatHistory.push(message);
   }
 } 
