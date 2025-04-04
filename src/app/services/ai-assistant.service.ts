@@ -135,23 +135,80 @@ export class AIAssistantService {
         throw new Error('Cannot find webview for current tab');
       }
 
-      // First, let's inspect the DOM structure
+      // First, let's inspect the DOM structure with more context
       const domInfo = await webview.executeJavaScript(`
         (function() {
+          function getElementContext(element) {
+            // Get text content from the element itself
+            const ownText = element.textContent || '';
+            
+            // Get text from previous siblings
+            let previousText = '';
+            let prevSibling = element.previousSibling;
+            while (prevSibling && previousText.length < 100) {
+              if (prevSibling.nodeType === 3) { // Text node
+                previousText = (prevSibling.textContent || '') + ' ' + previousText;
+              }
+              prevSibling = prevSibling.previousSibling;
+            }
+            
+            // Get text from next siblings
+            let nextText = '';
+            let nextSibling = element.nextSibling;
+            while (nextSibling && nextText.length < 100) {
+              if (nextSibling.nodeType === 3) { // Text node
+                nextText += ' ' + (nextSibling.textContent || '');
+              }
+              nextSibling = nextSibling.nextSibling;
+            }
+            
+            // Get text from parent
+            const parentText = element.parentElement ? 
+              (element.parentElement.textContent || '').replace(ownText, '') : '';
+            
+            // Get associated label
+            let labelText = '';
+            if (element.id) {
+              const label = document.querySelector(\`label[for="\${element.id}"]\`);
+              if (label) labelText = label.textContent || '';
+            }
+            
+            // Get aria label and placeholder
+            const ariaLabel = element.getAttribute('aria-label') || '';
+            const placeholder = element.getAttribute('placeholder') || '';
+            
+            return {
+              previousText: previousText.trim(),
+              nextText: nextText.trim(),
+              parentText: parentText.trim(),
+              labelText: labelText.trim(),
+              ariaLabel: ariaLabel.trim(),
+              placeholder: placeholder.trim()
+            };
+          }
+
           // Get all input elements
           const inputs = document.querySelectorAll('input, textarea, [contenteditable="true"]');
           
           // Map their properties for inspection
-          const inputsInfo = Array.from(inputs).map(input => ({
-            tagName: input.tagName,
-            id: input.id,
-            className: input.className,
-            type: input.type,
-            placeholder: input.placeholder,
-            'aria-label': input.getAttribute('aria-label'),
-            role: input.getAttribute('role'),
-            name: input.name
-          }));
+          const inputsInfo = Array.from(inputs).map((input, index) => {
+            const context = getElementContext(input);
+            
+            return {
+              index,
+              tagName: input.tagName.toLowerCase(),
+              type: input.getAttribute('type') || '',
+              id: input.id || '',
+              name: input.name || '',
+              className: input.className || '',
+              value: input.value || '',
+              isContentEditable: input.hasAttribute('contenteditable'),
+              isVisible: input.offsetParent !== null,
+              isEnabled: !input.disabled,
+              role: input.getAttribute('role') || '',
+              ...context
+            };
+          });
 
           console.log('Found inputs:', inputsInfo);
           return inputsInfo;
@@ -160,8 +217,8 @@ export class AIAssistantService {
 
       console.log('DOM Structure:', domInfo);
 
-      // Extract input identifier and value from message
-      const [inputIdentifier, valueToFill] = await this.googleAI.extractInputInfo(message);
+      // Extract input identifier, value, and target input index from message using Google AI
+      const [inputIdentifier, valueToFill, targetInputIndex] = await this.googleAI.analyzeInputRequest(message, domInfo);
       
       // Generate value if needed
       let value = valueToFill;
@@ -175,53 +232,88 @@ export class AIAssistantService {
       const result = await webview.executeJavaScript(`
         (function() {
           try {
-            // Try ChatGPT's main textarea first
-            let input = document.querySelector('#prompt-textarea');
-            
-            if (!input) {
-              // Try common chat textareas
-              input = document.querySelector('textarea[placeholder*="message" i], textarea[placeholder*="chat" i], textarea[placeholder*="type" i]');
-            }
-
-            if (!input) {
-              // Try contenteditable divs
-              input = document.querySelector('[contenteditable="true"]');
-            }
-
-            if (!input) {
-              // Try any textarea or text input
-              input = document.querySelector('textarea, input[type="text"]');
-            }
+            const inputs = Array.from(document.querySelectorAll('input, textarea, [contenteditable="true"]'));
+            const input = inputs[${targetInputIndex}];
 
             if (input) {
-              console.log('Found input:', input);
+              console.log('Found target input:', input);
               
               // Set the value
               if (input.hasAttribute('contenteditable')) {
                 input.textContent = "${value}";
+                input.innerHTML = "${value}"; // Some implementations use innerHTML
               } else {
                 input.value = "${value}";
+                
+                // For textarea and text inputs, also set the native value property
+                if (input.tagName === 'TEXTAREA' || input.type === 'text') {
+                  Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set?.call(input, "${value}");
+                }
               }
 
-              // Trigger input event
+              // Create and dispatch input event
               const inputEvent = new InputEvent('input', {
                 bubbles: true,
                 cancelable: true,
-                composed: true
+                composed: true,
+                data: "${value}",
+                inputType: 'insertText'
               });
               input.dispatchEvent(inputEvent);
 
-              // Trigger change event
+              // Create and dispatch beforeinput event
+              const beforeInputEvent = new InputEvent('beforeinput', {
+                bubbles: true,
+                cancelable: true,
+                composed: true,
+                data: "${value}",
+                inputType: 'insertText'
+              });
+              input.dispatchEvent(beforeInputEvent);
+
+              // Create and dispatch keydown events for each character
+              Array.from("${value}").forEach(char => {
+                const keydownEvent = new KeyboardEvent('keydown', {
+                  key: char,
+                  code: 'Key' + char.toUpperCase(),
+                  bubbles: true,
+                  cancelable: true,
+                  composed: true
+                });
+                input.dispatchEvent(keydownEvent);
+              });
+
+              // Create and dispatch change event
               const changeEvent = new Event('change', {
                 bubbles: true,
                 cancelable: true
               });
               input.dispatchEvent(changeEvent);
 
+              // Focus the input
+              input.focus();
+
+              // For contenteditable divs, also trigger composition events
+              if (input.hasAttribute('contenteditable')) {
+                const compositionStartEvent = new CompositionEvent('compositionstart', {
+                  bubbles: true,
+                  cancelable: true,
+                  data: "${value}"
+                });
+                input.dispatchEvent(compositionStartEvent);
+
+                const compositionEndEvent = new CompositionEvent('compositionend', {
+                  bubbles: true,
+                  cancelable: true,
+                  data: "${value}"
+                });
+                input.dispatchEvent(compositionEndEvent);
+              }
+
               return { success: true, message: 'Input filled successfully' };
             }
 
-            return { success: false, message: 'Could not find input element' };
+            return { success: false, message: 'Could not find appropriate input element' };
           } catch (error) {
             console.error('Error:', error);
             return { success: false, message: error.toString() };

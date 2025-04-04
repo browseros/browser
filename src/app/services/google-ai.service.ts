@@ -509,4 +509,110 @@ Analyze this message: ${message}`;
       return ['', ''];
     }
   }
+
+  async analyzeInputRequest(message: string, domInfo: any[]): Promise<[string, string, number]> {
+    const prompt = `Given the user's message and the DOM structure of a webpage, help identify which input element should be filled and what value to use.
+
+User message: "${message}"
+
+DOM structure (list of input elements with their context):
+${JSON.stringify(domInfo, null, 2)}
+
+For each input element, you have:
+1. Basic properties: tagName, type, id, name, className, role
+2. State: isContentEditable, isVisible, isEnabled
+3. Context:
+   - previousText: text before the input
+   - nextText: text after the input
+   - parentText: text from parent element
+   - labelText: associated label text
+   - ariaLabel: ARIA label
+   - placeholder: placeholder text
+
+Your task:
+1. Analyze the user's message to understand what they want to fill
+2. Look through all input elements and their context
+3. Find the best matching input by considering:
+   - Text around the input (previous, next, parent)
+   - Labels and placeholders
+   - Input type and role
+   - Visibility and state
+
+Return your response in this exact format (just the array, no additional text):
+["input_identifier", "value_to_fill", index_number]
+
+Examples:
+["search", "AI technology", 0] // For a search input with nearby text about search
+["chat", "Hello world", 1] // For a chat/message input
+["email", "random_email", 2] // For an email input
+
+Note: If the value should be randomly generated, use one of these prefixes:
+- random_question
+- random_email
+- random_phone
+- random_name
+
+Important: Make sure the chosen input is visible (isVisible: true) and enabled (isEnabled: true).`;
+
+    const result = await this.model.generateContent(prompt);
+    if (!result || !result.response) {
+      throw new Error('No response from Gemini API');
+    }
+
+    const response = result.response;
+    const text = response.text().trim();
+    
+    if (!text) {
+      throw new Error('No input info extracted');
+    }
+
+    try {
+      // Remove any markdown formatting and get just the array
+      const cleanText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      console.log('Cleaned response text:', cleanText);
+
+      // Parse the response text into parts
+      const matches = cleanText.match(/\[(.*?)\]/);
+      if (!matches) {
+        throw new Error('Invalid response format');
+      }
+
+      // Split the array content and clean up each part
+      const parts = matches[1].split(',').map((part: string) => 
+        part.trim().replace(/^["']|["']$/g, '') // Remove quotes
+      );
+
+      if (parts.length !== 3) {
+        throw new Error('Invalid number of parts in response');
+      }
+
+      const [inputIdentifier, valueToFill, indexStr] = parts;
+      const targetInputIndex = parseInt(indexStr, 10);
+
+      if (isNaN(targetInputIndex)) {
+        throw new Error('Invalid input index');
+      }
+
+      // Validate that the chosen input is visible and enabled
+      const targetInput = domInfo[targetInputIndex];
+      if (!targetInput?.isVisible) {
+        throw new Error('Selected input is not visible');
+      }
+      if (!targetInput?.isEnabled) {
+        throw new Error('Selected input is disabled');
+      }
+
+      console.log('Parsed input request:', {
+        inputIdentifier,
+        valueToFill,
+        targetInputIndex,
+        inputInfo: targetInput
+      });
+
+      return [inputIdentifier, valueToFill, targetInputIndex];
+    } catch (error) {
+      console.error('Error parsing AI response:', error);
+      throw new Error('Could not parse AI response');
+    }
+  }
 } 
