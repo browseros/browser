@@ -88,9 +88,38 @@ export class AIAssistantService {
           .join('\n');
       }
 
+      // Add user message to chat history first
+      const userMessage: ChatMessage = {
+        type: 'text',
+        content: text,
+        isUser: true,
+        timestamp: new Date()
+      };
+      this.chatHistory.push(userMessage);
+
+      // Add a thinking message
+      const thinkingMessage: ChatMessage = {
+        type: 'text',
+        content: '🤔 Đang suy nghĩ...',
+        isUser: false,
+        timestamp: new Date()
+      };
+      this.chatHistory.push(thinkingMessage);
+
       // If there's a pending image, use it directly
       if (image && image.imageUrl) {
-        return await this.googleAI.chat(systemMessage, text, image.imageUrl, conversationContext);
+        const response = await this.googleAI.chat(systemMessage, text, image.imageUrl, conversationContext);
+        // Remove thinking message
+        this.chatHistory = this.chatHistory.filter(msg => msg !== thinkingMessage);
+        // Add response
+        const responseMessage: ChatMessage = {
+          type: 'text',
+          content: response,
+          isUser: false,
+          timestamp: new Date()
+        };
+        this.chatHistory.push(responseMessage);
+        return response;
       }
 
       // For text-only messages, first check context understanding
@@ -100,51 +129,118 @@ export class AIAssistantService {
         // Try to parse the response as JSON
         const contextCheck = JSON.parse(response);
         
+        // Remove thinking message
+        this.chatHistory = this.chatHistory.filter(msg => msg !== thinkingMessage);
+        
         // If AI indicates it needs a screenshot
         if (contextCheck.needsScreenshot === true) {
-          // First send a message to user about taking screenshot
-          const message: ChatMessage = {
+          // First send a loading message
+          const loadingMessage: ChatMessage = {
             type: 'text',
-            content: contextCheck.message || 'Để tôi chụp màn hình để hiểu rõ hơn về câu hỏi của bạn...',
+            content: '📸 ' + (contextCheck.message || 'Tôi cần chụp màn hình để hiểu rõ hơn về ngữ cảnh...'),
             isUser: false,
             timestamp: new Date()
           };
-          this.chatHistory.push(message);
+          this.chatHistory.push(loadingMessage);
 
-          // Take the screenshot
-          const base64Image = await this.screenshotService.captureVisibleArea(
-            document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag
-          );
+          try {
+            // Take the screenshot
+            const base64Image = await this.screenshotService.captureVisibleArea(
+              document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag
+            );
 
-          // Create a new message with the screenshot
-          const screenshotMessage: ChatMessage = {
-            type: 'image',
-            content: text,
-            imageUrl: base64Image,
-            srcUrl: 'Context screenshot',
-            isUser: true,
+            // Remove the loading message
+            this.chatHistory = this.chatHistory.filter(msg => msg !== loadingMessage);
+
+            // Create a new message with the screenshot
+            const screenshotMessage: ChatMessage = {
+              type: 'image',
+              content: text,
+              imageUrl: base64Image,
+              srcUrl: 'Context screenshot',
+              isUser: true,
+              timestamp: new Date()
+            };
+            this.chatHistory.push(screenshotMessage);
+
+            // Add processing message
+            const processingMessage: ChatMessage = {
+              type: 'text',
+              content: '🔍 Đang phân tích nội dung màn hình...',
+              isUser: false,
+              timestamp: new Date()
+            };
+            this.chatHistory.push(processingMessage);
+
+            // Now send the message again with the screenshot
+            const finalResponse = await this.googleAI.chat(
+              systemMessage,
+              text,
+              base64Image,
+              conversationContext
+            );
+
+            // Remove the processing message
+            this.chatHistory = this.chatHistory.filter(msg => msg !== processingMessage);
+
+            // Add the final response
+            const finalMessage: ChatMessage = {
+              type: 'text',
+              content: finalResponse,
+              isUser: false,
+              timestamp: new Date()
+            };
+            this.chatHistory.push(finalMessage);
+
+            return finalResponse;
+          } catch (error) {
+            // If screenshot fails, remove loading message and show error
+            this.chatHistory = this.chatHistory.filter(msg => msg !== loadingMessage);
+            const errorMessage: ChatMessage = {
+              type: 'text',
+              content: '❌ Không thể chụp màn hình: ' + ((error as Error)?.message || 'Vui lòng thử lại.'),
+              isUser: false,
+              timestamp: new Date()
+            };
+            this.chatHistory.push(errorMessage);
+            throw error;
+          }
+        } else {
+          // For regular responses, add to chat history
+          const responseMessage: ChatMessage = {
+            type: 'text',
+            content: response,
+            isUser: false,
             timestamp: new Date()
           };
-          this.chatHistory.push(screenshotMessage);
-
-          // Now send the message again with the screenshot
-          const finalResponse = await this.googleAI.chat(
-            systemMessage,
-            text,
-            base64Image,
-            conversationContext
-          );
-
-          return finalResponse;
+          this.chatHistory.push(responseMessage);
         }
       } catch (e) {
+        // Remove thinking message
+        this.chatHistory = this.chatHistory.filter(msg => msg !== thinkingMessage);
+        
         // If response is not JSON or parsing fails, it's a regular chat response
         console.log('Response is not JSON, treating as regular chat response');
+        const responseMessage: ChatMessage = {
+          type: 'text',
+          content: response,
+          isUser: false,
+          timestamp: new Date()
+        };
+        this.chatHistory.push(responseMessage);
       }
 
       return response;
     } catch (error) {
       console.error('Error in sendMessage:', error);
+      // Add error message to chat history
+      const errorMessage: ChatMessage = {
+        type: 'text',
+        content: '❌ Đã xảy ra lỗi: ' + ((error as Error)?.message || 'Vui lòng thử lại.'),
+        isUser: false,
+        timestamp: new Date()
+      };
+      this.chatHistory.push(errorMessage);
       throw error;
     }
   }
