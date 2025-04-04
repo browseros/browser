@@ -237,77 +237,107 @@ export class AIAssistantService {
 
             if (input) {
               console.log('Found target input:', input);
-              
+
               // Set the value
               if (input.hasAttribute('contenteditable')) {
                 input.textContent = "${value}";
-                input.innerHTML = "${value}"; // Some implementations use innerHTML
+                input.innerHTML = "${value}";
               } else {
                 input.value = "${value}";
-                
-                // For textarea and text inputs, also set the native value property
-                if (input.tagName === 'TEXTAREA' || input.type === 'text') {
-                  Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set?.call(input, "${value}");
+              }
+
+              // Focus the input first
+              input.focus();
+
+              // Trigger input event
+              const inputEvent = document.createEvent('Event');
+              inputEvent.initEvent('input', true, true);
+              input.dispatchEvent(inputEvent);
+
+              // Trigger change event
+              const changeEvent = document.createEvent('Event');
+              changeEvent.initEvent('change', true, true);
+              input.dispatchEvent(changeEvent);
+
+              // For contenteditable divs
+              if (input.hasAttribute('contenteditable')) {
+                const compStartEvent = document.createEvent('Event');
+                compStartEvent.initEvent('compositionstart', true, true);
+                input.dispatchEvent(compStartEvent);
+
+                const compEndEvent = document.createEvent('Event');
+                compEndEvent.initEvent('compositionend', true, true);
+                input.dispatchEvent(compEndEvent);
+              }
+
+              // Simulate Enter key press
+              const enterEvent = document.createEvent('KeyboardEvent');
+              enterEvent.initEvent('keydown', true, true);
+              Object.defineProperties(enterEvent, {
+                key: { value: 'Enter' },
+                code: { value: 'Enter' },
+                keyCode: { value: 13 },
+                which: { value: 13 }
+              });
+              input.dispatchEvent(enterEvent);
+
+              // Try to submit form if exists
+              const form = input.closest('form');
+              if (form) {
+                // Prevent form from submitting normally
+                form.addEventListener('submit', (e) => {
+                  e.preventDefault();
+                  return false;
+                });
+
+                // Try to find and click submit button first
+                const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+                if (submitButton) {
+                  // Create and dispatch a custom submit event
+                  const customSubmitEvent = new CustomEvent('customSubmit', {
+                    bubbles: true,
+                    cancelable: true,
+                    detail: { value: "${value}" }
+                  });
+                  form.dispatchEvent(customSubmitEvent);
+                  
+                  // Click the button if the custom event wasn't prevented
+                  if (customSubmitEvent.defaultPrevented === false) {
+                    submitButton.click();
+                  }
+                } else {
+                  // If no submit button found, dispatch a custom submit event
+                  const customSubmitEvent = new CustomEvent('customSubmit', {
+                    bubbles: true,
+                    cancelable: true,
+                    detail: { value: "${value}" }
+                  });
+                  form.dispatchEvent(customSubmitEvent);
                 }
               }
 
-              // Create and dispatch input event
-              const inputEvent = new InputEvent('input', {
-                bubbles: true,
-                cancelable: true,
-                composed: true,
-                data: "${value}",
-                inputType: 'insertText'
-              });
-              input.dispatchEvent(inputEvent);
-
-              // Create and dispatch beforeinput event
-              const beforeInputEvent = new InputEvent('beforeinput', {
-                bubbles: true,
-                cancelable: true,
-                composed: true,
-                data: "${value}",
-                inputType: 'insertText'
-              });
-              input.dispatchEvent(beforeInputEvent);
-
-              // Create and dispatch keydown events for each character
-              Array.from("${value}").forEach(char => {
-                const keydownEvent = new KeyboardEvent('keydown', {
-                  key: char,
-                  code: 'Key' + char.toUpperCase(),
-                  bubbles: true,
-                  cancelable: true,
-                  composed: true
+              // If no form, try to find and click a send button
+              if (!form) {
+                const possibleSendButtons = Array.from(document.querySelectorAll('button, [role="button"]')).filter(el => {
+                  const text = (el.textContent || '').toLowerCase();
+                  return text.includes('send') || text.includes('submit') || text.includes('gửi') || 
+                         el.className.toLowerCase().includes('send') || el.id.toLowerCase().includes('send');
                 });
-                input.dispatchEvent(keydownEvent);
-              });
-
-              // Create and dispatch change event
-              const changeEvent = new Event('change', {
-                bubbles: true,
-                cancelable: true
-              });
-              input.dispatchEvent(changeEvent);
-
-              // Focus the input
-              input.focus();
-
-              // For contenteditable divs, also trigger composition events
-              if (input.hasAttribute('contenteditable')) {
-                const compositionStartEvent = new CompositionEvent('compositionstart', {
-                  bubbles: true,
-                  cancelable: true,
-                  data: "${value}"
-                });
-                input.dispatchEvent(compositionStartEvent);
-
-                const compositionEndEvent = new CompositionEvent('compositionend', {
-                  bubbles: true,
-                  cancelable: true,
-                  data: "${value}"
-                });
-                input.dispatchEvent(compositionEndEvent);
+                
+                if (possibleSendButtons.length > 0) {
+                  // Create and dispatch a custom click event
+                  const customClickEvent = new CustomEvent('customClick', {
+                    bubbles: true,
+                    cancelable: true,
+                    detail: { value: "${value}" }
+                  });
+                  possibleSendButtons[0].dispatchEvent(customClickEvent);
+                  
+                  // Click the button if the custom event wasn't prevented
+                  if (customClickEvent.defaultPrevented === false) {
+                    possibleSendButtons[0].click();
+                  }
+                }
               }
 
               return { success: true, message: 'Input filled successfully' };
