@@ -411,6 +411,47 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
             this.messages.pop(); // Remove processing message
             throw error;
           }
+        } else if (intent === 'capture' || intent === 'capture_full_page') {
+          if (!this.currentTab?.id) {
+            throw new Error('Không thể lấy được tab hiện tại');
+          }
+
+          const webview = document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag;
+          if (!webview) {
+            throw new Error('Không tìm thấy webview cho tab hiện tại');
+          }
+
+          this.addAssistantMessage('Đang chụp màn hình...');
+
+          try {
+            const base64Image = intent === 'capture_full_page' 
+              ? await this.screenshotService.captureFullPage(webview)
+              : await this.screenshotService.captureVisibleArea(webview);
+            
+            console.log('Captured screenshot for chat context');
+            
+            // Create a new message with the captured screenshot
+            const autoImageMessage: ChatMessage = {
+              type: 'image',
+              content: messageToSend,
+              imageUrl: base64Image,
+              srcUrl: intent === 'capture_full_page' ? 'Full page screenshot' : 'Visible area screenshot',
+              isUser: true,
+              timestamp: new Date()
+            };
+            
+            // Add the captured image to chat history
+            this.aiAssistantService.addToChatHistory(autoImageMessage);
+            
+            // Send message with the captured screenshot
+            response = await this.aiAssistantService.sendMessage(messageToSend, autoImageMessage);
+            
+            this.messages.pop(); // Remove processing message
+          } catch (error) {
+            console.error('Screenshot error:', error);
+            this.messages.pop(); // Remove processing message
+            throw error;
+          }
         } else {
           // For regular chat
           response = await this.aiAssistantService.sendMessage(messageToSend);

@@ -196,6 +196,8 @@ Available intents:
 - translate: for translation requests
 - summarize: for summarization requests
 - explain_code: for code explanation requests
+- capture: for capturing visible area
+- capture_full_page: for capturing full page
 - chat: for general chat or other requests
 
 Available languages:
@@ -230,6 +232,20 @@ Common translation patterns in English:
 - "translate this ..."
 - "convert ... to ..."
 
+Common capture patterns in Vietnamese:
+- "chụp màn hình ..."
+- "chụp lại ..."
+- "lưu lại ..."
+- "chụp toàn trang ..."
+- "chụp đầy đủ ..."
+
+Common capture patterns in English:
+- "capture screen ..."
+- "take screenshot ..."
+- "save this ..."
+- "capture full page ..."
+- "capture everything ..."
+
 Examples:
 "dịch trang này sang tiếng anh" -> ["translate", "english"]
 "dịch ra tiếng Anh" -> ["translate", "english"]
@@ -240,6 +256,8 @@ Examples:
 "tóm tắt nội dung" -> ["summarize", "vietnamese"]
 "summarize this page" -> ["summarize", "english"]
 "giải thích code" -> ["explain_code", "none"]
+"chụp màn hình giúp tôi" -> ["capture", "none"]
+"chụp toàn trang này" -> ["capture_full_page", "none"]
 "thời tiết hôm nay" -> ["chat", "none"]
 
 Analyze this message: ${message}`;

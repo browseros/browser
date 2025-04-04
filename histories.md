@@ -41,3 +41,16 @@
 - To improve chat experience by maintaining conversation context
 - To enable AI to provide more relevant and contextual responses
 - To make chat interactions more natural and continuous
+
+- Added new intents `capture` and `capture_full_page` to support automatic screenshot capture
+- Added Vietnamese and English patterns for screenshot capture requests
+- Added automatic screenshot capture functionality for chat context
+
+- Updated intent detection to handle screenshot capture requests
+- Improved error handling and user feedback for screenshot operations
+- Enhanced chat context with automatic screenshot capture
+
+### Reason
+- To provide better context for AI responses by automatically capturing screenshots when needed
+- To improve user experience with automatic screenshot capture based on intent
+- To maintain consistency with existing translation and summarization features
