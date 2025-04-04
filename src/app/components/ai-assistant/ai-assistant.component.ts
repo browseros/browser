@@ -666,21 +666,26 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         ]
       },
       { 
-        title: 'Capture Screen', 
-        description: 'Automatically capture visible area for AI context',
+        title: 'Capture and Chat', 
+        description: 'Automatically capture screen and discuss with AI about the content',
         examples: [
-          'Capture this screen for me',
-          'Take a screenshot of this',
-          'Save this view'
+          'Take a photo and help me solve this math problem',
+          'Capture this exercise and explain how to solve it',
+          'Take a screenshot and tell me what\'s wrong with this code',
+          'Capture this error message and help me fix it',
+          'Take a photo of this diagram and explain it to me',
+          'Screenshot this and help me understand the concept'
         ]
       },
       { 
-        title: 'Capture Full Page', 
-        description: 'Automatically capture the entire webpage',
+        title: 'Full Page Capture and Analysis', 
+        description: 'Capture entire webpage for comprehensive AI analysis',
         examples: [
-          'Capture the full page',
-          'Take a full page screenshot',
-          'Save the complete page'
+          'Capture full page and help me with these exercises',
+          'Take a full screenshot and analyze all the problems',
+          'Save the complete page and guide me through each question',
+          'Capture everything and help me understand this tutorial',
+          'Take a full page photo and explain each section'
         ]
       },
       { 
