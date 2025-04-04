@@ -648,12 +648,21 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         ]
       },
       { 
-        title: 'Smart Search', 
-        description: 'Search with AI-powered suggestions',
+        title: 'Capture Screen', 
+        description: 'Automatically capture visible area for AI context',
         examples: [
-          'Find articles about machine learning',
-          'Search for React component examples',
-          'Look up JavaScript best practices'
+          'Capture this screen for me',
+          'Take a screenshot of this',
+          'Save this view'
+        ]
+      },
+      { 
+        title: 'Capture Full Page', 
+        description: 'Automatically capture the entire webpage',
+        examples: [
+          'Capture the full page',
+          'Take a full page screenshot',
+          'Save the complete page'
         ]
       }
     ];
@@ -703,7 +712,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         background: white;
         border-radius: 8px;
         padding: 24px;
-        max-width: 500px;
+        max-width: 600px;
         width: 90%;
         max-height: 90vh;
         overflow-y: auto;
