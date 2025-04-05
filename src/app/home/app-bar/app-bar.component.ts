@@ -213,7 +213,7 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: '',
+                    title: 'Calculator',
                     url: url
                 };
                 
@@ -232,7 +232,7 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: '',
+                    title: 'Calendar',
                     url: url
                 };
                 
@@ -251,7 +251,26 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: '',
+                    title: 'Camera',
+                    url: url
+                };
+                
+                this.store.dispatch(new appActions.AddTabAction(newTab));
+            }
+        }));
+
+        // Add Weather
+        internalAppsSubmenu.append(new MenuItem({
+            label: 'Weather',
+            click: () => {
+                const url = 'http://localhost:4200/assets/internal-apps/weather/weather.html';
+                const hostName = StateHelper.extractHostname(url);
+                
+                const newTab: ITab = {
+                    id: 0,
+                    appId: 0,
+                    hostName,
+                    title: 'Weather',
                     url: url
                 };
                 

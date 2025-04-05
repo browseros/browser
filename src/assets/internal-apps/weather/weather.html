@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.12/css/weather-icons.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .weather-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+        }
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .current-weather {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .temperature {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .weather-icon {
+            font-size: 64px;
+            margin: 10px 0;
+        }
+        .weather-description {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .location {
+            font-size: 20px;
+            color: #6c757d;
+            margin: 10px 0;
+        }
+        .forecast-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .forecast-day {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+        }
+        .forecast-date {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .forecast-icon {
+            font-size: 32px;
+            margin: 5px 0;
+        }
+        .forecast-temp {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 5px;
+        }
+        .forecast-temp-high {
+            color: #dc3545;
+        }
+        .forecast-temp-low {
+            color: #007bff;
+        }
+        .weather-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .weather-detail {
+            text-align: center;
+        }
+        .weather-detail-label {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        .weather-detail-value {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .error-message {
+            color: #dc3545;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .loading {
+            text-align: center;
+            margin: 20px 0;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather-container">
+        <div class="search-container">
+            <input type="text" id="locationInput" placeholder="Enter city name">
+            <button onclick="searchWeather()">Search</button>
+        </div>
+        <div id="currentWeather" class="current-weather">
+            <div class="location" id="location">Loading...</div>
+            <div class="weather-icon" id="weatherIcon"><i class="wi wi-day-sunny"></i></div>
+            <div class="temperature" id="temperature">--°C</div>
+            <div class="weather-description" id="weatherDescription">--</div>
+        </div>
+        <div class="weather-details">
+            <div class="weather-detail">
+                <div class="weather-detail-label">Humidity</div>
+                <div class="weather-detail-value" id="humidity">--%</div>
+            </div>
+            <div class="weather-detail">
+                <div class="weather-detail-label">Wind Speed</div>
+                <div class="weather-detail-value" id="windSpeed">-- km/h</div>
+            </div>
+            <div class="weather-detail">
+                <div class="weather-detail-label">Pressure</div>
+                <div class="weather-detail-value" id="pressure">-- hPa</div>
+            </div>
+            <div class="weather-detail">
+                <div class="weather-detail-label">Visibility</div>
+                <div class="weather-detail-value" id="visibility">-- km</div>
+            </div>
+        </div>
+        <div class="forecast-container" id="forecastContainer">
+            <!-- Forecast items will be added here -->
+        </div>
+    </div>
+    <script src="weather.js"></script>
+</body>
+</html> 
