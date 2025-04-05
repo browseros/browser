@@ -213,3 +213,16 @@
 - Files modified:
   - `histories.md`
 - Reason: To maintain accurate and complete historical documentation of all code changes
+
+## 2025-04-05
+### Added
+- New zoom control functionality in navigation bar:
+  - Added zoom in/out and reset zoom buttons to the navigation bar
+  - Added zoom percentage display with live updates
+  - Added zoom control styles with proper alignment and spacing
+  - Added Bootstrap icons for zoom controls
+- Files modified:
+  - `src/app/home/app-nav/app-nav.component.ts`
+  - `src/app/home/app-nav/app-nav.component.html`
+  - `src/app/home/app-nav/app-nav.component.scss`
+- Reason: To provide users with intuitive zoom controls in the navigation bar for better webpage viewing experience

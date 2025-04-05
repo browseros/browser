@@ -28,6 +28,18 @@
         <button class="nav-button" (click)="onNext()" [disabled]="!currentApp?.id" title="Forward">
             <i class="bi bi-chevron-right"></i>
         </button>
+
+        <div class="zoom-controls" *ngIf="currentApp?.id">
+            <button class="nav-button" (click)="onZoomOut($event)" title="Zoom out">
+                <i class="bi bi-zoom-out"></i>
+            </button>
+            <button class="nav-button zoom-reset" (click)="onZoomReset($event)" [title]="'Zoom ' + (currentZoom * 100).toFixed(0) + '%'">
+                {{(currentZoom * 100).toFixed(0)}}%
+            </button>
+            <button class="nav-button" (click)="onZoomIn($event)" title="Zoom in">
+                <i class="bi bi-zoom-in"></i>
+            </button>
+        </div>
         
         <div class="dropdown" *ngIf="currentApp?.id">
             <button class="nav-button recent-button" 

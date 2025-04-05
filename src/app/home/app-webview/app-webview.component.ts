@@ -557,4 +557,14 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
     public handleNewWindow(event: any): void {
         this.onNewUrl.emit(event.url);
     }
+
+    public getCurrentWebview(): Electron.WebviewTag | null {
+        if (!this.currentTab || !this.webviews) return null;
+        
+        const index = this.tabIdsInternal.indexOf(this.currentTab.id);
+        if (index === -1) return null;
+
+        const webviewRef = this.webviews.toArray()[index];
+        return webviewRef?.nativeElement || null;
+    }
 }

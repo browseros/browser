@@ -315,4 +315,20 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.zoom-controls {
+    display: flex;
+    align-items: center;
+    margin: 0 8px;
+    gap: 4px;
+
+    .nav-button {
+        &.zoom-reset {
+            min-width: 54px;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 0 8px;
+        }
+    }
 } 

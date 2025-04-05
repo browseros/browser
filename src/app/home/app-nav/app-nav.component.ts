@@ -8,6 +8,7 @@ import * as fromRoot from '../../reducers';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HistoryService } from '../../services/history.service';
+import { webContents } from '@electron/remote';
 
 @Component({
     selector: 'app-nav',
@@ -20,6 +21,7 @@ export class AppNavComponent implements OnInit, OnDestroy, OnChanges {
     @Input() screenWidth = 0;
     @Input() histories: IHistoryItem[] = [];
     @Input() currentTab: ITab = { id: 0, appId: 0, title: '', url: '', hostName: '', icon: '' };
+    @Input() webview: Electron.WebviewTag | null = null;
     @Output() onSearch = new EventEmitter<any>();
     @Output() onNextClick = new EventEmitter<IApp>();
     @Output() onBackClick = new EventEmitter<IApp>();
@@ -27,6 +29,12 @@ export class AppNavComponent implements OnInit, OnDestroy, OnChanges {
     @Output() onGotoTab = new EventEmitter<ITab>();
     @Output() onCloseTab = new EventEmitter<ITab>();
     @Output() onContextMenu = new EventEmitter<any>();
+    @Output() onZoomChange = new EventEmitter<number>();
+
+    private readonly MIN_ZOOM = 0.25;
+    private readonly MAX_ZOOM = 3.0;
+    private readonly ZOOM_STEP = 0.05;
+    public currentZoom = 1.0;
 
     public filteredHistories: IHistoryItem[] = [];
     public tabsInternal: ITab[] = [];
@@ -84,6 +92,8 @@ export class AppNavComponent implements OnInit, OnDestroy, OnChanges {
             console.log('[AppNav] Current tab changed:', changes['currentTab'].currentValue);
             this.currentTabInternal = changes['currentTab'].currentValue;
             this.updateHistories();
+            // Get current zoom when tab changes
+            this.getCurrentZoom();
         }
     }
 
@@ -169,6 +179,93 @@ export class AppNavComponent implements OnInit, OnDestroy, OnChanges {
         } catch {
             // If invalid URL, truncate the string directly
             return url.substring(0, 40) + '...';
+        }
+    }
+
+    private async getCurrentZoom(): Promise<void> {
+        try {
+            if (!this.webview) {
+                console.error('[AppNav] No webview available');
+                return;
+            }
+
+            const webContentsId = this.webview.getWebContentsId();
+            const wc = webContents.fromId(webContentsId);
+            if (!wc) {
+                console.error('[AppNav] Cannot get webContents');
+                return;
+            }
+
+            const zoom = await wc.getZoomFactor();
+            this.currentZoom = zoom;
+            this.cdr.detectChanges();
+        } catch (error) {
+            console.error('[AppNav] Error getting zoom:', error);
+        }
+    }
+
+    public async onZoomIn(event: any): Promise<void> {
+        try {
+            if (!this.webview) {
+                console.error('[AppNav] No webview available');
+                return;
+            }
+
+            const newZoom = Math.min(this.MAX_ZOOM, this.currentZoom + this.ZOOM_STEP);
+            await this.setZoom(newZoom);
+        } catch (error) {
+            console.error('[AppNav] Error zooming in:', error);
+        }
+    }
+
+    public async onZoomOut(event: any): Promise<void> {
+        try {
+            if (!this.webview) {
+                console.error('[AppNav] No webview available');
+                return;
+            }
+
+            const newZoom = Math.max(this.MIN_ZOOM, this.currentZoom - this.ZOOM_STEP);
+            await this.setZoom(newZoom);
+        } catch (error) {
+            console.error('[AppNav] Error zooming out:', error);
+        }
+    }
+
+    public async onZoomReset(event: any): Promise<void> {
+        try {
+            if (!this.webview) {
+                console.error('[AppNav] No webview available');
+                return;
+            }
+
+            await this.setZoom(1.0);
+        } catch (error) {
+            console.error('[AppNav] Error resetting zoom:', error);
+        }
+    }
+
+    private async setZoom(zoomFactor: number): Promise<void> {
+        try {
+            if (!this.webview) {
+                console.error('[AppNav] No webview available');
+                return;
+            }
+
+            const webContentsId = this.webview.getWebContentsId();
+            const wc = webContents.fromId(webContentsId);
+            if (!wc) {
+                console.error('[AppNav] Cannot get webContents');
+                return;
+            }
+
+            await wc.setZoomFactor(zoomFactor);
+            this.currentZoom = zoomFactor;
+            this.onZoomChange.emit(zoomFactor);
+            this.cdr.detectChanges();
+        } catch (error) {
+            console.error('[AppNav] Error setting zoom:', error);
+            throw error;
         }
     }
 }

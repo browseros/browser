@@ -21,11 +21,12 @@
   (onReloadClick)='onReloadClick($event)'
   (onCloseTab)='onCloseTab($event)'
   (onTabContextMenu)='onTabContextMenu($event)'
-  (onSearch)='doSearchReplacing($event)'>
+  (onSearch)='doSearchReplacing($event)'
+  [webview]="appWebview.getCurrentWebview()">
 </app-nav>
 
 <div class="home-container">
-  <app-webview [class.ai-assistant-open]="(aiAssistantService.isOpen$ | async)"
+  <app-webview #appWebview [class.ai-assistant-open]="(aiAssistantService.isOpen$ | async)"
     [tabIds]='(tabIds$ | async) ?? []' [currentTab]='(currentTab$ | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }' (onNewUrl)='onNewUrl($event)' 
     [screenWidth]='screenWidth'
     [screenHeight]='screenHeight'
