@@ -9,6 +9,7 @@
         [attr.src]="getTabUrl(tabId)"
         allowpopups
         nodeintegration
+        enableblinkfeatures="Geolocation"
         webpreferences="contextIsolation=no, nodeIntegration=yes"
         partition="persist:main"
         (dom-ready)="onDomReady.emit({eventValue: null, eventName: 'domready', tabId: tabId, app: null})"

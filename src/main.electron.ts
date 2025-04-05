@@ -28,17 +28,27 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      webSecurity: true,
+      webSecurity: false,
       webviewTag: true,
       nodeIntegrationInSubFrames: true, // Enable for webviews
+      enableBlinkFeatures: 'Geolocation',
       allowRunningInsecureContent: true // Allow running scripts in webview
     }
   });
 
-  // Enable webview permissions
-  mainWindow.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
-    callback(true); // Allow all permissions for now
-  });
+  // Handle macOS location permissions
+  if (process.platform === 'darwin') {
+    // Request location permission when app is ready
+    app.whenReady().then(() => {
+      mainWindow.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
+        if (permission === 'geolocation') {
+          callback(true);
+        } else {
+          callback(false);
+        }
+      });
+    });
+  }
 
   // Enable remote module for this window
   enable(mainWindow.webContents);
@@ -50,6 +60,20 @@ function createWindow() {
   if (process.env['NODE_ENV'] === 'development') {
     mainWindow.webContents.openDevTools();
   }
+
+  // Enable webview features
+  app.on('web-contents-created', (event, contents) => {
+    if (contents.getType() === 'webview') {
+      // Enable geolocation in webview
+      contents.session.setPermissionRequestHandler((webContents, permission, callback) => {
+        if (permission === 'geolocation') {
+          callback(true);
+        } else {
+          callback(false);
+        }
+      });
+    }
+  });
 }
 
 // Handle image download and clipboard write

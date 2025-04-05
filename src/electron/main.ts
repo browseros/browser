@@ -60,6 +60,7 @@ async function createWindow() {
       backgroundThrottling: false,
       sandbox: false,
       nodeIntegrationInSubFrames: true,
+      enableBlinkFeatures: 'Geolocation', // Kích hoạt geolocation
       preload: preloadPath
     },
     show: false,

@@ -92,7 +92,17 @@
       "category": "public.app-category.utilities",
       "target": [
         "dmg"
-      ]
+      ],
+      "extendInfo": {
+        "NSLocationUsageDescription": "This app needs access to location services to show weather for your current location.",
+        "NSLocationWhenInUseUsageDescription": "This app needs access to location services to show weather for your current location.",
+        "NSLocationAlwaysUsageDescription": "This app needs access to location services to show weather for your current location.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app needs access to location services to show weather for your current location."
+      },
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "src/electron/entitlements.mac.plist",
+      "entitlementsInherit": "src/electron/entitlements.mac.plist"
     },
     "win": {
       "target": [

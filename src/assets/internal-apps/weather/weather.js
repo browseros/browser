@@ -148,19 +148,48 @@ locationInput.addEventListener('keypress', (e) => {
 });
 
 // Get user's location and show weather
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(async (position) => {
-        try {
-            const { latitude, longitude } = position.coords;
-            const response = await fetch(`${BASE_URL}/forecast.json?key=${API_KEY}&q=${latitude},${longitude}&days=5&aqi=no&alerts=no`);
-            const data = await response.json();
-            
-            if (!data.error) {
-                locationInput.value = data.location.name;
-                searchWeather();
+function getCurrentLocationWeather() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            try {
+                const { latitude, longitude } = position.coords;
+                const response = await fetch(`${BASE_URL}/forecast.json?key=${API_KEY}&q=${latitude},${longitude}&days=5&aqi=no&alerts=no`);
+                const data = await response.json();
+                
+                if (!data.error) {
+                    locationInput.value = data.location.name;
+                    updateCurrentWeather(data);
+                    updateForecast(data);
+                }
+            } catch (error) {
+                showError('Could not get weather for your location');
             }
-        } catch (error) {
-            showError('Could not get weather for your location');
-        }
-    });
-} 
+        }, (error) => {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    showError('Location access was denied. Please enable location access in your browser settings to get weather for your current location.');
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    showError('Location information is unavailable. Please try again later.');
+                    break;
+                case error.TIMEOUT:
+                    showError('The request to get your location timed out. Please try again.');
+                    break;
+                default:
+                    showError('An unknown error occurred while getting your location.');
+                    break;
+            }
+        }, {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        });
+    } else {
+        showError('Geolocation is not supported by your browser');
+    }
+}
+
+// Get weather for current location when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    getCurrentLocationWeather();
+}); 
