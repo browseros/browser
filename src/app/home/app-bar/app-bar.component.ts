@@ -240,6 +240,25 @@ export class AppBarComponent {
             }
         }));
 
+        // Add Camera
+        internalAppsSubmenu.append(new MenuItem({
+            label: 'Camera',
+            click: () => {
+                const url = 'http://localhost:4200/assets/internal-apps/camera/camera.html';
+                const hostName = StateHelper.extractHostname(url);
+                
+                const newTab: ITab = {
+                    id: 0,
+                    appId: 0,
+                    hostName,
+                    title: '',
+                    url: url
+                };
+                
+                this.store.dispatch(new appActions.AddTabAction(newTab));
+            }
+        }));
+
         menu.append(new MenuItem({
             label: 'Internal Apps',
             submenu: internalAppsSubmenu
