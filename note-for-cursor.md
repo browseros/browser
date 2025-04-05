@@ -31,6 +31,11 @@ function handleEvent(event: any) {
   - Brief description of the change
   - Reason for the change
   - Date of modification
+- Important: For `histories.md` file:
+  - Only append new changes, never modify or delete existing entries
+  - Each entry represents a historical record and must be preserved
+  - If corrections are needed, add new entries instead of modifying old ones
+  - This ensures a complete and accurate history of all changes
 
 ## Main Electron File
 - The main Electron file is `main.electron.ts`

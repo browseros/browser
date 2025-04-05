@@ -1,9 +1,13 @@
 <div class="ai-assistant" [class.open]="isOpen">
   <div class="chat-container">
+    <!-- Header -->
     <div class="chat-header">
       <div class="title-bar">
         <span class="title">AI Assistant</span>
         <div class="header-actions">
+          <button class="header-button" (click)="createNewChat()" title="Tạo chat mới">
+            <i class="bi bi-plus-lg"></i>
+          </button>
           <button class="header-button" (click)="showHelp()" title="Help">
             <i class="bi bi-question-circle"></i>
           </button>

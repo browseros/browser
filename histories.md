@@ -172,3 +172,44 @@
 - To enhance conversation quality with contextual awareness
 - To provide more accurate and relevant responses
 - To maintain seamless user experience with automatic context gathering
+
+## 2025-04-05
+### Added
+- New chat management features:
+  - Added `createNewChat` method in AIAssistantService
+  - Added welcome message for new chats
+  - Added chat history subject for state management
+- Files modified:
+  - `src/app/services/ai-assistant.service.ts`
+  - `src/app/components/ai-assistant/ai-assistant.component.ts`
+- Reason: To improve chat organization and user experience
+
+### Updated
+- Enhanced message handling:
+  - Added proper message synchronization between service and component
+  - Added message removal functionality
+  - Improved thinking message handling
+  - Fixed duplicate message issues
+- Files modified:
+  - `src/app/services/ai-assistant.service.ts`
+  - `src/app/components/ai-assistant/ai-assistant.component.ts`
+- Reason: To ensure consistent and reliable message display
+
+### Added
+- Enhanced development guidelines in `note-for-cursor.md`:
+  - Added specific rules for `histories.md` file management
+  - Clarified that existing entries must never be modified or deleted
+  - Added guidance for handling corrections through new entries
+- Files modified:
+  - `note-for-cursor.md`
+- Reason: To ensure accurate and complete historical records of all code changes
+
+### Updated
+- Restored and preserved complete historical records in `histories.md`:
+  - Restored all previous entries about chat history functionality
+  - Restored detailed input filling implementation records
+  - Restored comprehensive form submission handling details
+  - Restored complete context understanding and screenshot capture records
+- Files modified:
+  - `histories.md`
+- Reason: To maintain accurate and complete historical documentation of all code changes

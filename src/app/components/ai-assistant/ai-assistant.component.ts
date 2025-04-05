@@ -36,18 +36,18 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   @ViewChild('webview') private webview!: ElementRef;
   @ViewChild('messageInput') private messageInput!: ElementRef;
   
-  private subscription: Subscription | null = null;
+  private subscription = new Subscription();
   messages: ChatMessage[] = [];
   newMessage = '';
   isLoading = false;
   isOpen = false;
   isDropdownOpen = false;
   error: string | null = null;
-  currentUrl = '';
-  currentAction = 'chat';
+  currentUrl: string | null = null;
+  currentAction: string | null = null;
   currentTab: any = null;
   selectedModel = 'gpt-4';
-  pendingImage: ImageToChat | null = null;
+  pendingImage: ChatMessage | null = null;
 
   actions: Action[] = [
     { 
@@ -94,9 +94,9 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   ) {
     // Configure marked options
     marked.setOptions({
-      breaks: true, // Enable line breaks
-      gfm: true, // Enable GitHub Flavored Markdown
-      pedantic: false // Don't be pedantic about markdown spec
+      breaks: true,
+      gfm: true,
+      pedantic: false
     });
 
     // Listen for storage changes to update API keys
@@ -109,27 +109,11 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   }
 
   ngOnInit() {
-    // Subscribe to URL changes from store
-    this.store.select(state => state.app.currentTab?.url).subscribe(url => {
-      if (url) {
-        this.currentUrl = url;
-      }
-    });
-
-    // Subscribe to current tab changes
-    this.store.select(state => state.app.currentTab).subscribe(tab => {
-      if (tab) {
-        this.currentTab = tab;
-      }
-    });
-
-    // Subscribe to panel visibility
-    this.subscription = new Subscription();
+    // Subscribe to isOpen changes
     this.subscription.add(
       this.aiAssistantService.isOpen$.subscribe(isOpen => {
         this.isOpen = isOpen;
         if (isOpen) {
-          // When panel opens, focus the textarea
           setTimeout(() => {
             const textarea = document.querySelector('.input-container textarea');
             if (textarea) {
@@ -140,13 +124,46 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       })
     );
 
-    // Subscribe to image events
+    // Subscribe to image changes
     this.subscription.add(
-      this.aiAssistantService.image$.subscribe((image: ImageToChat) => {
-        console.log('Received image:', image);
-        this.pendingImage = image;
-        // Force change detection
-        this.changeDetectorRef.detectChanges();
+      this.aiAssistantService.image$.subscribe(imageToChat => {
+        if (imageToChat) {
+          this.pendingImage = {
+            type: 'image',
+            content: '',
+            imageUrl: imageToChat.imageUrl,
+            srcUrl: imageToChat.srcUrl,
+            isUser: true,
+            timestamp: new Date()
+          };
+          this.changeDetectorRef.detectChanges();
+        }
+      })
+    );
+
+    // Subscribe to chat history changes
+    this.subscription.add(
+      this.aiAssistantService.chatHistory$.subscribe(history => {
+        this.messages = history;
+        this.scrollToBottom();
+      })
+    );
+
+    // Subscribe to URL changes from store
+    this.subscription.add(
+      this.store.select(state => state.app.currentTab?.url).subscribe(url => {
+        if (url) {
+          this.currentUrl = url;
+        }
+      })
+    );
+
+    // Subscribe to current tab changes
+    this.subscription.add(
+      this.store.select(state => state.app.currentTab).subscribe(tab => {
+        if (tab) {
+          this.currentTab = tab;
+        }
       })
     );
 
@@ -336,7 +353,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       return;
     }
 
-    // Add user message with image if exists
+    // Create user message
     const userMessage: ChatMessage = {
       type: this.pendingImage ? 'image' : 'text',
       content: this.newMessage,
@@ -345,12 +362,22 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       isUser: true,
       timestamp: new Date()
     };
-    this.messages.push(userMessage);
+
+    // Add to service's chat history
     this.aiAssistantService.addToChatHistory(userMessage);
 
     const messageToSend = this.newMessage;
     this.newMessage = '';
     this.isLoading = true;
+
+    // Add thinking message
+    const thinkingMessage: ChatMessage = {
+      type: 'text',
+      content: '🤔 Đang suy nghĩ...',
+      isUser: false,
+      timestamp: new Date()
+    };
+    this.aiAssistantService.addToChatHistory(thinkingMessage);
 
     try {
       let response: string;
@@ -476,6 +503,9 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         }
       }
 
+      // Remove thinking message
+      this.aiAssistantService.removeFromChatHistory(thinkingMessage);
+
       // Convert markdown to HTML and sanitize
       const htmlContent = await marked(response);
       const safeHtml = this.sanitizer.bypassSecurityTrustHtml(htmlContent);
@@ -488,14 +518,25 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
         timestamp: new Date(),
         htmlContent: safeHtml
       };
-      this.messages.push(aiMessage);
       this.aiAssistantService.addToChatHistory(aiMessage);
 
       // Clear pending image after sending
       this.pendingImage = null;
     } catch (error: any) {
+      // Remove thinking message on error
+      this.aiAssistantService.removeFromChatHistory(thinkingMessage);
+
       this.error = `Error: ${error.message || 'Unknown error'}`;
       console.error('Error sending message:', error);
+
+      // Add error message
+      const errorMessage: ChatMessage = {
+        type: 'text',
+        content: 'Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại.',
+        isUser: false,
+        timestamp: new Date()
+      };
+      this.aiAssistantService.addToChatHistory(errorMessage);
     } finally {
       this.isLoading = false;
     }
@@ -513,8 +554,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       isUser: false,
       timestamp: new Date()
     };
-    this.messages.push(message);
-    this.scrollToBottom();
+    this.aiAssistantService.addToChatHistory(message);
   }
 
   addUserMessage(content: string) {
@@ -524,8 +564,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       isUser: true,
       timestamp: new Date()
     };
-    this.messages.push(message);
-    this.scrollToBottom();
+    this.aiAssistantService.addToChatHistory(message);
   }
 
   private handleError(error: any) {
@@ -537,7 +576,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       isUser: false,
       timestamp: new Date()
     };
-    this.messages.push(errorMessage);
+    this.aiAssistantService.addToChatHistory(errorMessage);
   }
 
   private scrollToBottom(): void {
@@ -826,6 +865,10 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     this.aiAssistantService.close();
   }
 
+  createNewChat() {
+    this.aiAssistantService.createNewChat();
+  }
+
   async addImageMessage(imageUrl: string, content?: string) {
     // Convert content to HTML if it exists
     let htmlContent;
@@ -842,8 +885,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       isUser: true,
       timestamp: new Date()
     };
-    this.messages.push(message);
-    this.scrollToBottom();
+    this.aiAssistantService.addToChatHistory(message);
   }
 
   hasImageToSend(): boolean {
