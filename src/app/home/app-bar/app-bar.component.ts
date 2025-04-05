@@ -4,6 +4,7 @@ import type { ITab } from '../../models/tab.model';
 import { BrowserWindow, Menu, MenuItem } from '@electron/remote';
 import { Store } from '@ngrx/store';
 import * as appActions from '../../actions/app.actions';
+import { StateHelper } from '../../utils/state.helper';
 
 declare const window: any;
 
@@ -185,5 +186,46 @@ export class AppBarComponent {
 
     public toggleDropdown(): void {
         this.isDropdownOpen = !this.isDropdownOpen;
+    }
+
+    public handleMainMenuClick(event: MouseEvent): void {
+        const menu = new Menu();
+        
+        // Add Settings menu item
+        menu.append(new MenuItem({
+            label: 'Settings',
+            click: () => {
+                this.onBtnSettings.emit();
+            }
+        }));
+
+        // Add Internal Apps submenu
+        const internalAppsSubmenu = new Menu();
+        internalAppsSubmenu.append(new MenuItem({
+            label: 'Calculator',
+            click: () => {
+                const url = 'http://localhost:4200/assets/internal-apps/calculator/calculator.html';
+                const hostName = StateHelper.extractHostname(url);
+                
+                // Create a new tab for the calculator
+                const newTab: ITab = {
+                    id: 0,
+                    appId: 0,
+                    hostName,
+                    title: '',
+                    url: url
+                };
+                
+                // Dispatch action to add new tab
+                this.store.dispatch(new appActions.AddTabAction(newTab));
+            }
+        }));
+
+        menu.append(new MenuItem({
+            label: 'Internal Apps',
+            submenu: internalAppsSubmenu
+        }));
+
+        menu.popup({ window: BrowserWindow.getFocusedWindow()! });
     }
 }
