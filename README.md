@@ -13,7 +13,18 @@ A modern, feature-rich browser built with Angular and Electron, designed to prov
 - 🔍 Powerful search functionality
 - 📚 Bookmark and history management
 - 🎨 Theme customization
-- 🔌 Extension support
+- �� Extension support
+- 🤖 AI Assistant Integration:
+  - Natural language chat with AI
+  - Smart webpage summarization
+  - AI-powered content translation
+  - Code explanation and analysis
+  - Intelligent search suggestions
+  - Screenshot analysis and problem-solving
+  - Full page capture and comprehensive analysis
+  - Automated form filling assistance
+  - Image-based discussions and analysis
+  - Context-aware responses
 
 ## Getting Started
 
@@ -309,3 +320,44 @@ For support, please:
 Your Name - [@yourtwitter](https://twitter.com/yourtwitter) - email@example.com
 
 Project Link: [https://github.com/yourusername/browser-os](https://github.com/yourusername/browser-os)
+
+### AI Assistant Features
+
+The Browser OS comes with a powerful AI Assistant that provides:
+
+1. **Natural Language Chat**
+   - Have conversations with AI about any topic
+   - Context-aware responses
+   - Support for code snippets and technical discussions
+
+2. **Smart Content Analysis**
+   - Webpage summarization
+   - Content translation to multiple languages
+   - Code explanation and analysis
+   - Technical documentation interpretation
+
+3. **Visual Analysis**
+   - Screenshot capture and analysis
+   - Full page capture for comprehensive review
+   - Image-based problem solving
+   - Diagram and chart interpretation
+
+4. **Productivity Tools**
+   - Automated form filling
+   - Smart search suggestions
+   - Context-aware assistance
+   - Multi-language support
+
+5. **Technical Features**
+   - Integration with multiple AI models
+   - Support for image uploads and analysis
+   - Markdown rendering
+   - Code syntax highlighting
+   - Clipboard integration for images and text
+
+6. **User Experience**
+   - Modern, intuitive interface
+   - Real-time responses
+   - Error handling and recovery
+   - Keyboard shortcuts support
+   - Context menu integration

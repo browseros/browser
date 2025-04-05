@@ -1,6 +1,9 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 import { HomeComponent } from './home.component';
 import { AppBarComponent } from './app-bar/app-bar.component';
 import { AppNavComponent } from './app-nav/app-nav.component';
@@ -24,10 +27,14 @@ import { ApiKeysComponent } from '../components/api-keys/api-keys.component';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   exports: [
-    HomeComponent
+    HomeComponent,
+    AppBarComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

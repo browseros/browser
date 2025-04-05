@@ -3,13 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { StoreModule, Store } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ApplicationRef, NgModuleRef } from '@angular/core';
 import { createNewHosts } from '@angularclass/hmr';
 import { firstValueFrom } from 'rxjs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +21,10 @@ import { HomeModule } from './home/home.module';
 import { reducers } from './reducers';
 import { AppEffects } from './effects/app.effects';
 import { GoogleSuggestionService } from './services/google-suggestion.service';
+
+const routes: Routes = [
+  { path: '**', component: NoContentComponent }
+];
 
 @NgModule({
   declarations: [
@@ -32,7 +37,7 @@ import { GoogleSuggestionService } from './services/google-suggestion.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule,
+    RouterModule.forRoot(routes),
     AppRoutingModule,
     HomeModule,
     StoreModule.forRoot(reducers),
@@ -43,7 +48,8 @@ import { GoogleSuggestionService } from './services/google-suggestion.service';
       autoPause: true,
       trace: false,
       traceLimit: 75,
-    })
+    }),
+    BrowserAnimationsModule
   ],
   providers: [
     ENV_PROVIDERS,

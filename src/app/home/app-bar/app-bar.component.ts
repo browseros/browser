@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import type { IApp } from '../../models/app.model';
 import type { ITab } from '../../models/tab.model';
-import { BrowserWindow, Menu, MenuItem } from '@electron/remote';
+import { BrowserWindow, Menu, MenuItem, app } from '@electron/remote';
 import { Store } from '@ngrx/store';
 import * as appActions from '../../actions/app.actions';
 import { StateHelper } from '../../utils/state.helper';
@@ -190,25 +190,246 @@ export class AppBarComponent {
 
     public handleMainMenuClick(event: MouseEvent): void {
         const menu = new Menu();
-        
-        // Add Settings menu item
-        menu.append(new MenuItem({
-            label: 'Settings',
+
+        // Browser OS Menu (like Apple Menu)
+        const browserOSMenu = new Menu();
+        browserOSMenu.append(new MenuItem({
+            label: 'About Browser OS',
+            click: () => {
+                this.showAboutDialog();
+            }
+        }));
+        browserOSMenu.append(new MenuItem({ type: 'separator' }));
+        browserOSMenu.append(new MenuItem({
+            label: 'System Settings...',
+            accelerator: 'CmdOrCtrl+,',
             click: () => {
                 this.onBtnSettings.emit();
             }
         }));
+        browserOSMenu.append(new MenuItem({ type: 'separator' }));
+        browserOSMenu.append(new MenuItem({
+            label: 'Sleep',
+            click: () => {
+                // TODO: Implement sleep mode
+            }
+        }));
+        browserOSMenu.append(new MenuItem({
+            label: 'Restart...',
+            click: () => {
+                const win = BrowserWindow.getFocusedWindow();
+                if (win) {
+                    app.relaunch();
+                    app.quit();
+                }
+            }
+        }));
+        browserOSMenu.append(new MenuItem({
+            label: 'Shut Down...',
+            click: () => {
+                app.quit();
+            }
+        }));
+        menu.append(new MenuItem({
+            label: 'Browser OS',
+            submenu: browserOSMenu
+        }));
+        
+        // File Menu
+        const fileMenu = new Menu();
+        fileMenu.append(new MenuItem({
+            label: 'New Tab',
+            accelerator: 'CmdOrCtrl+T',
+            click: () => {
+                const newTab: ITab = {
+                    id: 0,
+                    appId: 0,
+                    hostName: 'New Tab',
+                    title: 'New Tab',
+                    url: 'about:blank'
+                };
+                this.store.dispatch(new appActions.AddTabAction(newTab));
+            }
+        }));
+        fileMenu.append(new MenuItem({
+            label: 'New Window',
+            accelerator: 'CmdOrCtrl+N',
+            click: () => {
+                // TODO: Implement new window
+            }
+        }));
+        fileMenu.append(new MenuItem({
+            label: 'New Private Window',
+            accelerator: 'CmdOrCtrl+Shift+N',
+            click: () => {
+                // TODO: Implement private window
+            }
+        }));
+        fileMenu.append(new MenuItem({ type: 'separator' }));
+        fileMenu.append(new MenuItem({
+            label: 'Close Tab',
+            accelerator: 'CmdOrCtrl+W',
+            click: () => {
+                if (this.currentTab) {
+                    this.store.dispatch(new appActions.CloseTabAction(this.currentTab));
+                }
+            }
+        }));
+        fileMenu.append(new MenuItem({
+            label: 'Close Window',
+            accelerator: 'CmdOrCtrl+Shift+W',
+            click: () => {
+                const win = BrowserWindow.getFocusedWindow();
+                if (win) win.close();
+            }
+        }));
+        menu.append(new MenuItem({
+            label: 'File',
+            submenu: fileMenu
+        }));
 
-        // Add Internal Apps submenu
+        // Edit Menu
+        const editMenu = new Menu();
+        editMenu.append(new MenuItem({
+            label: 'Undo',
+            accelerator: 'CmdOrCtrl+Z',
+            role: 'undo'
+        }));
+        editMenu.append(new MenuItem({
+            label: 'Redo',
+            accelerator: 'CmdOrCtrl+Shift+Z',
+            role: 'redo'
+        }));
+        editMenu.append(new MenuItem({ type: 'separator' }));
+        editMenu.append(new MenuItem({
+            label: 'Cut',
+            accelerator: 'CmdOrCtrl+X',
+            role: 'cut'
+        }));
+        editMenu.append(new MenuItem({
+            label: 'Copy',
+            accelerator: 'CmdOrCtrl+C',
+            role: 'copy'
+        }));
+        editMenu.append(new MenuItem({
+            label: 'Paste',
+            accelerator: 'CmdOrCtrl+V',
+            role: 'paste'
+        }));
+        editMenu.append(new MenuItem({
+            label: 'Paste and Match Style',
+            accelerator: 'CmdOrCtrl+Shift+V',
+            role: 'pasteAndMatchStyle'
+        }));
+        editMenu.append(new MenuItem({
+            label: 'Delete',
+            role: 'delete'
+        }));
+        editMenu.append(new MenuItem({
+            label: 'Select All',
+            accelerator: 'CmdOrCtrl+A',
+            role: 'selectAll'
+        }));
+        editMenu.append(new MenuItem({ type: 'separator' }));
+        editMenu.append(new MenuItem({
+            label: 'Find',
+            accelerator: 'CmdOrCtrl+F',
+            click: () => {
+                // TODO: Implement find
+            }
+        }));
+        menu.append(new MenuItem({
+            label: 'Edit',
+            submenu: editMenu
+        }));
+
+        // View Menu
+        const viewMenu = new Menu();
+        viewMenu.append(new MenuItem({
+            label: 'Always Show Bookmarks Bar',
+            type: 'checkbox',
+            checked: true,
+            click: () => {
+                // TODO: Toggle bookmarks bar
+            }
+        }));
+        viewMenu.append(new MenuItem({
+            label: 'Always Show Full URLs',
+            type: 'checkbox',
+            checked: false,
+            click: () => {
+                // TODO: Toggle full URLs
+            }
+        }));
+        viewMenu.append(new MenuItem({ type: 'separator' }));
+        viewMenu.append(new MenuItem({
+            label: 'Actual Size',
+            accelerator: 'CmdOrCtrl+0',
+            role: 'resetZoom'
+        }));
+        viewMenu.append(new MenuItem({
+            label: 'Zoom In',
+            accelerator: 'CmdOrCtrl+Plus',
+            role: 'zoomIn'
+        }));
+        viewMenu.append(new MenuItem({
+            label: 'Zoom Out',
+            accelerator: 'CmdOrCtrl+-',
+            role: 'zoomOut'
+        }));
+        viewMenu.append(new MenuItem({ type: 'separator' }));
+        viewMenu.append(new MenuItem({
+            label: 'Enter Full Screen',
+            accelerator: 'Ctrl+Command+F',
+            role: 'togglefullscreen'
+        }));
+        menu.append(new MenuItem({
+            label: 'View',
+            submenu: viewMenu
+        }));
+
+        // History Menu
+        const historyMenu = new Menu();
+        historyMenu.append(new MenuItem({
+            label: 'Back',
+            accelerator: 'CmdOrCtrl+[',
+            click: () => {
+                // TODO: Implement back
+            }
+        }));
+        historyMenu.append(new MenuItem({
+            label: 'Forward',
+            accelerator: 'CmdOrCtrl+]',
+            click: () => {
+                // TODO: Implement forward
+            }
+        }));
+        historyMenu.append(new MenuItem({ type: 'separator' }));
+        historyMenu.append(new MenuItem({
+            label: 'Show Full History',
+            accelerator: 'CmdOrCtrl+Y',
+            click: () => {
+                // TODO: Show history
+            }
+        }));
+        menu.append(new MenuItem({
+            label: 'History',
+            submenu: historyMenu
+        }));
+
+        // Apps Menu
+        const appsMenu = new Menu();
+        
+        // Internal Apps submenu with categories
         const internalAppsSubmenu = new Menu();
         
-        // Add Calculator
+        // Productivity
         internalAppsSubmenu.append(new MenuItem({
             label: 'Calculator',
+            accelerator: 'CmdOrCtrl+Alt+C',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/calculator/calculator.html';
                 const hostName = StateHelper.extractHostname(url);
-                
                 const newTab: ITab = {
                     id: 0,
                     appId: 0,
@@ -216,18 +437,15 @@ export class AppBarComponent {
                     title: 'Calculator',
                     url: url
                 };
-                
                 this.store.dispatch(new appActions.AddTabAction(newTab));
             }
         }));
-
-        // Add Calendar
         internalAppsSubmenu.append(new MenuItem({
             label: 'Calendar',
+            accelerator: 'CmdOrCtrl+Alt+L',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/calendar/calendar.html';
                 const hostName = StateHelper.extractHostname(url);
-                
                 const newTab: ITab = {
                     id: 0,
                     appId: 0,
@@ -235,18 +453,18 @@ export class AppBarComponent {
                     title: 'Calendar',
                     url: url
                 };
-                
                 this.store.dispatch(new appActions.AddTabAction(newTab));
             }
         }));
 
-        // Add Camera
+        // Media
+        internalAppsSubmenu.append(new MenuItem({ type: 'separator' }));
         internalAppsSubmenu.append(new MenuItem({
             label: 'Camera',
+            accelerator: 'CmdOrCtrl+Alt+M',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/camera/camera.html';
                 const hostName = StateHelper.extractHostname(url);
-                
                 const newTab: ITab = {
                     id: 0,
                     appId: 0,
@@ -254,18 +472,18 @@ export class AppBarComponent {
                     title: 'Camera',
                     url: url
                 };
-                
                 this.store.dispatch(new appActions.AddTabAction(newTab));
             }
         }));
 
-        // Add Weather
+        // Utilities
+        internalAppsSubmenu.append(new MenuItem({ type: 'separator' }));
         internalAppsSubmenu.append(new MenuItem({
             label: 'Weather',
+            accelerator: 'CmdOrCtrl+Alt+W',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/weather/weather.html';
                 const hostName = StateHelper.extractHostname(url);
-                
                 const newTab: ITab = {
                     id: 0,
                     appId: 0,
@@ -273,16 +491,337 @@ export class AppBarComponent {
                     title: 'Weather',
                     url: url
                 };
-                
                 this.store.dispatch(new appActions.AddTabAction(newTab));
             }
         }));
 
-        menu.append(new MenuItem({
+        appsMenu.append(new MenuItem({
             label: 'Internal Apps',
             submenu: internalAppsSubmenu
         }));
 
+        // Add Apps menu to main menu
+        menu.append(new MenuItem({
+            label: 'Apps',
+            submenu: appsMenu
+        }));
+
+        // Window Menu
+        const windowMenu = new Menu();
+        windowMenu.append(new MenuItem({
+            label: 'Minimize',
+            accelerator: 'CmdOrCtrl+M',
+            role: 'minimize'
+        }));
+        windowMenu.append(new MenuItem({
+            label: 'Zoom',
+            role: 'zoom'
+        }));
+        windowMenu.append(new MenuItem({ type: 'separator' }));
+        windowMenu.append(new MenuItem({
+            label: 'Show Previous Tab',
+            accelerator: 'CmdOrCtrl+Shift+[',
+            click: () => {
+                // TODO: Show previous tab
+            }
+        }));
+        windowMenu.append(new MenuItem({
+            label: 'Show Next Tab',
+            accelerator: 'CmdOrCtrl+Shift+]',
+            click: () => {
+                // TODO: Show next tab
+            }
+        }));
+        windowMenu.append(new MenuItem({ type: 'separator' }));
+        windowMenu.append(new MenuItem({
+            label: 'Bring All to Front',
+            role: 'front'
+        }));
+        menu.append(new MenuItem({
+            label: 'Window',
+            submenu: windowMenu
+        }));
+
+        // Help Menu
+        const helpMenu = new Menu();
+        helpMenu.append(new MenuItem({
+            label: 'Browser OS Help',
+            accelerator: 'CmdOrCtrl+?',
+            click: () => {
+                // TODO: Show help
+            }
+        }));
+        helpMenu.append(new MenuItem({ type: 'separator' }));
+        helpMenu.append(new MenuItem({
+            label: 'Release Notes',
+            click: () => {
+                // TODO: Show release notes
+            }
+        }));
+        helpMenu.append(new MenuItem({
+            label: 'Report an Issue',
+            click: () => {
+                // TODO: Open issue reporter
+            }
+        }));
+        helpMenu.append(new MenuItem({ type: 'separator' }));
+        helpMenu.append(new MenuItem({
+            label: 'Privacy Policy',
+            click: () => {
+                // TODO: Show privacy policy
+            }
+        }));
+        menu.append(new MenuItem({
+            label: 'Help',
+            submenu: helpMenu
+        }));
+
         menu.popup({ window: BrowserWindow.getFocusedWindow()! });
+    }
+
+    private showAboutDialog(): void {
+        const dialog = document.createElement('div');
+        dialog.className = 'about-dialog-overlay';
+        dialog.innerHTML = `
+            <div class="about-dialog">
+                <img src="assets/icons/browser-os-logo.png" alt="Browser OS Logo" class="logo">
+                <h1>Browser OS</h1>
+                <div class="version">Version 0.1.0</div>
+                
+                <div class="content">
+                    <div class="description">
+                        Browser OS is a modern, feature-rich browser built with Angular and Electron, 
+                        designed to provide a seamless and powerful web browsing experience with integrated AI capabilities.
+                    </div>
+
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <i class="bi bi-robot"></i>
+                            <h3>AI Assistant</h3>
+                            <p>Smart AI-powered features and chat</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="bi bi-rocket"></i>
+                            <h3>Fast & Efficient</h3>
+                            <p>Optimized for speed and performance</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="bi bi-shield-check"></i>
+                            <h3>Enhanced Security</h3>
+                            <p>Sandboxed processes & secure browsing</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="bi bi-window-stack"></i>
+                            <h3>Advanced Tabs</h3>
+                            <p>Smart tab management & organization</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="bi bi-translate"></i>
+                            <h3>AI Translation</h3>
+                            <p>Smart content translation & analysis</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="bi bi-camera"></i>
+                            <h3>Visual Analysis</h3>
+                            <p>Screenshot analysis & problem solving</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="bi bi-search"></i>
+                            <h3>Smart Search</h3>
+                            <p>AI-powered search with suggestions</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="bi bi-bookmark-star"></i>
+                            <h3>Smart Bookmarks</h3>
+                            <p>Advanced bookmark & history management</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="bi bi-palette"></i>
+                            <h3>Customizable</h3>
+                            <p>Themes and personalization options</p>
+                        </div>
+                    </div>
+
+                    <div class="tech-stack">
+                        <span class="tech-item">Angular</span>
+                        <span class="tech-item">Electron</span>
+                        <span class="tech-item">TypeScript</span>
+                        <span class="tech-item">NgRx</span>
+                        <span class="tech-item">ChatGPT</span>
+                        <span class="tech-item">Google AI</span>
+                    </div>
+
+                    <div class="copyright">
+                        Copyright © 2024 Browser OS. All rights reserved.<br>
+                        <a href="https://github.com/yourusername/browser-os" target="_blank">GitHub</a> · 
+                        <a href="#" onclick="window.open('Architect/Home.md')">Documentation</a> · 
+                        <a href="#" onclick="window.open('LICENSE')">License</a>
+                    </div>
+                </div>
+
+                <button class="close-btn">Close</button>
+            </div>
+        `;
+
+        // Add styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .about-dialog-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                backdrop-filter: blur(5px);
+            }
+            .about-dialog {
+                background: rgba(255, 255, 255, 0.8);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-radius: 12px;
+                padding: 24px;
+                max-width: 800px;
+                width: 90%;
+                text-align: center;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+            .logo {
+                width: 128px;
+                height: 128px;
+                margin-bottom: 20px;
+            }
+            h1 {
+                font-size: 24px;
+                font-weight: 500;
+                margin: 0 0 10px 0;
+                color: #1d1d1f;
+            }
+            .version {
+                font-size: 14px;
+                color: #86868b;
+                margin-bottom: 20px;
+            }
+            .content {
+                margin: 20px 0;
+            }
+            .description {
+                font-size: 14px;
+                line-height: 1.5;
+                color: #1d1d1f;
+                margin-bottom: 25px;
+                padding: 0 20px;
+            }
+            .features-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 20px;
+                padding: 20px;
+                text-align: left;
+            }
+            .feature-item {
+                padding: 15px;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.5);
+                transition: transform 0.2s;
+            }
+            .feature-item:hover {
+                transform: translateY(-2px);
+            }
+            .feature-item i {
+                font-size: 24px;
+                color: #0071e3;
+                margin-bottom: 10px;
+            }
+            .feature-item h3 {
+                font-size: 16px;
+                font-weight: 500;
+                margin: 10px 0 5px;
+                color: #1d1d1f;
+            }
+            .feature-item p {
+                font-size: 13px;
+                color: #86868b;
+                margin: 0;
+            }
+            .tech-stack {
+                margin: 25px 0;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            .tech-item {
+                padding: 5px 12px;
+                border-radius: 15px;
+                background: rgba(0, 113, 227, 0.1);
+                color: #0071e3;
+                font-size: 13px;
+            }
+            .copyright {
+                font-size: 12px;
+                color: #86868b;
+                margin: 20px 0;
+            }
+            .copyright a {
+                color: #0071e3;
+                text-decoration: none;
+                margin: 0 5px;
+            }
+            .copyright a:hover {
+                text-decoration: underline;
+            }
+            .close-btn {
+                background: #0071e3;
+                color: white;
+                border: none;
+                padding: 8px 20px;
+                border-radius: 20px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: background-color 0.2s;
+            }
+            .close-btn:hover {
+                background: #0077ed;
+            }
+            @media (max-width: 600px) {
+                .features-grid {
+                    grid-template-columns: 1fr;
+                }
+                .about-dialog {
+                    padding: 20px;
+                }
+            }
+        `;
+
+        dialog.appendChild(style);
+        document.body.appendChild(dialog);
+
+        // Handle close
+        const closeBtn = dialog.querySelector('.close-btn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                document.body.removeChild(dialog);
+            });
+        }
+
+        // Close on overlay click
+        dialog.addEventListener('click', (e) => {
+            if (e.target === dialog) {
+                document.body.removeChild(dialog);
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function closeOnEscape(e) {
+            if (e.key === 'Escape') {
+                document.body.removeChild(dialog);
+                document.removeEventListener('keydown', closeOnEscape);
+            }
+        });
     }
 }

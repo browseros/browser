@@ -2,6 +2,7 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import './styles/theme';
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 /* Global styles */
 * {
@@ -55,4 +56,19 @@ a {
   &:hover {
     color: $primary-light;
   }
+}
+
+/* Dialog styles */
+.about-dialog-container {
+    .mat-mdc-dialog-container {
+        padding: 0;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .mat-mdc-dialog-surface {
+        background: rgba(255, 255, 255, 0.8) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }
 } 
