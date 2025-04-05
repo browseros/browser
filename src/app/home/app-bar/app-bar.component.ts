@@ -201,13 +201,14 @@ export class AppBarComponent {
 
         // Add Internal Apps submenu
         const internalAppsSubmenu = new Menu();
+        
+        // Add Calculator
         internalAppsSubmenu.append(new MenuItem({
             label: 'Calculator',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/calculator/calculator.html';
                 const hostName = StateHelper.extractHostname(url);
                 
-                // Create a new tab for the calculator
                 const newTab: ITab = {
                     id: 0,
                     appId: 0,
@@ -216,7 +217,25 @@ export class AppBarComponent {
                     url: url
                 };
                 
-                // Dispatch action to add new tab
+                this.store.dispatch(new appActions.AddTabAction(newTab));
+            }
+        }));
+
+        // Add Calendar
+        internalAppsSubmenu.append(new MenuItem({
+            label: 'Calendar',
+            click: () => {
+                const url = 'http://localhost:4200/assets/internal-apps/calendar/calendar.html';
+                const hostName = StateHelper.extractHostname(url);
+                
+                const newTab: ITab = {
+                    id: 0,
+                    appId: 0,
+                    hostName,
+                    title: '',
+                    url: url
+                };
+                
                 this.store.dispatch(new appActions.AddTabAction(newTab));
             }
         }));
