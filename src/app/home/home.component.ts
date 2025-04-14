@@ -190,14 +190,35 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new appActions.ChangeTabUrlAction(webEvent));
   }
 
-  onTitleChanged(title: any): void {
+  onTitleChanged(event: any): void {
+    if (!event || !event.title || !this.currentTab) return;
+
     const webEvent: IWebEvent = {
-      eventValue: title,
-      eventName: 'titlechanged',
-      tabId: this.currentTab.id,
-      app: this.currentApp
+        eventValue: event.title,
+        eventName: 'titlechanged',
+        tabId: this.currentTab.id,
+        app: this.currentApp
     };
+
+    // Update tab title in store
     this.store.dispatch(new appActions.ChangeTabTitleAction(webEvent));
+
+    // Update history item with new title if URL exists
+    if (this.currentTab.url) {
+        try {
+            const urlObj = new URL(this.currentTab.url);
+            this.historyService.addHistoryItem({
+                title: event.title,
+                link: this.currentTab.url,
+                host: urlObj.hostname,
+                icon: this.currentTab.icon || `https://www.google.com/s2/favicons?domain=${urlObj.hostname}`,
+                date: new Date(),
+                weight: 1
+            });
+        } catch (error) {
+            console.error('[HomeComponent] Error updating history with new title:', error);
+        }
+    }
   }
 
   onIconChanged(icon: any): void {
@@ -226,14 +247,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     try {
         // Save to history
         const urlObj = new URL(url);
-        this.historyService.addHistoryItem({
+        const historyItem: IHistoryItem = {
             title: this.currentTab.title || urlObj.hostname,
             link: url,
             host: urlObj.hostname,
-            icon: this.currentTab.icon,
+            icon: this.currentTab.icon || `https://www.google.com/s2/favicons?domain=${urlObj.hostname}`,
             date: new Date(),
-            weight: 1 // Initialize with weight 1
-        });
+            weight: 1
+        };
+
+        console.log('[HomeComponent] Adding history item:', historyItem);
+        this.historyService.addHistoryItem(historyItem);
     } catch (error) {
         console.error('[HomeComponent] Error saving history:', error);
     }
@@ -660,6 +684,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         icon: ''
       };
       this.store.dispatch(new appActions.AddTabAction(newTab));
+      this.store.dispatch(new appActions.GotoAppAction(existingApp));
+      this.store.dispatch(new appActions.GotoTabAction(newTab));
     } else {
       // Create new app and tab
       const newAppId = StateHelper.getNewAppId(this.apps);
@@ -677,6 +703,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       // Dispatch actions to create app and tab
       this.store.dispatch(new appActions.AddAppAction(newApp));
       this.store.dispatch(new appActions.AddTabAction(newTab));
+      this.store.dispatch(new appActions.GotoAppAction(newApp));
+      this.store.dispatch(new appActions.GotoTabAction(newTab));
     }
   }
 

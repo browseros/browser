@@ -1,7 +1,7 @@
 <div class="navs">
-    <span *ngIf="currentApp && tabsInternal && tabsInternal.length > 0">
+    <span *ngIf="currentApp?.id">
         <div *ngFor="let tab of tabsInternal" 
-             [style.display]="tab.appId !== currentApp.id ? 'none': ''"
+             [style.display]="tab.appId === currentApp.id ? 'flex': 'none'"
              class="tab-on-nav"
              [title]="tab.title"
              [class.active]="currentTabInternal && tab.id === currentTabInternal.id"

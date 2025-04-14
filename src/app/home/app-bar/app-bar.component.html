@@ -7,6 +7,9 @@
             <button class="action-button" (click)="onBtnAIAssistant.emit()" title="AI Assistant">
                 <i class="bi bi-robot"></i>
             </button>
+            <button class="action-button" (click)="toggleRecentApps($event)" title="Recent Apps">
+                <i class="bi bi-clock-history"></i>
+            </button>
         </div>
     </div>
     
@@ -18,6 +21,9 @@
                    placeholder="Search URL or App"
                    [value]="currentTab?.url || ''"
                    (click)="onEnteredSearchBox.emit()"/>
+            <button class="add-tab-button" (click)="onEnteredSearchBox.emit()" title="New Tab">
+                <i class="bi bi-plus-lg"></i>
+            </button>
         </div>
     </div>
 
@@ -76,5 +82,29 @@
         <button class="window-button close" title="Close" (click)="handleClose()">
             <i class="bi bi-x-lg"></i>
         </button>
+    </div>
+</div>
+
+<div class="recent-apps-dropdown" *ngIf="showRecentApps">
+    <div class="recent-apps-header">
+        <h3>Recent Apps</h3>
+        <button class="close-button" (click)="toggleRecentApps($event)">
+            <i class="bi bi-x"></i>
+        </button>
+    </div>
+    <div class="recent-apps-content">
+        <div class="recent-apps-list" *ngIf="recentApps.length > 0">
+            <div class="recent-app-item" *ngFor="let app of getUniqueHosts(recentApps)" (click)="handleRecentAppClick(app)">
+                <img [src]="app.icon" *ngIf="app.icon" class="app-icon" alt=""/>
+                <i *ngIf="!app.icon" class="bi bi-window app-icon"></i>
+                <div class="app-info">
+                    <div class="app-title">{{app.host}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="no-recent-apps" *ngIf="recentApps.length === 0">
+            <i class="bi bi-clock"></i>
+            <p>No recent apps</p>
+        </div>
     </div>
 </div>

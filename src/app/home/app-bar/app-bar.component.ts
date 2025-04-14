@@ -1,10 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import type { IApp } from '../../models/app.model';
 import type { ITab } from '../../models/tab.model';
+import type { IHistoryItem } from '../../models/history-item.model';
 import { BrowserWindow, Menu, MenuItem, app } from '@electron/remote';
 import { Store } from '@ngrx/store';
 import * as appActions from '../../actions/app.actions';
 import { StateHelper } from '../../utils/state.helper';
+import { HistoryService } from '../../services/history.service';
+import * as fromRoot from '../../reducers';
 
 declare const window: any;
 
@@ -39,13 +42,26 @@ export class AppBarComponent {
     @Output() public onBtnSettings = new EventEmitter<void>();
 
     public isDropdownOpen: boolean = false;
+    public showRecentApps: boolean = false;
+    public recentApps: IHistoryItem[] = [];
 
-    constructor(private store: Store) {
+    constructor(private store: Store<fromRoot.State>, private historyService: HistoryService) {
         // Add click outside listener to close dropdown
         document.addEventListener('click', (event) => {
-            const dropdown = document.querySelector('.dropdown');
-            if (dropdown && !dropdown.contains(event.target as Node) && this.isDropdownOpen) {
-                this.isDropdownOpen = false;
+            if (this.isDropdownOpen) {
+                const target = event.target as HTMLElement;
+                const dropdown = document.querySelector('.dropdown-menu');
+                if (dropdown && !dropdown.contains(target)) {
+                    this.isDropdownOpen = false;
+                }
+            }
+        });
+
+        // Subscribe to history updates
+        this.historyService.history$.subscribe(histories => {
+            if (histories) {
+                this.recentApps = this.historyService.getTopItems(10);
+                console.log('[AppBar] Updated recent apps:', this.recentApps.length);
             }
         });
     }
@@ -823,5 +839,69 @@ export class AppBarComponent {
                 document.removeEventListener('keydown', closeOnEscape);
             }
         });
+    }
+
+    public toggleRecentApps(event: MouseEvent): void {
+        event.stopPropagation();
+        this.showRecentApps = !this.showRecentApps;
+
+        if (this.showRecentApps) {
+            // Add click outside listener
+            setTimeout(() => {
+                document.addEventListener('click', this.handleClickOutside);
+            });
+        }
+    }
+
+    private handleClickOutside = (event: MouseEvent) => {
+        const target = event.target as HTMLElement;
+        const dropdown = document.querySelector('.recent-apps-dropdown');
+        const button = document.querySelector('.action-button[title="Recent Apps"]');
+
+        if (dropdown && button && 
+            !dropdown.contains(target) && 
+            !button.contains(target)) {
+            this.showRecentApps = false;
+            document.removeEventListener('click', this.handleClickOutside);
+        }
+    }
+
+    public getUniqueHosts(historyItems: IHistoryItem[]): IHistoryItem[] {
+        const hostMap = new Map<string, IHistoryItem>();
+        
+        // Group by host and keep the most recent/highest weight item for each host
+        historyItems.forEach(item => {
+            if (!item.host) return;
+            
+            if (!hostMap.has(item.host) || 
+                (hostMap.get(item.host)?.weight || 0) < (item.weight || 0)) {
+                hostMap.set(item.host, item);
+            }
+        });
+
+        // Convert map back to array and sort by weight
+        return Array.from(hostMap.values())
+            .sort((a, b) => (b.weight || 0) - (a.weight || 0));
+    }
+
+    public handleRecentAppClick(app: IHistoryItem): void {
+        if (!app || !app.link) return;
+        
+        // Create a new tab with the app's URL
+        const hostname = StateHelper.extractHostname(app.link);
+        const newTab: ITab = {
+            id: StateHelper.getNewTabId(this.tabs),
+            appId: 0,  // Will be set by the reducer
+            title: app.title || hostname,
+            url: app.link,
+            hostName: hostname,
+            icon: app.icon || ''
+        };
+        
+        // Dispatch action to add the tab
+        this.store.dispatch(new appActions.AddTabAction(newTab));
+        
+        // Close the recent apps dropdown
+        this.showRecentApps = false;
     }
 }
