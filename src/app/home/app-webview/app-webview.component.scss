@@ -3,6 +3,8 @@
   height: 100%;
   background: #fff;
   transition: width 0.3s ease;
+  position: relative;
+  z-index: 2;
 
   &.ai-assistant-open {
     width: 66.67%;
@@ -16,7 +18,13 @@
     webview {
       width: 100% !important;
       height: 100% !important;
-      display: block;
+      display: block !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      pointer-events: auto !important;
     }
   }
 } 

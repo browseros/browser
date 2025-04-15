@@ -23,9 +23,11 @@ app-nav {
 
 .home-container {
   position: relative;
-  height: calc(100vh - 64px); // Subtract app bar height
+  height: calc(100vh - 88px); // Subtract app bar and nav height
   width: 100%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 
   blank-page {
     position: absolute;
@@ -33,7 +35,6 @@ app-nav {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 3;  // Higher z-index to appear above webview when visible
   }
 
   app-webview {
@@ -42,7 +43,8 @@ app-nav {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 2;
+    z-index: 1;
+    pointer-events: auto; // Ensure webview can receive events
   }
 }
 

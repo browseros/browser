@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import * as fromRoot from '../../reducers';
 import type { IHistoryItem } from '../../models/history-item.model';
 import { HistoryService } from '../../services/history.service';
@@ -11,9 +13,10 @@ import { StateHelper } from '../../utils/state.helper';
     templateUrl: './blank-page.component.html',
     styleUrls: ['./blank-page.component.scss']
 })
-export class BlankPageComponent implements OnInit {
+export class BlankPageComponent implements OnInit, OnDestroy {
     public recentApps: IHistoryItem[] = [];
     public isVisible: boolean = true;
+    private subscriptions: Subscription[] = [];
 
     constructor(
         private store: Store<fromRoot.State>,
@@ -22,19 +25,38 @@ export class BlankPageComponent implements OnInit {
 
     ngOnInit(): void {
         // Subscribe to history updates
-        this.historyService.history$.subscribe(histories => {
-            if (histories) {
-                this.recentApps = this.historyService.getTopItems(8); // Show top 8 recent apps
-            }
-        });
+        this.subscriptions.push(
+            this.historyService.history$.subscribe(histories => {
+                if (histories) {
+                    this.recentApps = this.historyService.getTopItems(8);
+                }
+            })
+        );
 
         // Subscribe to store to know when to show/hide the blank page
-        this.store.select(state => ({
-            currentTab: state.app.currentTab,
-            currentApp: state.app.currentApp
-        })).subscribe(({ currentTab, currentApp }) => {
-            this.isVisible = !currentApp && !currentTab;
-        });
+        this.subscriptions.push(
+            this.store.select(state => ({
+                currentTab: state.app.currentTab,
+                currentApp: state.app.currentApp,
+                tabs: state.app.tabs || []
+            })).pipe(
+                map(({ currentTab, currentApp, tabs }) => {
+                    // Only show blank page if there are no tabs at all
+                    const shouldShow = tabs.length === 0;
+                    console.log('[BlankPage] Visibility check:', { shouldShow, tabsCount: tabs.length });
+                    return shouldShow;
+                }),
+                distinctUntilChanged()
+            ).subscribe(shouldShow => {
+                console.log('[BlankPage] Setting visibility:', shouldShow);
+                this.isVisible = shouldShow;
+            })
+        );
+    }
+
+    ngOnDestroy(): void {
+        // Clean up subscriptions
+        this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 
     public handleAppClick(app: IHistoryItem): void {
