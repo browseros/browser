@@ -12,7 +12,9 @@ const units = [
                         "Bonjour! - Chào (dùng vào buổi sáng và cả ngày)",
                         "Bonsoir! - Chào buổi tối",
                         "Au revoir! - Tạm biệt",
-                        "À bientôt! - Hẹn gặp lại"
+                        "À bientôt! - Hẹn gặp lại",
+                        "Salut! - Chào (thân mật)",
+                        "Bonne nuit! - Chúc ngủ ngon"
                     ]
                 },
                 {
@@ -20,7 +22,10 @@ const units = [
                     explanation: "Cấu trúc cơ bản để giới thiệu bản thân:",
                     examples: [
                         "Je m'appelle... - Tôi tên là...",
-                        "Comment tu t'appelles? - Bạn tên là gì?"
+                        "Comment tu t'appelles? - Bạn tên là gì?",
+                        "Enchanté(e) - Rất vui được gặp",
+                        "Comment allez-vous? - Bạn khỏe không? (lịch sự)",
+                        "Comment vas-tu? - Bạn khỏe không? (thân mật)"
                     ]
                 }
             ]
@@ -61,6 +66,42 @@ const units = [
                 meaning: "Không",
                 example: "Non, merci.",
                 exampleMeaning: "Không, cảm ơn."
+            },
+            {
+                word: "Salut",
+                meaning: "Chào (thân mật)",
+                example: "Salut, ça va?",
+                exampleMeaning: "Chào, khỏe không?"
+            },
+            {
+                word: "Bonsoir",
+                meaning: "Chào buổi tối",
+                example: "Bonsoir tout le monde!",
+                exampleMeaning: "Chào buổi tối mọi người!"
+            },
+            {
+                word: "Bonne nuit",
+                meaning: "Chúc ngủ ngon",
+                example: "Bonne nuit, fais de beaux rêves!",
+                exampleMeaning: "Chúc ngủ ngon, mơ đẹp nhé!"
+            },
+            {
+                word: "Enchanté(e)",
+                meaning: "Rất vui được gặp",
+                example: "Enchanté de faire votre connaissance.",
+                exampleMeaning: "Rất vui được làm quen với bạn."
+            },
+            {
+                word: "À bientôt",
+                meaning: "Hẹn gặp lại",
+                example: "À bientôt, mon ami!",
+                exampleMeaning: "Hẹn gặp lại, bạn của tôi!"
+            },
+            {
+                word: "De rien",
+                meaning: "Không có gì",
+                example: "De rien, je vous en prie.",
+                exampleMeaning: "Không có gì, rất vui được giúp."
             }
         ],
         exercises: [
@@ -74,6 +115,24 @@ const units = [
                 type: "multiple-choice",
                 question: "Que signifie 'Merci'?",
                 options: ["Xin lỗi", "Tạm biệt", "Cảm ơn", "Xin chào"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Quelle expression utilise-t-on le soir?",
+                options: ["Bonjour", "Bonsoir", "Au revoir", "Salut"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Comment dit-on 'Chúc ngủ ngon' en français?",
+                options: ["Bonsoir", "Au revoir", "Bonne nuit", "À bientôt"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Que répond-on quand quelqu'un dit 'Merci'?",
+                options: ["Bonjour", "Au revoir", "De rien", "S'il vous plaît"],
                 correct: 2
             }
         ]
@@ -151,14 +210,41 @@ const units = [
                         "2 - deux",
                         "3 - trois",
                         "4 - quatre",
-                        "5 - cinq"
+                        "5 - cinq",
+                        "6 - six",
+                        "7 - sept",
+                        "8 - huit",
+                        "9 - neuf",
+                        "10 - dix"
+                    ]
+                },
+                {
+                    topic: "Số từ 11-20",
+                    explanation: "Các số từ 11-20 có cách đọc riêng:",
+                    examples: [
+                        "11 - onze",
+                        "12 - douze",
+                        "13 - treize",
+                        "14 - quatorze",
+                        "15 - quinze",
+                        "16 - seize",
+                        "17 - dix-sept",
+                        "18 - dix-huit",
+                        "19 - dix-neuf",
+                        "20 - vingt"
                     ]
                 }
             ]
         },
         vocabulary: [
             {
-                word: "Un",
+                word: "Zéro",
+                meaning: "Số không",
+                example: "Il a zéro faute.",
+                exampleMeaning: "Nó không có lỗi nào."
+            },
+            {
+                word: "Un/Une",
                 meaning: "Một",
                 example: "J'ai un livre.",
                 exampleMeaning: "Tôi có một quyển sách."
@@ -186,6 +272,42 @@ const units = [
                 meaning: "Năm",
                 example: "Cinq pommes rouges.",
                 exampleMeaning: "Năm quả táo đỏ."
+            },
+            {
+                word: "Dix",
+                meaning: "Mười",
+                example: "J'ai dix ans.",
+                exampleMeaning: "Tôi mười tuổi."
+            },
+            {
+                word: "Quinze",
+                meaning: "Mười lăm",
+                example: "Il est quinze heures.",
+                exampleMeaning: "Bây giờ là 15 giờ."
+            },
+            {
+                word: "Vingt",
+                meaning: "Hai mươi",
+                example: "J'ai vingt euros.",
+                exampleMeaning: "Tôi có 20 euro."
+            },
+            {
+                word: "Premier/Première",
+                meaning: "Thứ nhất",
+                example: "C'est la première fois.",
+                exampleMeaning: "Đây là lần đầu tiên."
+            },
+            {
+                word: "Deuxième",
+                meaning: "Thứ hai",
+                example: "Je suis deuxième.",
+                exampleMeaning: "Tôi đứng thứ hai."
+            },
+            {
+                word: "Dernier/Dernière",
+                meaning: "Cuối cùng",
+                example: "C'est le dernier jour.",
+                exampleMeaning: "Đây là ngày cuối cùng."
             }
         ],
         exercises: [
@@ -194,6 +316,30 @@ const units = [
                 question: "Comment dit-on 'hai' en français?",
                 options: ["Un", "Deux", "Trois", "Quatre"],
                 correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel nombre vient après 'quatre'?",
+                options: ["Trois", "Cinq", "Six", "Sept"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Comment dit-on '15' en français?",
+                options: ["Douze", "Treize", "Quatorze", "Quinze"],
+                correct: 3
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel est le dernier nombre avant 'vingt'?",
+                options: ["Dix-sept", "Dix-huit", "Dix-neuf", "Vingt"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Comment dit-on 'Thứ nhất' en français?",
+                options: ["Deuxième", "Dernier", "Premier", "Trois"],
+                correct: 2
             }
         ]
     },
@@ -209,7 +355,18 @@ const units = [
                     examples: [
                         "Un ballon rouge - Một quả bóng màu đỏ",
                         "Une fleur bleue - Một bông hoa màu xanh",
-                        "Des crayons verts - Những cây bút chì màu xanh lá"
+                        "Des crayons verts - Những cây bút chì màu xanh lá",
+                        "Une robe blanche - Một cái váy trắng",
+                        "Un chat noir - Một con mèo đen"
+                    ]
+                },
+                {
+                    topic: "Cấu trúc 'De quelle couleur est...?'",
+                    explanation: "Để hỏi về màu sắc của một vật, chúng ta dùng cấu trúc này:",
+                    examples: [
+                        "De quelle couleur est le ciel? - Bầu trời màu gì?",
+                        "De quelle couleur sont les fleurs? - Những bông hoa màu gì?",
+                        "C'est de quelle couleur? - Cái này màu gì?"
                     ]
                 }
             ]
@@ -222,13 +379,13 @@ const units = [
                 exampleMeaning: "Quả táo màu đỏ."
             },
             {
-                word: "Bleu",
+                word: "Bleu/Bleue",
                 meaning: "Màu xanh dương",
                 example: "Le ciel est bleu.",
                 exampleMeaning: "Bầu trời màu xanh."
             },
             {
-                word: "Vert",
+                word: "Vert/Verte",
                 meaning: "Màu xanh lá",
                 example: "L'herbe est verte.",
                 exampleMeaning: "Cỏ màu xanh lá."
@@ -240,18 +397,84 @@ const units = [
                 exampleMeaning: "Mặt trời màu vàng."
             },
             {
-                word: "Noir",
+                word: "Noir/Noire",
                 meaning: "Màu đen",
                 example: "Le chat est noir.",
                 exampleMeaning: "Con mèo màu đen."
+            },
+            {
+                word: "Blanc/Blanche",
+                meaning: "Màu trắng",
+                example: "La neige est blanche.",
+                exampleMeaning: "Tuyết màu trắng."
+            },
+            {
+                word: "Rose",
+                meaning: "Màu hồng",
+                example: "La fleur est rose.",
+                exampleMeaning: "Bông hoa màu hồng."
+            },
+            {
+                word: "Violet/Violette",
+                meaning: "Màu tím",
+                example: "Le raisin est violet.",
+                exampleMeaning: "Nho màu tím."
+            },
+            {
+                word: "Orange",
+                meaning: "Màu cam",
+                example: "La carotte est orange.",
+                exampleMeaning: "Cà rốt màu cam."
+            },
+            {
+                word: "Marron",
+                meaning: "Màu nâu",
+                example: "Le chocolat est marron.",
+                exampleMeaning: "Sô cô la màu nâu."
+            },
+            {
+                word: "Gris/Grise",
+                meaning: "Màu xám",
+                example: "Les nuages sont gris.",
+                exampleMeaning: "Mây màu xám."
+            },
+            {
+                word: "Multicolore",
+                meaning: "Nhiều màu",
+                example: "L'arc-en-ciel est multicolore.",
+                exampleMeaning: "Cầu vồng có nhiều màu."
             }
         ],
         exercises: [
             {
                 type: "multiple-choice",
-                question: "Quelle est la couleur du ciel?",
+                question: "De quelle couleur est le ciel?",
                 options: ["Rouge", "Bleu", "Vert", "Jaune"],
                 correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Quelle est la couleur de la neige?",
+                options: ["Noir", "Blanc", "Gris", "Rose"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "De quelle couleur est l'herbe?",
+                options: ["Bleu", "Rouge", "Vert", "Jaune"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "La carotte est de quelle couleur?",
+                options: ["Orange", "Violet", "Rose", "Marron"],
+                correct: 0
+            },
+            {
+                type: "multiple-choice",
+                question: "De quelle couleur est le chocolat?",
+                options: ["Noir", "Blanc", "Marron", "Rouge"],
+                correct: 2
             }
         ]
     },
@@ -267,49 +490,128 @@ const units = [
                     examples: [
                         "Un chat (đực) / Une chatte (cái) - Con mèo",
                         "Un chien (đực) / Une chienne (cái) - Con chó",
-                        "Les animaux - Các con vật"
+                        "Les animaux - Các con vật",
+                        "Un lion (đực) / Une lionne (cái) - Con sư tử",
+                        "Un tigre (đực) / Une tigresse (cái) - Con hổ"
+                    ]
+                },
+                {
+                    topic: "Động từ liên quan đến động vật",
+                    explanation: "Một số động từ thường dùng khi nói về động vật:",
+                    examples: [
+                        "Manger (ăn) - Le chat mange une souris",
+                        "Dormir (ngủ) - Le chat dort sur le lit",
+                        "Courir (chạy) - Le chien court dans le jardin",
+                        "Voler (bay) - L'oiseau vole dans le ciel",
+                        "Nager (bơi) - Le poisson nage dans l'eau"
                     ]
                 }
             ]
         },
         vocabulary: [
             {
-                word: "Le chat",
+                word: "Le chat/La chatte",
                 meaning: "Con mèo",
-                example: "Le chat dort.",
-                exampleMeaning: "Con mèo đang ngủ."
+                example: "Le chat dort sur le canapé.",
+                exampleMeaning: "Con mèo ngủ trên ghế sofa."
             },
             {
-                word: "Le chien",
+                word: "Le chien/La chienne",
                 meaning: "Con chó",
-                example: "Le chien aboie.",
-                exampleMeaning: "Con chó sủa."
+                example: "Le chien joue avec la balle.",
+                exampleMeaning: "Con chó chơi với quả bóng."
             },
             {
                 word: "L'oiseau",
                 meaning: "Con chim",
-                example: "L'oiseau vole.",
-                exampleMeaning: "Con chim bay."
+                example: "L'oiseau chante dans l'arbre.",
+                exampleMeaning: "Con chim hót trên cây."
             },
             {
                 word: "Le poisson",
                 meaning: "Con cá",
-                example: "Le poisson nage.",
-                exampleMeaning: "Con cá bơi."
+                example: "Le poisson rouge nage dans l'aquarium.",
+                exampleMeaning: "Con cá vàng bơi trong bể cá."
             },
             {
-                word: "La grenouille",
-                meaning: "Con ếch",
-                example: "La grenouille saute.",
-                exampleMeaning: "Con ếch nhảy."
+                word: "Le lapin/La lapine",
+                meaning: "Con thỏ",
+                example: "Le lapin mange une carotte.",
+                exampleMeaning: "Con thỏ ăn củ cà rốt."
+            },
+            {
+                word: "La vache",
+                meaning: "Con bò",
+                example: "La vache donne du lait.",
+                exampleMeaning: "Con bò cho sữa."
+            },
+            {
+                word: "Le cochon",
+                meaning: "Con lợn",
+                example: "Le cochon joue dans la boue.",
+                exampleMeaning: "Con lợn chơi trong bùn."
+            },
+            {
+                word: "La poule",
+                meaning: "Con gà mái",
+                example: "La poule pond des œufs.",
+                exampleMeaning: "Con gà mái đẻ trứng."
+            },
+            {
+                word: "Le lion/La lionne",
+                meaning: "Con sư tử",
+                example: "Le lion est le roi des animaux.",
+                exampleMeaning: "Sư tử là chúa tể muôn loài."
+            },
+            {
+                word: "L'éléphant",
+                meaning: "Con voi",
+                example: "L'éléphant est très grand.",
+                exampleMeaning: "Con voi rất to."
+            },
+            {
+                word: "La girafe",
+                meaning: "Con hươu cao cổ",
+                example: "La girafe mange des feuilles.",
+                exampleMeaning: "Con hươu cao cổ ăn lá cây."
+            },
+            {
+                word: "Le singe",
+                meaning: "Con khỉ",
+                example: "Le singe grimpe aux arbres.",
+                exampleMeaning: "Con khỉ trèo cây."
             }
         ],
         exercises: [
             {
                 type: "multiple-choice",
-                question: "Quel animal fait 'miaou'?",
-                options: ["Le chien", "Le chat", "L'oiseau", "Le poisson"],
+                question: "Quel animal donne du lait?",
+                options: ["Le chat", "La vache", "Le chien", "Le poisson"],
                 correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel animal pond des œufs?",
+                options: ["La poule", "Le chat", "Le chien", "Le lapin"],
+                correct: 0
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel animal est le roi des animaux?",
+                options: ["L'éléphant", "Le singe", "Le lion", "La girafe"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel animal grimpe aux arbres?",
+                options: ["La vache", "Le singe", "Le poisson", "La poule"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel animal mange une carotte?",
+                options: ["Le chat", "Le chien", "Le lapin", "L'oiseau"],
+                correct: 2
             }
         ]
     },
@@ -325,7 +627,20 @@ const units = [
                     examples: [
                         "Une pomme - Một quả táo",
                         "La banane - Quả chuối",
-                        "Des oranges - Những quả cam"
+                        "Des oranges - Những quả cam",
+                        "Je mange des fruits - Tôi ăn trái cây",
+                        "Les fruits sont bons pour la santé - Trái cây tốt cho sức khỏe"
+                    ]
+                },
+                {
+                    topic: "Cách diễn đạt sở thích về trái cây",
+                    explanation: "Để nói về sở thích đối với trái cây, chúng ta dùng động từ 'aimer':",
+                    examples: [
+                        "J'aime les pommes - Tôi thích táo",
+                        "Je n'aime pas les bananes - Tôi không thích chuối",
+                        "Il adore les fraises - Anh ấy rất thích dâu tây",
+                        "Elle préfère les oranges - Cô ấy thích cam hơn",
+                        "Nous aimons tous les fruits - Chúng tôi thích tất cả các loại trái cây"
                     ]
                 }
             ]
@@ -360,6 +675,48 @@ const units = [
                 meaning: "Quả nho",
                 example: "Le raisin est violet.",
                 exampleMeaning: "Quả nho màu tím."
+            },
+            {
+                word: "La poire",
+                meaning: "Quả lê",
+                example: "La poire est sucrée.",
+                exampleMeaning: "Quả lê ngọt."
+            },
+            {
+                word: "La pêche",
+                meaning: "Quả đào",
+                example: "J'adore les pêches juteuses.",
+                exampleMeaning: "Tôi rất thích đào mọng nước."
+            },
+            {
+                word: "L'ananas",
+                meaning: "Quả dứa",
+                example: "L'ananas est tropical.",
+                exampleMeaning: "Dứa là trái cây nhiệt đới."
+            },
+            {
+                word: "La mangue",
+                meaning: "Quả xoài",
+                example: "La mangue est délicieuse.",
+                exampleMeaning: "Quả xoài rất ngon."
+            },
+            {
+                word: "Le citron",
+                meaning: "Quả chanh",
+                example: "Le citron est acide.",
+                exampleMeaning: "Quả chanh chua."
+            },
+            {
+                word: "La pastèque",
+                meaning: "Quả dưa hấu",
+                example: "La pastèque est rafraîchissante.",
+                exampleMeaning: "Dưa hấu rất mát."
+            },
+            {
+                word: "Le kiwi",
+                meaning: "Quả kiwi",
+                example: "Le kiwi est riche en vitamines.",
+                exampleMeaning: "Kiwi giàu vitamin."
             }
         ],
         exercises: [
@@ -368,6 +725,30 @@ const units = [
                 question: "Quel fruit est jaune?",
                 options: ["La pomme", "La banane", "L'orange", "La fraise"],
                 correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel fruit est acide?",
+                options: ["La poire", "La pêche", "Le citron", "La mangue"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel fruit est tropical?",
+                options: ["L'ananas", "La pomme", "La poire", "Le raisin"],
+                correct: 0
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel fruit est rafraîchissant?",
+                options: ["Le kiwi", "La pastèque", "La fraise", "La banane"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel fruit est violet?",
+                options: ["La pomme", "La banane", "Le raisin", "L'orange"],
+                correct: 2
             }
         ]
     },
@@ -378,12 +759,25 @@ const units = [
             title: "Ngữ pháp",
             content: [
                 {
-                    topic: "Tính từ chỉ định",
+                    topic: "Tính từ chỉ định với quần áo",
                     explanation: "Trong tiếng Pháp, tính từ chỉ định phải phù hợp với danh từ về giới và số:",
                     examples: [
                         "Ce pantalon - Cái quần này",
                         "Cette robe - Cái váy này",
-                        "Ces chaussures - Những đôi giày này"
+                        "Ces chaussures - Những đôi giày này",
+                        "Ce t-shirt - Cái áo phông này",
+                        "Cette jupe - Cái váy ngắn này"
+                    ]
+                },
+                {
+                    topic: "Động từ 'Porter' (mặc/đeo)",
+                    explanation: "Động từ 'porter' được dùng để nói về việc mặc hoặc đeo quần áo:",
+                    examples: [
+                        "Je porte une robe - Tôi mặc váy",
+                        "Il porte un pantalon - Anh ấy mặc quần",
+                        "Elle porte des chaussures - Cô ấy đi giày",
+                        "Nous portons des manteaux - Chúng tôi mặc áo khoác",
+                        "Tu portes une écharpe - Bạn đeo khăn quàng cổ"
                     ]
                 }
             ]
@@ -391,21 +785,21 @@ const units = [
         vocabulary: [
             {
                 word: "Le pantalon",
-                meaning: "Cái quần",
+                meaning: "Cái quần dài",
                 example: "Je porte un pantalon bleu.",
-                exampleMeaning: "Tôi mặc một cái quần màu xanh."
+                exampleMeaning: "Tôi mặc một cái quần dài màu xanh."
             },
             {
                 word: "La robe",
-                meaning: "Cái váy",
-                example: "Elle porte une belle robe.",
-                exampleMeaning: "Cô ấy mặc một cái váy đẹp."
+                meaning: "Cái váy dài",
+                example: "Elle porte une belle robe rouge.",
+                exampleMeaning: "Cô ấy mặc một cái váy dài đẹp màu đỏ."
             },
             {
                 word: "Le t-shirt",
                 meaning: "Áo phông",
-                example: "J'aime ce t-shirt rouge.",
-                exampleMeaning: "Tôi thích cái áo phông đỏ này."
+                example: "J'aime ce t-shirt blanc.",
+                exampleMeaning: "Tôi thích cái áo phông trắng này."
             },
             {
                 word: "Les chaussures",
@@ -416,16 +810,82 @@ const units = [
             {
                 word: "Le chapeau",
                 meaning: "Cái mũ",
-                example: "Il porte un chapeau.",
-                exampleMeaning: "Anh ấy đội một cái mũ."
+                example: "Il porte un chapeau élégant.",
+                exampleMeaning: "Anh ấy đội một cái mũ sang trọng."
+            },
+            {
+                word: "La jupe",
+                meaning: "Váy ngắn",
+                example: "Sa jupe est très jolie.",
+                exampleMeaning: "Váy ngắn của cô ấy rất đẹp."
+            },
+            {
+                word: "Le manteau",
+                meaning: "Áo khoác dài",
+                example: "Le manteau est chaud.",
+                exampleMeaning: "Áo khoác dài rất ấm."
+            },
+            {
+                word: "L'écharpe",
+                meaning: "Khăn quàng cổ",
+                example: "Je porte une écharpe en hiver.",
+                exampleMeaning: "Tôi đeo khăn quàng cổ vào mùa đông."
+            },
+            {
+                word: "Les gants",
+                meaning: "Găng tay",
+                example: "Les gants protègent du froid.",
+                exampleMeaning: "Găng tay bảo vệ khỏi cái lạnh."
+            },
+            {
+                word: "Les chaussettes",
+                meaning: "Tất",
+                example: "Mes chaussettes sont blanches.",
+                exampleMeaning: "Tất của tôi màu trắng."
+            },
+            {
+                word: "Le pull",
+                meaning: "Áo len",
+                example: "Ce pull est très confortable.",
+                exampleMeaning: "Áo len này rất thoải mái."
+            },
+            {
+                word: "La chemise",
+                meaning: "Áo sơ mi",
+                example: "Il porte une chemise bleue.",
+                exampleMeaning: "Anh ấy mặc áo sơ mi xanh."
             }
         ],
         exercises: [
             {
                 type: "multiple-choice",
-                question: "Comment dit-on 'cái váy' en français?",
-                options: ["Le pantalon", "La robe", "Le t-shirt", "Les chaussures"],
+                question: "Que porte-t-on quand il fait froid?",
+                options: ["Le t-shirt", "Le manteau", "La jupe", "Les chaussettes"],
                 correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Qu'est-ce qu'on porte aux pieds?",
+                options: ["Les gants", "L'écharpe", "Les chaussures", "Le chapeau"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel vêtement est long et pour les femmes?",
+                options: ["La jupe", "Le pantalon", "La robe", "Le t-shirt"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Que porte-t-on autour du cou quand il fait froid?",
+                options: ["Les gants", "L'écharpe", "Le chapeau", "Les chaussettes"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel vêtement porte-t-on sur le haut du corps?",
+                options: ["Le pantalon", "La jupe", "La chemise", "Les chaussures"],
+                correct: 2
             }
         ]
     },
@@ -441,7 +901,21 @@ const units = [
                     examples: [
                         "Je suis élève - Tôi là học sinh",
                         "Tu es professeur - Bạn là giáo viên",
-                        "Il/Elle est dans la classe - Anh ấy/Cô ấy ở trong lớp"
+                        "Il/Elle est dans la classe - Anh ấy/Cô ấy ở trong lớp",
+                        "Nous sommes à l'école - Chúng tôi ở trường",
+                        "Vous êtes étudiants - Các bạn là sinh viên",
+                        "Ils/Elles sont en classe - Họ đang ở trong lớp"
+                    ]
+                },
+                {
+                    topic: "Các giới từ chỉ nơi chốn trong trường học",
+                    explanation: "Sử dụng giới từ để chỉ vị trí trong trường học:",
+                    examples: [
+                        "Dans la classe - Trong lớp học",
+                        "À l'école - Ở trường",
+                        "À la bibliothèque - Ở thư viện",
+                        "Dans la cour - Ở sân trường",
+                        "Au gymnase - Ở phòng tập thể dục"
                     ]
                 }
             ]
@@ -450,40 +924,106 @@ const units = [
             {
                 word: "L'école",
                 meaning: "Trường học",
-                example: "Je vais à l'école.",
-                exampleMeaning: "Tôi đi học."
+                example: "Je vais à l'école tous les jours.",
+                exampleMeaning: "Tôi đi học mỗi ngày."
             },
             {
                 word: "La classe",
                 meaning: "Lớp học",
-                example: "La classe est grande.",
-                exampleMeaning: "Lớp học rộng."
+                example: "Notre classe est au premier étage.",
+                exampleMeaning: "Lớp học của chúng tôi ở tầng một."
             },
             {
                 word: "Le professeur",
                 meaning: "Giáo viên",
-                example: "Le professeur explique la leçon.",
-                exampleMeaning: "Giáo viên giải thích bài học."
+                example: "Le professeur explique la leçon de français.",
+                exampleMeaning: "Giáo viên giải thích bài học tiếng Pháp."
+            },
+            {
+                word: "L'élève",
+                meaning: "Học sinh",
+                example: "Les élèves écoutent attentivement.",
+                exampleMeaning: "Các học sinh chăm chú lắng nghe."
             },
             {
                 word: "Le livre",
                 meaning: "Quyển sách",
-                example: "J'ai un livre de français.",
-                exampleMeaning: "Tôi có một quyển sách tiếng Pháp."
+                example: "J'ai oublié mon livre de mathématiques.",
+                exampleMeaning: "Tôi đã quên sách toán của mình."
             },
             {
                 word: "Le cahier",
                 meaning: "Vở",
-                example: "Mon cahier est bleu.",
-                exampleMeaning: "Vở của tôi màu xanh."
+                example: "J'écris dans mon cahier.",
+                exampleMeaning: "Tôi viết trong vở của mình."
+            },
+            {
+                word: "La bibliothèque",
+                meaning: "Thư viện",
+                example: "Je vais à la bibliothèque pour étudier.",
+                exampleMeaning: "Tôi đến thư viện để học bài."
+            },
+            {
+                word: "Le tableau",
+                meaning: "Bảng",
+                example: "Le professeur écrit au tableau.",
+                exampleMeaning: "Giáo viên viết lên bảng."
+            },
+            {
+                word: "La cour",
+                meaning: "Sân trường",
+                example: "Les enfants jouent dans la cour.",
+                exampleMeaning: "Bọn trẻ chơi ở sân trường."
+            },
+            {
+                word: "Le stylo",
+                meaning: "Bút mực",
+                example: "J'écris avec un stylo bleu.",
+                exampleMeaning: "Tôi viết bằng bút mực màu xanh."
+            },
+            {
+                word: "Le crayon",
+                meaning: "Bút chì",
+                example: "Je dessine avec un crayon.",
+                exampleMeaning: "Tôi vẽ bằng bút chì."
+            },
+            {
+                word: "La gomme",
+                meaning: "Cục tẩy",
+                example: "J'utilise la gomme pour effacer.",
+                exampleMeaning: "Tôi dùng tẩy để xóa."
             }
         ],
         exercises: [
             {
                 type: "multiple-choice",
-                question: "Où va l'élève?",
+                question: "Où est-ce qu'on étudie?",
                 options: ["À la maison", "À l'école", "Au parc", "Au cinéma"],
                 correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Qu'est-ce qu'on utilise pour écrire?",
+                options: ["La gomme", "Le livre", "Le stylo", "Le tableau"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Qui explique la leçon?",
+                options: ["L'élève", "Le professeur", "Le livre", "Le cahier"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Où est-ce qu'on lit des livres?",
+                options: ["Dans la cour", "Dans la classe", "À la bibliothèque", "Au gymnase"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Qu'est-ce qu'on utilise pour effacer?",
+                options: ["Le stylo", "Le crayon", "La gomme", "Le livre"],
+                correct: 2
             }
         ]
     },
@@ -1005,8 +1545,13 @@ function checkExercises() {
     
     currentUnit.exercises.forEach((exercise, index) => {
         const selected = document.querySelector(`input[name="q${index}"]:checked`);
-        if (selected && selected.value === exercise.answer) {
-            correct++;
+        if (selected) {
+            // Chuyển đổi giá trị index của đáp án được chọn thành số
+            const selectedIndex = exercise.options.indexOf(selected.value);
+            // So sánh với thuộc tính correct của bài tập
+            if (selectedIndex === exercise.correct) {
+                correct++;
+            }
         }
     });
 
