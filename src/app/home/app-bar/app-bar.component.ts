@@ -523,6 +523,22 @@ export class AppBarComponent {
                 this.store.dispatch(new appActions.AddTabAction(newTab));
             }
         }));
+        internalAppsSubmenu.append(new MenuItem({
+            label: 'Une Petite Grenouille',
+            accelerator: 'CmdOrCtrl+Alt+F',
+            click: () => {
+                const url = 'http://localhost:4200/assets/internal-apps/french-kids/french-kids.html';
+                const hostName = StateHelper.extractHostname(url);
+                const newTab: ITab = {
+                    id: 0,
+                    appId: 0,
+                    hostName,
+                    title: 'Une Petite Grenouille',
+                    url: url
+                };
+                this.store.dispatch(new appActions.AddTabAction(newTab));
+            }
+        }));
 
         appsMenu.append(new MenuItem({
             label: 'Internal Apps',

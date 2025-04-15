@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Une Petite Grenouille - Học tiếng Pháp cho trẻ em</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FF6B6B;
+            --secondary-color: #4ECDC4;
+            --accent-color: #FFE66D;
+            --text-color: #2C3E50;
+            --light-bg: #F7F9FC;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 10px;
+        }
+
+        #unitGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .unit-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .unit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .unit-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        #unitContent {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #unitContent.active {
+            display: block;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .nav-buttons button {
+            background-color: var(--secondary-color);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #45b7af;
+        }
+
+        .word-item {
+            background-color: var(--light-bg);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .word-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .exercise-item, .quiz-item {
+            background-color: var(--light-bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .form-check {
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-check:hover {
+            background-color: #f0f0f0;
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 10px;
+            }
+
+            #unitGrid {
+                grid-template-columns: 1fr;
+            }
+
+            .unit-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>Une Petite Grenouille</h1>
+            <p>Học tiếng Pháp vui vẻ cùng Chú Ếch Xanh</p>
+        </div>
+
+        <div id="unitGrid"></div>
+
+        <div id="unitContent">
+            <div class="nav-buttons">
+                <button onclick="showUnitGrid()">← Quay lại</button>
+                <button onclick="showSection('grammar')">Ngữ pháp</button>
+                <button onclick="showSection('vocabulary')">Từ vựng</button>
+                <button onclick="showSection('exercises')">Bài tập</button>
+                <button onclick="showSection('quiz')">Kiểm tra</button>
+            </div>
+
+            <h2 id="unitTitle"></h2>
+            <div id="contentArea"></div>
+        </div>
+    </div>
+
+    <script src="french-kids.js"></script>
+</body>
+</html> 
