@@ -353,6 +353,558 @@ const units = [
                 options: ["cannot", "can", "don't", "doesn't"]
             }
         ]
+    },
+    {
+        id: 5,
+        title: "Bài 5: Thời tiết và Mùa",
+        grammar: {
+            title: "So sánh hơn (Comparative)",
+            content: [
+                "Cấu trúc so sánh hơn với tính từ ngắn:",
+                "- Tính từ + er + than",
+                "Ví dụ: cold → colder than",
+                "",
+                "Cấu trúc so sánh hơn với tính từ dài:",
+                "- more + tính từ + than",
+                "Ví dụ: beautiful → more beautiful than",
+                "",
+                "Một số tính từ đặc biệt:",
+                "- good → better than",
+                "- bad → worse than"
+            ]
+        },
+        vocabulary: {
+            title: "Thời tiết và Mùa",
+            words: [
+                { 
+                    word: "weather", 
+                    meaning: "thời tiết", 
+                    example: "What's the weather like today? (Thời tiết hôm nay thế nào?)" 
+                },
+                { 
+                    word: "season", 
+                    meaning: "mùa", 
+                    example: "There are four seasons in a year. (Có bốn mùa trong một năm.)" 
+                },
+                { 
+                    word: "summer", 
+                    meaning: "mùa hè", 
+                    example: "Summer is very hot. (Mùa hè rất nóng.)" 
+                },
+                { 
+                    word: "winter", 
+                    meaning: "mùa đông", 
+                    example: "It snows in winter. (Tuyết rơi vào mùa đông.)" 
+                },
+                { 
+                    word: "spring", 
+                    meaning: "mùa xuân", 
+                    example: "Flowers bloom in spring. (Hoa nở vào mùa xuân.)" 
+                },
+                { 
+                    word: "autumn", 
+                    meaning: "mùa thu", 
+                    example: "Leaves fall in autumn. (Lá rụng vào mùa thu.)" 
+                },
+                { 
+                    word: "sunny", 
+                    meaning: "nắng", 
+                    example: "It's sunny today. (Hôm nay trời nắng.)" 
+                },
+                { 
+                    word: "rainy", 
+                    meaning: "mưa", 
+                    example: "It's rainy in the afternoon. (Trời mưa vào buổi chiều.)" 
+                },
+                { 
+                    word: "cloudy", 
+                    meaning: "nhiều mây", 
+                    example: "The sky is cloudy. (Bầu trời nhiều mây.)" 
+                },
+                { 
+                    word: "windy", 
+                    meaning: "gió", 
+                    example: "It's very windy today. (Hôm nay trời rất gió.)" 
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "Summer is _____ than winter. (Mùa hè nóng hơn mùa đông.)",
+                answer: "hotter",
+                options: ["hot", "hotter", "more hot", "hottest"]
+            },
+            {
+                question: "Today is _____ than yesterday. (Hôm nay đẹp hơn hôm qua.)",
+                answer: "more beautiful",
+                options: ["beautiful", "more beautiful", "beautifuler", "most beautiful"]
+            },
+            {
+                question: "The weather is _____ than last week. (Thời tiết tệ hơn tuần trước.)",
+                answer: "worse",
+                options: ["bad", "worse", "more bad", "worst"]
+            }
+        ]
+    },
+    {
+        id: 6,
+        title: "Bài 6: Món ăn và Đồ uống",
+        grammar: {
+            title: "Some/Any và Countable/Uncountable Nouns",
+            content: [
+                "Some: dùng trong câu khẳng định",
+                "Any: dùng trong câu phủ định và câu hỏi",
+                "",
+                "Countable Nouns (Danh từ đếm được):",
+                "- Có thể đếm được",
+                "- Có dạng số ít và số nhiều",
+                "Ví dụ: an apple, two apples",
+                "",
+                "Uncountable Nouns (Danh từ không đếm được):",
+                "- Không thể đếm được",
+                "- Không có dạng số nhiều",
+                "Ví dụ: water, rice"
+            ]
+        },
+        vocabulary: {
+            title: "Món ăn và Đồ uống",
+            words: [
+                { 
+                    word: "food", 
+                    meaning: "thức ăn", 
+                    example: "Vietnamese food is delicious. (Thức ăn Việt Nam rất ngon.)" 
+                },
+                { 
+                    word: "drink", 
+                    meaning: "đồ uống", 
+                    example: "What would you like to drink? (Bạn muốn uống gì?)" 
+                },
+                { 
+                    word: "rice", 
+                    meaning: "cơm/gạo", 
+                    example: "We eat rice every day. (Chúng tôi ăn cơm mỗi ngày.)" 
+                },
+                { 
+                    word: "noodles", 
+                    meaning: "mì", 
+                    example: "I like eating noodles. (Tôi thích ăn mì.)" 
+                },
+                { 
+                    word: "vegetables", 
+                    meaning: "rau củ", 
+                    example: "Vegetables are good for health. (Rau củ tốt cho sức khỏe.)" 
+                },
+                { 
+                    word: "fruit", 
+                    meaning: "trái cây", 
+                    example: "I eat fruit every day. (Tôi ăn trái cây mỗi ngày.)" 
+                },
+                { 
+                    word: "water", 
+                    meaning: "nước", 
+                    example: "Please give me some water. (Làm ơn cho tôi ít nước.)" 
+                },
+                { 
+                    word: "juice", 
+                    meaning: "nước ép", 
+                    example: "I like orange juice. (Tôi thích nước cam.)" 
+                },
+                { 
+                    word: "milk", 
+                    meaning: "sữa", 
+                    example: "I drink milk every morning. (Tôi uống sữa mỗi sáng.)" 
+                },
+                { 
+                    word: "tea", 
+                    meaning: "trà", 
+                    example: "Would you like some tea? (Bạn có muốn uống trà không?)" 
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "Is there _____ milk in the fridge? (Có sữa trong tủ lạnh không?)",
+                answer: "any",
+                options: ["some", "any", "a", "an"]
+            },
+            {
+                question: "I need _____ rice for dinner. (Tôi cần một ít gạo cho bữa tối.)",
+                answer: "some",
+                options: ["a", "an", "some", "any"]
+            },
+            {
+                question: "There aren't _____ apples left. (Không còn táo nào.)",
+                answer: "any",
+                options: ["some", "any", "much", "many"]
+            }
+        ]
+    },
+    {
+        id: 7,
+        title: "Bài 7: Du lịch và Phương tiện",
+        grammar: {
+            title: "Will và Be going to",
+            content: [
+                "Will: dùng để:",
+                "- Dự đoán tương lai",
+                "- Quyết định tức thì",
+                "- Hứa hẹn",
+                "",
+                "Be going to: dùng để:",
+                "- Kế hoạch đã định trước",
+                "- Dự đoán dựa trên bằng chứng hiện tại",
+                "",
+                "Ví dụ:",
+                "- I will help you. (Tôi sẽ giúp bạn.)",
+                "- We are going to travel next week. (Chúng tôi sẽ đi du lịch tuần sau.)"
+            ]
+        },
+        vocabulary: {
+            title: "Du lịch và Phương tiện",
+            words: [
+                { 
+                    word: "travel", 
+                    meaning: "du lịch", 
+                    example: "I love to travel. (Tôi thích du lịch.)" 
+                },
+                { 
+                    word: "transport", 
+                    meaning: "phương tiện giao thông", 
+                    example: "What transport do you use? (Bạn đi phương tiện gì?)" 
+                },
+                { 
+                    word: "airplane", 
+                    meaning: "máy bay", 
+                    example: "We will go by airplane. (Chúng tôi sẽ đi bằng máy bay.)" 
+                },
+                { 
+                    word: "train", 
+                    meaning: "tàu hỏa", 
+                    example: "The train leaves at 9 AM. (Tàu khởi hành lúc 9 giờ sáng.)" 
+                },
+                { 
+                    word: "bus", 
+                    meaning: "xe buýt", 
+                    example: "I take the bus to school. (Tôi đi xe buýt đến trường.)" 
+                },
+                { 
+                    word: "taxi", 
+                    meaning: "taxi", 
+                    example: "Let's take a taxi. (Hãy đi taxi.)" 
+                },
+                { 
+                    word: "ticket", 
+                    meaning: "vé", 
+                    example: "I need to buy a ticket. (Tôi cần mua vé.)" 
+                },
+                { 
+                    word: "passport", 
+                    meaning: "hộ chiếu", 
+                    example: "Don't forget your passport. (Đừng quên hộ chiếu.)" 
+                },
+                { 
+                    word: "luggage", 
+                    meaning: "hành lý", 
+                    example: "My luggage is heavy. (Hành lý của tôi nặng.)" 
+                },
+                { 
+                    word: "map", 
+                    meaning: "bản đồ", 
+                    example: "I need a map of the city. (Tôi cần bản đồ thành phố.)" 
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "We _____ travel to Paris next month. (Chúng tôi sẽ du lịch Paris tháng sau.)",
+                answer: "are going to",
+                options: ["will", "are going to", "going to", "will to"]
+            },
+            {
+                question: "The weather is bad. It _____ rain. (Thời tiết xấu. Trời sẽ mưa.)",
+                answer: "is going to",
+                options: ["will", "is going to", "going", "will to"]
+            },
+            {
+                question: "I _____ help you with your luggage. (Tôi sẽ giúp bạn với hành lý.)",
+                answer: "will",
+                options: ["going to", "will", "am going to", "will to"]
+            }
+        ]
+    },
+    {
+        id: 8,
+        title: "Bài 8: Công nghệ và Internet",
+        grammar: {
+            title: "Must/Mustn't và Should/Shouldn't",
+            content: [
+                "Must: phải (bắt buộc)",
+                "Mustn't: không được (cấm)",
+                "",
+                "Should: nên",
+                "Shouldn't: không nên",
+                "",
+                "Cấu trúc:",
+                "Subject + must/mustn't + V(nguyên thể)",
+                "Subject + should/shouldn't + V(nguyên thể)",
+                "",
+                "Ví dụ:",
+                "- You must finish your homework. (Bạn phải làm xong bài tập.)",
+                "- You shouldn't play games too much. (Bạn không nên chơi game quá nhiều.)"
+            ]
+        },
+        vocabulary: {
+            title: "Công nghệ và Internet",
+            words: [
+                { 
+                    word: "computer", 
+                    meaning: "máy tính", 
+                    example: "I use a computer every day. (Tôi sử dụng máy tính mỗi ngày.)" 
+                },
+                { 
+                    word: "smartphone", 
+                    meaning: "điện thoại thông minh", 
+                    example: "Everyone has a smartphone nowadays. (Ngày nay ai cũng có điện thoại thông minh.)" 
+                },
+                { 
+                    word: "internet", 
+                    meaning: "mạng internet", 
+                    example: "The internet is very fast. (Mạng internet rất nhanh.)" 
+                },
+                { 
+                    word: "website", 
+                    meaning: "trang web", 
+                    example: "This is my favorite website. (Đây là trang web yêu thích của tôi.)" 
+                },
+                { 
+                    word: "email", 
+                    meaning: "thư điện tử", 
+                    example: "I sent you an email. (Tôi đã gửi cho bạn một email.)" 
+                },
+                { 
+                    word: "password", 
+                    meaning: "mật khẩu", 
+                    example: "Don't forget your password. (Đừng quên mật khẩu.)" 
+                },
+                { 
+                    word: "download", 
+                    meaning: "tải xuống", 
+                    example: "I need to download this file. (Tôi cần tải tệp này xuống.)" 
+                },
+                { 
+                    word: "upload", 
+                    meaning: "tải lên", 
+                    example: "Please upload your homework. (Hãy tải bài tập lên.)" 
+                },
+                { 
+                    word: "social media", 
+                    meaning: "mạng xã hội", 
+                    example: "Facebook is a social media platform. (Facebook là một nền tảng mạng xã hội.)" 
+                },
+                { 
+                    word: "online", 
+                    meaning: "trực tuyến", 
+                    example: "We can study online. (Chúng ta có thể học trực tuyến.)" 
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "You _____ protect your password. (Bạn phải bảo vệ mật khẩu.)",
+                answer: "must",
+                options: ["must", "should", "can", "may"]
+            },
+            {
+                question: "Children _____ spend too much time online. (Trẻ em không nên dành quá nhiều thời gian online.)",
+                answer: "shouldn't",
+                options: ["mustn't", "shouldn't", "can't", "don't"]
+            },
+            {
+                question: "You _____ share your personal information online. (Bạn không được chia sẻ thông tin cá nhân online.)",
+                answer: "mustn't",
+                options: ["must", "mustn't", "should", "shouldn't"]
+            }
+        ]
+    },
+    {
+        id: 9,
+        title: "Bài 9: Môi trường",
+        grammar: {
+            title: "Câu điều kiện loại 1 (First Conditional)",
+            content: [
+                "Cấu trúc: If + S + V(hiện tại đơn), S + will + V(nguyên thể)",
+                "",
+                "Dùng để nói về:",
+                "- Điều kiện có thể xảy ra ở tương lai",
+                "- Kết quả có thể xảy ra nếu điều kiện được thỏa mãn",
+                "",
+                "Ví dụ:",
+                "- If we don't protect the environment, many animals will die.",
+                "(Nếu chúng ta không bảo vệ môi trường, nhiều động vật sẽ chết.)"
+            ]
+        },
+        vocabulary: {
+            title: "Môi trường",
+            words: [
+                { 
+                    word: "environment", 
+                    meaning: "môi trường", 
+                    example: "We must protect our environment. (Chúng ta phải bảo vệ môi trường.)" 
+                },
+                { 
+                    word: "pollution", 
+                    meaning: "ô nhiễm", 
+                    example: "Air pollution is a serious problem. (Ô nhiễm không khí là vấn đề nghiêm trọng.)" 
+                },
+                { 
+                    word: "recycle", 
+                    meaning: "tái chế", 
+                    example: "We should recycle paper and plastic. (Chúng ta nên tái chế giấy và nhựa.)" 
+                },
+                { 
+                    word: "waste", 
+                    meaning: "rác thải", 
+                    example: "Don't throw waste on the street. (Đừng vứt rác ra đường.)" 
+                },
+                { 
+                    word: "clean", 
+                    meaning: "sạch sẽ", 
+                    example: "We need clean water to live. (Chúng ta cần nước sạch để sống.)" 
+                },
+                { 
+                    word: "plant", 
+                    meaning: "trồng cây", 
+                    example: "Let's plant more trees. (Hãy trồng thêm nhiều cây.)" 
+                },
+                { 
+                    word: "energy", 
+                    meaning: "năng lượng", 
+                    example: "Solar energy is clean energy. (Năng lượng mặt trời là năng lượng sạch.)" 
+                },
+                { 
+                    word: "forest", 
+                    meaning: "rừng", 
+                    example: "We must protect our forests. (Chúng ta phải bảo vệ rừng.)" 
+                },
+                { 
+                    word: "climate", 
+                    meaning: "khí hậu", 
+                    example: "The climate is changing. (Khí hậu đang thay đổi.)" 
+                },
+                { 
+                    word: "save", 
+                    meaning: "tiết kiệm", 
+                    example: "We should save water. (Chúng ta nên tiết kiệm nước.)" 
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "If we _____ trees, the air will be cleaner. (Nếu chúng ta trồng cây, không khí sẽ sạch hơn.)",
+                answer: "plant",
+                options: ["plant", "plants", "will plant", "planted"]
+            },
+            {
+                question: "If people don't stop pollution, many animals _____ extinct. (Nếu người ta không ngừng ô nhiễm, nhiều động vật sẽ tuyệt chủng.)",
+                answer: "will become",
+                options: ["become", "will become", "becomes", "became"]
+            },
+            {
+                question: "The environment _____ better if we recycle more. (Môi trường sẽ tốt hơn nếu chúng ta tái chế nhiều hơn.)",
+                answer: "will be",
+                options: ["is", "will be", "would be", "was"]
+            }
+        ]
+    },
+    {
+        id: 10,
+        title: "Bài 10: Nghề nghiệp",
+        grammar: {
+            title: "Be going to (Dự định tương lai)",
+            content: [
+                "Cấu trúc: Subject + be + going to + V(nguyên thể)",
+                "",
+                "Dùng để nói về:",
+                "- Kế hoạch trong tương lai",
+                "- Dự định đã được quyết định trước",
+                "",
+                "Ví dụ:",
+                "- I am going to be a doctor. (Tôi sẽ trở thành bác sĩ.)",
+                "- What are you going to do after school? (Bạn định làm gì sau khi học xong?)"
+            ]
+        },
+        vocabulary: {
+            title: "Nghề nghiệp",
+            words: [
+                { 
+                    word: "job", 
+                    meaning: "công việc", 
+                    example: "She loves her job. (Cô ấy yêu công việc của mình.)" 
+                },
+                { 
+                    word: "doctor", 
+                    meaning: "bác sĩ", 
+                    example: "My sister is a doctor. (Chị tôi là bác sĩ.)" 
+                },
+                { 
+                    word: "teacher", 
+                    meaning: "giáo viên", 
+                    example: "Teachers help students learn. (Giáo viên giúp học sinh học.)" 
+                },
+                { 
+                    word: "engineer", 
+                    meaning: "kỹ sư", 
+                    example: "He works as an engineer. (Anh ấy làm kỹ sư.)" 
+                },
+                { 
+                    word: "police officer", 
+                    meaning: "cảnh sát", 
+                    example: "Police officers protect people. (Cảnh sát bảo vệ mọi người.)" 
+                },
+                { 
+                    word: "chef", 
+                    meaning: "đầu bếp", 
+                    example: "The chef cooks delicious food. (Đầu bếp nấu đồ ăn ngon.)" 
+                },
+                { 
+                    word: "artist", 
+                    meaning: "nghệ sĩ", 
+                    example: "She wants to be an artist. (Cô ấy muốn trở thành nghệ sĩ.)" 
+                },
+                { 
+                    word: "businessman", 
+                    meaning: "doanh nhân", 
+                    example: "My father is a businessman. (Bố tôi là doanh nhân.)" 
+                },
+                { 
+                    word: "nurse", 
+                    meaning: "y tá", 
+                    example: "Nurses work in hospitals. (Y tá làm việc trong bệnh viện.)" 
+                },
+                { 
+                    word: "pilot", 
+                    meaning: "phi công", 
+                    example: "He dreams of becoming a pilot. (Anh ấy mơ ước trở thành phi công.)" 
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "What _____ you going to be in the future? (Bạn định làm gì trong tương lai?)",
+                answer: "are",
+                options: ["is", "are", "am", "be"]
+            },
+            {
+                question: "She _____ going to work as a teacher. (Cô ấy sẽ làm giáo viên.)",
+                answer: "is",
+                options: ["is", "are", "am", "be"]
+            },
+            {
+                question: "They _____ going to study medicine. (Họ sẽ học ngành y.)",
+                answer: "are",
+                options: ["is", "are", "am", "be"]
+            }
+        ]
     }
 ];
 
