@@ -1,0 +1,181 @@
+/* Reset and base styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background: #f5f5f5;
+}
+
+/* Layout structure */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.content-wrapper {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+}
+
+/* Main container styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Content area styles */
+#contentArea {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 40px;
+    height: auto;
+    overflow: visible;
+}
+
+/* Grammar section styles */
+.grammar-section {
+    margin-bottom: 30px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.grammar-content {
+    white-space: pre-line; /* Preserve line breaks */
+}
+
+/* Exercise and Quiz styles */
+.exercise-item, .quiz-item {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    height: auto;
+}
+
+/* Back button styles */
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #6c757d;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-bottom: 20px;
+    position: sticky;
+    top: 20px;
+}
+
+.back-button:hover {
+    background: #5a6268;
+}
+
+/* Ensure all content is visible */
+#unitContent {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+}
+
+#unitContent.active {
+    display: block;
+}
+
+/* Fix for mobile devices */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .content-wrapper {
+        padding: 10px;
+    }
+    
+    #contentArea {
+        margin-bottom: 20px;
+    }
+}
+
+/* Force content to be scrollable */
+.scrollable-content {
+    position: relative;
+    height: auto;
+    min-height: 100%;
+    overflow-y: visible;
+    padding-bottom: 100px; /* Extra padding at bottom */
+}
+
+/* Ensure text content wraps properly */
+p, div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Fix for nested scrollable containers */
+.nested-content {
+    position: relative;
+    height: auto;
+    overflow: visible;
+}
+
+/* Unit grid styles */
+#unitGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.unit-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.unit-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Vocabulary list styles */
+.vocabulary-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.word-item {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+/* Navigation styles */
+.nav-buttons {
+    margin: 20px 0;
+}
+
+/* Ensure content is scrollable */
+main {
+    min-height: 100vh;
+    overflow-y: auto;
+    padding-bottom: 50px; /* Add padding at the bottom */
+} 
