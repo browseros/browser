@@ -905,6 +905,468 @@ const units = [
                 options: ["is", "are", "am", "be"]
             }
         ]
+    },
+    {
+        id: 11,
+        title: "Bài 11: Thể thao và Sức khỏe",
+        grammar: {
+            title: "Have to/Has to (Phải)",
+            content: [
+                "Cấu trúc:",
+                "- Khẳng định: Subject + have to/has to + V(nguyên thể)",
+                "- Phủ định: Subject + don't/doesn't + have to + V(nguyên thể)",
+                "- Câu hỏi: Do/Does + Subject + have to + V(nguyên thể)?",
+                "",
+                "Dùng để nói về:",
+                "- Nghĩa vụ, bổn phận phải làm",
+                "- Sự cần thiết phải làm gì đó",
+                "",
+                "Ví dụ:",
+                "- I have to exercise every day. (Tôi phải tập thể dục mỗi ngày.)",
+                "- She has to go to the doctor. (Cô ấy phải đi gặp bác sĩ.)"
+            ]
+        },
+        vocabulary: {
+            title: "Thể thao và Sức khỏe",
+            words: [
+                { 
+                    word: "exercise", 
+                    meaning: "tập thể dục", 
+                    example: "Exercise is good for health. (Tập thể dục tốt cho sức khỏe.)" 
+                },
+                { 
+                    word: "healthy", 
+                    meaning: "khỏe mạnh", 
+                    example: "Eating vegetables keeps you healthy. (Ăn rau củ giúp bạn khỏe mạnh.)" 
+                },
+                { 
+                    word: "sports", 
+                    meaning: "thể thao", 
+                    example: "I love playing sports. (Tôi thích chơi thể thao.)" 
+                },
+                { 
+                    word: "fitness", 
+                    meaning: "thể hình", 
+                    example: "He goes to the fitness center. (Anh ấy đi đến trung tâm thể hình.)" 
+                },
+                { 
+                    word: "diet", 
+                    meaning: "chế độ ăn", 
+                    example: "A good diet is important. (Chế độ ăn tốt rất quan trọng.)" 
+                },
+                { 
+                    word: "rest", 
+                    meaning: "nghỉ ngơi", 
+                    example: "You need to rest after exercise. (Bạn cần nghỉ ngơi sau khi tập thể dục.)" 
+                },
+                { 
+                    word: "strength", 
+                    meaning: "sức mạnh", 
+                    example: "Swimming builds strength. (Bơi lội rèn luyện sức mạnh.)" 
+                },
+                { 
+                    word: "team", 
+                    meaning: "đội", 
+                    example: "I play in a football team. (Tôi chơi trong một đội bóng đá.)" 
+                },
+                { 
+                    word: "coach", 
+                    meaning: "huấn luyện viên", 
+                    example: "Our coach is very strict. (Huấn luyện viên của chúng tôi rất nghiêm khắc.)" 
+                },
+                { 
+                    word: "practice", 
+                    meaning: "luyện tập", 
+                    example: "We practice every morning. (Chúng tôi luyện tập mỗi sáng.)" 
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "You _____ exercise regularly. (Bạn phải tập thể dục thường xuyên.)",
+                answer: "have to",
+                options: ["have to", "has to", "must", "should"]
+            },
+            {
+                question: "She _____ go to the gym today. (Cô ấy phải đi phòng tập hôm nay.)",
+                answer: "has to",
+                options: ["have to", "has to", "must", "had to"]
+            },
+            {
+                question: "_____ they have to practice every day? (Họ có phải luyện tập mỗi ngày không?)",
+                answer: "Do",
+                options: ["Do", "Does", "Are", "Is"]
+            }
+        ]
+    },
+    {
+        id: 12,
+        title: "Bài 12: Kỳ nghỉ",
+        grammar: {
+            title: "Past Simple (Thì quá khứ đơn)",
+            content: [
+                "Cấu trúc:",
+                "- Khẳng định: Subject + V(quá khứ)",
+                "- Phủ định: Subject + didn't + V(nguyên thể)",
+                "- Câu hỏi: Did + Subject + V(nguyên thể)?",
+                "",
+                "Dùng để nói về:",
+                "- Hành động đã xảy ra và kết thúc trong quá khứ",
+                "- Thói quen trong quá khứ",
+                "",
+                "Ví dụ:",
+                "- I visited my grandparents last summer. (Tôi đã thăm ông bà hè năm ngoái.)",
+                "- We didn't go to the beach yesterday. (Chúng tôi đã không đi biển hôm qua.)"
+            ]
+        },
+        vocabulary: {
+            title: "Kỳ nghỉ",
+            words: [
+                { 
+                    word: "holiday", 
+                    meaning: "kỳ nghỉ", 
+                    example: "We had a great holiday. (Chúng tôi có một kỳ nghỉ tuyệt vời.)" 
+                },
+                { 
+                    word: "trip", 
+                    meaning: "chuyến đi", 
+                    example: "They planned a trip to the mountains. (Họ lên kế hoạch đi núi.)" 
+                },
+                { 
+                    word: "beach", 
+                    meaning: "bãi biển", 
+                    example: "The beach was beautiful. (Bãi biển rất đẹp.)" 
+                },
+                { 
+                    word: "hotel", 
+                    meaning: "khách sạn", 
+                    example: "We stayed in a nice hotel. (Chúng tôi ở một khách sạn đẹp.)" 
+                },
+                { 
+                    word: "sightseeing", 
+                    meaning: "tham quan", 
+                    example: "We went sightseeing in the city. (Chúng tôi đi tham quan thành phố.)" 
+                },
+                { 
+                    word: "souvenir", 
+                    meaning: "quà lưu niệm", 
+                    example: "I bought some souvenirs. (Tôi đã mua vài món quà lưu niệm.)" 
+                },
+                { 
+                    word: "photograph", 
+                    meaning: "ảnh", 
+                    example: "We took many photographs. (Chúng tôi chụp nhiều ảnh.)" 
+                },
+                { 
+                    word: "relax", 
+                    meaning: "thư giãn", 
+                    example: "I like to relax on holiday. (Tôi thích thư giãn trong kỳ nghỉ.)" 
+                },
+                { 
+                    word: "enjoy", 
+                    meaning: "thưởng thức", 
+                    example: "We enjoyed our vacation. (Chúng tôi thích kỳ nghỉ của mình.)" 
+                },
+                { 
+                    word: "return", 
+                    meaning: "trở về", 
+                    example: "We returned home yesterday. (Chúng tôi đã trở về nhà hôm qua.)" 
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "We _____ to the beach last weekend. (Chúng tôi đã đi biển cuối tuần trước.)",
+                answer: "went",
+                options: ["go", "went", "gone", "going"]
+            },
+            {
+                question: "_____ you visit the museum? (Bạn có thăm bảo tàng không?)",
+                answer: "Did",
+                options: ["Do", "Did", "Does", "Done"]
+            },
+            {
+                question: "They _____ like the hotel. (Họ đã không thích khách sạn.)",
+                answer: "didn't",
+                options: ["not", "didn't", "don't", "doesn't"]
+            }
+        ]
+    },
+    {
+        id: 13,
+        title: "Bài 13: Mua sắm",
+        grammar: {
+            title: "How much/How many",
+            content: [
+                "How much: dùng với danh từ không đếm được",
+                "How many: dùng với danh từ đếm được",
+                "",
+                "Cấu trúc:",
+                "- How much + danh từ không đếm được...?",
+                "- How many + danh từ đếm được số nhiều...?",
+                "",
+                "Ví dụ:",
+                "- How much money do you have? (Bạn có bao nhiêu tiền?)",
+                "- How many books did you buy? (Bạn đã mua bao nhiêu quyển sách?)"
+            ]
+        },
+        vocabulary: {
+            title: "Mua sắm",
+            words: [
+                { 
+                    word: "shop", 
+                    meaning: "cửa hàng", 
+                    example: "Let's go to the shop. (Hãy đi đến cửa hàng.)" 
+                },
+                { 
+                    word: "price", 
+                    meaning: "giá cả", 
+                    example: "What's the price of this? (Cái này giá bao nhiêu?)" 
+                },
+                { 
+                    word: "cheap", 
+                    meaning: "rẻ", 
+                    example: "These shoes are cheap. (Những đôi giày này rẻ.)" 
+                },
+                { 
+                    word: "expensive", 
+                    meaning: "đắt", 
+                    example: "That bag is expensive. (Cái túi đó đắt.)" 
+                },
+                { 
+                    word: "buy", 
+                    meaning: "mua", 
+                    example: "I want to buy a new shirt. (Tôi muốn mua áo mới.)" 
+                },
+                { 
+                    word: "sell", 
+                    meaning: "bán", 
+                    example: "They sell fresh fruit. (Họ bán trái cây tươi.)" 
+                },
+                { 
+                    word: "money", 
+                    meaning: "tiền", 
+                    example: "How much money do you need? (Bạn cần bao nhiêu tiền?)" 
+                },
+                { 
+                    word: "discount", 
+                    meaning: "giảm giá", 
+                    example: "This shirt is on discount. (Cái áo này đang giảm giá.)" 
+                },
+                { 
+                    word: "size", 
+                    meaning: "kích cỡ", 
+                    example: "What size do you wear? (Bạn mặc size nào?)" 
+                },
+                { 
+                    word: "try on", 
+                    meaning: "thử", 
+                    example: "Can I try on these shoes? (Tôi có thể thử đôi giày này không?)" 
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "_____ money do you have? (Bạn có bao nhiêu tiền?)",
+                answer: "How much",
+                options: ["How many", "How much", "What", "How"]
+            },
+            {
+                question: "_____ shirts did you buy? (Bạn đã mua bao nhiêu cái áo?)",
+                answer: "How many",
+                options: ["How much", "How many", "What", "How"]
+            },
+            {
+                question: "_____ does this cost? (Cái này giá bao nhiêu?)",
+                answer: "How much",
+                options: ["How many", "How much", "What", "How"]
+            }
+        ]
+    },
+    {
+        id: 14,
+        title: "Bài 14: Động vật",
+        grammar: {
+            title: "So sánh nhất (Superlative)",
+            content: [
+                "Cấu trúc với tính từ ngắn:",
+                "- the + tính từ + est",
+                "Ví dụ: tall → the tallest",
+                "",
+                "Cấu trúc với tính từ dài:",
+                "- the most + tính từ",
+                "Ví dụ: beautiful → the most beautiful",
+                "",
+                "Một số tính từ đặc biệt:",
+                "- good → the best",
+                "- bad → the worst"
+            ]
+        },
+        vocabulary: {
+            title: "Động vật",
+            words: [
+                { 
+                    word: "animal", 
+                    meaning: "động vật", 
+                    example: "I love animals. (Tôi yêu động vật.)" 
+                },
+                { 
+                    word: "elephant", 
+                    meaning: "voi", 
+                    example: "The elephant is very big. (Con voi rất to.)" 
+                },
+                { 
+                    word: "lion", 
+                    meaning: "sư tử", 
+                    example: "The lion is the king of the jungle. (Sư tử là chúa tể rừng xanh.)" 
+                },
+                { 
+                    word: "tiger", 
+                    meaning: "hổ", 
+                    example: "Tigers are dangerous animals. (Hổ là động vật nguy hiểm.)" 
+                },
+                { 
+                    word: "giraffe", 
+                    meaning: "hươu cao cổ", 
+                    example: "The giraffe has a long neck. (Hươu cao cổ có cổ dài.)" 
+                },
+                { 
+                    word: "monkey", 
+                    meaning: "khỉ", 
+                    example: "Monkeys like bananas. (Khỉ thích chuối.)" 
+                },
+                { 
+                    word: "penguin", 
+                    meaning: "chim cánh cụt", 
+                    example: "Penguins live in Antarctica. (Chim cánh cụt sống ở Nam Cực.)" 
+                },
+                { 
+                    word: "dolphin", 
+                    meaning: "cá heo", 
+                    example: "Dolphins are very intelligent. (Cá heo rất thông minh.)" 
+                },
+                { 
+                    word: "kangaroo", 
+                    meaning: "chuột túi", 
+                    example: "Kangaroos live in Australia. (Chuột túi sống ở Úc.)" 
+                },
+                { 
+                    word: "panda", 
+                    meaning: "gấu trúc", 
+                    example: "Pandas eat bamboo. (Gấu trúc ăn tre.)" 
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "The elephant is _____ animal in the zoo. (Voi là động vật lớn nhất trong sở thú.)",
+                answer: "the biggest",
+                options: ["bigger", "the bigger", "the biggest", "biggest"]
+            },
+            {
+                question: "The cheetah is _____ animal in the world. (Báo săn là động vật nhanh nhất thế giới.)",
+                answer: "the fastest",
+                options: ["fast", "faster", "the fastest", "fastest"]
+            },
+            {
+                question: "The blue whale is _____ animal on Earth. (Cá voi xanh là động vật lớn nhất trên Trái Đất.)",
+                answer: "the largest",
+                options: ["large", "larger", "the largest", "largest"]
+            }
+        ]
+    },
+    {
+        id: 15,
+        title: "Bài 15: Lễ hội và Ngày lễ",
+        grammar: {
+            title: "Prepositions of Time (Giới từ chỉ thời gian)",
+            content: [
+                "in: dùng với:",
+                "- Tháng (in January)",
+                "- Mùa (in summer)",
+                "- Năm (in 2024)",
+                "",
+                "on: dùng với:",
+                "- Ngày cụ thể (on Monday)",
+                "- Ngày lễ (on Christmas Day)",
+                "",
+                "at: dùng với:",
+                "- Giờ cụ thể (at 8 o'clock)",
+                "- Thời điểm trong ngày (at night)"
+            ]
+        },
+        vocabulary: {
+            title: "Lễ hội và Ngày lễ",
+            words: [
+                { 
+                    word: "festival", 
+                    meaning: "lễ hội", 
+                    example: "We celebrate many festivals. (Chúng tôi tổ chức nhiều lễ hội.)" 
+                },
+                { 
+                    word: "celebrate", 
+                    meaning: "tổ chức", 
+                    example: "How do you celebrate New Year? (Bạn đón năm mới như thế nào?)" 
+                },
+                { 
+                    word: "holiday", 
+                    meaning: "ngày lễ", 
+                    example: "Christmas is a popular holiday. (Giáng sinh là một ngày lễ phổ biến.)" 
+                },
+                { 
+                    word: "tradition", 
+                    meaning: "truyền thống", 
+                    example: "Every country has its traditions. (Mỗi quốc gia có truyền thống riêng.)" 
+                },
+                { 
+                    word: "decoration", 
+                    meaning: "trang trí", 
+                    example: "The decorations are beautiful. (Những đồ trang trí rất đẹp.)" 
+                },
+                { 
+                    word: "gift", 
+                    meaning: "quà tặng", 
+                    example: "We exchange gifts at Christmas. (Chúng tôi tặng quà vào dịp Giáng sinh.)" 
+                },
+                { 
+                    word: "party", 
+                    meaning: "tiệc", 
+                    example: "Let's have a party! (Hãy tổ chức một bữa tiệc!)" 
+                },
+                { 
+                    word: "costume", 
+                    meaning: "trang phục", 
+                    example: "Children wear costumes on Halloween. (Trẻ em mặc trang phục vào Halloween.)" 
+                },
+                { 
+                    word: "firework", 
+                    meaning: "pháo hoa", 
+                    example: "There are fireworks on New Year's Eve. (Có pháo hoa vào đêm giao thừa.)" 
+                },
+                { 
+                    word: "parade", 
+                    meaning: "diễu hành", 
+                    example: "We watched the parade. (Chúng tôi xem diễu hành.)" 
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "The festival is _____ July. (Lễ hội diễn ra vào tháng 7.)",
+                answer: "in",
+                options: ["in", "on", "at", "by"]
+            },
+            {
+                question: "We celebrate Christmas _____ December 25th. (Chúng ta tổ chức Giáng sinh vào ngày 25 tháng 12.)",
+                answer: "on",
+                options: ["in", "on", "at", "by"]
+            },
+            {
+                question: "The fireworks start _____ midnight. (Pháo hoa bắt đầu vào lúc nửa đêm.)",
+                answer: "at",
+                options: ["in", "on", "at", "by"]
+            }
+        ]
     }
 ];
 
