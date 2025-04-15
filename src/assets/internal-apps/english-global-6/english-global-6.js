@@ -38,6 +38,36 @@ const units = [
                     word: "classroom", 
                     meaning: "lớp học", 
                     example: "Our classroom is on the second floor. (Lớp học của chúng tôi ở tầng hai.)" 
+                },
+                { 
+                    word: "library", 
+                    meaning: "thư viện", 
+                    example: "I often study in the library. (Tôi thường học trong thư viện.)" 
+                },
+                { 
+                    word: "homework", 
+                    meaning: "bài tập về nhà", 
+                    example: "I need to finish my homework. (Tôi cần hoàn thành bài tập về nhà.)" 
+                },
+                { 
+                    word: "pencil", 
+                    meaning: "bút chì", 
+                    example: "Can I borrow your pencil? (Tôi có thể mượn bút chì của bạn không?)" 
+                },
+                { 
+                    word: "notebook", 
+                    meaning: "vở", 
+                    example: "I write notes in my notebook. (Tôi ghi chép vào vở.)" 
+                },
+                { 
+                    word: "backpack", 
+                    meaning: "ba lô", 
+                    example: "My backpack is heavy today. (Ba lô của tôi hôm nay nặng.)" 
+                },
+                { 
+                    word: "principal", 
+                    meaning: "hiệu trưởng", 
+                    example: "The principal gave a speech. (Hiệu trưởng đã có bài phát biểu.)" 
                 }
             ]
         },
@@ -97,6 +127,36 @@ const units = [
                     word: "draw", 
                     meaning: "vẽ", 
                     example: "He draws comics. (Anh ấy vẽ truyện tranh.)" 
+                },
+                { 
+                    word: "music", 
+                    meaning: "âm nhạc", 
+                    example: "I love listening to music. (Tôi thích nghe nhạc.)" 
+                },
+                { 
+                    word: "dance", 
+                    meaning: "nhảy múa", 
+                    example: "They are dancing at the party. (Họ đang nhảy múa ở bữa tiệc.)" 
+                },
+                { 
+                    word: "sing", 
+                    meaning: "hát", 
+                    example: "She sings beautifully. (Cô ấy hát hay.)" 
+                },
+                { 
+                    word: "read", 
+                    meaning: "đọc", 
+                    example: "I read books every day. (Tôi đọc sách mỗi ngày.)" 
+                },
+                { 
+                    word: "write", 
+                    meaning: "viết", 
+                    example: "He writes stories. (Anh ấy viết truyện.)" 
+                },
+                { 
+                    word: "photography", 
+                    meaning: "nhiếp ảnh", 
+                    example: "Photography is her passion. (Nhiếp ảnh là đam mê của cô ấy.)" 
                 }
             ]
         },
@@ -115,6 +175,182 @@ const units = [
                 question: "She _____ (not/study) now. (Cô ấy không học bây giờ.)",
                 answer: "isn't studying",
                 options: ["isn't studying", "aren't studying", "not studying", "doesn't study"]
+            }
+        ]
+    },
+    {
+        id: 3,
+        title: "Bài 3: Gia đình của tôi",
+        grammar: {
+            title: "Tính từ sở hữu",
+            content: [
+                "Chúng ta sử dụng tính từ sở hữu để chỉ sự sở hữu:",
+                "- my (của tôi)",
+                "- your (của bạn)",
+                "- his (của anh ấy)",
+                "- her (của cô ấy)",
+                "- its (của nó)",
+                "- our (của chúng tôi)",
+                "- their (của họ)",
+                "Ví dụ: This is my book. (Đây là sách của tôi.)"
+            ]
+        },
+        vocabulary: {
+            title: "Gia đình",
+            words: [
+                { 
+                    word: "father", 
+                    meaning: "bố", 
+                    example: "My father works in a bank. (Bố tôi làm việc ở ngân hàng.)" 
+                },
+                { 
+                    word: "mother", 
+                    meaning: "mẹ", 
+                    example: "My mother is a doctor. (Mẹ tôi là bác sĩ.)" 
+                },
+                { 
+                    word: "sister", 
+                    meaning: "chị/em gái", 
+                    example: "I have two sisters. (Tôi có hai chị/em gái.)" 
+                },
+                { 
+                    word: "brother", 
+                    meaning: "anh/em trai", 
+                    example: "My brother plays football. (Anh/em trai tôi chơi bóng đá.)" 
+                },
+                { 
+                    word: "grandmother", 
+                    meaning: "bà", 
+                    example: "My grandmother lives with us. (Bà tôi sống với chúng tôi.)" 
+                },
+                { 
+                    word: "grandfather", 
+                    meaning: "ông", 
+                    example: "My grandfather tells great stories. (Ông tôi kể chuyện hay.)" 
+                },
+                { 
+                    word: "aunt", 
+                    meaning: "cô/dì", 
+                    example: "My aunt is a teacher. (Cô tôi là giáo viên.)" 
+                },
+                { 
+                    word: "uncle", 
+                    meaning: "chú/bác", 
+                    example: "My uncle lives in America. (Chú tôi sống ở Mỹ.)" 
+                },
+                { 
+                    word: "cousin", 
+                    meaning: "anh/chị/em họ", 
+                    example: "I play with my cousins on weekends. (Tôi chơi với anh chị em họ vào cuối tuần.)" 
+                },
+                { 
+                    word: "family", 
+                    meaning: "gia đình", 
+                    example: "I love my family. (Tôi yêu gia đình tôi.)" 
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "This is _____ book. (Đây là sách của tôi.)",
+                answer: "my",
+                options: ["my", "your", "his", "her"]
+            },
+            {
+                question: "_____ parents are very kind. (Bố mẹ của họ rất tốt bụng.)",
+                answer: "Their",
+                options: ["Their", "They", "Them", "There"]
+            },
+            {
+                question: "She lives with _____ grandmother. (Cô ấy sống với bà của cô ấy.)",
+                answer: "her",
+                options: ["her", "his", "their", "its"]
+            }
+        ]
+    },
+    {
+        id: 4,
+        title: "Bài 4: Thể thao và Giải trí",
+        grammar: {
+            title: "Can/Cannot (Có thể/Không thể)",
+            content: [
+                "Chúng ta sử dụng can/cannot để nói về khả năng:",
+                "- Khẳng định: Subject + can + V (nguyên thể)",
+                "- Phủ định: Subject + cannot/can't + V (nguyên thể)",
+                "- Câu hỏi: Can + Subject + V (nguyên thể)?",
+                "Ví dụ: I can swim. (Tôi biết bơi.)"
+            ]
+        },
+        vocabulary: {
+            title: "Thể thao và Giải trí",
+            words: [
+                { 
+                    word: "football", 
+                    meaning: "bóng đá", 
+                    example: "I play football every weekend. (Tôi chơi bóng đá mỗi cuối tuần.)" 
+                },
+                { 
+                    word: "basketball", 
+                    meaning: "bóng rổ", 
+                    example: "He plays basketball well. (Anh ấy chơi bóng rổ giỏi.)" 
+                },
+                { 
+                    word: "swimming", 
+                    meaning: "bơi lội", 
+                    example: "Swimming is good exercise. (Bơi lội là bài tập tốt.)" 
+                },
+                { 
+                    word: "tennis", 
+                    meaning: "quần vợt", 
+                    example: "They play tennis together. (Họ chơi quần vợt cùng nhau.)" 
+                },
+                { 
+                    word: "volleyball", 
+                    meaning: "bóng chuyền", 
+                    example: "We play volleyball at school. (Chúng tôi chơi bóng chuyền ở trường.)" 
+                },
+                { 
+                    word: "movie", 
+                    meaning: "phim", 
+                    example: "I watch movies on weekends. (Tôi xem phim vào cuối tuần.)" 
+                },
+                { 
+                    word: "game", 
+                    meaning: "trò chơi", 
+                    example: "Video games are fun. (Trò chơi điện tử rất vui.)" 
+                },
+                { 
+                    word: "park", 
+                    meaning: "công viên", 
+                    example: "We go to the park on Sundays. (Chúng tôi đi công viên vào Chủ nhật.)" 
+                },
+                { 
+                    word: "bicycle", 
+                    meaning: "xe đạp", 
+                    example: "I ride my bicycle to school. (Tôi đi xe đạp đến trường.)" 
+                },
+                { 
+                    word: "run", 
+                    meaning: "chạy", 
+                    example: "She runs every morning. (Cô ấy chạy bộ mỗi sáng.)" 
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "He _____ play basketball very well. (Anh ấy có thể chơi bóng rổ rất giỏi.)",
+                answer: "can",
+                options: ["can", "cannot", "do", "does"]
+            },
+            {
+                question: "_____ you swim? (Bạn có biết bơi không?)",
+                answer: "Can",
+                options: ["Can", "Do", "Are", "Is"]
+            },
+            {
+                question: "They _____ play tennis. (Họ không thể chơi quần vợt.)",
+                answer: "cannot",
+                options: ["cannot", "can", "don't", "doesn't"]
             }
         ]
     }
