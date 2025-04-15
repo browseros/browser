@@ -1306,6 +1306,7 @@ const units = [
     {
         id: 11,
         title: "La nourriture - Thức ăn",
+        sections: ["grammar", "vocabulary", "exercises"],
         grammar: {
             title: "Ngữ pháp",
             content: [
@@ -1315,7 +1316,31 @@ const units = [
                     examples: [
                         "Un sandwich - Một cái bánh mì kẹp",
                         "Une pomme - Một quả táo",
-                        "Des légumes - Những rau củ"
+                        "Des légumes - Những rau củ",
+                        "Un verre d'eau - Một ly nước",
+                        "Une tasse de café - Một tách cà phê",
+                        "Des fruits frais - Những trái cây tươi"
+                    ]
+                },
+                {
+                    topic: "Mạo từ bộ phận (du, de la, de l', des)",
+                    explanation: "Dùng để chỉ một phần của thức ăn hoặc đồ uống:",
+                    examples: [
+                        "Je mange du pain - Tôi ăn bánh mì",
+                        "Je bois de l'eau - Tôi uống nước",
+                        "Elle prend de la soupe - Cô ấy ăn súp",
+                        "Nous voulons des fruits - Chúng tôi muốn trái cây"
+                    ]
+                },
+                {
+                    topic: "Động từ liên quan đến ăn uống",
+                    explanation: "Các động từ thường dùng khi nói về ăn uống:",
+                    examples: [
+                        "Manger (ăn) - Je mange du riz",
+                        "Boire (uống) - Tu bois du lait",
+                        "Préparer (chuẩn bị) - Elle prépare le dîner",
+                        "Cuisiner (nấu ăn) - Nous cuisinons ensemble",
+                        "Goûter (nếm) - Je goûte la soupe"
                     ]
                 }
             ]
@@ -1324,46 +1349,149 @@ const units = [
             {
                 word: "Le pain",
                 meaning: "Bánh mì",
-                example: "Je mange du pain.",
-                exampleMeaning: "Tôi ăn bánh mì."
+                example: "Je mange du pain frais.",
+                exampleMeaning: "Tôi ăn bánh mì tươi."
             },
             {
                 word: "Le riz",
                 meaning: "Cơm",
-                example: "Le riz est bon.",
-                exampleMeaning: "Cơm ngon."
+                example: "Le riz est bien cuit.",
+                exampleMeaning: "Cơm được nấu chín tới."
             },
             {
                 word: "La soupe",
                 meaning: "Súp",
-                example: "J'aime la soupe chaude.",
-                exampleMeaning: "Tôi thích súp nóng."
+                example: "J'aime la soupe aux légumes.",
+                exampleMeaning: "Tôi thích súp rau."
             },
             {
                 word: "Le poulet",
                 meaning: "Thịt gà",
-                example: "Le poulet est délicieux.",
-                exampleMeaning: "Thịt gà rất ngon."
+                example: "Le poulet rôti est délicieux.",
+                exampleMeaning: "Gà nướng rất ngon."
             },
             {
                 word: "Les légumes",
                 meaning: "Rau củ",
-                example: "Je mange beaucoup de légumes.",
-                exampleMeaning: "Tôi ăn nhiều rau củ."
+                example: "Je mange beaucoup de légumes frais.",
+                exampleMeaning: "Tôi ăn nhiều rau củ tươi."
+            },
+            {
+                word: "Le poisson",
+                meaning: "Cá",
+                example: "Le poisson grillé est bon.",
+                exampleMeaning: "Cá nướng ngon."
+            },
+            {
+                word: "La viande",
+                meaning: "Thịt",
+                example: "Je préfère la viande rouge.",
+                exampleMeaning: "Tôi thích thịt đỏ hơn."
+            },
+            {
+                word: "Les pâtes",
+                meaning: "Mì ống",
+                example: "Les pâtes à la sauce tomate.",
+                exampleMeaning: "Mì ống với sốt cà chua."
+            },
+            {
+                word: "Le fromage",
+                meaning: "Phô mai",
+                example: "Le fromage français est célèbre.",
+                exampleMeaning: "Phô mai Pháp nổi tiếng."
+            },
+            {
+                word: "Le beurre",
+                meaning: "Bơ",
+                example: "Je mets du beurre sur mon pain.",
+                exampleMeaning: "Tôi phết bơ lên bánh mì."
+            },
+            {
+                word: "Les œufs",
+                meaning: "Trứng",
+                example: "J'aime les œufs brouillés.",
+                exampleMeaning: "Tôi thích trứng bác."
+            },
+            {
+                word: "Le lait",
+                meaning: "Sữa",
+                example: "Je bois du lait chaud.",
+                exampleMeaning: "Tôi uống sữa nóng."
+            },
+            {
+                word: "Le café",
+                meaning: "Cà phê",
+                example: "Je prends un café le matin.",
+                exampleMeaning: "Tôi uống cà phê vào buổi sáng."
+            },
+            {
+                word: "Le thé",
+                meaning: "Trà",
+                example: "Elle boit du thé vert.",
+                exampleMeaning: "Cô ấy uống trà xanh."
+            },
+            {
+                word: "Le jus",
+                meaning: "Nước ép",
+                example: "Le jus d'orange est frais.",
+                exampleMeaning: "Nước cam tươi."
             }
         ],
         exercises: [
             {
                 type: "multiple-choice",
-                question: "Qu'est-ce qui est chaud?",
-                options: ["Le pain", "La soupe", "Le riz", "Les légumes"],
+                question: "Qu'est-ce qui est chaud le matin?",
+                options: ["Le pain", "La soupe", "Le café", "Les légumes"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel aliment est fait avec du lait?",
+                options: ["Le pain", "Le fromage", "Les pâtes", "Le poulet"],
                 correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Quelle boisson est souvent verte?",
+                options: ["Le café", "Le lait", "Le thé", "Le jus"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Qu'est-ce qu'on met sur le pain?",
+                options: ["Le thé", "Le beurre", "Le jus", "Les œufs"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel aliment est une viande?",
+                options: ["Le riz", "Les légumes", "Le poulet", "Les pâtes"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Quelle boisson est faite avec des oranges?",
+                options: ["Le thé", "Le café", "Le lait", "Le jus d'orange"],
+                correct: 3
+            },
+            {
+                type: "multiple-choice",
+                question: "Qu'est-ce qui est souvent servi avec de la sauce tomate?",
+                options: ["Le pain", "Les pâtes", "Le fromage", "Le poulet"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel aliment peut être brouillé?",
+                options: ["Le pain", "Le fromage", "Les œufs", "Le poisson"],
+                correct: 2
             }
         ]
     },
     {
         id: 12,
         title: "Le temps - Thời tiết",
+        sections: ["grammar", "vocabulary", "exercises"],
         grammar: {
             title: "Ngữ pháp",
             content: [
@@ -1373,7 +1501,32 @@ const units = [
                     examples: [
                         "Il fait chaud - Trời nóng",
                         "Il fait froid - Trời lạnh",
-                        "Il fait beau - Trời đẹp"
+                        "Il fait beau - Trời đẹp",
+                        "Il fait mauvais - Trời xấu",
+                        "Il fait du vent - Trời có gió",
+                        "Il fait du soleil - Trời nắng"
+                    ]
+                },
+                {
+                    topic: "Cấu trúc 'Il y a'",
+                    explanation: "Dùng để nói về hiện tượng thời tiết:",
+                    examples: [
+                        "Il y a du soleil - Có nắng",
+                        "Il y a des nuages - Có mây",
+                        "Il y a du brouillard - Có sương mù",
+                        "Il y a de l'orage - Có bão",
+                        "Il y a du vent - Có gió"
+                    ]
+                },
+                {
+                    topic: "Động từ thời tiết",
+                    explanation: "Một số động từ đặc biệt để nói về thời tiết:",
+                    examples: [
+                        "Il pleut - Trời mưa",
+                        "Il neige - Trời tuyết rơi",
+                        "Il gèle - Trời đóng băng",
+                        "Le soleil brille - Mặt trời tỏa sáng",
+                        "Le vent souffle - Gió thổi"
                     ]
                 }
             ]
@@ -1382,32 +1535,74 @@ const units = [
             {
                 word: "Le soleil",
                 meaning: "Mặt trời",
-                example: "Le soleil brille.",
-                exampleMeaning: "Mặt trời tỏa sáng."
+                example: "Le soleil brille dans le ciel.",
+                exampleMeaning: "Mặt trời tỏa sáng trên bầu trời."
             },
             {
                 word: "La pluie",
                 meaning: "Mưa",
-                example: "Il pleut aujourd'hui.",
-                exampleMeaning: "Hôm nay trời mưa."
+                example: "Il pleut beaucoup aujourd'hui.",
+                exampleMeaning: "Hôm nay trời mưa nhiều."
             },
             {
                 word: "Le vent",
                 meaning: "Gió",
-                example: "Le vent est fort.",
-                exampleMeaning: "Gió mạnh."
+                example: "Le vent souffle fort.",
+                exampleMeaning: "Gió thổi mạnh."
             },
             {
                 word: "La neige",
                 meaning: "Tuyết",
-                example: "Il neige en hiver.",
-                exampleMeaning: "Trời có tuyết vào mùa đông."
+                example: "La neige tombe en hiver.",
+                exampleMeaning: "Tuyết rơi vào mùa đông."
             },
             {
                 word: "Les nuages",
                 meaning: "Mây",
-                example: "Il y a des nuages dans le ciel.",
-                exampleMeaning: "Có mây trên bầu trời."
+                example: "Les nuages gris annoncent la pluie.",
+                exampleMeaning: "Mây xám báo hiệu trời sắp mưa."
+            },
+            {
+                word: "L'orage",
+                meaning: "Bão",
+                example: "L'orage est très violent.",
+                exampleMeaning: "Cơn bão rất dữ dội."
+            },
+            {
+                word: "Le brouillard",
+                meaning: "Sương mù",
+                example: "Le brouillard réduit la visibilité.",
+                exampleMeaning: "Sương mù làm giảm tầm nhìn."
+            },
+            {
+                word: "La température",
+                meaning: "Nhiệt độ",
+                example: "La température est agréable.",
+                exampleMeaning: "Nhiệt độ dễ chịu."
+            },
+            {
+                word: "La chaleur",
+                meaning: "Sự nóng",
+                example: "La chaleur est intense en été.",
+                exampleMeaning: "Cái nóng rất gay gắt vào mùa hè."
+            },
+            {
+                word: "Le froid",
+                meaning: "Sự lạnh",
+                example: "Le froid arrive en hiver.",
+                exampleMeaning: "Cái lạnh đến vào mùa đông."
+            },
+            {
+                word: "L'arc-en-ciel",
+                meaning: "Cầu vồng",
+                example: "L'arc-en-ciel apparaît après la pluie.",
+                exampleMeaning: "Cầu vồng xuất hiện sau cơn mưa."
+            },
+            {
+                word: "La météo",
+                meaning: "Dự báo thời tiết",
+                example: "Je regarde la météo tous les matins.",
+                exampleMeaning: "Tôi xem dự báo thời tiết mỗi sáng."
             }
         ],
         exercises: [
@@ -1416,6 +1611,48 @@ const units = [
                 question: "Quel temps fait-il quand le soleil brille?",
                 options: ["Il pleut", "Il fait beau", "Il neige", "Il fait froid"],
                 correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Que voyons-nous dans le ciel après la pluie?",
+                options: ["Le soleil", "La neige", "L'arc-en-ciel", "Le brouillard"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Qu'est-ce qui tombe en hiver?",
+                options: ["La pluie", "Le soleil", "Le vent", "La neige"],
+                correct: 3
+            },
+            {
+                type: "multiple-choice",
+                question: "Qu'est-ce qui réduit la visibilité?",
+                options: ["Le brouillard", "Le soleil", "L'arc-en-ciel", "La chaleur"],
+                correct: 0
+            },
+            {
+                type: "multiple-choice",
+                question: "Quand fait-il très chaud?",
+                options: ["En hiver", "Au printemps", "En été", "En automne"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Comment est le temps quand il y a des nuages gris?",
+                options: ["Il fait beau", "Il va pleuvoir", "Il fait chaud", "Il fait du soleil"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Qu'est-ce qui souffle fort pendant une tempête?",
+                options: ["La pluie", "Le vent", "La neige", "Le soleil"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Où peut-on voir les prévisions du temps?",
+                options: ["Dans la météo", "Dans le vent", "Dans les nuages", "Dans la pluie"],
+                correct: 0
             }
         ]
     }
