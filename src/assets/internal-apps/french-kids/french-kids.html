@@ -14,6 +14,13 @@
             --light-bg: #F7F9FC;
         }
 
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             color: var(--text-color);
@@ -21,12 +28,14 @@
             min-height: 100vh;
             margin: 0;
             padding: 0;
+            position: relative;
         }
 
         .app-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            padding-bottom: 60px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -46,6 +55,7 @@
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
             padding: 20px 0;
+            margin-bottom: 40px;
         }
 
         .unit-card {
@@ -74,6 +84,10 @@
             background-color: white;
             border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 60px;
+            height: auto !important;
+            min-height: auto !important;
+            overflow: visible !important;
         }
 
         #unitContent.active {
@@ -84,6 +98,7 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .nav-buttons button {
@@ -107,6 +122,10 @@
             margin-bottom: 15px;
         }
 
+        .word-item:last-child {
+            margin-bottom: 60px;
+        }
+
         .word-item h4 {
             color: var(--primary-color);
             margin-bottom: 10px;
@@ -117,6 +136,11 @@
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
+        }
+
+        .exercise-item:last-child,
+        .quiz-item:last-child {
+            margin-bottom: 60px;
         }
 
         .options {
@@ -136,9 +160,18 @@
             background-color: #f0f0f0;
         }
 
+        #contentArea {
+            position: relative;
+            height: auto !important;
+            min-height: auto !important;
+            overflow: visible !important;
+            padding-bottom: 60px;
+        }
+
         @media (max-width: 768px) {
             .app-container {
                 padding: 10px;
+                padding-bottom: 40px;
             }
 
             #unitGrid {
@@ -147,6 +180,14 @@
 
             .unit-card {
                 padding: 15px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .nav-buttons button {
+                width: 100%;
             }
         }
     </style>

@@ -1,293 +1,373 @@
 const units = [
     {
         id: 1,
-        title: "Leçon 1: Bonjour! (Xin chào!)",
+        title: "Bonjour! - Chào hỏi",
         grammar: {
-            title: "Chào hỏi cơ bản",
+            title: "Ngữ pháp",
             content: [
-                "Các cách chào hỏi trong tiếng Pháp:",
-                "- Bonjour = Xin chào (dùng ban ngày)",
-                "- Bonsoir = Chào buổi tối",
-                "- Au revoir = Tạm biệt",
-                "- À bientôt = Hẹn gặp lại",
-                "",
-                "Hỏi tên và trả lời:",
-                "- Comment tu t'appelles? = Bạn tên gì?",
-                "- Je m'appelle... = Tôi tên là...",
-                "",
-                "Hỏi thăm:",
-                "- Ça va? = Bạn khỏe không?",
-                "- Oui, ça va bien = Vâng, tôi khỏe",
-                "- Non, ça ne va pas = Không, tôi không khỏe"
-            ]
-        },
-        vocabulary: {
-            title: "Từ vựng chào hỏi",
-            words: [
                 {
-                    word: "bonjour",
-                    meaning: "xin chào",
-                    example: "Bonjour, comment ça va? (Xin chào, bạn khỏe không?)"
+                    topic: "Cách chào hỏi cơ bản",
+                    explanation: "Trong tiếng Pháp, chúng ta có nhiều cách chào hỏi khác nhau tùy theo thời điểm trong ngày:",
+                    examples: [
+                        "Bonjour! - Chào (dùng vào buổi sáng và cả ngày)",
+                        "Bonsoir! - Chào buổi tối",
+                        "Au revoir! - Tạm biệt",
+                        "À bientôt! - Hẹn gặp lại"
+                    ]
                 },
                 {
-                    word: "au revoir",
-                    meaning: "tạm biệt",
-                    example: "Au revoir, à demain! (Tạm biệt, hẹn gặp lại ngày mai!)"
-                },
-                {
-                    word: "s'il vous plaît",
-                    meaning: "làm ơn, xin vui lòng",
-                    example: "Un crayon, s'il vous plaît. (Xin vui lòng cho một cây bút chì.)"
-                },
-                {
-                    word: "merci",
-                    meaning: "cảm ơn",
-                    example: "Merci beaucoup! (Cảm ơn nhiều!)"
-                },
-                {
-                    word: "oui",
-                    meaning: "vâng, có",
-                    example: "Oui, je comprends. (Vâng, tôi hiểu.)"
-                },
-                {
-                    word: "non",
-                    meaning: "không",
-                    example: "Non, merci. (Không, cảm ơn.)"
-                },
-                {
-                    word: "salut",
-                    meaning: "chào (thân mật)",
-                    example: "Salut, ça va? (Chào, khỏe không?)"
-                },
-                {
-                    word: "bonsoir",
-                    meaning: "chào buổi tối",
-                    example: "Bonsoir, tout le monde! (Chào buổi tối mọi người!)"
-                },
-                {
-                    word: "bonne nuit",
-                    meaning: "chúc ngủ ngon",
-                    example: "Bonne nuit, à demain! (Chúc ngủ ngon, hẹn gặp lại ngày mai!)"
-                },
-                {
-                    word: "enchanté(e)",
-                    meaning: "rất vui được gặp",
-                    example: "Enchanté de vous rencontrer! (Rất vui được gặp bạn!)"
+                    topic: "Giới thiệu bản thân",
+                    explanation: "Cấu trúc cơ bản để giới thiệu bản thân:",
+                    examples: [
+                        "Je m'appelle... - Tôi tên là...",
+                        "Comment tu t'appelles? - Bạn tên là gì?"
+                    ]
                 }
             ]
         },
+        vocabulary: [
+            {
+                word: "Bonjour",
+                meaning: "Xin chào",
+                example: "Bonjour, comment allez-vous?",
+                exampleMeaning: "Xin chào, bạn khỏe không?"
+            },
+            {
+                word: "Au revoir",
+                meaning: "Tạm biệt",
+                example: "Au revoir, à demain!",
+                exampleMeaning: "Tạm biệt, hẹn gặp lại ngày mai!"
+            },
+            {
+                word: "S'il vous plaît",
+                meaning: "Làm ơn, xin vui lòng",
+                example: "Un café, s'il vous plaît.",
+                exampleMeaning: "Cho một ly cà phê, làm ơn."
+            },
+            {
+                word: "Merci",
+                meaning: "Cảm ơn",
+                example: "Merci beaucoup!",
+                exampleMeaning: "Cảm ơn nhiều!"
+            },
+            {
+                word: "Oui",
+                meaning: "Có, vâng",
+                example: "Oui, je comprends.",
+                exampleMeaning: "Vâng, tôi hiểu."
+            },
+            {
+                word: "Non",
+                meaning: "Không",
+                example: "Non, merci.",
+                exampleMeaning: "Không, cảm ơn."
+            }
+        ],
         exercises: [
             {
-                question: "Comment dit-on 'xin chào' en français? (Tiếng Pháp nói 'xin chào' là gì?)",
-                answer: "bonjour",
-                options: ["merci", "bonjour", "au revoir", "s'il vous plaît"]
+                type: "multiple-choice",
+                question: "Comment dit-on 'Xin chào' en français?",
+                options: ["Au revoir", "Bonjour", "Merci", "S'il vous plaît"],
+                correct: 1
             },
             {
-                question: "Comment dit-on 'cảm ơn' en français? (Tiếng Pháp nói 'cảm ơn' là gì?)",
-                answer: "merci",
-                options: ["bonjour", "merci", "oui", "non"]
-            },
-            {
-                question: "Pour dire au revoir le soir, on dit... (Để chào tạm biệt vào buổi tối, ta nói...)",
-                answer: "bonsoir",
-                options: ["bonjour", "bonsoir", "salut", "merci"]
+                type: "multiple-choice",
+                question: "Que signifie 'Merci'?",
+                options: ["Xin lỗi", "Tạm biệt", "Cảm ơn", "Xin chào"],
+                correct: 2
             }
         ]
     },
     {
         id: 2,
-        title: "Leçon 2: Les Nombres (Các số)",
+        title: "Ma famille - Gia đình tôi",
         grammar: {
-            title: "Số đếm từ 1-20",
+            title: "Ngữ pháp",
             content: [
-                "Các số từ 1-10:",
-                "1 = un/une",
-                "2 = deux",
-                "3 = trois",
-                "4 = quatre",
-                "5 = cinq",
-                "6 = six",
-                "7 = sept",
-                "8 = huit",
-                "9 = neuf",
-                "10 = dix",
-                "",
-                "Các số từ 11-20:",
-                "11 = onze",
-                "12 = douze",
-                "13 = treize",
-                "14 = quatorze",
-                "15 = quinze",
-                "16 = seize",
-                "17 = dix-sept",
-                "18 = dix-huit",
-                "19 = dix-neuf",
-                "20 = vingt"
-            ]
-        },
-        vocabulary: {
-            title: "Từ vựng về số",
-            words: [
                 {
-                    word: "un",
-                    meaning: "một",
-                    example: "J'ai un livre. (Tôi có một quyển sách.)"
-                },
-                {
-                    word: "deux",
-                    meaning: "hai",
-                    example: "J'ai deux frères. (Tôi có hai anh/em trai.)"
-                },
-                {
-                    word: "trois",
-                    meaning: "ba",
-                    example: "Trois petits chats. (Ba con mèo nhỏ.)"
-                },
-                {
-                    word: "quatre",
-                    meaning: "bốn",
-                    example: "Quatre saisons. (Bốn mùa.)"
-                },
-                {
-                    word: "cinq",
-                    meaning: "năm",
-                    example: "J'ai cinq ans. (Tôi năm tuổi.)"
-                },
-                {
-                    word: "dix",
-                    meaning: "mười",
-                    example: "Dix doigts. (Mười ngón tay.)"
-                },
-                {
-                    word: "quinze",
-                    meaning: "mười lăm",
-                    example: "Quinze minutes. (Mười lăm phút.)"
-                },
-                {
-                    word: "vingt",
-                    meaning: "hai mươi",
-                    example: "Vingt élèves. (Hai mươi học sinh.)"
-                },
-                {
-                    word: "premier",
-                    meaning: "thứ nhất",
-                    example: "Le premier jour. (Ngày đầu tiên.)"
-                },
-                {
-                    word: "dernier",
-                    meaning: "cuối cùng",
-                    example: "Le dernier jour. (Ngày cuối cùng.)"
+                    topic: "Tính từ sở hữu",
+                    explanation: "Trong tiếng Pháp, tính từ sở hữu phải phù hợp với danh từ về giới và số:",
+                    examples: [
+                        "Mon père - Bố tôi",
+                        "Ma mère - Mẹ tôi",
+                        "Mes parents - Bố mẹ tôi"
+                    ]
                 }
             ]
         },
+        vocabulary: [
+            {
+                word: "La famille",
+                meaning: "Gia đình",
+                example: "J'aime ma famille.",
+                exampleMeaning: "Tôi yêu gia đình tôi."
+            },
+            {
+                word: "Le père",
+                meaning: "Bố",
+                example: "Mon père est médecin.",
+                exampleMeaning: "Bố tôi là bác sĩ."
+            },
+            {
+                word: "La mère",
+                meaning: "Mẹ",
+                example: "Ma mère est professeur.",
+                exampleMeaning: "Mẹ tôi là giáo viên."
+            },
+            {
+                word: "Le frère",
+                meaning: "Anh/em trai",
+                example: "J'ai un frère.",
+                exampleMeaning: "Tôi có một người anh/em trai."
+            },
+            {
+                word: "La sœur",
+                meaning: "Chị/em gái",
+                example: "Ma sœur est étudiante.",
+                exampleMeaning: "Chị/em gái tôi là sinh viên."
+            }
+        ],
         exercises: [
             {
-                question: "Comment dit-on '5' en français? (Số 5 trong tiếng Pháp là?)",
-                answer: "cinq",
-                options: ["quatre", "cinq", "six", "sept"]
-            },
-            {
-                question: "Quel est le nombre 'quinze'? (Số 'quinze' là số nào?)",
-                answer: "15",
-                options: ["12", "13", "14", "15"]
-            },
-            {
-                question: "Comment dit-on '20' en français? (Số 20 trong tiếng Pháp là?)",
-                answer: "vingt",
-                options: ["dix", "douze", "vingt", "seize"]
+                type: "multiple-choice",
+                question: "Comment dit-on 'Gia đình' en français?",
+                options: ["Le père", "La mère", "La famille", "Le frère"],
+                correct: 2
             }
         ]
     },
     {
         id: 3,
-        title: "Leçon 3: Les Couleurs (Màu sắc)",
+        title: "Les nombres - Các số",
         grammar: {
-            title: "Tính từ chỉ màu sắc",
+            title: "Ngữ pháp",
             content: [
-                "Trong tiếng Pháp, tính từ chỉ màu sắc phải phù hợp với danh từ về:",
-                "- Giống (masculin/féminin)",
-                "- Số (số ít/số nhiều)",
-                "",
-                "Ví dụ:",
-                "- Un ballon rouge (Một quả bóng màu đỏ)",
-                "- Une pomme rouge (Một quả táo màu đỏ)",
-                "- Des ballons rouges (Những quả bóng màu đỏ)",
-                "",
-                "Một số tính từ chỉ màu không thay đổi:",
-                "- orange (màu cam)",
-                "- marron (màu nâu)"
-            ]
-        },
-        vocabulary: {
-            title: "Từ vựng về màu sắc",
-            words: [
                 {
-                    word: "rouge",
-                    meaning: "màu đỏ",
-                    example: "Une pomme rouge. (Một quả táo đỏ.)"
-                },
-                {
-                    word: "bleu",
-                    meaning: "màu xanh dương",
-                    example: "Le ciel est bleu. (Bầu trời màu xanh.)"
-                },
-                {
-                    word: "jaune",
-                    meaning: "màu vàng",
-                    example: "Le soleil est jaune. (Mặt trời màu vàng.)"
-                },
-                {
-                    word: "vert",
-                    meaning: "màu xanh lá",
-                    example: "L'herbe est verte. (Cỏ màu xanh.)"
-                },
-                {
-                    word: "noir",
-                    meaning: "màu đen",
-                    example: "Un chat noir. (Một con mèo đen.)"
-                },
-                {
-                    word: "blanc",
-                    meaning: "màu trắng",
-                    example: "La neige est blanche. (Tuyết màu trắng.)"
-                },
-                {
-                    word: "rose",
-                    meaning: "màu hồng",
-                    example: "Une fleur rose. (Một bông hoa hồng.)"
-                },
-                {
-                    word: "violet",
-                    meaning: "màu tím",
-                    example: "Un raisin violet. (Một quả nho tím.)"
-                },
-                {
-                    word: "orange",
-                    meaning: "màu cam",
-                    example: "Une orange orange. (Một quả cam màu cam.)"
-                },
-                {
-                    word: "marron",
-                    meaning: "màu nâu",
-                    example: "Un ours marron. (Một con gấu nâu.)"
+                    topic: "Số đếm cơ bản",
+                    explanation: "Các số từ 0-20 trong tiếng Pháp:",
+                    examples: [
+                        "0 - zéro",
+                        "1 - un",
+                        "2 - deux",
+                        "3 - trois",
+                        "4 - quatre",
+                        "5 - cinq"
+                    ]
                 }
             ]
         },
+        vocabulary: [
+            {
+                word: "Un",
+                meaning: "Một",
+                example: "J'ai un livre.",
+                exampleMeaning: "Tôi có một quyển sách."
+            },
+            {
+                word: "Deux",
+                meaning: "Hai",
+                example: "Il y a deux chats.",
+                exampleMeaning: "Có hai con mèo."
+            },
+            {
+                word: "Trois",
+                meaning: "Ba",
+                example: "Trois enfants jouent.",
+                exampleMeaning: "Ba đứa trẻ đang chơi."
+            },
+            {
+                word: "Quatre",
+                meaning: "Bốn",
+                example: "J'ai quatre stylos.",
+                exampleMeaning: "Tôi có bốn cây bút."
+            },
+            {
+                word: "Cinq",
+                meaning: "Năm",
+                example: "Cinq pommes rouges.",
+                exampleMeaning: "Năm quả táo đỏ."
+            }
+        ],
         exercises: [
             {
-                question: "De quelle couleur est le ciel? (Bầu trời màu gì?)",
-                answer: "bleu",
-                options: ["rouge", "bleu", "vert", "jaune"]
+                type: "multiple-choice",
+                question: "Comment dit-on 'hai' en français?",
+                options: ["Un", "Deux", "Trois", "Quatre"],
+                correct: 1
+            }
+        ]
+    },
+    {
+        id: 4,
+        title: "Les couleurs - Các màu sắc",
+        grammar: {
+            title: "Ngữ pháp",
+            content: [
+                {
+                    topic: "Tính từ chỉ màu sắc",
+                    explanation: "Tính từ chỉ màu sắc trong tiếng Pháp phải phù hợp với danh từ về giới và số:",
+                    examples: [
+                        "Un ballon rouge - Một quả bóng màu đỏ",
+                        "Une fleur bleue - Một bông hoa màu xanh",
+                        "Des crayons verts - Những cây bút chì màu xanh lá"
+                    ]
+                }
+            ]
+        },
+        vocabulary: [
+            {
+                word: "Rouge",
+                meaning: "Màu đỏ",
+                example: "La pomme est rouge.",
+                exampleMeaning: "Quả táo màu đỏ."
             },
             {
-                question: "Comment dit-on 'màu đỏ' en français?",
-                answer: "rouge",
-                options: ["bleu", "rouge", "vert", "noir"]
+                word: "Bleu",
+                meaning: "Màu xanh dương",
+                example: "Le ciel est bleu.",
+                exampleMeaning: "Bầu trời màu xanh."
             },
             {
-                question: "De quelle couleur est la neige? (Tuyết màu gì?)",
-                answer: "blanc",
-                options: ["noir", "blanc", "rose", "violet"]
+                word: "Vert",
+                meaning: "Màu xanh lá",
+                example: "L'herbe est verte.",
+                exampleMeaning: "Cỏ màu xanh lá."
+            },
+            {
+                word: "Jaune",
+                meaning: "Màu vàng",
+                example: "Le soleil est jaune.",
+                exampleMeaning: "Mặt trời màu vàng."
+            },
+            {
+                word: "Noir",
+                meaning: "Màu đen",
+                example: "Le chat est noir.",
+                exampleMeaning: "Con mèo màu đen."
+            }
+        ],
+        exercises: [
+            {
+                type: "multiple-choice",
+                question: "Quelle est la couleur du ciel?",
+                options: ["Rouge", "Bleu", "Vert", "Jaune"],
+                correct: 1
+            }
+        ]
+    },
+    {
+        id: 5,
+        title: "Les animaux - Các con vật",
+        grammar: {
+            title: "Ngữ pháp",
+            content: [
+                {
+                    topic: "Danh từ chỉ động vật",
+                    explanation: "Trong tiếng Pháp, danh từ chỉ động vật có giống và số:",
+                    examples: [
+                        "Un chat (đực) / Une chatte (cái) - Con mèo",
+                        "Un chien (đực) / Une chienne (cái) - Con chó",
+                        "Les animaux - Các con vật"
+                    ]
+                }
+            ]
+        },
+        vocabulary: [
+            {
+                word: "Le chat",
+                meaning: "Con mèo",
+                example: "Le chat dort.",
+                exampleMeaning: "Con mèo đang ngủ."
+            },
+            {
+                word: "Le chien",
+                meaning: "Con chó",
+                example: "Le chien aboie.",
+                exampleMeaning: "Con chó sủa."
+            },
+            {
+                word: "L'oiseau",
+                meaning: "Con chim",
+                example: "L'oiseau vole.",
+                exampleMeaning: "Con chim bay."
+            },
+            {
+                word: "Le poisson",
+                meaning: "Con cá",
+                example: "Le poisson nage.",
+                exampleMeaning: "Con cá bơi."
+            },
+            {
+                word: "La grenouille",
+                meaning: "Con ếch",
+                example: "La grenouille saute.",
+                exampleMeaning: "Con ếch nhảy."
+            }
+        ],
+        exercises: [
+            {
+                type: "multiple-choice",
+                question: "Quel animal fait 'miaou'?",
+                options: ["Le chien", "Le chat", "L'oiseau", "Le poisson"],
+                correct: 1
+            }
+        ]
+    },
+    {
+        id: 6,
+        title: "Les fruits - Các loại trái cây",
+        grammar: {
+            title: "Ngữ pháp",
+            content: [
+                {
+                    topic: "Cách sử dụng mạo từ với trái cây",
+                    explanation: "Trong tiếng Pháp, trái cây thường đi kèm với mạo từ xác định hoặc không xác định:",
+                    examples: [
+                        "Une pomme - Một quả táo",
+                        "La banane - Quả chuối",
+                        "Des oranges - Những quả cam"
+                    ]
+                }
+            ]
+        },
+        vocabulary: [
+            {
+                word: "La pomme",
+                meaning: "Quả táo",
+                example: "J'aime les pommes rouges.",
+                exampleMeaning: "Tôi thích táo đỏ."
+            },
+            {
+                word: "La banane",
+                meaning: "Quả chuối",
+                example: "La banane est jaune.",
+                exampleMeaning: "Quả chuối màu vàng."
+            },
+            {
+                word: "L'orange",
+                meaning: "Quả cam",
+                example: "Je mange une orange.",
+                exampleMeaning: "Tôi ăn một quả cam."
+            },
+            {
+                word: "La fraise",
+                meaning: "Quả dâu tây",
+                example: "Les fraises sont rouges.",
+                exampleMeaning: "Những quả dâu tây màu đỏ."
+            },
+            {
+                word: "Le raisin",
+                meaning: "Quả nho",
+                example: "Le raisin est violet.",
+                exampleMeaning: "Quả nho màu tím."
+            }
+        ],
+        exercises: [
+            {
+                type: "multiple-choice",
+                question: "Quel fruit est jaune?",
+                options: ["La pomme", "La banane", "L'orange", "La fraise"],
+                correct: 1
             }
         ]
     }
@@ -299,31 +379,41 @@ let currentSection = null;
 
 // Initialize the app
 function initializeApp() {
-    createUnitGrid();
+    displayUnitGrid();
 }
 
-// Create the unit grid
-function createUnitGrid() {
+// Display the unit grid
+function displayUnitGrid() {
     const unitGrid = document.getElementById('unitGrid');
     unitGrid.innerHTML = '';
-
+    
     units.forEach(unit => {
         const unitCard = document.createElement('div');
         unitCard.className = 'unit-card';
-        unitCard.innerHTML = `<h3>${unit.title}</h3>`;
-        unitCard.onclick = () => showUnit(unit);
+        unitCard.innerHTML = `
+            <h3>Bài ${unit.id}: ${unit.title}</h3>
+            <p>Bấm vào để xem chi tiết</p>
+        `;
+        unitCard.onclick = () => showUnit(unit.id);
         unitGrid.appendChild(unitCard);
     });
 }
 
 // Show unit content
-function showUnit(unit) {
+function showUnit(unitId) {
+    const unit = units.find(u => u.id === unitId);
+    if (!unit) return;
+
+    // Set the current unit
     currentUnit = unit;
+
     document.getElementById('unitGrid').style.display = 'none';
     const unitContent = document.getElementById('unitContent');
     unitContent.classList.add('active');
-    document.getElementById('unitTitle').textContent = unit.title;
-    showSection('grammar');
+    document.getElementById('unitTitle').textContent = `Bài ${unit.id}: ${unit.title}`;
+    
+    // Mặc định hiển thị phần từ vựng
+    showSection('vocabulary');
 }
 
 // Show unit grid
@@ -341,60 +431,81 @@ function showSection(section) {
     
     switch(section) {
         case 'grammar':
-            showGrammarContent(contentArea);
+            displayGrammar(currentUnit.grammar);
             break;
         case 'vocabulary':
-            showVocabularyContent(contentArea);
+            displayVocabulary(currentUnit.vocabulary);
             break;
         case 'exercises':
-            showExercisesContent(contentArea);
+            displayExercises(currentUnit.exercises);
             break;
         case 'quiz':
-            showVocabularyQuiz(contentArea);
+            displayQuiz(currentUnit.vocabulary);
+            break;
+        case 'grammarReview':
+            displayGrammarReview();
+            break;
+        case 'vocabularyReview':
+            displayVocabularyReview();
             break;
     }
 }
 
-// Show grammar content
-function showGrammarContent(contentArea) {
-    const grammar = currentUnit.grammar;
-    contentArea.innerHTML = `
-        <h3>${grammar.title}</h3>
-        <div class="grammar-content">
-            ${grammar.content.map(line => `<p>${line}</p>`).join('')}
-        </div>
-    `;
+// Display grammar content
+function displayGrammar(grammar) {
+    const contentArea = document.getElementById('contentArea');
+    let html = `<h3>${grammar.title}</h3>`;
+    
+    grammar.content.forEach(item => {
+        html += `
+            <div class="grammar-item">
+                <h4>${item.topic}</h4>
+                <p>${item.explanation}</p>
+                <ul>
+                    ${item.examples.map(ex => `<li>${ex}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    });
+    
+    contentArea.innerHTML = html;
 }
 
-// Show vocabulary content
-function showVocabularyContent(contentArea) {
-    const vocabulary = currentUnit.vocabulary;
-    contentArea.innerHTML = `
-        <h3>${vocabulary.title}</h3>
-        <div class="vocabulary-list">
-            ${vocabulary.words.map(word => `
-                <div class="word-item mb-3">
-                    <h4>${word.word}</h4>
-                    <p><strong>Nghĩa:</strong> ${word.meaning}</p>
-                    <p><strong>Ví dụ:</strong> ${word.example}</p>
-                </div>
-            `).join('')}
-        </div>
-    `;
+// Display vocabulary content
+function displayVocabulary(vocabulary) {
+    const contentArea = document.getElementById('contentArea');
+    let html = `<h3>Từ vựng</h3>`;
+    
+    vocabulary.forEach(item => {
+        html += `
+            <div class="word-item">
+                <h4>${item.word}</h4>
+                <p><strong>Nghĩa:</strong> ${item.meaning}</p>
+                <p><strong>Ví dụ:</strong> ${item.example}</p>
+                <p><strong>Nghĩa ví dụ:</strong> ${item.exampleMeaning}</p>
+            </div>
+        `;
+    });
+    
+    contentArea.innerHTML = html;
 }
 
-// Show exercises content
-function showExercisesContent(contentArea) {
-    contentArea.innerHTML = `
+// Display exercises content
+function displayExercises(exercises) {
+    const contentArea = document.getElementById('contentArea');
+    let html = `
         <h3>Bài tập</h3>
         <form id="exerciseForm">
-            ${currentUnit.exercises.map((exercise, index) => `
+            ${exercises.map((exercise, index) => `
                 <div class="exercise-item mb-4">
                     <p><strong>Câu ${index + 1}:</strong> ${exercise.question}</p>
                     <div class="options">
                         ${exercise.options.map(option => `
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="q${index}" value="${option}" id="q${index}_${option}">
+                                <input class="form-check-input" type="radio" 
+                                       name="q${index}" 
+                                       value="${option}" 
+                                       id="q${index}_${option}">
                                 <label class="form-check-label" for="q${index}_${option}">
                                     ${option}
                                 </label>
@@ -407,16 +518,19 @@ function showExercisesContent(contentArea) {
         </form>
         <div id="exerciseResults" class="mt-3"></div>
     `;
+    
+    contentArea.innerHTML = html;
 }
 
-// Show vocabulary quiz
-function showVocabularyQuiz(contentArea) {
-    const vocabulary = currentUnit.vocabulary.words;
+// Display vocabulary quiz
+function displayQuiz(exercises) {
+    const vocabulary = currentUnit.vocabulary;
     const shuffledWords = [...vocabulary].sort(() => Math.random() - 0.5);
     
     currentUnit.shuffledQuizWords = shuffledWords;
     
-    contentArea.innerHTML = `
+    const contentArea = document.getElementById('contentArea');
+    let html = `
         <h3>Kiểm tra từ vựng</h3>
         <form id="quizForm">
             ${shuffledWords.map((word, index) => {
@@ -452,6 +566,59 @@ function showVocabularyQuiz(contentArea) {
         </form>
         <div id="quizResults" class="mt-3"></div>
     `;
+    
+    contentArea.innerHTML = html;
+}
+
+// Display grammar review
+function displayGrammarReview() {
+    const contentArea = document.getElementById('contentArea');
+    let html = `<h3>Ôn tập ngữ pháp</h3>`;
+    
+    units.forEach(unit => {
+        html += `
+            <div class="review-section mb-4">
+                <h4>Bài ${unit.id}: ${unit.title}</h4>
+                ${unit.grammar.content.map(item => `
+                    <div class="grammar-item">
+                        <h5>${item.topic}</h5>
+                        <p>${item.explanation}</p>
+                        <ul>
+                            ${item.examples.map(ex => `<li>${ex}</li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    });
+    
+    contentArea.innerHTML = html;
+}
+
+// Display vocabulary review
+function displayVocabularyReview() {
+    const contentArea = document.getElementById('contentArea');
+    let html = `<h3>Ôn tập từ vựng</h3>`;
+    
+    units.forEach(unit => {
+        html += `
+            <div class="review-section mb-4">
+                <h4>Bài ${unit.id}: ${unit.title}</h4>
+                <div class="vocabulary-list">
+                    ${unit.vocabulary.map(word => `
+                        <div class="word-item">
+                            <h5>${word.word}</h5>
+                            <p><strong>Nghĩa:</strong> ${word.meaning}</p>
+                            <p><strong>Ví dụ:</strong> ${word.example}</p>
+                            <p><strong>Nghĩa ví dụ:</strong> ${word.exampleMeaning}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    });
+    
+    contentArea.innerHTML = html;
 }
 
 // Check vocabulary quiz
