@@ -370,6 +370,354 @@ const units = [
                 correct: 1
             }
         ]
+    },
+    {
+        id: 7,
+        title: "Les vêtements - Quần áo",
+        grammar: {
+            title: "Ngữ pháp",
+            content: [
+                {
+                    topic: "Tính từ chỉ định",
+                    explanation: "Trong tiếng Pháp, tính từ chỉ định phải phù hợp với danh từ về giới và số:",
+                    examples: [
+                        "Ce pantalon - Cái quần này",
+                        "Cette robe - Cái váy này",
+                        "Ces chaussures - Những đôi giày này"
+                    ]
+                }
+            ]
+        },
+        vocabulary: [
+            {
+                word: "Le pantalon",
+                meaning: "Cái quần",
+                example: "Je porte un pantalon bleu.",
+                exampleMeaning: "Tôi mặc một cái quần màu xanh."
+            },
+            {
+                word: "La robe",
+                meaning: "Cái váy",
+                example: "Elle porte une belle robe.",
+                exampleMeaning: "Cô ấy mặc một cái váy đẹp."
+            },
+            {
+                word: "Le t-shirt",
+                meaning: "Áo phông",
+                example: "J'aime ce t-shirt rouge.",
+                exampleMeaning: "Tôi thích cái áo phông đỏ này."
+            },
+            {
+                word: "Les chaussures",
+                meaning: "Giày dép",
+                example: "Mes chaussures sont noires.",
+                exampleMeaning: "Giày của tôi màu đen."
+            },
+            {
+                word: "Le chapeau",
+                meaning: "Cái mũ",
+                example: "Il porte un chapeau.",
+                exampleMeaning: "Anh ấy đội một cái mũ."
+            }
+        ],
+        exercises: [
+            {
+                type: "multiple-choice",
+                question: "Comment dit-on 'cái váy' en français?",
+                options: ["Le pantalon", "La robe", "Le t-shirt", "Les chaussures"],
+                correct: 1
+            }
+        ]
+    },
+    {
+        id: 8,
+        title: "L'école - Trường học",
+        grammar: {
+            title: "Ngữ pháp",
+            content: [
+                {
+                    topic: "Động từ 'être' (là)",
+                    explanation: "Động từ 'être' là một trong những động từ quan trọng nhất trong tiếng Pháp:",
+                    examples: [
+                        "Je suis élève - Tôi là học sinh",
+                        "Tu es professeur - Bạn là giáo viên",
+                        "Il/Elle est dans la classe - Anh ấy/Cô ấy ở trong lớp"
+                    ]
+                }
+            ]
+        },
+        vocabulary: [
+            {
+                word: "L'école",
+                meaning: "Trường học",
+                example: "Je vais à l'école.",
+                exampleMeaning: "Tôi đi học."
+            },
+            {
+                word: "La classe",
+                meaning: "Lớp học",
+                example: "La classe est grande.",
+                exampleMeaning: "Lớp học rộng."
+            },
+            {
+                word: "Le professeur",
+                meaning: "Giáo viên",
+                example: "Le professeur explique la leçon.",
+                exampleMeaning: "Giáo viên giải thích bài học."
+            },
+            {
+                word: "Le livre",
+                meaning: "Quyển sách",
+                example: "J'ai un livre de français.",
+                exampleMeaning: "Tôi có một quyển sách tiếng Pháp."
+            },
+            {
+                word: "Le cahier",
+                meaning: "Vở",
+                example: "Mon cahier est bleu.",
+                exampleMeaning: "Vở của tôi màu xanh."
+            }
+        ],
+        exercises: [
+            {
+                type: "multiple-choice",
+                question: "Où va l'élève?",
+                options: ["À la maison", "À l'école", "Au parc", "Au cinéma"],
+                correct: 1
+            }
+        ]
+    },
+    {
+        id: 9,
+        title: "La maison - Ngôi nhà",
+        grammar: {
+            title: "Ngữ pháp",
+            content: [
+                {
+                    topic: "Giới từ chỉ vị trí",
+                    explanation: "Các giới từ chỉ vị trí trong tiếng Pháp:",
+                    examples: [
+                        "Dans la chambre - Trong phòng ngủ",
+                        "Sur la table - Trên bàn",
+                        "Sous le lit - Dưới giường"
+                    ]
+                }
+            ]
+        },
+        vocabulary: [
+            {
+                word: "La maison",
+                meaning: "Ngôi nhà",
+                example: "Ma maison est grande.",
+                exampleMeaning: "Nhà tôi rộng."
+            },
+            {
+                word: "La chambre",
+                meaning: "Phòng ngủ",
+                example: "Je dors dans ma chambre.",
+                exampleMeaning: "Tôi ngủ trong phòng ngủ của tôi."
+            },
+            {
+                word: "La cuisine",
+                meaning: "Nhà bếp",
+                example: "Ma mère est dans la cuisine.",
+                exampleMeaning: "Mẹ tôi đang ở trong bếp."
+            },
+            {
+                word: "Le salon",
+                meaning: "Phòng khách",
+                example: "Nous regardons la télé dans le salon.",
+                exampleMeaning: "Chúng tôi xem tivi trong phòng khách."
+            },
+            {
+                word: "La salle de bain",
+                meaning: "Phòng tắm",
+                example: "La salle de bain est petite.",
+                exampleMeaning: "Phòng tắm nhỏ."
+            }
+        ],
+        exercises: [
+            {
+                type: "multiple-choice",
+                question: "Où est-ce qu'on dort?",
+                options: ["Dans la cuisine", "Dans la chambre", "Dans le salon", "Dans la salle de bain"],
+                correct: 1
+            }
+        ]
+    },
+    {
+        id: 10,
+        title: "Les activités - Các hoạt động",
+        grammar: {
+            title: "Ngữ pháp",
+            content: [
+                {
+                    topic: "Động từ nhóm 1 (-er)",
+                    explanation: "Các động từ nhóm 1 trong tiếng Pháp kết thúc bằng -er:",
+                    examples: [
+                        "Jouer (chơi) - Je joue, tu joues, il/elle joue",
+                        "Danser (nhảy) - Je danse, tu danses, il/elle danse",
+                        "Chanter (hát) - Je chante, tu chantes, il/elle chante"
+                    ]
+                }
+            ]
+        },
+        vocabulary: [
+            {
+                word: "Jouer",
+                meaning: "Chơi",
+                example: "J'aime jouer au football.",
+                exampleMeaning: "Tôi thích chơi bóng đá."
+            },
+            {
+                word: "Danser",
+                meaning: "Nhảy múa",
+                example: "Elle danse très bien.",
+                exampleMeaning: "Cô ấy nhảy rất đẹp."
+            },
+            {
+                word: "Chanter",
+                meaning: "Hát",
+                example: "Nous chantons ensemble.",
+                exampleMeaning: "Chúng tôi hát cùng nhau."
+            },
+            {
+                word: "Dessiner",
+                meaning: "Vẽ",
+                example: "Il dessine un chat.",
+                exampleMeaning: "Anh ấy vẽ một con mèo."
+            },
+            {
+                word: "Nager",
+                meaning: "Bơi",
+                example: "J'aime nager dans la piscine.",
+                exampleMeaning: "Tôi thích bơi ở hồ bơi."
+            }
+        ],
+        exercises: [
+            {
+                type: "multiple-choice",
+                question: "Que fait-elle quand elle écoute de la musique?",
+                options: ["Elle nage", "Elle danse", "Elle dessine", "Elle chante"],
+                correct: 1
+            }
+        ]
+    },
+    {
+        id: 11,
+        title: "La nourriture - Thức ăn",
+        grammar: {
+            title: "Ngữ pháp",
+            content: [
+                {
+                    topic: "Mạo từ không xác định (un, une, des)",
+                    explanation: "Cách sử dụng mạo từ không xác định với thức ăn:",
+                    examples: [
+                        "Un sandwich - Một cái bánh mì kẹp",
+                        "Une pomme - Một quả táo",
+                        "Des légumes - Những rau củ"
+                    ]
+                }
+            ]
+        },
+        vocabulary: [
+            {
+                word: "Le pain",
+                meaning: "Bánh mì",
+                example: "Je mange du pain.",
+                exampleMeaning: "Tôi ăn bánh mì."
+            },
+            {
+                word: "Le riz",
+                meaning: "Cơm",
+                example: "Le riz est bon.",
+                exampleMeaning: "Cơm ngon."
+            },
+            {
+                word: "La soupe",
+                meaning: "Súp",
+                example: "J'aime la soupe chaude.",
+                exampleMeaning: "Tôi thích súp nóng."
+            },
+            {
+                word: "Le poulet",
+                meaning: "Thịt gà",
+                example: "Le poulet est délicieux.",
+                exampleMeaning: "Thịt gà rất ngon."
+            },
+            {
+                word: "Les légumes",
+                meaning: "Rau củ",
+                example: "Je mange beaucoup de légumes.",
+                exampleMeaning: "Tôi ăn nhiều rau củ."
+            }
+        ],
+        exercises: [
+            {
+                type: "multiple-choice",
+                question: "Qu'est-ce qui est chaud?",
+                options: ["Le pain", "La soupe", "Le riz", "Les légumes"],
+                correct: 1
+            }
+        ]
+    },
+    {
+        id: 12,
+        title: "Le temps - Thời tiết",
+        grammar: {
+            title: "Ngữ pháp",
+            content: [
+                {
+                    topic: "Cấu trúc 'Il fait'",
+                    explanation: "Để nói về thời tiết, chúng ta thường dùng cấu trúc 'Il fait':",
+                    examples: [
+                        "Il fait chaud - Trời nóng",
+                        "Il fait froid - Trời lạnh",
+                        "Il fait beau - Trời đẹp"
+                    ]
+                }
+            ]
+        },
+        vocabulary: [
+            {
+                word: "Le soleil",
+                meaning: "Mặt trời",
+                example: "Le soleil brille.",
+                exampleMeaning: "Mặt trời tỏa sáng."
+            },
+            {
+                word: "La pluie",
+                meaning: "Mưa",
+                example: "Il pleut aujourd'hui.",
+                exampleMeaning: "Hôm nay trời mưa."
+            },
+            {
+                word: "Le vent",
+                meaning: "Gió",
+                example: "Le vent est fort.",
+                exampleMeaning: "Gió mạnh."
+            },
+            {
+                word: "La neige",
+                meaning: "Tuyết",
+                example: "Il neige en hiver.",
+                exampleMeaning: "Trời có tuyết vào mùa đông."
+            },
+            {
+                word: "Les nuages",
+                meaning: "Mây",
+                example: "Il y a des nuages dans le ciel.",
+                exampleMeaning: "Có mây trên bầu trời."
+            }
+        ],
+        exercises: [
+            {
+                type: "multiple-choice",
+                question: "Quel temps fait-il quand le soleil brille?",
+                options: ["Il pleut", "Il fait beau", "Il neige", "Il fait froid"],
+                correct: 1
+            }
+        ]
     }
 ];
 
