@@ -633,7 +633,7 @@ const units = [
                     ]
                 },
                 {
-                    topic: "Cách diễn đạt sở thích về trái cây",
+                    topic: "Cách diễn đạt sở thích với trái cây",
                     explanation: "Để nói về sở thích đối với trái cây, chúng ta dùng động từ 'aimer':",
                     examples: [
                         "J'aime les pommes - Tôi thích táo",
@@ -1039,7 +1039,21 @@ const units = [
                     examples: [
                         "Dans la chambre - Trong phòng ngủ",
                         "Sur la table - Trên bàn",
-                        "Sous le lit - Dưới giường"
+                        "Sous le lit - Dưới giường",
+                        "À côté de la fenêtre - Bên cạnh cửa sổ",
+                        "Devant la maison - Trước nhà",
+                        "Derrière le jardin - Sau vườn"
+                    ]
+                },
+                {
+                    topic: "Động từ 'Habiter' (ở/sống)",
+                    explanation: "Động từ 'habiter' được dùng để nói về nơi ở:",
+                    examples: [
+                        "J'habite dans une maison - Tôi sống trong một ngôi nhà",
+                        "Il habite dans un appartement - Anh ấy sống trong một căn hộ",
+                        "Nous habitons au premier étage - Chúng tôi sống ở tầng một",
+                        "Ils habitent près du parc - Họ sống gần công viên",
+                        "Tu habites loin de l'école - Bạn sống xa trường"
                     ]
                 }
             ]
@@ -1048,32 +1062,74 @@ const units = [
             {
                 word: "La maison",
                 meaning: "Ngôi nhà",
-                example: "Ma maison est grande.",
-                exampleMeaning: "Nhà tôi rộng."
+                example: "Ma maison est grande et belle.",
+                exampleMeaning: "Nhà tôi to và đẹp."
             },
             {
                 word: "La chambre",
                 meaning: "Phòng ngủ",
-                example: "Je dors dans ma chambre.",
-                exampleMeaning: "Tôi ngủ trong phòng ngủ của tôi."
+                example: "Ma chambre est au deuxième étage.",
+                exampleMeaning: "Phòng ngủ của tôi ở tầng hai."
             },
             {
                 word: "La cuisine",
                 meaning: "Nhà bếp",
-                example: "Ma mère est dans la cuisine.",
-                exampleMeaning: "Mẹ tôi đang ở trong bếp."
+                example: "Ma mère cuisine dans la cuisine.",
+                exampleMeaning: "Mẹ tôi nấu ăn trong bếp."
             },
             {
                 word: "Le salon",
                 meaning: "Phòng khách",
-                example: "Nous regardons la télé dans le salon.",
-                exampleMeaning: "Chúng tôi xem tivi trong phòng khách."
+                example: "La famille se réunit dans le salon.",
+                exampleMeaning: "Gia đình tụ họp trong phòng khách."
             },
             {
                 word: "La salle de bain",
                 meaning: "Phòng tắm",
-                example: "La salle de bain est petite.",
-                exampleMeaning: "Phòng tắm nhỏ."
+                example: "Je me lave dans la salle de bain.",
+                exampleMeaning: "Tôi tắm trong phòng tắm."
+            },
+            {
+                word: "Le jardin",
+                meaning: "Khu vườn",
+                example: "Les fleurs poussent dans le jardin.",
+                exampleMeaning: "Hoa mọc trong vườn."
+            },
+            {
+                word: "La fenêtre",
+                meaning: "Cửa sổ",
+                example: "J'ouvre la fenêtre le matin.",
+                exampleMeaning: "Tôi mở cửa sổ vào buổi sáng."
+            },
+            {
+                word: "La porte",
+                meaning: "Cửa ra vào",
+                example: "Je ferme la porte à clé.",
+                exampleMeaning: "Tôi khóa cửa."
+            },
+            {
+                word: "L'escalier",
+                meaning: "Cầu thang",
+                example: "Je monte l'escalier.",
+                exampleMeaning: "Tôi lên cầu thang."
+            },
+            {
+                word: "Le garage",
+                meaning: "Nhà để xe",
+                example: "La voiture est dans le garage.",
+                exampleMeaning: "Xe hơi ở trong nhà để xe."
+            },
+            {
+                word: "Le balcon",
+                meaning: "Ban công",
+                example: "Je lis sur le balcon.",
+                exampleMeaning: "Tôi đọc sách trên ban công."
+            },
+            {
+                word: "La cave",
+                meaning: "Tầng hầm",
+                example: "Nous gardons le vin dans la cave.",
+                exampleMeaning: "Chúng tôi giữ rượu trong tầng hầm."
             }
         ],
         exercises: [
@@ -1082,6 +1138,30 @@ const units = [
                 question: "Où est-ce qu'on dort?",
                 options: ["Dans la cuisine", "Dans la chambre", "Dans le salon", "Dans la salle de bain"],
                 correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Où est-ce qu'on cuisine?",
+                options: ["Dans le salon", "Dans la chambre", "Dans la cuisine", "Dans le garage"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Où est-ce qu'on gare la voiture?",
+                options: ["Dans la cave", "Dans le salon", "Dans le jardin", "Dans le garage"],
+                correct: 3
+            },
+            {
+                type: "multiple-choice",
+                question: "Où est-ce qu'on peut voir les fleurs?",
+                options: ["Dans la cuisine", "Dans le jardin", "Dans la chambre", "Dans le garage"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Par où est-ce qu'on monte à l'étage?",
+                options: ["Par la porte", "Par la fenêtre", "Par l'escalier", "Par le balcon"],
+                correct: 2
             }
         ]
     },
@@ -1093,11 +1173,25 @@ const units = [
             content: [
                 {
                     topic: "Động từ nhóm 1 (-er)",
-                    explanation: "Các động từ nhóm 1 trong tiếng Pháp kết thúc bằng -er:",
+                    explanation: "Các động từ nhóm 1 trong tiếng Pháp kết thúc bằng -er và được chia như sau:",
                     examples: [
-                        "Jouer (chơi) - Je joue, tu joues, il/elle joue",
-                        "Danser (nhảy) - Je danse, tu danses, il/elle danse",
-                        "Chanter (hát) - Je chante, tu chantes, il/elle chante"
+                        "Je (tôi): -e",
+                        "Tu (bạn): -es",
+                        "Il/Elle (anh ấy/cô ấy): -e",
+                        "Nous (chúng tôi): -ons",
+                        "Vous (các bạn): -ez",
+                        "Ils/Elles (họ): -ent"
+                    ]
+                },
+                {
+                    topic: "Cách diễn đạt sở thích với hoạt động",
+                    explanation: "Để nói về sở thích đối với các hoạt động, chúng ta dùng cấu trúc 'aimer + verbe':",
+                    examples: [
+                        "J'aime danser - Tôi thích nhảy múa",
+                        "Je n'aime pas courir - Tôi không thích chạy",
+                        "Il adore nager - Anh ấy rất thích bơi",
+                        "Elle préfère lire - Cô ấy thích đọc sách hơn",
+                        "Nous aimons jouer au football - Chúng tôi thích chơi bóng đá"
                     ]
                 }
             ]
@@ -1132,6 +1226,48 @@ const units = [
                 meaning: "Bơi",
                 example: "J'aime nager dans la piscine.",
                 exampleMeaning: "Tôi thích bơi ở hồ bơi."
+            },
+            {
+                word: "Courir",
+                meaning: "Chạy",
+                example: "Je cours tous les matins.",
+                exampleMeaning: "Tôi chạy bộ mỗi sáng."
+            },
+            {
+                word: "Lire",
+                meaning: "Đọc sách",
+                example: "Elle lit un livre intéressant.",
+                exampleMeaning: "Cô ấy đọc một quyển sách thú vị."
+            },
+            {
+                word: "Écrire",
+                meaning: "Viết",
+                example: "J'écris une lettre à mon ami.",
+                exampleMeaning: "Tôi viết thư cho bạn tôi."
+            },
+            {
+                word: "Marcher",
+                meaning: "Đi bộ",
+                example: "Nous marchons dans le parc.",
+                exampleMeaning: "Chúng tôi đi bộ trong công viên."
+            },
+            {
+                word: "Cuisiner",
+                meaning: "Nấu ăn",
+                example: "Ma mère cuisine très bien.",
+                exampleMeaning: "Mẹ tôi nấu ăn rất ngon."
+            },
+            {
+                word: "Dormir",
+                meaning: "Ngủ",
+                example: "Je dors huit heures par nuit.",
+                exampleMeaning: "Tôi ngủ tám tiếng mỗi đêm."
+            },
+            {
+                word: "Étudier",
+                meaning: "Học",
+                example: "J'étudie le français.",
+                exampleMeaning: "Tôi học tiếng Pháp."
             }
         ],
         exercises: [
@@ -1140,6 +1276,30 @@ const units = [
                 question: "Que fait-elle quand elle écoute de la musique?",
                 options: ["Elle nage", "Elle danse", "Elle dessine", "Elle chante"],
                 correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Quelle activité fait-on dans la piscine?",
+                options: ["Courir", "Danser", "Nager", "Dormir"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Que fait-on avec un livre?",
+                options: ["Cuisiner", "Lire", "Danser", "Nager"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Quelle activité fait-on le matin pour faire du sport?",
+                options: ["Dormir", "Lire", "Courir", "Chanter"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Que fait-on dans la cuisine?",
+                options: ["Dormir", "Nager", "Danser", "Cuisiner"],
+                correct: 3
             }
         ]
     },
@@ -1492,16 +1652,14 @@ function displayVocabularyReview() {
         html += `
             <div class="review-section mb-4">
                 <h4>Bài ${unit.id}: ${unit.title}</h4>
-                <div class="vocabulary-list">
-                    ${unit.vocabulary.map(word => `
-                        <div class="word-item">
-                            <h5>${word.word}</h5>
-                            <p><strong>Nghĩa:</strong> ${word.meaning}</p>
-                            <p><strong>Ví dụ:</strong> ${word.example}</p>
-                            <p><strong>Nghĩa ví dụ:</strong> ${word.exampleMeaning}</p>
-                        </div>
-                    `).join('')}
-                </div>
+                ${unit.vocabulary.map(item => `
+                    <div class="word-item">
+                        <h5>${item.word}</h5>
+                        <p><strong>Nghĩa:</strong> ${item.meaning}</p>
+                        <p><strong>Ví dụ:</strong> ${item.example}</p>
+                        <p><strong>Nghĩa ví dụ:</strong> ${item.exampleMeaning}</p>
+                    </div>
+                `).join('')}
             </div>
         `;
     });
@@ -1509,58 +1667,67 @@ function displayVocabularyReview() {
     contentArea.innerHTML = html;
 }
 
-// Check vocabulary quiz
+// Check vocabulary quiz answers
 function checkVocabularyQuiz() {
-    let correct = 0;
-    const results = document.getElementById('quizResults');
-    const shuffledWords = currentUnit.shuffledQuizWords;
+    const quizForm = document.getElementById('quizForm');
+    const quizResults = document.getElementById('quizResults');
+    let correctCount = 0;
     
-    shuffledWords.forEach((word, index) => {
-        const selected = document.querySelector(`input[name="quiz${index}"]:checked`);
-        const feedback = document.querySelector(`#quizForm .quiz-item:nth-child(${index + 1}) .feedback`);
+    currentUnit.shuffledQuizWords.forEach((word, index) => {
+        const selectedAnswer = quizForm.querySelector(`input[name="quiz${index}"]:checked`);
+        const feedbackDiv = quizForm.querySelector(`.quiz-item:nth-child(${index + 1}) .feedback`);
         
-        if (selected) {
-            if (selected.value === word.word) {
-                correct++;
-                feedback.innerHTML = '<span class="text-success">Chính xác!</span>';
+        if (selectedAnswer) {
+            if (selectedAnswer.value === word.word) {
+                correctCount++;
+                feedbackDiv.innerHTML = '<span class="text-success">✓ Đúng!</span>';
             } else {
-                feedback.innerHTML = `<span class="text-danger">Chưa đúng. Đáp án đúng là: ${word.word}</span>`;
+                feedbackDiv.innerHTML = `<span class="text-danger">✗ Sai. Đáp án đúng là: ${word.word}</span>`;
             }
-        } else {
-            feedback.innerHTML = '<span class="text-warning">Bạn chưa chọn đáp án!</span>';
         }
     });
-
-    results.innerHTML = `
+    
+    const score = Math.round((correctCount / currentUnit.shuffledQuizWords.length) * 100);
+    quizResults.innerHTML = `
         <div class="alert alert-info">
-            Bạn đã làm đúng ${correct}/${shuffledWords.length} câu!
+            Kết quả: ${correctCount}/${currentUnit.shuffledQuizWords.length} (${score}%)
         </div>
     `;
 }
 
-// Check exercises
+// Check exercise answers
 function checkExercises() {
-    let correct = 0;
-    const results = document.getElementById('exerciseResults');
+    const exerciseForm = document.getElementById('exerciseForm');
+    const exerciseResults = document.getElementById('exerciseResults');
+    let correctCount = 0;
     
     currentUnit.exercises.forEach((exercise, index) => {
-        const selected = document.querySelector(`input[name="q${index}"]:checked`);
-        if (selected) {
-            // Chuyển đổi giá trị index của đáp án được chọn thành số
-            const selectedIndex = exercise.options.indexOf(selected.value);
-            // So sánh với thuộc tính correct của bài tập
-            if (selectedIndex === exercise.correct) {
-                correct++;
-            }
+        const selectedAnswer = exerciseForm.querySelector(`input[name="q${index}"]:checked`);
+        if (selectedAnswer && selectedAnswer.value === exercise.options[exercise.correct]) {
+            correctCount++;
         }
     });
-
-    results.innerHTML = `
+    
+    const score = Math.round((correctCount / currentUnit.exercises.length) * 100);
+    exerciseResults.innerHTML = `
         <div class="alert alert-info">
-            Bạn đã làm đúng ${correct}/${currentUnit.exercises.length} câu!
+            Kết quả: ${correctCount}/${currentUnit.exercises.length} (${score}%)
         </div>
     `;
 }
 
-// Initialize the app when the page loads
-document.addEventListener('DOMContentLoaded', initializeApp); 
+// Initialize when document is ready
+document.addEventListener('DOMContentLoaded', function() {
+    initializeApp();
+    
+    // Add event listeners for navigation buttons
+    document.querySelectorAll('.nav-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const section = button.getAttribute('data-section');
+            showSection(section);
+        });
+    });
+    
+    // Add event listener for back button
+    document.getElementById('backButton').addEventListener('click', showUnitGrid);
+});
