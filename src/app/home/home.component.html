@@ -5,7 +5,7 @@
   (onContextMenu)='onAppContextMenu($event)'
   (onBtnAppAction)='onBtnAppAction($event)'
   (onAppBarDoubleClick)='onAppBarDoubleClick($event)'
-  (onBtnAddApp)='appSearch.show()'
+  (onBtnAddApp)='onBtnAddApp()'
   (onBtnAIAssistant)='onBtnAIAssistant()'
   (onBtnSettings)='toggleSettings()'>
 </app-bar>
@@ -26,6 +26,7 @@
 </app-nav>
 
 <div class="home-container">
+  <blank-page></blank-page>
   <app-webview #appWebview [class.ai-assistant-open]="(aiAssistantService.isOpen$ | async)"
     [tabIds]='(tabIds$ | async) ?? []' [currentTab]='(currentTab$ | async) ?? { id: 0, appId: 0, title: "", url: "", hostName: "", icon: "" }' (onNewUrl)='onNewUrl($event)' 
     [screenWidth]='screenWidth'

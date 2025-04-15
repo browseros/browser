@@ -22,10 +22,28 @@ app-nav {
 }
 
 .home-container {
-  flex: 1;
   position: relative;
-  background: #fff;
+  height: calc(100vh - 64px); // Subtract app bar height
+  width: 100%;
   overflow: hidden;
+
+  blank-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;  // Higher z-index to appear above webview when visible
+  }
+
+  app-webview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
 }
 
 app-webview {

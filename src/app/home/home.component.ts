@@ -715,4 +715,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   toggleSettings() {
     this.showSettings = !this.showSettings;
   }
+
+  onBtnAddApp() {
+    // Only show blank page
+    this.store.dispatch(new appActions.ShowBlankPageAction());
+  }
 }

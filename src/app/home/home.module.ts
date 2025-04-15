@@ -12,6 +12,7 @@ import { WebviewComponent } from './app-webview/web-view.component';
 import { AppSearchComponent } from './app-search/app-search.component';
 import { AIAssistantComponent } from '../components/ai-assistant/ai-assistant.component';
 import { ApiKeysComponent } from '../components/api-keys/api-keys.component';
+import { BlankPageComponent } from './blank-page/blank-page.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ApiKeysComponent } from '../components/api-keys/api-keys.component';
     WebviewComponent,
     AppSearchComponent,
     AIAssistantComponent,
-    ApiKeysComponent
+    ApiKeysComponent,
+    BlankPageComponent
   ],
   imports: [
     CommonModule,

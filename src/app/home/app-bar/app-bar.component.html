@@ -21,8 +21,8 @@
                    placeholder="Search URL or App"
                    [value]="currentTab?.url || ''"
                    (click)="onEnteredSearchBox.emit()"/>
-            <button class="add-tab-button" (click)="onEnteredSearchBox.emit()" title="New Tab">
-                <i class="bi bi-plus-lg"></i>
+            <button type="button" class="btn btn-add" (click)="onBtnAddApp.emit()" title="Add new app">
+                <i class="bi bi-plus"></i>
             </button>
         </div>
     </div>
@@ -48,24 +48,26 @@
                     </div>
                     
                     <!-- App Tabs -->
-                    <div class="app-tabs">
-                        <ng-container *ngFor="let tab of tabs">
-                            <div *ngIf="tab.appId === app.id"
-                                 class="tab-item"
+                    <div class="app-tabs" *ngIf="currentApp?.id === app.id">
+                        <div class="tab-list">
+                            <div class="tab-item"
+                                 *ngFor="let tab of getAppTabs(app)"
                                  [class.active]="currentTab?.id === tab.id"
-                                 [style.display]="currentApp?.id === app.id ? 'flex' : 'none'"
                                  (click)="handleTabSelect(tab)"
-                                 (contextmenu)="handleTabContextMenu(tab)">
+                                 (contextmenu)="handleTabContextMenu($event, tab)">
                                 <img [src]="tab.icon" *ngIf="tab.icon" class="tab-icon" alt=""/>
-                                <i *ngIf="!tab.icon" class="bi bi-globe tab-icon"></i>
-                                <span class="tab-title">{{tab.title || 'New Tab'}}</span>
-                                <button class="tab-close" 
+                                <i *ngIf="!tab.icon" class="bi bi-file-earmark tab-icon"></i>
+                                <span class="tab-title">{{tab.title || tab.hostName}}</span>
+                                <button class="tab-close"
                                         (click)="handleTabClose($event, tab)"
                                         title="Close tab">
                                     <i class="bi bi-x"></i>
                                 </button>
                             </div>
-                        </ng-container>
+                            <button class="new-tab-btn" (click)="handleNewTab()" title="New Tab">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </ng-container>

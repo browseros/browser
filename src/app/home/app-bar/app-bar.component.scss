@@ -168,7 +168,7 @@
         }
     }
 
-    .add-tab-button {
+    .btn-add {
         position: absolute;
         right: 8px;
         top: 50%;
@@ -184,6 +184,7 @@
         color: #5f6368;
         cursor: pointer;
         transition: all 0.15s ease;
+        padding: 0;
         
         &:hover {
             background: rgba(32, 33, 36, 0.04);
@@ -497,5 +498,42 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+.tab-list {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.new-tab-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #5f6368;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.05);
+        color: #1a73e8;
+    }
+
+    i {
+        font-size: 14px;
     }
 }

@@ -37,6 +37,7 @@ export const CLEAR_SUGGESTIONS = '[App] Clear Suggestions';
 export const GET_SUGGESTIONS = '[App] Get Suggestions';
 export const GET_SUGGESTIONS_COMPLETE = '[App] Get Suggestions Complete';
 export const ADD_APP = '[App] Add App';
+export const SHOW_BLANK_PAGE = '[App] Show Blank Page';
 
 // tslint:disable-next-line:max-classes-per-file
 export class GotoAppAction implements Action {
@@ -269,6 +270,11 @@ export class AddAppAction implements Action {
   constructor(public payload: IApp) { }
 }
 
+// tslint:disable-next-line:max-classes-per-file
+export class ShowBlankPageAction implements Action {
+  public readonly type = SHOW_BLANK_PAGE;
+}
+
 export type Actions =
   | GotoAppAction
   | AddTabAction
@@ -302,4 +308,5 @@ export type Actions =
   | ClearSuggestionsAction
   | GetSuggestionsAction
   | GetSuggestionsCompleteAction
-  | AddAppAction;
+  | AddAppAction
+  | ShowBlankPageAction;

@@ -120,7 +120,8 @@ export class AppBarComponent {
         this.onTabClose.emit(tab);
     }
 
-    public handleTabContextMenu(tab: ITab): void {
+    public handleTabContextMenu(event: MouseEvent, tab: ITab): void {
+        event.preventDefault();
         const menu = new Menu();
         menu.append(new MenuItem({
             label: 'Close tab',
@@ -257,14 +258,7 @@ export class AppBarComponent {
             label: 'New Tab',
             accelerator: 'CmdOrCtrl+T',
             click: () => {
-                const newTab: ITab = {
-                    id: 0,
-                    appId: 0,
-                    hostName: 'New Tab',
-                    title: 'New Tab',
-                    url: 'about:blank'
-                };
-                this.store.dispatch(new appActions.AddTabAction(newTab));
+                this.handleNewTab();
             }
         }));
         fileMenu.append(new MenuItem({
@@ -903,5 +897,17 @@ export class AppBarComponent {
         
         // Close the recent apps dropdown
         this.showRecentApps = false;
+    }
+
+    public handleNewTab(): void {
+        const newTab: ITab = {
+            id: 0,  // Will be set by the reducer
+            appId: 0,  // Will be set by the reducer
+            title: 'New Tab',
+            url: 'about:blank',
+            hostName: 'New Tab',
+            icon: ''
+        };
+        this.store.dispatch(new appActions.AddTabAction(newTab));
     }
 }

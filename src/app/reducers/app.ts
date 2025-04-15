@@ -362,6 +362,13 @@ export function reducer(state = initialState, action: Actions): State {
       };
     }
 
+    case app.SHOW_BLANK_PAGE: {
+      return Object.assign({}, state, {
+        currentApp: null,
+        currentTab: null
+      });
+    }
+
     default: {
       return state;
     }

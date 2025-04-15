@@ -1,0 +1,35 @@
+<div class="blank-page" *ngIf="isVisible">
+    <div class="content">
+        <div class="welcome-section">
+            <h1>Welcome to Browser OS</h1>
+            <p>Open a new tab or choose from your recent applications</p>
+        </div>
+
+        <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text" placeholder="Search or enter web address" (keyup.enter)="handleSearch($event)">
+        </div>
+
+        <div class="section-title">
+            <i class="bi bi-clock-history"></i>
+            <h2>Recent Applications</h2>
+        </div>
+
+        <div class="recent-apps-grid">
+            <div class="app-item" *ngFor="let app of recentApps" (click)="handleAppClick(app)">
+                <div class="app-icon">
+                    <img [src]="app.icon" *ngIf="app.icon" [alt]="app.title">
+                    <i *ngIf="!app.icon" class="bi bi-window"></i>
+                </div>
+                <div class="app-title">{{app.title || app.host}}</div>
+                <div class="app-url">{{app.host}}</div>
+            </div>
+
+            <!-- Empty state when no recent apps -->
+            <div class="empty-state" *ngIf="recentApps.length === 0">
+                <i class="bi bi-clock"></i>
+                <p>Your recent applications will appear here</p>
+            </div>
+        </div>
+    </div>
+</div> 
