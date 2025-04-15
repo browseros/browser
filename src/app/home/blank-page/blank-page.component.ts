@@ -41,9 +41,16 @@ export class BlankPageComponent implements OnInit, OnDestroy {
                 tabs: state.app.tabs || []
             })).pipe(
                 map(({ currentTab, currentApp, tabs }) => {
-                    // Only show blank page if there are no tabs at all
-                    const shouldShow = tabs.length === 0;
-                    console.log('[BlankPage] Visibility check:', { shouldShow, tabsCount: tabs.length });
+                    // Show blank page if:
+                    // 1. No tabs exist at all, OR
+                    // 2. No current tab is selected (+ button clicked)
+                    const shouldShow = tabs.length === 0 || !currentTab;
+                    console.log('[BlankPage] Visibility check:', { 
+                        shouldShow, 
+                        tabsCount: tabs.length,
+                        hasCurrentTab: !!currentTab,
+                        currentTabId: currentTab?.id
+                    });
                     return shouldShow;
                 }),
                 distinctUntilChanged()
