@@ -818,6 +818,7 @@ const units = [
                 {
                     word: "aerobics",
                     meaning: "thể dục nhịp điệu",
+                    pronunciation: "/eəˈrəʊbɪks/",
                     example: "My mother does aerobics every morning.",
                     exampleMeaning: "Mẹ tôi tập thể dục nhịp điệu mỗi sáng.",
                     image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=500"
@@ -825,6 +826,7 @@ const units = [
                 {
                     word: "career",
                     meaning: "nghề nghiệp, sự nghiệp",
+                    pronunciation: "/kəˈrɪə/",
                     example: "He has a successful career in sports.",
                     exampleMeaning: "Anh ấy có sự nghiệp thành công trong thể thao.",
                     image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=500"
@@ -832,6 +834,7 @@ const units = [
                 {
                     word: "competition",
                     meaning: "cuộc đua",
+                    pronunciation: "/ˌkɒmpəˈtɪʃən/",
                     example: "The swimming competition starts tomorrow.",
                     exampleMeaning: "Cuộc thi bơi lội bắt đầu vào ngày mai.",
                     image: "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=500"
@@ -839,6 +842,7 @@ const units = [
                 {
                     word: "congratulation",
                     meaning: "lời chúc mừng",
+                    pronunciation: "/kənˌɡrætʃʊˈleɪʃən/",
                     example: "Congratulations on winning the race!",
                     exampleMeaning: "Chúc mừng bạn đã thắng cuộc đua!",
                     image: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500"
@@ -846,6 +850,7 @@ const units = [
                 {
                     word: "equipment",
                     meaning: "thiết bị, dụng cụ",
+                    pronunciation: "/ɪˈkwɪpmənt/",
                     example: "We need special equipment for this sport.",
                     exampleMeaning: "Chúng ta cần thiết bị đặc biệt cho môn thể thao này.",
                     image: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=500"
@@ -853,6 +858,7 @@ const units = [
                 {
                     word: "fantastic",
                     meaning: "tuyệt",
+                    pronunciation: "/fænˈtæstɪk/",
                     example: "The game was fantastic!",
                     exampleMeaning: "Trận đấu thật tuyệt!",
                     image: "https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=500"
@@ -860,6 +866,7 @@ const units = [
                 {
                     word: "fit",
                     meaning: "mạnh khoẻ",
+                    pronunciation: "/fɪt/",
                     example: "Exercise helps you stay fit.",
                     exampleMeaning: "Tập thể dục giúp bạn khoẻ mạnh.",
                     image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500"
@@ -867,6 +874,7 @@ const units = [
                 {
                     word: "goggles",
                     meaning: "kính bơi",
+                    pronunciation: "/ˈɡɒɡəlz/",
                     example: "Don't forget your goggles when swimming.",
                     exampleMeaning: "Đừng quên kính bơi khi đi bơi.",
                     image: "https://images.unsplash.com/photo-1560090995-01632a28895b?w=500"
@@ -874,6 +882,7 @@ const units = [
                 {
                     word: "gym",
                     meaning: "trung tâm thể dục thể thao",
+                    pronunciation: "/dʒɪm/",
                     example: "I go to the gym three times a week.",
                     exampleMeaning: "Tôi đi tập gym ba lần một tuần.",
                     image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500"
@@ -881,6 +890,7 @@ const units = [
                 {
                     word: "karate",
                     meaning: "võ karate",
+                    pronunciation: "/kəˈrɑːti/",
                     example: "My brother learns karate.",
                     exampleMeaning: "Anh trai tôi học karate.",
                     image: "https://images.unsplash.com/photo-1555597673-b21d5c935865?w=500"
@@ -888,6 +898,7 @@ const units = [
                 {
                     word: "marathon",
                     meaning: "cuộc đua marathon",
+                    pronunciation: "/ˈmærəθən/",
                     example: "She ran in the city marathon.",
                     exampleMeaning: "Cô ấy đã chạy trong cuộc đua marathon của thành phố.",
                     image: "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=500"
@@ -895,6 +906,7 @@ const units = [
                 {
                     word: "racket",
                     meaning: "vợt",
+                    pronunciation: "/ˈrækɪt/",
                     example: "I need a new tennis racket.",
                     exampleMeaning: "Tôi cần một cây vợt tennis mới.",
                     image: "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=500"
@@ -1003,6 +1015,7 @@ const units = [
                 {
                     word: "bank",
                     meaning: "ngân hàng",
+                    pronunciation: "/bæŋk/",
                     example: "There is a bank near my house.",
                     exampleMeaning: "Có một ngân hàng gần nhà tôi.",
                     image: "https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?w=500"
@@ -1181,6 +1194,7 @@ const units = [
                 {
                     word: "smart home",
                     meaning: "nhà thông minh",
+                    pronunciation: "/smɑːt həʊm/",
                     example: "We live in a smart home with many automatic devices.",
                     exampleMeaning: "Chúng tôi sống trong một ngôi nhà thông minh với nhiều thiết bị tự động.",
                     image: "https://images.unsplash.com/photo-1558002038-1055907df827?w=500"
@@ -1188,6 +1202,7 @@ const units = [
                 {
                     word: "robot vacuum",
                     meaning: "robot hút bụi",
+                    pronunciation: "/ˈrəʊbɒt ˈvækjuːm/",
                     example: "The robot vacuum cleans the floor automatically.",
                     exampleMeaning: "Robot hút bụi tự động làm sạch sàn nhà.",
                     image: "https://images.unsplash.com/photo-1589433836287-3bf6c2ee91a6?w=500"
@@ -1195,6 +1210,7 @@ const units = [
                 {
                     word: "solar panel",
                     meaning: "tấm pin năng lượng mặt trời",
+                    pronunciation: "/ˈsəʊlə ˈpænl/",
                     example: "Solar panels are installed on the roof.",
                     exampleMeaning: "Các tấm pin năng lượng mặt trời được lắp đặt trên mái nhà.",
                     image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=500"
@@ -1202,6 +1218,7 @@ const units = [
                 {
                     word: "security camera",
                     meaning: "camera an ninh",
+                    pronunciation: "/sɪˈkjʊərəti ˈkæmərə/",
                     example: "Security cameras protect our house.",
                     exampleMeaning: "Camera an ninh bảo vệ ngôi nhà của chúng ta.",
                     image: "https://images.unsplash.com/photo-1557317035-edf777e71ecd?w=500"
@@ -1209,6 +1226,7 @@ const units = [
                 {
                     word: "automatic door",
                     meaning: "cửa tự động",
+                    pronunciation: "/ˌɔːtəˈmætɪk dɔː/",
                     example: "The automatic door opens when you approach.",
                     exampleMeaning: "Cửa tự động mở ra khi bạn đến gần.",
                     image: "https://images.unsplash.com/photo-1553779983-77f17fb9c9f5?w=500"
@@ -1340,6 +1358,7 @@ const units = [
                 {
                     word: "renewable energy",
                     meaning: "năng lượng tái tạo",
+                    pronunciation: "/rɪˈnjuːəbəl ˈenədʒi/",
                     example: "Solar power is a type of renewable energy.",
                     exampleMeaning: "Năng lượng mặt trời là một loại năng lượng tái tạo.",
                     image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=500"
@@ -1347,6 +1366,7 @@ const units = [
                 {
                     word: "recycling bin",
                     meaning: "thùng tái chế",
+                    pronunciation: "/riːˈsaɪklɪŋ bɪn/",
                     example: "Put plastic bottles in the recycling bin.",
                     exampleMeaning: "Bỏ chai nhựa vào thùng tái chế.",
                     image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=500"
@@ -1354,6 +1374,7 @@ const units = [
                 {
                     word: "eco-friendly",
                     meaning: "thân thiện với môi trường",
+                    pronunciation: "/ˈiːkəʊ ˈfrendli/",
                     example: "We use eco-friendly products.",
                     exampleMeaning: "Chúng tôi sử dụng các sản phẩm thân thiện với môi trường.",
                     image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=500"
@@ -1361,6 +1382,7 @@ const units = [
                 {
                     word: "biodegradable",
                     meaning: "có thể phân hủy sinh học",
+                    pronunciation: "/ˌbaɪəʊdɪˈɡreɪdəbl/",
                     example: "This bag is biodegradable.",
                     exampleMeaning: "Túi này có thể phân hủy sinh học.",
                     image: "https://images.unsplash.com/photo-1605600659908-0ef719419d41?w=500"
@@ -1677,6 +1699,7 @@ const units = [
                 {
                     word: "artificial intelligence",
                     meaning: "trí tuệ nhân tạo",
+                    pronunciation: "/ˌɑːtɪˈfɪʃəl ɪnˈtelɪdʒəns/",
                     example: "The robot uses artificial intelligence.",
                     exampleMeaning: "Robot sử dụng trí tuệ nhân tạo.",
                     image: "https://images.unsplash.com/photo-1555255707-c07966088b7b?w=500"
@@ -1684,6 +1707,7 @@ const units = [
                 {
                     word: "automated",
                     meaning: "tự động hóa",
+                    pronunciation: "/ˈɔːtəmeɪtɪd/",
                     example: "The factory has automated production lines.",
                     exampleMeaning: "Nhà máy có dây chuyền sản xuất tự động.",
                     image: "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=500"
@@ -1691,6 +1715,7 @@ const units = [
                 {
                     word: "programming",
                     meaning: "lập trình",
+                    pronunciation: "/ˈprəʊɡræmɪŋ/",
                     example: "Robot programming is complex.",
                     exampleMeaning: "Lập trình robot rất phức tạp.",
                     image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=500"
@@ -1698,6 +1723,7 @@ const units = [
                 {
                     word: "sensor",
                     meaning: "cảm biến",
+                    pronunciation: "/ˈsensə/",
                     example: "The robot has many sensors.",
                     exampleMeaning: "Robot có nhiều cảm biến.",
                     image: "https://images.unsplash.com/photo-1581093458791-9f3c3900df48?w=500"
