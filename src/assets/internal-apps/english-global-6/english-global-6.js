@@ -567,64 +567,109 @@ const units = [
             title: "Television",
             words: [
                 {
-                    word: "talent show",
-                    meaning: "chương trình tài năng",
-                    example: "A competition to choose the best performer",
-                    exampleMeaning: "Cuộc thi chọn người biểu diễn xuất sắc nhất"
+                    word: "animated film",
+                    meaning: "hoạt hình",
+                    example: "My sister loves watching animated films.",
+                    exampleMeaning: "Em gái tôi thích xem phim hoạt hình.",
+                    image: "https://images.unsplash.com/photo-1534337621606-e3df5ee0e97f?w=500"
                 },
                 {
-                    word: "comedy",
-                    meaning: "phim hài",
-                    example: "A film/show which makes people laugh",
-                    exampleMeaning: "Phim/chương trình làm cho người xem cười"
+                    word: "cartoon",
+                    meaning: "phim hoạt hình",
+                    example: "Tom and Jerry is a famous cartoon.",
+                    exampleMeaning: "Tom và Jerry là một phim hoạt hình nổi tiếng.",
+                    image: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=500"
                 },
                 {
-                    word: "educational programme",
-                    meaning: "chương trình giáo dục",
-                    example: "A programme which teaches maths, English, etc.",
-                    exampleMeaning: "Chương trình dạy toán, tiếng Anh, v.v."
+                    word: "channel",
+                    meaning: "kênh (truyền hình)",
+                    example: "Which channel shows cartoons?",
+                    exampleMeaning: "Kênh nào chiếu phim hoạt hình?",
+                    image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500"
                 },
                 {
                     word: "character",
                     meaning: "nhân vật",
-                    example: "An animal or a person in a film",
-                    exampleMeaning: "Một con vật hoặc người trong phim"
+                    example: "Who is your favorite character?",
+                    exampleMeaning: "Nhân vật yêu thích của bạn là ai?",
+                    image: "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=500"
+                },
+                {
+                    word: "clip",
+                    meaning: "đoạn phim ngắn",
+                    example: "I watched a funny clip on YouTube.",
+                    exampleMeaning: "Tôi đã xem một đoạn phim hài trên YouTube.",
+                    image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=500"
+                },
+                {
+                    word: "comedy",
+                    meaning: "phim hài",
+                    example: "We watched a comedy last night.",
+                    exampleMeaning: "Chúng tôi đã xem một bộ phim hài tối qua.",
+                    image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=500"
+                },
+                {
+                    word: "compete",
+                    meaning: "thi đấu",
+                    example: "Many singers compete in this show.",
+                    exampleMeaning: "Nhiều ca sĩ thi đấu trong chương trình này.",
+                    image: "https://images.unsplash.com/photo-1586105449897-20b5efeb3233?w=500"
+                },
+                {
+                    word: "documentary",
+                    meaning: "phim tài liệu",
+                    example: "We watched a documentary about wild animals.",
+                    exampleMeaning: "Chúng tôi đã xem một bộ phim tài liệu về động vật hoang dã.",
+                    image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500"
+                },
+                {
+                    word: "episode",
+                    meaning: "tập phim",
+                    example: "I missed the first episode of the series.",
+                    exampleMeaning: "Tôi đã bỏ lỡ tập đầu tiên của bộ phim.",
+                    image: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=500"
+                },
+                {
+                    word: "educational",
+                    meaning: "mang tính giáo dục",
+                    example: "Discovery Channel has many educational shows.",
+                    exampleMeaning: "Kênh Discovery có nhiều chương trình mang tính giáo dục.",
+                    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500"
+                },
+                {
+                    word: "entertainment",
+                    meaning: "giải trí",
+                    example: "Television provides entertainment for many people.",
+                    exampleMeaning: "Truyền hình mang lại giải trí cho nhiều người.",
+                    image: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=500"
+                },
+                {
+                    word: "live",
+                    meaning: "trực tiếp",
+                    example: "The football match is live on TV.",
+                    exampleMeaning: "Trận bóng đá được phát sóng trực tiếp trên TV.",
+                    image: "https://images.unsplash.com/photo-1540575861501-7cf05a4b125a?w=500"
+                },
+                {
+                    word: "programme",
+                    meaning: "chương trình",
+                    example: "What's your favorite TV programme?",
+                    exampleMeaning: "Chương trình TV yêu thích của bạn là gì?",
+                    image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500"
+                },
+                {
+                    word: "talent show",
+                    meaning: "cuộc thi tài năng",
+                    example: "She won the talent show last year.",
+                    exampleMeaning: "Cô ấy đã thắng cuộc thi tài năng năm ngoái.",
+                    image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=500"
                 },
                 {
                     word: "viewer",
                     meaning: "người xem",
-                    example: "A person who watches TV",
-                    exampleMeaning: "Người xem TV"
-                },
-                {
-                    word: "animated films",
-                    meaning: "phim hoạt hình",
-                    example: "Movies made with animation",
-                    exampleMeaning: "Phim được làm bằng hoạt hình"
-                },
-                {
-                    word: "game show",
-                    meaning: "chương trình trò chơi",
-                    example: "A TV show where people play games and win prizes",
-                    exampleMeaning: "Chương trình TV nơi người chơi tham gia các trò chơi và giành giải thưởng"
-                },
-                {
-                    word: "channel",
-                    meaning: "kênh",
-                    example: "Different TV stations you can watch",
-                    exampleMeaning: "Các kênh TV khác nhau có thể xem"
-                },
-                {
-                    word: "popular",
-                    meaning: "phổ biến",
-                    example: "Liked by many people",
-                    exampleMeaning: "Được nhiều người yêu thích"
-                },
-                {
-                    word: "boring",
-                    meaning: "nhàm chán",
-                    example: "Not interesting",
-                    exampleMeaning: "Không thú vị"
+                    example: "This show has millions of viewers.",
+                    exampleMeaning: "Chương trình này có hàng triệu người xem.",
+                    image: "https://images.unsplash.com/photo-1604079628040-94301bb21b91?w=500"
                 }
             ]
         },
@@ -696,94 +741,88 @@ const units = [
             title: "Sports and Games",
             words: [
                 {
-                    word: "ball",
-                    meaning: "quả bóng",
-                    example: "Kick the ball into the goal.",
-                    exampleMeaning: "Sút bóng vào khung thành."
+                    word: "aerobics",
+                    meaning: "thể dục nhịp điệu",
+                    example: "My mother does aerobics every morning.",
+                    exampleMeaning: "Mẹ tôi tập thể dục nhịp điệu mỗi sáng.",
+                    image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=500"
                 },
                 {
-                    word: "boat",
-                    meaning: "thuyền",
-                    example: "They went boating on the lake.",
-                    exampleMeaning: "Họ đi thuyền trên hồ."
+                    word: "career",
+                    meaning: "nghề nghiệp, sự nghiệp",
+                    example: "He has a successful career in sports.",
+                    exampleMeaning: "Anh ấy có sự nghiệp thành công trong thể thao.",
+                    image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=500"
                 },
                 {
-                    word: "racket",
-                    meaning: "vợt",
-                    example: "You need a racket to play tennis.",
-                    exampleMeaning: "Bạn cần một cây vợt để chơi tennis."
+                    word: "competition",
+                    meaning: "cuộc đua",
+                    example: "The swimming competition starts tomorrow.",
+                    exampleMeaning: "Cuộc thi bơi lội bắt đầu vào ngày mai.",
+                    image: "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=500"
+                },
+                {
+                    word: "congratulation",
+                    meaning: "lời chúc mừng",
+                    example: "Congratulations on winning the race!",
+                    exampleMeaning: "Chúc mừng bạn đã thắng cuộc đua!",
+                    image: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500"
+                },
+                {
+                    word: "equipment",
+                    meaning: "thiết bị, dụng cụ",
+                    example: "We need special equipment for this sport.",
+                    exampleMeaning: "Chúng ta cần thiết bị đặc biệt cho môn thể thao này.",
+                    image: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=500"
+                },
+                {
+                    word: "fantastic",
+                    meaning: "tuyệt",
+                    example: "The game was fantastic!",
+                    exampleMeaning: "Trận đấu thật tuyệt!",
+                    image: "https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=500"
+                },
+                {
+                    word: "fit",
+                    meaning: "mạnh khoẻ",
+                    example: "Exercise helps you stay fit.",
+                    exampleMeaning: "Tập thể dục giúp bạn khoẻ mạnh.",
+                    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500"
                 },
                 {
                     word: "goggles",
                     meaning: "kính bơi",
-                    example: "Wear goggles when you swim.",
-                    exampleMeaning: "Đeo kính bơi khi bạn bơi."
+                    example: "Don't forget your goggles when swimming.",
+                    exampleMeaning: "Đừng quên kính bơi khi đi bơi.",
+                    image: "https://images.unsplash.com/photo-1560090995-01632a28895b?w=500"
                 },
                 {
-                    word: "sports shoes",
-                    meaning: "giày thể thao",
-                    example: "These sports shoes are comfortable.",
-                    exampleMeaning: "Đôi giày thể thao này rất thoải mái."
+                    word: "gym",
+                    meaning: "trung tâm thể dục thể thao",
+                    example: "I go to the gym three times a week.",
+                    exampleMeaning: "Tôi đi tập gym ba lần một tuần.",
+                    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500"
                 },
                 {
-                    word: "champion",
-                    meaning: "nhà vô địch",
-                    example: "He became the world tennis champion.",
-                    exampleMeaning: "Anh ấy đã trở thành nhà vô địch tennis thế giới."
-                },
-                {
-                    word: "competition",
-                    meaning: "cuộc thi đấu",
-                    example: "She won an international sports competition.",
-                    exampleMeaning: "Cô ấy đã thắng một cuộc thi đấu thể thao quốc tế."
-                },
-                {
-                    word: "sporty",
-                    meaning: "năng động",
-                    example: "My friend David is very sporty.",
-                    exampleMeaning: "Bạn David của tôi rất năng động."
+                    word: "karate",
+                    meaning: "võ karate",
+                    example: "My brother learns karate.",
+                    exampleMeaning: "Anh trai tôi học karate.",
+                    image: "https://images.unsplash.com/photo-1555597673-b21d5c935865?w=500"
                 },
                 {
                     word: "marathon",
-                    meaning: "cuộc chạy marathon",
-                    example: "The first marathon took place in 1896.",
-                    exampleMeaning: "Cuộc chạy marathon đầu tiên diễn ra vào năm 1896."
+                    meaning: "cuộc đua marathon",
+                    example: "She ran in the city marathon.",
+                    exampleMeaning: "Cô ấy đã chạy trong cuộc đua marathon của thành phố.",
+                    image: "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=500"
                 },
                 {
-                    word: "congratulations",
-                    meaning: "chúc mừng",
-                    example: "Congratulations on winning the match!",
-                    exampleMeaning: "Chúc mừng bạn đã thắng trận đấu!"
-                },
-                {
-                    word: "cycling",
-                    meaning: "đạp xe",
-                    example: "I go cycling every weekend.",
-                    exampleMeaning: "Tôi đi đạp xe mỗi cuối tuần."
-                },
-                {
-                    word: "swimming",
-                    meaning: "bơi lội",
-                    example: "Swimming is good exercise.",
-                    exampleMeaning: "Bơi lội là bài tập tốt."
-                },
-                {
-                    word: "badminton",
-                    meaning: "cầu lông",
-                    example: "Let's play badminton after school.",
-                    exampleMeaning: "Hãy chơi cầu lông sau giờ học."
-                },
-                {
-                    word: "chess",
-                    meaning: "cờ vua",
-                    example: "We play chess every Saturday.",
-                    exampleMeaning: "Chúng tôi chơi cờ vua mỗi thứ Bảy."
-                },
-                {
-                    word: "match",
-                    meaning: "trận đấu",
-                    example: "They began the match very late.",
-                    exampleMeaning: "Họ bắt đầu trận đấu rất muộn."
+                    word: "racket",
+                    meaning: "vợt",
+                    example: "I need a new tennis racket.",
+                    exampleMeaning: "Tôi cần một cây vợt tennis mới.",
+                    image: "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=500"
                 }
             ]
         },
@@ -884,97 +923,91 @@ const units = [
             ]
         },
         vocabulary: {
-            title: "Cities and Landmarks",
+            title: "Places of Interest",
             words: [
                 {
-                    word: "city",
-                    meaning: "thành phố",
-                    example: "London is a big city.",
-                    exampleMeaning: "London là một thành phố lớn."
-                },
-                {
-                    word: "palace",
-                    meaning: "cung điện",
-                    example: "The palace is very beautiful.",
-                    exampleMeaning: "Cung điện rất đẹp."
-                },
-                {
-                    word: "street food",
-                    meaning: "đồ ăn đường phố",
-                    example: "Ha Noi is famous for its street food.",
-                    exampleMeaning: "Hà Nội nổi tiếng với đồ ăn đường phố."
-                },
-                {
-                    word: "floating market",
-                    meaning: "chợ nổi",
-                    example: "There are many floating markets in the Mekong Delta.",
-                    exampleMeaning: "Có nhiều chợ nổi ở đồng bằng sông Cửu Long."
-                },
-                {
-                    word: "stall",
-                    meaning: "quầy hàng",
-                    example: "The market has many food stalls.",
-                    exampleMeaning: "Chợ có nhiều quầy bán đồ ăn."
-                },
-                {
-                    word: "landmark",
-                    meaning: "địa danh",
-                    example: "Big Ben is a famous landmark in London.",
-                    exampleMeaning: "Big Ben là một địa danh nổi tiếng ở London."
+                    word: "bank",
+                    meaning: "ngân hàng",
+                    example: "There is a bank near my house.",
+                    exampleMeaning: "Có một ngân hàng gần nhà tôi.",
+                    image: "https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?w=500"
                 },
                 {
                     word: "crowded",
                     meaning: "đông đúc",
-                    example: "The streets are crowded at rush hour.",
-                    exampleMeaning: "Đường phố đông đúc vào giờ cao điểm."
+                    example: "The market is very crowded in the morning.",
+                    exampleMeaning: "Chợ rất đông đúc vào buổi sáng.",
+                    image: "https://cdn.pixabay.com/photo/2016/11/21/16/02/crowded-1846304_1280.jpg"
                 },
                 {
-                    word: "exciting",
-                    meaning: "thú vị",
-                    example: "New York is an exciting city.",
-                    exampleMeaning: "New York là một thành phố thú vị."
-                },
-                {
-                    word: "friendly",
-                    meaning: "thân thiện",
-                    example: "The people in my city are friendly.",
-                    exampleMeaning: "Người dân trong thành phố của tôi rất thân thiện."
-                },
-                {
-                    word: "delicious",
-                    meaning: "ngon",
-                    example: "The food here is delicious.",
-                    exampleMeaning: "Đồ ăn ở đây rất ngon."
-                },
-                {
-                    word: "sunny",
-                    meaning: "nắng",
-                    example: "Sydney has many sunny days.",
-                    exampleMeaning: "Sydney có nhiều ngày nắng."
-                },
-                {
-                    word: "rainy",
-                    meaning: "mưa",
-                    example: "London is often rainy.",
-                    exampleMeaning: "London thường hay mưa."
+                    word: "floating market",
+                    meaning: "chợ nổi",
+                    example: "Tourists love visiting the floating market.",
+                    exampleMeaning: "Du khách rất thích thăm chợ nổi.",
+                    image: "https://cdn.pixabay.com/photo/2017/05/31/18/38/floating-market-2361912_1280.jpg"
                 },
                 {
                     word: "helpful",
-                    meaning: "hay giúp đỡ",
-                    example: "The local people are very helpful.",
-                    exampleMeaning: "Người dân địa phương rất hay giúp đỡ."
+                    meaning: "có ích",
+                    example: "The tour guide was very helpful.",
+                    exampleMeaning: "Hướng dẫn viên du lịch rất có ích.",
+                    image: "https://cdn.pixabay.com/photo/2015/06/08/15/02/helpful-801837_1280.jpg"
                 },
                 {
-                    word: "old",
-                    meaning: "cổ xưa",
-                    example: "Edinburgh has many old buildings.",
-                    exampleMeaning: "Edinburgh có nhiều tòa nhà cổ."
+                    word: "helmet",
+                    meaning: "mũ bảo hiểm",
+                    example: "You must wear a helmet when riding a motorbike.",
+                    exampleMeaning: "Bạn phải đội mũ bảo hiểm khi đi xe máy.",
+                    image: "https://cdn.pixabay.com/photo/2016/03/31/19/18/helmet-1294852_1280.png"
                 },
                 {
-                    word: "tasty",
-                    meaning: "ngon miệng",
-                    example: "The street food is very tasty.",
-                    exampleMeaning: "Đồ ăn đường phố rất ngon miệng."
+                    word: "landmark",
+                    meaning: "địa danh",
+                    example: "The Eiffel Tower is a famous landmark in Paris.",
+                    exampleMeaning: "Tháp Eiffel là một địa danh nổi tiếng ở Paris.",
+                    image: "https://cdn.pixabay.com/photo/2018/04/25/09/26/eiffel-tower-3349075_1280.jpg"
+                },
+                {
+                    word: "palace",
+                    meaning: "cung điện",
+                    example: "We visited the royal palace yesterday.",
+                    exampleMeaning: "Chúng tôi đã thăm cung điện hoàng gia hôm qua.",
+                    image: "https://cdn.pixabay.com/photo/2014/11/03/17/42/palace-516417_1280.jpg"
+                },
+                {
+                    word: "postcard",
+                    meaning: "bưu thiếp",
+                    example: "I sent a postcard to my friend from Vietnam.",
+                    exampleMeaning: "Tôi đã gửi một bưu thiếp cho bạn tôi từ Việt Nam.",
+                    image: "https://cdn.pixabay.com/photo/2016/10/31/19/04/postcard-1786182_1280.jpg"
+                },
+                {
+                    word: "rent",
+                    meaning: "thuê",
+                    example: "You can rent a bicycle to explore the city.",
+                    exampleMeaning: "Bạn có thể thuê xe đạp để khám phá thành phố.",
+                    image: "https://cdn.pixabay.com/photo/2016/11/18/12/49/bicycle-1834265_1280.jpg"
+                },
+                {
+                    word: "shell",
+                    meaning: "vỏ sò",
+                    example: "We collected shells on the beach.",
+                    exampleMeaning: "Chúng tôi đã nhặt vỏ sò trên bãi biển.",
+                    image: "https://cdn.pixabay.com/photo/2017/08/07/22/57/shell-2608407_1280.jpg"
+                },
+                {
+                    word: "stall",
+                    meaning: "quầy hàng",
+                    example: "There are many food stalls in the market.",
+                    exampleMeaning: "Có nhiều quầy thức ăn trong chợ.",
+                    image: "https://cdn.pixabay.com/photo/2016/03/27/21/34/market-1284363_1280.jpg"
+                },
+                {
+                    word: "street food",
+                    meaning: "đồ ăn đường phố",
+                    example: "Vietnamese street food is delicious.",
+                    exampleMeaning: "Đồ ăn đường phố Việt Nam rất ngon.",
+                    image: "https://cdn.pixabay.com/photo/2019/04/06/14/58/street-food-4107179_1280.jpg"
                 }
             ]
         },
@@ -1068,97 +1101,77 @@ const units = [
             ]
         },
         vocabulary: {
-            title: "Houses and Appliances",
+            title: "Houses and Technology",
             words: [
                 {
-                    word: "electric cooker",
-                    meaning: "bếp điện",
-                    example: "The electric cooker helps us cook rice.",
-                    exampleMeaning: "Bếp điện giúp chúng ta nấu cơm."
+                    word: "smart home",
+                    meaning: "nhà thông minh",
+                    example: "We live in a smart home with many automatic devices.",
+                    exampleMeaning: "Chúng tôi sống trong một ngôi nhà thông minh với nhiều thiết bị tự động.",
+                    image: "https://images.unsplash.com/photo-1558002038-1055907df827?w=500"
                 },
                 {
-                    word: "dishwasher",
-                    meaning: "máy rửa bát",
-                    example: "The dishwasher can wash and dry dishes.",
-                    exampleMeaning: "Máy rửa bát có thể rửa và làm khô bát đĩa."
+                    word: "robot vacuum",
+                    meaning: "robot hút bụi",
+                    example: "The robot vacuum cleans the floor automatically.",
+                    exampleMeaning: "Robot hút bụi tự động làm sạch sàn nhà.",
+                    image: "https://images.unsplash.com/photo-1589433836287-3bf6c2ee91a6?w=500"
                 },
                 {
-                    word: "washing machine",
-                    meaning: "máy giặt",
-                    example: "The washing machine washes our clothes.",
-                    exampleMeaning: "Máy giặt giặt quần áo của chúng ta."
+                    word: "solar panel",
+                    meaning: "tấm pin năng lượng mặt trời",
+                    example: "Solar panels are installed on the roof.",
+                    exampleMeaning: "Các tấm pin năng lượng mặt trời được lắp đặt trên mái nhà.",
+                    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=500"
                 },
                 {
-                    word: "wireless TV",
-                    meaning: "TV không dây",
-                    example: "We can watch wireless TV anywhere.",
-                    exampleMeaning: "Chúng ta có thể xem TV không dây ở bất cứ đâu."
+                    word: "security camera",
+                    meaning: "camera an ninh",
+                    example: "Security cameras protect our house.",
+                    exampleMeaning: "Camera an ninh bảo vệ ngôi nhà của chúng ta.",
+                    image: "https://images.unsplash.com/photo-1557317035-edf777e71ecd?w=500"
                 },
                 {
-                    word: "fridge",
-                    meaning: "tủ lạnh",
-                    example: "The fridge keeps food fresh.",
-                    exampleMeaning: "Tủ lạnh giữ thức ăn tươi ngon."
+                    word: "automatic door",
+                    meaning: "cửa tự động",
+                    example: "The automatic door opens when you approach.",
+                    exampleMeaning: "Cửa tự động mở ra khi bạn đến gần.",
+                    image: "https://images.unsplash.com/photo-1553779983-77f17fb9c9f5?w=500"
                 },
                 {
-                    word: "electric fan",
-                    meaning: "quạt điện",
-                    example: "Turn on the electric fan, please.",
-                    exampleMeaning: "Hãy bật quạt điện lên."
+                    word: "smart lighting",
+                    meaning: "hệ thống đèn thông minh",
+                    example: "Smart lighting adjusts automatically.",
+                    exampleMeaning: "Hệ thống đèn thông minh tự động điều chỉnh.",
+                    image: "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=500"
                 },
                 {
-                    word: "computer",
-                    meaning: "máy tính",
-                    example: "I use the computer to do homework.",
-                    exampleMeaning: "Tôi dùng máy tính để làm bài tập."
+                    word: "voice control",
+                    meaning: "điều khiển bằng giọng nói",
+                    example: "You can control devices by voice.",
+                    exampleMeaning: "Bạn có thể điều khiển thiết bị bằng giọng nói.",
+                    image: "https://images.unsplash.com/photo-1543512214-318c7553f230?w=500"
                 },
                 {
-                    word: "smart clock",
-                    meaning: "đồng hồ thông minh",
-                    example: "The smart clock can show the weather.",
-                    exampleMeaning: "Đồng hồ thông minh có thể hiển thị thời tiết."
+                    word: "smart fridge",
+                    meaning: "tủ lạnh thông minh",
+                    example: "The smart fridge can order food automatically.",
+                    exampleMeaning: "Tủ lạnh thông minh có thể tự động đặt thực phẩm.",
+                    image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=500"
                 },
                 {
-                    word: "robot",
-                    meaning: "người máy",
-                    example: "The robot helps me do the housework.",
-                    exampleMeaning: "Người máy giúp tôi làm việc nhà."
+                    word: "energy efficient",
+                    meaning: "tiết kiệm năng lượng",
+                    example: "Future homes will be more energy efficient.",
+                    exampleMeaning: "Nhà ở trong tương lai sẽ tiết kiệm năng lượng hơn.",
+                    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=500"
                 },
                 {
-                    word: "solar energy",
-                    meaning: "năng lượng mặt trời",
-                    example: "Our house uses solar energy.",
-                    exampleMeaning: "Nhà chúng tôi sử dụng năng lượng mặt trời."
-                },
-                {
-                    word: "bedroom",
-                    meaning: "phòng ngủ",
-                    example: "My bedroom is very comfortable.",
-                    exampleMeaning: "Phòng ngủ của tôi rất thoải mái."
-                },
-                {
-                    word: "living room",
-                    meaning: "phòng khách",
-                    example: "We watch TV in the living room.",
-                    exampleMeaning: "Chúng tôi xem TV trong phòng khách."
-                },
-                {
-                    word: "kitchen",
-                    meaning: "nhà bếp",
-                    example: "Mom is cooking in the kitchen.",
-                    exampleMeaning: "Mẹ đang nấu ăn trong nhà bếp."
-                },
-                {
-                    word: "smart TV",
-                    meaning: "TV thông minh",
-                    example: "We can watch YouTube on our smart TV.",
-                    exampleMeaning: "Chúng ta có thể xem YouTube trên TV thông minh."
-                },
-                {
-                    word: "housework",
-                    meaning: "việc nhà",
-                    example: "The robot helps with the housework.",
-                    exampleMeaning: "Robot giúp làm việc nhà."
+                    word: "wireless charging",
+                    meaning: "sạc không dây",
+                    example: "The house has wireless charging everywhere.",
+                    exampleMeaning: "Ngôi nhà có sạc không dây ở khắp nơi.",
+                    image: "https://images.unsplash.com/photo-1622043949694-d29df99f567f?w=500"
                 }
             ]
         },
@@ -1247,67 +1260,77 @@ const units = [
             ]
         },
         vocabulary: {
-            title: "Environmental Protection",
+            title: "Environment and Conservation",
             words: [
                 {
-                    word: "reduce",
-                    meaning: "giảm thiểu",
-                    example: "We should reduce the use of plastic bags.",
-                    exampleMeaning: "Chúng ta nên giảm việc sử dụng túi nhựa."
+                    word: "renewable energy",
+                    meaning: "năng lượng tái tạo",
+                    example: "Solar power is a type of renewable energy.",
+                    exampleMeaning: "Năng lượng mặt trời là một loại năng lượng tái tạo.",
+                    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=500"
                 },
                 {
-                    word: "reuse",
-                    meaning: "tái sử dụng",
-                    example: "You can reuse glass bottles many times.",
-                    exampleMeaning: "Bạn có thể tái sử dụng chai thủy tinh nhiều lần."
+                    word: "recycling bin",
+                    meaning: "thùng tái chế",
+                    example: "Put plastic bottles in the recycling bin.",
+                    exampleMeaning: "Bỏ chai nhựa vào thùng tái chế.",
+                    image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=500"
                 },
                 {
-                    word: "recycle",
-                    meaning: "tái chế",
-                    example: "We recycle paper to save trees.",
-                    exampleMeaning: "Chúng ta tái chế giấy để bảo vệ cây."
-                },
-                {
-                    word: "environment",
-                    meaning: "môi trường",
-                    example: "We need to protect our environment.",
-                    exampleMeaning: "Chúng ta cần bảo vệ môi trường."
-                },
-                {
-                    word: "green",
+                    word: "eco-friendly",
                     meaning: "thân thiện với môi trường",
-                    example: "Let's go green by using less plastic.",
-                    exampleMeaning: "Hãy sống xanh bằng cách dùng ít nhựa hơn."
+                    example: "We use eco-friendly products.",
+                    exampleMeaning: "Chúng tôi sử dụng các sản phẩm thân thiện với môi trường.",
+                    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=500"
                 },
                 {
-                    word: "rubbish",
-                    meaning: "rác",
-                    example: "Please don't throw rubbish on the street.",
-                    exampleMeaning: "Xin đừng vứt rác ra đường."
+                    word: "biodegradable",
+                    meaning: "có thể phân hủy sinh học",
+                    example: "This bag is biodegradable.",
+                    exampleMeaning: "Túi này có thể phân hủy sinh học.",
+                    image: "https://images.unsplash.com/photo-1605600659908-0ef719419d41?w=500"
                 },
                 {
-                    word: "plant",
-                    meaning: "trồng (cây)",
-                    example: "We plant trees in our garden.",
-                    exampleMeaning: "Chúng tôi trồng cây trong vườn."
+                    word: "conservation",
+                    meaning: "bảo tồn",
+                    example: "Wildlife conservation is important.",
+                    exampleMeaning: "Bảo tồn động vật hoang dã là quan trọng.",
+                    image: "https://images.unsplash.com/photo-1535338454770-8be927b5a00b?w=500"
                 },
                 {
-                    word: "clean",
-                    meaning: "sạch sẽ",
-                    example: "We want clean air and water.",
-                    exampleMeaning: "Chúng ta muốn không khí và nước sạch."
+                    word: "greenhouse",
+                    meaning: "nhà kính",
+                    example: "Plants grow well in the greenhouse.",
+                    exampleMeaning: "Cây cối phát triển tốt trong nhà kính.",
+                    image: "https://images.unsplash.com/photo-1584483766114-2cea6facdf57?w=500"
                 },
                 {
-                    word: "pollution",
-                    meaning: "ô nhiễm",
-                    example: "Air pollution is a serious problem.",
-                    exampleMeaning: "Ô nhiễm không khí là vấn đề nghiêm trọng."
+                    word: "compost",
+                    meaning: "phân ủ",
+                    example: "We make compost from food waste.",
+                    exampleMeaning: "Chúng tôi làm phân ủ từ rác thải thực phẩm.",
+                    image: "https://images.unsplash.com/photo-1591913139335-6e73559e8f3c?w=500"
                 },
                 {
-                    word: "protect",
-                    meaning: "bảo vệ",
-                    example: "We must protect our planet.",
-                    exampleMeaning: "Chúng ta phải bảo vệ hành tinh của mình."
+                    word: "sustainable",
+                    meaning: "bền vững",
+                    example: "We need sustainable development.",
+                    exampleMeaning: "Chúng ta cần phát triển bền vững.",
+                    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=500"
+                },
+                {
+                    word: "organic",
+                    meaning: "hữu cơ",
+                    example: "We grow organic vegetables.",
+                    exampleMeaning: "Chúng tôi trồng rau hữu cơ.",
+                    image: "https://images.unsplash.com/photo-1550828520-4cb496926fc9?w=500"
+                },
+                {
+                    word: "clean energy",
+                    meaning: "năng lượng sạch",
+                    example: "Wind power is clean energy.",
+                    exampleMeaning: "Năng lượng gió là năng lượng sạch.",
+                    image: "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=500"
                 }
             ]
         },
@@ -1574,67 +1597,77 @@ const units = [
             ]
         },
         vocabulary: {
-            title: "Robots and Activities",
+            title: "Robots and Automation",
             words: [
                 {
-                    word: "robot",
-                    meaning: "người máy",
-                    example: "H8 is a home robot.",
-                    exampleMeaning: "H8 là một người máy gia đình."
+                    word: "artificial intelligence",
+                    meaning: "trí tuệ nhân tạo",
+                    example: "The robot uses artificial intelligence.",
+                    exampleMeaning: "Robot sử dụng trí tuệ nhân tạo.",
+                    image: "https://images.unsplash.com/photo-1555255707-c07966088b7b?w=500"
                 },
                 {
-                    word: "useful",
-                    meaning: "hữu ích",
-                    example: "This robot is very useful in the house.",
-                    exampleMeaning: "Người máy này rất hữu ích trong nhà."
+                    word: "automated",
+                    meaning: "tự động hóa",
+                    example: "The factory has automated production lines.",
+                    exampleMeaning: "Nhà máy có dây chuyền sản xuất tự động.",
+                    image: "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=500"
                 },
                 {
-                    word: "smart",
-                    meaning: "thông minh",
-                    example: "Shifa is the smartest robot in the show.",
-                    exampleMeaning: "Shifa là người máy thông minh nhất trong buổi triển lãm."
+                    word: "programming",
+                    meaning: "lập trình",
+                    example: "Robot programming is complex.",
+                    exampleMeaning: "Lập trình robot rất phức tạp.",
+                    image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=500"
                 },
                 {
-                    word: "strong",
-                    meaning: "mạnh mẽ",
-                    example: "WB2 is the strongest robot here.",
-                    exampleMeaning: "WB2 là người máy mạnh nhất ở đây."
+                    word: "sensor",
+                    meaning: "cảm biến",
+                    example: "The robot has many sensors.",
+                    exampleMeaning: "Robot có nhiều cảm biến.",
+                    image: "https://images.unsplash.com/photo-1581093458791-9f3c3900df48?w=500"
                 },
                 {
-                    word: "fast",
-                    meaning: "nhanh",
-                    example: "This robot is very fast at cleaning.",
-                    exampleMeaning: "Người máy này dọn dẹp rất nhanh."
+                    word: "remote control",
+                    meaning: "điều khiển từ xa",
+                    example: "You can use remote control for the robot.",
+                    exampleMeaning: "Bạn có thể sử dụng điều khiển từ xa cho robot.",
+                    image: "https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?w=500"
                 },
                 {
-                    word: "do the dishes",
-                    meaning: "rửa bát đĩa",
-                    example: "The robot can do the dishes.",
-                    exampleMeaning: "Người máy có thể rửa bát đĩa."
+                    word: "machine learning",
+                    meaning: "học máy",
+                    example: "The robot learns through machine learning.",
+                    exampleMeaning: "Robot học thông qua học máy.",
+                    image: "https://images.unsplash.com/photo-1555255707-c07966088b7b?w=500"
                 },
                 {
-                    word: "iron clothes",
-                    meaning: "ủi quần áo",
-                    example: "H8 can iron clothes very well.",
-                    exampleMeaning: "H8 có thể ủi quần áo rất tốt."
+                    word: "robotic arm",
+                    meaning: "cánh tay robot",
+                    example: "The robotic arm moves precisely.",
+                    exampleMeaning: "Cánh tay robot di chuyển chính xác.",
+                    image: "https://images.unsplash.com/photo-1530973428-5bf2db2e4d71?w=500"
                 },
                 {
-                    word: "make meals",
-                    meaning: "nấu ăn",
-                    example: "The robot can make delicious meals.",
-                    exampleMeaning: "Người máy có thể nấu những bữa ăn ngon."
+                    word: "automation",
+                    meaning: "tự động hóa",
+                    example: "Automation makes work easier.",
+                    exampleMeaning: "Tự động hóa làm công việc dễ dàng hơn.",
+                    image: "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=500"
                 },
                 {
-                    word: "repair",
-                    meaning: "sửa chữa",
-                    example: "WB2 can repair broken machines.",
-                    exampleMeaning: "WB2 có thể sửa chữa máy móc hỏng."
+                    word: "battery",
+                    meaning: "pin",
+                    example: "The robot needs to charge its battery.",
+                    exampleMeaning: "Robot cần sạc pin.",
+                    image: "https://images.unsplash.com/photo-1601706690188-a27a666ef291?w=500"
                 },
                 {
-                    word: "put toys away",
-                    meaning: "dọn đồ chơi",
-                    example: "The robot helps put toys away.",
-                    exampleMeaning: "Người máy giúp dọn đồ chơi."
+                    word: "digital",
+                    meaning: "kỹ thuật số",
+                    example: "Robots use digital technology.",
+                    exampleMeaning: "Robot sử dụng công nghệ kỹ thuật số.",
+                    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500"
                 }
             ]
         },
@@ -1760,10 +1793,19 @@ function showVocabularyContent(contentArea) {
         <h3>${vocabulary.title}</h3>
         <div class="vocabulary-list">
             ${vocabulary.words.map(word => `
-                <div class="word-item mb-3">
-                    <h4>${word.word}</h4>
-                    <p><strong>Nghĩa:</strong> ${word.meaning}</p>
-                    <p><strong>Ví dụ:</strong> ${word.example}</p>
+                <div class="word-item mb-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="${word.image}" alt="${word.word}" class="img-fluid rounded vocabulary-image" 
+                                 style="max-height: 200px; object-fit: cover;">
+                        </div>
+                        <div class="col-md-8">
+                            <h4>${word.word}</h4>
+                            <p><strong>Nghĩa:</strong> ${word.meaning}</p>
+                            <p><strong>Ví dụ:</strong> ${word.example}</p>
+                            <p><strong>Nghĩa ví dụ:</strong> ${word.exampleMeaning}</p>
+                        </div>
+                    </div>
                 </div>
             `).join('')}
         </div>
