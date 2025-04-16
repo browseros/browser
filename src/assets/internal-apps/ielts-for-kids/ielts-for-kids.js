@@ -231,7 +231,7 @@ function displayListening(section) {
             html += `
                 <div class="practice-section mb-4">
                     <div class="audio-section">
-                        <button class="btn btn-primary mb-3" onclick="speakConversation('${item.transcript.replace(/\n/g, ' ')}')">
+                        <button class="btn btn-primary mb-3" onclick="speakConversation(this.getAttribute('data-transcript'))" data-transcript="${item.transcript}">
                             <i class="fas fa-play"></i> Play Conversation
                         </button>
                         <div class="transcript mt-3">
@@ -453,74 +453,46 @@ function speakConversation(text) {
     // Cancel any ongoing speech
     window.speechSynthesis.cancel();
 
-    // Load voices if not already loaded
-    let voices = window.speechSynthesis.getVoices();
-    
-    function loadVoices() {
-        return new Promise((resolve) => {
-            if (voices.length > 0) {
-                resolve(voices);
-            } else {
-                window.speechSynthesis.onvoiceschanged = () => {
-                    voices = window.speechSynthesis.getVoices();
-                    resolve(voices);
-                };
-            }
-        });
-    }
+    // Clean up the text - remove any special characters and decode HTML entities
+    text = text.replace(/\\n/g, '\n')
+               .replace(/\\/g, '')
+               .trim();
 
-    // Split the conversation into parts
-    const parts = text.split(/(?=Boy:|Teacher:)/).filter(part => part.trim());
+    // Split the conversation into parts and clean up each part
+    const parts = text.split('\n').filter(part => part.trim());
     let currentPart = 0;
 
     function speakNext() {
         if (currentPart < parts.length) {
-            const speech = new SpeechSynthesisUtterance(parts[currentPart].trim());
+            const currentText = parts[currentPart].trim();
+            console.log('Speaking:', currentText); // Debug log
+
+            const speech = new SpeechSynthesisUtterance(currentText);
             speech.lang = 'en-US';
             speech.rate = 0.8;
             speech.volume = 1;
             
             // Determine if current part is Boy or Teacher
-            const isBoy = parts[currentPart].trim().startsWith('Boy:');
-            
-            // Get English voices
-            const englishVoices = voices.filter(voice => voice.lang.includes('en'));
-            
-            if (englishVoices.length > 0) {
-                // Try to find appropriate voice
-                if (isBoy) {
-                    speech.voice = englishVoices.find(v => v.name.includes('Male')) || englishVoices[0];
-                } else {
-                    speech.voice = englishVoices.find(v => v.name.includes('Female')) || englishVoices[0];
-                }
-            }
+            const isBoy = currentText.startsWith('Boy:');
+            speech.pitch = isBoy ? 1.2 : 0.8;
 
             speech.onend = () => {
                 currentPart++;
-                setTimeout(speakNext, 800); // Longer pause between speakers
-            };
-
-            speech.onerror = (event) => {
-                console.error('Speech synthesis error:', event);
-                alert('There was an error playing the audio. Please try again.');
+                setTimeout(speakNext, 800);
             };
 
             try {
                 window.speechSynthesis.speak(speech);
             } catch (error) {
-                console.error('Speech synthesis error:', error);
-                alert('There was an error playing the audio. Please try again.');
+                console.error('Speech error:', error);
+                // Try alternative approach
+                speakWord(currentText);
             }
         }
     }
 
-    // Start the process by loading voices first
-    loadVoices().then(() => {
-        speakNext();
-    }).catch(error => {
-        console.error('Error loading voices:', error);
-        alert('There was an error loading the speech voices. Please try again.');
-    });
+    // Start speaking
+    speakNext();
 }
 
 // Check listening answers
