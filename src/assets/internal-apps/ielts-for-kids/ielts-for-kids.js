@@ -878,17 +878,24 @@ function speakConversation(text) {
     function speakNext() {
         if (currentPart < parts.length) {
             const currentText = parts[currentPart].trim();
-            // Remove "Boy:" or "Teacher:" from the text
-            const textToSpeak = currentText.replace(/^(Boy|Teacher):\s*/i, '').trim();
+            // Remove all speaker roles from the text
+            const textToSpeak = currentText.replace(/^(Boy|Teacher|Student|Girl):\s*/i, '').trim();
 
             const speech = new SpeechSynthesisUtterance(textToSpeak);
             speech.lang = 'en-US';
             speech.rate = 0.8;
             speech.volume = 1;
             
-            // Determine if current part is Boy or Teacher
-            const isBoy = currentText.startsWith('Boy:');
-            speech.pitch = isBoy ? 1.2 : 0.8;
+            // Determine speaker type and set appropriate pitch
+            const isMale = currentText.match(/^(Boy|Male):/i);
+            const isChild = currentText.match(/^(Boy|Girl|Student):/i);
+            
+            // Adjust pitch based on speaker
+            if (isMale) {
+                speech.pitch = isChild ? 1.2 : 0.9; // Boy: higher, Male Teacher: lower
+            } else {
+                speech.pitch = isChild ? 1.3 : 1.1; // Girl: highest, Female Teacher: medium
+            }
 
             speech.onend = () => {
                 currentPart++;
