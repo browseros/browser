@@ -174,6 +174,122 @@ const units = [
                         ]
                     }
                 ]
+            },
+            reading: {
+                title: "Reading Skills - School Subjects",
+                content: [
+                    {
+                        type: "passage",
+                        text: "My Favorite School Subjects\n\nI study many subjects at school. Science is my favorite subject because we do interesting experiments. In Math class, we learn about numbers and solve problems. English class helps me learn a new language. I also enjoy Art class where we draw and paint. Physical Education is fun because we play sports and games.",
+                        translation: "Các môn học yêu thích của tôi\n\nTôi học nhiều môn ở trường. Khoa học là môn học yêu thích của tôi vì chúng tôi làm các thí nghiệm thú vị. Trong lớp Toán, chúng tôi học về số và giải các bài toán. Lớp tiếng Anh giúp tôi học một ngôn ngữ mới. Tôi cũng thích lớp Mỹ thuật nơi chúng tôi vẽ và tô màu. Giáo dục thể chất rất vui vì chúng tôi chơi thể thao và các trò chơi.",
+                        questions: [
+                            {
+                                question: "What is the student's favorite subject?",
+                                translation: "Môn học yêu thích của học sinh là gì?",
+                                options: ["Math", "Science", "English", "Art"],
+                                correct: 1
+                            },
+                            {
+                                question: "Why does the student like Physical Education?",
+                                translation: "Tại sao học sinh thích môn Giáo dục thể chất?",
+                                options: ["Because it's easy", "Because they play sports and games", "Because it's short", "Because they can sleep"],
+                                correct: 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            writing: {
+                title: "Writing Skills - My School",
+                content: [
+                    {
+                        type: "task1",
+                        title: "Describing Your School",
+                        instruction: "Write 3-4 sentences about your school. Include information about your classroom, teachers, and favorite subjects.",
+                        translation: "Viết 3-4 câu về trường học của bạn. Bao gồm thông tin về lớp học, giáo viên và các môn học yêu thích.",
+                        example: {
+                            text: "My school is very big and modern. There are thirty students in my class. My teachers are friendly and helpful. My favorite subject is Science because we do many experiments.",
+                            translation: "Trường học của tôi rất lớn và hiện đại. Có ba mươi học sinh trong lớp tôi. Các giáo viên của tôi rất thân thiện và hay giúp đỡ. Môn học yêu thích của tôi là Khoa học vì chúng tôi làm nhiều thí nghiệm."
+                        }
+                    }
+                ]
+            },
+            speaking: {
+                title: "Speaking Skills - School Life",
+                content: [
+                    {
+                        type: "introduction",
+                        topic: "Talking About School",
+                        questions: [
+                            "What subjects do you study?",
+                            "Who is your favorite teacher?",
+                            "What do you do during break time?",
+                            "What is your classroom like?"
+                        ],
+                        translations: [
+                            "Bạn học những môn gì?",
+                            "Giáo viên yêu thích của bạn là ai?",
+                            "Bạn làm gì trong giờ ra chơi?",
+                            "Lớp học của bạn như thế nào?"
+                        ],
+                        examples: [
+                            {
+                                question: "What subjects do you study?",
+                                answer: "I study Math, Science, English, Art, and Physical Education.",
+                                translation: "Tôi học Toán, Khoa học, tiếng Anh, Mỹ thuật và Giáo dục thể chất."
+                            }
+                        ]
+                    }
+                ]
+            },
+            vocabulary: {
+                title: "Vocabulary - School Words",
+                words: [
+                    {
+                        word: "classroom",
+                        meaning: "lớp học",
+                        pronunciation: "/ˈklɑːsruːm/",
+                        example: "Our classroom is on the second floor.",
+                        exampleMeaning: "Lớp học của chúng tôi ở tầng hai.",
+                        type: "noun"
+                    },
+                    {
+                        word: "teacher",
+                        meaning: "giáo viên",
+                        pronunciation: "/ˈtiːtʃə/",
+                        example: "My Science teacher is very kind.",
+                        exampleMeaning: "Giáo viên Khoa học của tôi rất tốt bụng.",
+                        type: "noun"
+                    },
+                    {
+                        word: "subject",
+                        meaning: "môn học",
+                        pronunciation: "/ˈsʌbdʒekt/",
+                        example: "Math is my favorite subject.",
+                        exampleMeaning: "Toán là môn học yêu thích của tôi.",
+                        type: "noun"
+                    }
+                ]
+            },
+            grammar: {
+                title: "Grammar - School Life",
+                points: [
+                    {
+                        topic: "Present Simple with School Routines",
+                        explanation: "We use Present Simple to talk about our daily school routines and regular activities.",
+                        translation: "Chúng ta sử dụng Thì Hiện Tại Đơn để nói về các hoạt động thường ngày ở trường và các hoạt động thường xuyên.",
+                        examples: [
+                            {
+                                english: "I go to school at 7:30 every morning.",
+                                vietnamese: "Tôi đi học lúc 7:30 mỗi sáng."
+                            },
+                            {
+                                english: "We have Math class on Monday and Wednesday.",
+                                vietnamese: "Chúng tôi học Toán vào thứ Hai và thứ Tư."
+                            }
+                        ]
+                    }
+                ]
             }
         }
     },
@@ -210,6 +326,122 @@ const units = [
                                 translation: "Khi nào Tom chơi bóng rổ?",
                                 options: ["Sunday morning", "Saturday morning", "Friday afternoon", "Monday evening"],
                                 correctAnswer: 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            reading: {
+                title: "Reading Skills - Free Time Activities",
+                content: [
+                    {
+                        type: "passage",
+                        text: "Fun Activities After School\n\nAfter school, children do many different activities. Some children play sports like football or basketball. Others learn music and play instruments. Many children enjoy reading books or drawing pictures. Some children join clubs where they can meet friends and learn new things. On weekends, families often go to parks or watch movies together.",
+                        translation: "Các hoạt động giải trí sau giờ học\n\nSau giờ học, trẻ em làm nhiều hoạt động khác nhau. Một số trẻ chơi thể thao như bóng đá hoặc bóng rổ. Những trẻ khác học nhạc và chơi nhạc cụ. Nhiều trẻ thích đọc sách hoặc vẽ tranh. Một số trẻ tham gia các câu lạc bộ nơi họ có thể gặp bạn bè và học những điều mới. Vào cuối tuần, các gia đình thường đi công viên hoặc xem phim cùng nhau.",
+                        questions: [
+                            {
+                                question: "What sports do some children play?",
+                                translation: "Một số trẻ chơi những môn thể thao nào?",
+                                options: ["Tennis and swimming", "Football and basketball", "Baseball and volleyball", "Running and cycling"],
+                                correct: 1
+                            },
+                            {
+                                question: "What do families often do on weekends?",
+                                translation: "Các gia đình thường làm gì vào cuối tuần?",
+                                options: ["Stay at home", "Go to school", "Go to parks and watch movies", "Go shopping"],
+                                correct: 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            writing: {
+                title: "Writing Skills - My Hobbies",
+                content: [
+                    {
+                        type: "task1",
+                        title: "Writing About Your Hobbies",
+                        instruction: "Write about your favorite hobbies and what you like to do in your free time.",
+                        translation: "Viết về sở thích và những việc bạn thích làm trong thời gian rảnh.",
+                        example: {
+                            text: "In my free time, I love playing basketball with my friends. We practice every Saturday morning at the local park. I also enjoy reading comic books and drawing pictures. On Sundays, I often go swimming with my family.",
+                            translation: "Trong thời gian rảnh, tôi thích chơi bóng rổ với bạn bè. Chúng tôi tập luyện mỗi sáng thứ Bảy ở công viên địa phương. Tôi cũng thích đọc truyện tranh và vẽ tranh. Vào Chủ nhật, tôi thường đi bơi với gia đình."
+                        }
+                    }
+                ]
+            },
+            speaking: {
+                title: "Speaking Skills - Free Time Activities",
+                content: [
+                    {
+                        type: "introduction",
+                        topic: "Talking About Hobbies",
+                        questions: [
+                            "What do you like to do in your free time?",
+                            "How often do you do your hobbies?",
+                            "Who do you do these activities with?",
+                            "Why do you enjoy these activities?"
+                        ],
+                        translations: [
+                            "Bạn thích làm gì trong thời gian rảnh?",
+                            "Bạn thực hiện sở thích của mình thường xuyên như thế nào?",
+                            "Bạn thực hiện những hoạt động này với ai?",
+                            "Tại sao bạn thích những hoạt động này?"
+                        ],
+                        examples: [
+                            {
+                                question: "What do you like to do in your free time?",
+                                answer: "I like playing basketball and reading books in my free time.",
+                                translation: "Tôi thích chơi bóng rổ và đọc sách trong thời gian rảnh."
+                            }
+                        ]
+                    }
+                ]
+            },
+            vocabulary: {
+                title: "Vocabulary - Hobbies and Activities",
+                words: [
+                    {
+                        word: "hobby",
+                        meaning: "sở thích",
+                        pronunciation: "/ˈhɒbi/",
+                        example: "Reading is my favorite hobby.",
+                        exampleMeaning: "Đọc sách là sở thích yêu thích của tôi.",
+                        type: "noun"
+                    },
+                    {
+                        word: "free time",
+                        meaning: "thời gian rảnh",
+                        pronunciation: "/friː taɪm/",
+                        example: "I play games in my free time.",
+                        exampleMeaning: "Tôi chơi game trong thời gian rảnh.",
+                        type: "noun"
+                    },
+                    {
+                        word: "activity",
+                        meaning: "hoạt động",
+                        pronunciation: "/ækˈtɪvəti/",
+                        example: "Swimming is a healthy activity.",
+                        exampleMeaning: "Bơi lội là một hoạt động lành mạnh.",
+                        type: "noun"
+                    }
+                ]
+            },
+            grammar: {
+                title: "Grammar - Talking About Hobbies",
+                points: [
+                    {
+                        topic: "Like/Love/Enjoy + Verb-ing",
+                        explanation: "We use these verbs followed by the -ing form to talk about hobbies and things we enjoy doing.",
+                        translation: "Chúng ta sử dụng các động từ này theo sau bởi dạng -ing để nói về sở thích và những việc chúng ta thích làm.",
+                        examples: [
+                            {
+                                english: "I love playing basketball.",
+                                vietnamese: "Tôi rất thích chơi bóng rổ."
+                            },
+                            {
+                                english: "She enjoys reading books.",
+                                vietnamese: "Cô ấy thích đọc sách."
                             }
                         ]
                     }
@@ -379,8 +611,8 @@ function showSection(sectionName) {
 // Display listening content
 function displayListening(section) {
     const contentArea = document.getElementById('contentArea');
-    contentArea.style.height = 'auto';  // Allow content to expand
-    contentArea.style.overflowY = 'visible';  // Enable vertical scrolling
+    contentArea.style.height = 'auto';
+    contentArea.style.overflowY = 'visible';
     let html = `<h3>${section.title}</h3>`;
     
     section.content.forEach(item => {
@@ -395,9 +627,14 @@ function displayListening(section) {
             html += `
                 <div class="practice-section mb-4">
                     <div class="audio-section">
-                        <button class="btn btn-primary mb-3" onclick="speakConversation(this.getAttribute('data-transcript'))" data-transcript="${item.transcript}">
-                            <i class="fas fa-play"></i> Play Conversation
-                        </button>
+                        <div class="btn-group mb-3">
+                            <button class="btn btn-primary" onclick="speakConversation(this.getAttribute('data-transcript'))" data-transcript="${item.transcript}">
+                                <i class="fas fa-play"></i> Play Conversation
+                            </button>
+                            <button class="btn btn-danger" onclick="stopSpeaking()">
+                                <i class="fas fa-stop"></i> Stop
+                            </button>
+                        </div>
                         <div class="transcript mt-3">
                             <button class="btn btn-sm btn-info" onclick="toggleTranscript(this)">
                                 Show Transcript
@@ -619,10 +856,15 @@ function speakWord(text) {
     window.speechSynthesis.speak(speech);
 }
 
+// Function to stop speaking
+function stopSpeaking() {
+    window.speechSynthesis.cancel();
+}
+
 // Function to speak conversation text
 function speakConversation(text) {
     // Cancel any ongoing speech
-    window.speechSynthesis.cancel();
+    stopSpeaking();
 
     // Clean up the text - remove any special characters and decode HTML entities
     text = text.replace(/\\n/g, '\n')
@@ -638,7 +880,6 @@ function speakConversation(text) {
             const currentText = parts[currentPart].trim();
             // Remove "Boy:" or "Teacher:" from the text
             const textToSpeak = currentText.replace(/^(Boy|Teacher):\s*/i, '').trim();
-            console.log('Speaking:', textToSpeak); // Debug log
 
             const speech = new SpeechSynthesisUtterance(textToSpeak);
             speech.lang = 'en-US';
