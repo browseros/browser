@@ -1763,11 +1763,23 @@ function displayVocabulary(vocabulary) {
     
     vocabulary.forEach(item => {
         html += `
-            <div class="word-item">
-                <h4>${item.word}</h4>
-                <p><strong>Nghĩa:</strong> ${item.meaning}</p>
-                <p><strong>Ví dụ:</strong> ${item.example}</p>
-                <p><strong>Nghĩa ví dụ:</strong> ${item.exampleMeaning}</p>
+            <div class="word-item mb-4">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4>${item.word}
+                            <button onclick="speakWord('${item.word}')" class="btn btn-sm btn-primary ml-2">
+                                <i class="fas fa-volume-up"></i> Écouter
+                            </button>
+                        </h4>
+                        <p><strong>Nghĩa:</strong> ${item.meaning}</p>
+                        <p><strong>Ví dụ:</strong> ${item.example}
+                            <button onclick="speakWord('${item.example}')" class="btn btn-sm btn-outline-primary ml-2">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </p>
+                        <p><strong>Nghĩa ví dụ:</strong> ${item.exampleMeaning}</p>
+                    </div>
+                </div>
             </div>
         `;
     });
@@ -1968,3 +1980,39 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add event listener for back button
     document.getElementById('backButton').addEventListener('click', showUnitGrid);
 });
+
+// Function to speak text using Web Speech API
+function speakWord(text) {
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = 'fr-FR'; // Set language to French
+    speech.rate = 0.8; // Slightly slower speed for better pronunciation
+    speech.pitch = 1;
+    window.speechSynthesis.speak(speech);
+}
+
+// Show vocabulary content
+function showVocabularyContent(contentArea) {
+    const vocabulary = currentUnit.vocabulary;
+    contentArea.innerHTML = `
+        <h3>${vocabulary.title}</h3>
+        <div class="vocabulary-list">
+            ${vocabulary.words.map(word => `
+                <div class="word-item mb-4">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4>${word.word} 
+                                <button onclick="speakWord('${word.word}')" class="btn btn-sm btn-primary ml-2">
+                                    <i class="fas fa-volume-up"></i> Écouter
+                                </button>
+                            </h4>
+                            <p><strong>Prononciation:</strong> <span class="pronunciation">${word.pronunciation || ''}</span></p>
+                            <p><strong>Signification:</strong> ${word.meaning}</p>
+                            <p><strong>Exemple:</strong> ${word.example}</p>
+                            <p><strong>Traduction de l'exemple:</strong> ${word.exampleMeaning}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
