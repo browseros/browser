@@ -136,6 +136,166 @@ const units = [
                 ]
             }
         }
+    },
+    {
+        id: 2,
+        title: "School Life",
+        sections: {
+            listening: {
+                title: "Listening Skills - School Activities",
+                content: [
+                    {
+                        type: "introduction",
+                        text: "Listen to a conversation between a teacher and a student about school activities.",
+                        translation: "Nghe cuộc hội thoại giữa giáo viên và học sinh về các hoạt động ở trường."
+                    },
+                    {
+                        type: "practice",
+                        transcript: "Teacher: Hello, what's your favorite subject at school?\nStudent: Hi, I really enjoy Science class. We do many interesting experiments.\nTeacher: That's great! What did you do in your last Science class?\nStudent: We learned about plants and how they grow. We planted some seeds in small pots.\nTeacher: How often do you have Science class?\nStudent: We have it three times a week, on Monday, Wednesday, and Friday.\nTeacher: Do you have any other favorite activities at school?\nStudent: Yes, I also like Physical Education. We play different sports and games.",
+                        questions: [
+                            {
+                                question: "What is the student's favorite subject?",
+                                translation: "Môn học yêu thích của học sinh là gì?",
+                                options: ["Math", "Science", "English", "Art"],
+                                correctAnswer: 1
+                            },
+                            {
+                                question: "What did they do in their last Science class?",
+                                translation: "Họ đã làm gì trong tiết học Khoa học vừa rồi?",
+                                options: ["Made a robot", "Studied about animals", "Planted seeds", "Did chemistry experiments"],
+                                correctAnswer: 2
+                            },
+                            {
+                                question: "How many times per week does the student have Science class?",
+                                translation: "Học sinh có bao nhiêu tiết Khoa học mỗi tuần?",
+                                options: ["Two times", "Three times", "Four times", "Five times"],
+                                correctAnswer: 1
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    {
+        id: 3,
+        title: "Hobbies and Free Time",
+        sections: {
+            listening: {
+                title: "Listening Skills - Weekend Activities",
+                content: [
+                    {
+                        type: "introduction",
+                        text: "Listen to two friends talking about their weekend activities.",
+                        translation: "Nghe hai người bạn nói chuyện về các hoạt động cuối tuần."
+                    },
+                    {
+                        type: "practice",
+                        transcript: "Boy: Hi Sarah, what do you usually do on weekends?\nGirl: Hello Tom! I have many hobbies. I like reading books and playing the piano.\nBoy: That's interesting! How long have you been playing the piano?\nGirl: I've been playing for two years now. What about you?\nBoy: I love playing basketball with my friends. We practice every Saturday morning.\nGirl: Do you play any other sports?\nBoy: Yes, I also swim twice a week at the local pool.\nGirl: That sounds fun! Maybe we can go swimming together sometime.",
+                        questions: [
+                            {
+                                question: "What are Sarah's hobbies?",
+                                translation: "Sở thích của Sarah là gì?",
+                                options: ["Playing sports and dancing", "Reading books and playing piano", "Cooking and painting", "Watching TV and gaming"],
+                                correctAnswer: 1
+                            },
+                            {
+                                question: "How long has Sarah been playing the piano?",
+                                translation: "Sarah đã chơi piano được bao lâu?",
+                                options: ["One year", "Two years", "Three years", "Four years"],
+                                correctAnswer: 1
+                            },
+                            {
+                                question: "When does Tom play basketball?",
+                                translation: "Khi nào Tom chơi bóng rổ?",
+                                options: ["Sunday morning", "Saturday morning", "Friday afternoon", "Monday evening"],
+                                correctAnswer: 1
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    {
+        id: 4,
+        title: "Food and Health",
+        sections: {
+            listening: {
+                title: "Listening Skills - Healthy Eating",
+                content: [
+                    {
+                        type: "introduction",
+                        text: "Listen to a conversation about healthy eating habits.",
+                        translation: "Nghe cuộc hội thoại về thói quen ăn uống lành mạnh."
+                    },
+                    {
+                        type: "practice",
+                        transcript: "Teacher: Today we're talking about healthy eating. What did you have for breakfast?\nStudent: I had a bowl of cereal with milk and a banana.\nTeacher: That's a good healthy breakfast! What about lunch?\nStudent: Usually I have a sandwich and some fruit.\nTeacher: Do you eat vegetables every day?\nStudent: Yes, my mom always makes sure I eat vegetables at dinner.\nTeacher: What's your favorite healthy snack?\nStudent: I like eating apples and yogurt.",
+                        questions: [
+                            {
+                                question: "What did the student have for breakfast?",
+                                translation: "Học sinh đã ăn gì vào bữa sáng?",
+                                options: ["Toast and eggs", "Cereal with milk and banana", "Pancakes", "Noodles"],
+                                correctAnswer: 1
+                            },
+                            {
+                                question: "What does the student usually have for lunch?",
+                                translation: "Học sinh thường ăn gì vào bữa trưa?",
+                                options: ["Rice and chicken", "Sandwich and fruit", "Pizza", "Salad"],
+                                correctAnswer: 1
+                            },
+                            {
+                                question: "What is the student's favorite healthy snack?",
+                                translation: "Đồ ăn vặt lành mạnh yêu thích của học sinh là gì?",
+                                options: ["Chips and soda", "Cookies", "Apples and yogurt", "Candy"],
+                                correctAnswer: 2
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    {
+        id: 5,
+        title: "My Family",
+        sections: {
+            listening: {
+                title: "Listening Skills - Family Members",
+                content: [
+                    {
+                        type: "introduction",
+                        text: "Listen to a student talking about their family.",
+                        translation: "Nghe một học sinh nói về gia đình của mình."
+                    },
+                    {
+                        type: "practice",
+                        transcript: "Teacher: Can you tell me about your family?\nStudent: Yes, I live with my parents and my younger sister.\nTeacher: What do your parents do?\nStudent: My father is a doctor and my mother is a teacher.\nTeacher: What about your sister? How old is she?\nStudent: She's 8 years old. She's in primary school.\nTeacher: Do you have any grandparents living with you?\nStudent: Yes, my grandmother lives with us. She's very kind and makes delicious food.",
+                        questions: [
+                            {
+                                question: "Who does the student live with?",
+                                translation: "Học sinh sống với ai?",
+                                options: ["Parents and older sister", "Parents and younger sister", "Only parents", "Grandparents"],
+                                correctAnswer: 1
+                            },
+                            {
+                                question: "What is the student's father's job?",
+                                translation: "Nghề nghiệp của bố học sinh là gì?",
+                                options: ["Teacher", "Engineer", "Doctor", "Businessman"],
+                                correctAnswer: 2
+                            },
+                            {
+                                question: "How old is the student's sister?",
+                                translation: "Em gái của học sinh bao nhiêu tuổi?",
+                                options: ["6 years old", "7 years old", "8 years old", "9 years old"],
+                                correctAnswer: 2
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
     }
 ];
 
@@ -180,6 +340,8 @@ function showUnit(unitId) {
     document.getElementById('unitGrid').style.display = 'none';
     const unitContent = document.getElementById('unitContent');
     unitContent.classList.add('active');
+    unitContent.style.height = '100vh';
+    unitContent.style.overflowY = 'auto';
     document.getElementById('unitTitle').textContent = `Unit ${unit.id}: ${unit.title}`;
     
     // Default to showing listening section
@@ -217,6 +379,8 @@ function showSection(sectionName) {
 // Display listening content
 function displayListening(section) {
     const contentArea = document.getElementById('contentArea');
+    contentArea.style.height = 'auto';  // Allow content to expand
+    contentArea.style.overflowY = 'visible';  // Enable vertical scrolling
     let html = `<h3>${section.title}</h3>`;
     
     section.content.forEach(item => {
@@ -263,7 +427,7 @@ function displayListening(section) {
                             </div>
                         `).join('')}
                     </div>
-                    <button class="btn btn-primary mt-3" onclick="checkListeningAnswers()">
+                    <button class="btn btn-primary mt-3 mb-4" onclick="checkListeningAnswers()">
                         Check Answers
                     </button>
                 </div>
@@ -272,6 +436,13 @@ function displayListening(section) {
     });
     
     contentArea.innerHTML = html;
+    
+    // Ensure the parent container allows scrolling
+    const unitContent = document.getElementById('unitContent');
+    if (unitContent) {
+        unitContent.style.height = '100vh';
+        unitContent.style.overflowY = 'auto';
+    }
 }
 
 // Display reading content
