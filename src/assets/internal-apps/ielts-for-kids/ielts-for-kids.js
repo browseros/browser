@@ -465,9 +465,11 @@ function speakConversation(text) {
     function speakNext() {
         if (currentPart < parts.length) {
             const currentText = parts[currentPart].trim();
-            console.log('Speaking:', currentText); // Debug log
+            // Remove "Boy:" or "Teacher:" from the text
+            const textToSpeak = currentText.replace(/^(Boy|Teacher):\s*/i, '').trim();
+            console.log('Speaking:', textToSpeak); // Debug log
 
-            const speech = new SpeechSynthesisUtterance(currentText);
+            const speech = new SpeechSynthesisUtterance(textToSpeak);
             speech.lang = 'en-US';
             speech.rate = 0.8;
             speech.volume = 1;
@@ -486,7 +488,7 @@ function speakConversation(text) {
             } catch (error) {
                 console.error('Speech error:', error);
                 // Try alternative approach
-                speakWord(currentText);
+                speakWord(textToSpeak);
             }
         }
     }
