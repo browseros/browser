@@ -22,52 +22,62 @@ const units = [
                 { 
                     word: "teacher", 
                     meaning: "giáo viên", 
-                    example: "My English teacher is very kind. (Giáo viên tiếng Anh của tôi rất tốt bụng.)" 
+                    example: "My English teacher is very kind. (Giáo viên tiếng Anh của tôi rất tốt bụng.)",
+                    pronunciation: "/ˈteɪtʃər/"
                 },
                 { 
                     word: "student", 
                     meaning: "học sinh", 
-                    example: "He is a good student. (Anh ấy là một học sinh giỏi.)" 
+                    example: "He is a good student. (Anh ấy là một học sinh giỏi.)",
+                    pronunciation: "/ˈstʌdənt/"
                 },
                 { 
                     word: "subject", 
                     meaning: "môn học", 
-                    example: "Math is my favorite subject. (Toán là môn học yêu thích của tôi.)" 
+                    example: "Math is my favorite subject. (Toán là môn học yêu thích của tôi.)",
+                    pronunciation: "/ˈmætʃ/"
                 },
                 { 
                     word: "classroom", 
                     meaning: "lớp học", 
-                    example: "Our classroom is on the second floor. (Lớp học của chúng tôi ở tầng hai.)" 
+                    example: "Our classroom is on the second floor. (Lớp học của chúng tôi ở tầng hai.)",
+                    pronunciation: "/ˈklɑːsroʊm/"
                 },
                 { 
                     word: "library", 
                     meaning: "thư viện", 
-                    example: "I often study in the library. (Tôi thường học trong thư viện.)" 
+                    example: "I often study in the library. (Tôi thường học trong thư viện.)",
+                    pronunciation: "/ˈlaɪbrəri/"
                 },
                 { 
                     word: "homework", 
                     meaning: "bài tập về nhà", 
-                    example: "I need to finish my homework. (Tôi cần hoàn thành bài tập về nhà.)" 
+                    example: "I need to finish my homework. (Tôi cần hoàn thành bài tập về nhà.)",
+                    pronunciation: "/ˈhoʊmwərk/"
                 },
                 { 
                     word: "pencil", 
                     meaning: "bút chì", 
-                    example: "Can I borrow your pencil? (Tôi có thể mượn bút chì của bạn không?)" 
+                    example: "Can I borrow your pencil? (Tôi có thể mượn bút chì của bạn không?)",
+                    pronunciation: "/ˈpɛnsəl/"
                 },
                 { 
                     word: "notebook", 
                     meaning: "vở", 
-                    example: "I write notes in my notebook. (Tôi ghi chép vào vở.)" 
+                    example: "I write notes in my notebook. (Tôi ghi chép vào vở.)",
+                    pronunciation: "/ˈnəʊtbəʊk/"
                 },
                 { 
                     word: "backpack", 
                     meaning: "ba lô", 
-                    example: "My backpack is heavy today. (Ba lô của tôi hôm nay nặng.)" 
+                    example: "My backpack is heavy today. (Ba lô của tôi hôm nay nặng.)",
+                    pronunciation: "/ˈbækˌpæk/"
                 },
                 { 
                     word: "principal", 
                     meaning: "hiệu trưởng", 
-                    example: "The principal gave a speech. (Hiệu trưởng đã có bài phát biểu.)" 
+                    example: "The principal gave a speech. (Hiệu trưởng đã có bài phát biểu.)",
+                    pronunciation: "/ˈprɪnsəpəl/"
                 }
             ]
         },
@@ -111,52 +121,62 @@ const units = [
                 { 
                     word: "hobby", 
                     meaning: "sở thích", 
-                    example: "Reading is my hobby. (Đọc sách là sở thích của tôi.)" 
+                    example: "Reading is my hobby. (Đọc sách là sở thích của tôi.)",
+                    pronunciation: "/ˈhɒbi/"
                 },
                 { 
                     word: "collect", 
                     meaning: "sưu tập", 
-                    example: "I collect stamps. (Tôi sưu tập tem.)" 
+                    example: "I collect stamps. (Tôi sưu tập tem.)",
+                    pronunciation: "/kəˈlekt/"
                 },
                 { 
                     word: "paint", 
                     meaning: "vẽ tranh", 
-                    example: "She paints beautiful pictures. (Cô ấy vẽ những bức tranh đẹp.)" 
+                    example: "She paints beautiful pictures. (Cô ấy vẽ những bức tranh đẹp.)",
+                    pronunciation: "/peɪnt/"
                 },
                 { 
                     word: "draw", 
                     meaning: "vẽ", 
-                    example: "He draws comics. (Anh ấy vẽ truyện tranh.)" 
+                    example: "He draws comics. (Anh ấy vẽ truyện tranh.)",
+                    pronunciation: "/drɔː/"
                 },
                 { 
                     word: "music", 
                     meaning: "âm nhạc", 
-                    example: "I love listening to music. (Tôi thích nghe nhạc.)" 
+                    example: "I love listening to music. (Tôi thích nghe nhạc.)",
+                    pronunciation: "/ˈmjuːzɪk/"
                 },
                 { 
                     word: "dance", 
                     meaning: "nhảy múa", 
-                    example: "They are dancing at the party. (Họ đang nhảy múa ở bữa tiệc.)" 
+                    example: "They are dancing at the party. (Họ đang nhảy múa ở bữa tiệc.)",
+                    pronunciation: "/ˈdɑːns/"
                 },
                 { 
                     word: "sing", 
                     meaning: "hát", 
-                    example: "She sings beautifully. (Cô ấy hát hay.)" 
+                    example: "She sings beautifully. (Cô ấy hát hay.)",
+                    pronunciation: "/sɪŋ/"
                 },
                 { 
                     word: "read", 
                     meaning: "đọc", 
-                    example: "I read books every day. (Tôi đọc sách mỗi ngày.)" 
+                    example: "I read books every day. (Tôi đọc sách mỗi ngày.)",
+                    pronunciation: "/riːd/"
                 },
                 { 
                     word: "write", 
                     meaning: "viết", 
-                    example: "He writes stories. (Anh ấy viết truyện.)" 
+                    example: "He writes stories. (Anh ấy viết truyện.)",
+                    pronunciation: "/raɪt/"
                 },
                 { 
                     word: "photography", 
                     meaning: "nhiếp ảnh", 
-                    example: "Photography is her passion. (Nhiếp ảnh là đam mê của cô ấy.)" 
+                    example: "Photography is her passion. (Nhiếp ảnh là đam mê của cô ấy.)",
+                    pronunciation: "/fəˈtɒɡrəfi/"
                 }
             ]
         },
@@ -201,52 +221,62 @@ const units = [
                 { 
                     word: "father", 
                     meaning: "bố", 
-                    example: "My father works in a bank. (Bố tôi làm việc ở ngân hàng.)" 
+                    example: "My father works in a bank. (Bố tôi làm việc ở ngân hàng.)",
+                    pronunciation: "/ˈfɑːtər/"
                 },
                 { 
                     word: "mother", 
                     meaning: "mẹ", 
-                    example: "My mother is a doctor. (Mẹ tôi là bác sĩ.)" 
+                    example: "My mother is a doctor. (Mẹ tôi là bác sĩ.)",
+                    pronunciation: "/ˈmʌðər/"
                 },
                 { 
                     word: "sister", 
                     meaning: "chị/em gái", 
-                    example: "I have two sisters. (Tôi có hai chị/em gái.)" 
+                    example: "I have two sisters. (Tôi có hai chị/em gái.)",
+                    pronunciation: "/ˈsɪstər/"
                 },
                 { 
                     word: "brother", 
                     meaning: "anh/em trai", 
-                    example: "My brother plays football. (Anh/em trai tôi chơi bóng đá.)" 
+                    example: "My brother plays football. (Anh/em trai tôi chơi bóng đá.)",
+                    pronunciation: "/ˈbrʌðər/"
                 },
                 { 
                     word: "grandmother", 
                     meaning: "bà", 
-                    example: "My grandmother lives with us. (Bà tôi sống với chúng tôi.)" 
+                    example: "My grandmother lives with us. (Bà tôi sống với chúng tôi.)",
+                    pronunciation: "/ˈɡrændmʌðər/"
                 },
                 { 
                     word: "grandfather", 
                     meaning: "ông", 
-                    example: "My grandfather tells great stories. (Ông tôi kể chuyện hay.)" 
+                    example: "My grandfather tells great stories. (Ông tôi kể chuyện hay.)",
+                    pronunciation: "/ˈɡrændfɑːtər/"
                 },
                 { 
                     word: "aunt", 
                     meaning: "cô/dì", 
-                    example: "My aunt is a teacher. (Cô tôi là giáo viên.)" 
+                    example: "My aunt is a teacher. (Cô tôi là giáo viên.)",
+                    pronunciation: "/ˈɑːnt/"
                 },
                 { 
                     word: "uncle", 
                     meaning: "chú/bác", 
-                    example: "My uncle lives in America. (Chú tôi sống ở Mỹ.)" 
+                    example: "My uncle lives in America. (Chú tôi sống ở Mỹ.)",
+                    pronunciation: "/ˈʌnkl/"
                 },
                 { 
                     word: "cousin", 
                     meaning: "anh/chị/em họ", 
-                    example: "I play with my cousins on weekends. (Tôi chơi với anh chị em họ vào cuối tuần.)" 
+                    example: "I play with my cousins on weekends. (Tôi chơi với anh chị em họ vào cuối tuần.)",
+                    pronunciation: "/ˈkʌzn/"
                 },
                 { 
                     word: "family", 
                     meaning: "gia đình", 
-                    example: "I love my family. (Tôi yêu gia đình tôi.)" 
+                    example: "I love my family. (Tôi yêu gia đình tôi.)",
+                    pronunciation: "/ˈfæməli/"
                 }
             ]
         },
@@ -287,52 +317,62 @@ const units = [
                 { 
                     word: "football", 
                     meaning: "bóng đá", 
-                    example: "I play football every weekend. (Tôi chơi bóng đá mỗi cuối tuần.)" 
+                    example: "I play football every weekend. (Tôi chơi bóng đá mỗi cuối tuần.)",
+                    pronunciation: "/ˈfʊtbɔːl/"
                 },
                 { 
                     word: "basketball", 
                     meaning: "bóng rổ", 
-                    example: "He plays basketball well. (Anh ấy chơi bóng rổ giỏi.)" 
+                    example: "He plays basketball well. (Anh ấy chơi bóng rổ giỏi.)",
+                    pronunciation: "/ˈbɑːskɪtbɔːl/"
                 },
                 { 
                     word: "swimming", 
                     meaning: "bơi lội", 
-                    example: "Swimming is good exercise. (Bơi lội là bài tập tốt.)" 
+                    example: "Swimming is good exercise. (Bơi lội là bài tập tốt.)",
+                    pronunciation: "/ˈswɪmɪŋ/"
                 },
                 { 
                     word: "tennis", 
                     meaning: "quần vợt", 
-                    example: "They play tennis together. (Họ chơi quần vợt cùng nhau.)" 
+                    example: "They play tennis together. (Họ chơi quần vợt cùng nhau.)",
+                    pronunciation: "/ˈtenɪs/"
                 },
                 { 
                     word: "volleyball", 
                     meaning: "bóng chuyền", 
-                    example: "We play volleyball at school. (Chúng tôi chơi bóng chuyền ở trường.)" 
+                    example: "We play volleyball at school. (Chúng tôi chơi bóng chuyền ở trường.)",
+                    pronunciation: "/ˈvɑːliːbɔːl/"
                 },
                 { 
                     word: "movie", 
                     meaning: "phim", 
-                    example: "I watch movies on weekends. (Tôi xem phim vào cuối tuần.)" 
+                    example: "I watch movies on weekends. (Tôi xem phim vào cuối tuần.)",
+                    pronunciation: "/ˈmɪvi/"
                 },
                 { 
                     word: "game", 
                     meaning: "trò chơi", 
-                    example: "Video games are fun. (Trò chơi điện tử rất vui.)" 
+                    example: "Video games are fun. (Trò chơi điện tử rất vui.)",
+                    pronunciation: "/ˈɡeɪm/"
                 },
                 { 
                     word: "park", 
                     meaning: "công viên", 
-                    example: "We go to the park on Sundays. (Chúng tôi đi công viên vào Chủ nhật.)" 
+                    example: "We go to the park on Sundays. (Chúng tôi đi công viên vào Chủ nhật.)",
+                    pronunciation: "/pɑːk/"
                 },
                 { 
                     word: "bicycle", 
                     meaning: "xe đạp", 
-                    example: "I ride my bicycle to school. (Tôi đi xe đạp đến trường.)" 
+                    example: "I ride my bicycle to school. (Tôi đi xe đạp đến trường.)",
+                    pronunciation: "/ˈbaɪsɪkl/"
                 },
                 { 
                     word: "run", 
                     meaning: "chạy", 
-                    example: "She runs every morning. (Cô ấy chạy bộ mỗi sáng.)" 
+                    example: "She runs every morning. (Cô ấy chạy bộ mỗi sáng.)",
+                    pronunciation: "/rʌn/"
                 }
             ]
         },
@@ -379,52 +419,62 @@ const units = [
                 { 
                     word: "weather", 
                     meaning: "thời tiết", 
-                    example: "What's the weather like today? (Thời tiết hôm nay thế nào?)" 
+                    example: "What's the weather like today? (Thời tiết hôm nay thế nào?)",
+                    pronunciation: "/ˈweðər/"
                 },
                 { 
                     word: "season", 
                     meaning: "mùa", 
-                    example: "There are four seasons in a year. (Có bốn mùa trong một năm.)" 
+                    example: "There are four seasons in a year. (Có bốn mùa trong một năm.)",
+                    pronunciation: "/ˈsiːzn/"
                 },
                 { 
                     word: "summer", 
                     meaning: "mùa hè", 
-                    example: "Summer is very hot. (Mùa hè rất nóng.)" 
+                    example: "Summer is very hot. (Mùa hè rất nóng.)",
+                    pronunciation: "/ˈsʌmər/"
                 },
                 { 
                     word: "winter", 
                     meaning: "mùa đông", 
-                    example: "It snows in winter. (Tuyết rơi vào mùa đông.)" 
+                    example: "It snows in winter. (Tuyết rơi vào mùa đông.)",
+                    pronunciation: "/ˈwɪntər/"
                 },
                 { 
                     word: "spring", 
                     meaning: "mùa xuân", 
-                    example: "Flowers bloom in spring. (Hoa nở vào mùa xuân.)" 
+                    example: "Flowers bloom in spring. (Hoa nở vào mùa xuân.)",
+                    pronunciation: "/ˈsprɪŋ/"
                 },
                 { 
                     word: "autumn", 
                     meaning: "mùa thu", 
-                    example: "Leaves fall in autumn. (Lá rụng vào mùa thu.)" 
+                    example: "Leaves fall in autumn. (Lá rụng vào mùa thu.)",
+                    pronunciation: "/ˈɔːtəm/"
                 },
                 { 
                     word: "sunny", 
                     meaning: "nắng", 
-                    example: "It's sunny today. (Hôm nay trời nắng.)" 
+                    example: "It's sunny today. (Hôm nay trời nắng.)",
+                    pronunciation: "/ˈsʌnɪ/"
                 },
                 { 
                     word: "rainy", 
                     meaning: "mưa", 
-                    example: "It's rainy in the afternoon. (Trời mưa vào buổi chiều.)" 
+                    example: "It's rainy in the afternoon. (Trời mưa vào buổi chiều.)",
+                    pronunciation: "/ˈreɪni/"
                 },
                 { 
                     word: "cloudy", 
                     meaning: "nhiều mây", 
-                    example: "The sky is cloudy. (Bầu trời nhiều mây.)" 
+                    example: "The sky is cloudy. (Bầu trời nhiều mây.)",
+                    pronunciation: "/ˈklaʊdɪ/"
                 },
                 { 
                     word: "windy", 
                     meaning: "gió", 
-                    example: "It's very windy today. (Hôm nay trời rất gió.)" 
+                    example: "It's very windy today. (Hôm nay trời rất gió.)",
+                    pronunciation: "/ˈwɪndɪ/"
                 }
             ]
         },
@@ -472,52 +522,62 @@ const units = [
                 { 
                     word: "food", 
                     meaning: "thức ăn", 
-                    example: "Vietnamese food is delicious. (Thức ăn Việt Nam rất ngon.)" 
+                    example: "Vietnamese food is delicious. (Thức ăn Việt Nam rất ngon.)",
+                    pronunciation: "/ˈfʊd/"
                 },
                 { 
                     word: "drink", 
                     meaning: "đồ uống", 
-                    example: "What would you like to drink? (Bạn muốn uống gì?)" 
+                    example: "What would you like to drink? (Bạn muốn uống gì?)",
+                    pronunciation: "/ˈdrɪŋk/"
                 },
                 { 
                     word: "rice", 
                     meaning: "cơm/gạo", 
-                    example: "We eat rice every day. (Chúng tôi ăn cơm mỗi ngày.)" 
+                    example: "We eat rice every day. (Chúng tôi ăn cơm mỗi ngày.)",
+                    pronunciation: "/ˈraɪs/"
                 },
                 { 
                     word: "noodles", 
                     meaning: "mì", 
-                    example: "I like eating noodles. (Tôi thích ăn mì.)" 
+                    example: "I like eating noodles. (Tôi thích ăn mì.)",
+                    pronunciation: "/ˈnoʊldz/"
                 },
                 { 
                     word: "vegetables", 
                     meaning: "rau củ", 
-                    example: "Vegetables are good for health. (Rau củ tốt cho sức khỏe.)" 
+                    example: "Vegetables are good for health. (Rau củ tốt cho sức khỏe.)",
+                    pronunciation: "/ˈvɛdʒəblz/"
                 },
                 { 
                     word: "fruit", 
                     meaning: "trái cây", 
-                    example: "I eat fruit every day. (Tôi ăn trái cây mỗi ngày.)" 
+                    example: "I eat fruit every day. (Tôi ăn trái cây mỗi ngày.)",
+                    pronunciation: "/ˈfrut/"
                 },
                 { 
                     word: "water", 
                     meaning: "nước", 
-                    example: "Please give me some water. (Làm ơn cho tôi ít nước.)" 
+                    example: "Please give me some water. (Làm ơn cho tôi ít nước.)",
+                    pronunciation: "/ˈwɔːtər/"
                 },
                 { 
                     word: "juice", 
                     meaning: "nước ép", 
-                    example: "I like orange juice. (Tôi thích nước cam.)" 
+                    example: "I like orange juice. (Tôi thích nước cam.)",
+                    pronunciation: "/ˈdʒuːs/"
                 },
                 { 
                     word: "milk", 
                     meaning: "sữa", 
-                    example: "I drink milk every morning. (Tôi uống sữa mỗi sáng.)" 
+                    example: "I drink milk every morning. (Tôi uống sữa mỗi sáng.)",
+                    pronunciation: "/mɪlk/"
                 },
                 { 
                     word: "tea", 
                     meaning: "trà", 
-                    example: "Would you like some tea? (Bạn có muốn uống trà không?)" 
+                    example: "Would you like some tea? (Bạn có muốn uống trà không?)",
+                    pronunciation: "/ˈtiː/"
                 }
             ]
         },
@@ -569,6 +629,7 @@ const units = [
                 {
                     word: "animated film",
                     meaning: "hoạt hình",
+                    pronunciation: "/ˈænɪmeɪtɪd fɪlm/",
                     example: "My sister loves watching animated films.",
                     exampleMeaning: "Em gái tôi thích xem phim hoạt hình.",
                     image: "https://images.unsplash.com/photo-1534337621606-e3df5ee0e97f?w=500"
@@ -576,6 +637,7 @@ const units = [
                 {
                     word: "cartoon",
                     meaning: "phim hoạt hình",
+                    pronunciation: "/kɑːˈtuːn/",
                     example: "Tom and Jerry is a famous cartoon.",
                     exampleMeaning: "Tom và Jerry là một phim hoạt hình nổi tiếng.",
                     image: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=500"
@@ -583,6 +645,7 @@ const units = [
                 {
                     word: "channel",
                     meaning: "kênh (truyền hình)",
+                    pronunciation: "/ˈtʃænl/",
                     example: "Which channel shows cartoons?",
                     exampleMeaning: "Kênh nào chiếu phim hoạt hình?",
                     image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500"
@@ -590,6 +653,7 @@ const units = [
                 {
                     word: "character",
                     meaning: "nhân vật",
+                    pronunciation: "/ˈkærəktər/",
                     example: "Who is your favorite character?",
                     exampleMeaning: "Nhân vật yêu thích của bạn là ai?",
                     image: "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=500"
@@ -597,6 +661,7 @@ const units = [
                 {
                     word: "clip",
                     meaning: "đoạn phim ngắn",
+                    pronunciation: "/klɪp/",
                     example: "I watched a funny clip on YouTube.",
                     exampleMeaning: "Tôi đã xem một đoạn phim hài trên YouTube.",
                     image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=500"
@@ -604,6 +669,7 @@ const units = [
                 {
                     word: "comedy",
                     meaning: "phim hài",
+                    pronunciation: "/ˈkɒmədi/",
                     example: "We watched a comedy last night.",
                     exampleMeaning: "Chúng tôi đã xem một bộ phim hài tối qua.",
                     image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=500"
@@ -611,6 +677,7 @@ const units = [
                 {
                     word: "compete",
                     meaning: "thi đấu",
+                    pronunciation: "/kəmˈpiːt/",
                     example: "Many singers compete in this show.",
                     exampleMeaning: "Nhiều ca sĩ thi đấu trong chương trình này.",
                     image: "https://images.unsplash.com/photo-1586105449897-20b5efeb3233?w=500"
@@ -618,6 +685,7 @@ const units = [
                 {
                     word: "documentary",
                     meaning: "phim tài liệu",
+                    pronunciation: "/ˌdɒkjuˈmentəri/",
                     example: "We watched a documentary about wild animals.",
                     exampleMeaning: "Chúng tôi đã xem một bộ phim tài liệu về động vật hoang dã.",
                     image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500"
@@ -625,6 +693,7 @@ const units = [
                 {
                     word: "episode",
                     meaning: "tập phim",
+                    pronunciation: "/ˈepɪsəʊd/",
                     example: "I missed the first episode of the series.",
                     exampleMeaning: "Tôi đã bỏ lỡ tập đầu tiên của bộ phim.",
                     image: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=500"
@@ -632,6 +701,7 @@ const units = [
                 {
                     word: "educational",
                     meaning: "mang tính giáo dục",
+                    pronunciation: "/ˌedʒuˈkeɪʃənl/",
                     example: "Discovery Channel has many educational shows.",
                     exampleMeaning: "Kênh Discovery có nhiều chương trình mang tính giáo dục.",
                     image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500"
@@ -639,6 +709,7 @@ const units = [
                 {
                     word: "entertainment",
                     meaning: "giải trí",
+                    pronunciation: "/ˌentəˈteɪnmənt/",
                     example: "Television provides entertainment for many people.",
                     exampleMeaning: "Truyền hình mang lại giải trí cho nhiều người.",
                     image: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=500"
@@ -646,6 +717,7 @@ const units = [
                 {
                     word: "live",
                     meaning: "trực tiếp",
+                    pronunciation: "/laɪv/",
                     example: "The football match is live on TV.",
                     exampleMeaning: "Trận bóng đá được phát sóng trực tiếp trên TV.",
                     image: "https://images.unsplash.com/photo-1540575861501-7cf05a4b125a?w=500"
@@ -653,6 +725,7 @@ const units = [
                 {
                     word: "programme",
                     meaning: "chương trình",
+                    pronunciation: "/ˈprəʊɡræm/",
                     example: "What's your favorite TV programme?",
                     exampleMeaning: "Chương trình TV yêu thích của bạn là gì?",
                     image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500"
@@ -660,6 +733,7 @@ const units = [
                 {
                     word: "talent show",
                     meaning: "cuộc thi tài năng",
+                    pronunciation: "/ˈtælənt ʃəʊ/",
                     example: "She won the talent show last year.",
                     exampleMeaning: "Cô ấy đã thắng cuộc thi tài năng năm ngoái.",
                     image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=500"
@@ -667,6 +741,7 @@ const units = [
                 {
                     word: "viewer",
                     meaning: "người xem",
+                    pronunciation: "/ˈvjuːər/",
                     example: "This show has millions of viewers.",
                     exampleMeaning: "Chương trình này có hàng triệu người xem.",
                     image: "https://images.unsplash.com/photo-1604079628040-94301bb21b91?w=500"
@@ -1800,7 +1875,12 @@ function showVocabularyContent(contentArea) {
                                  style="max-height: 200px; object-fit: cover;">
                         </div>
                         <div class="col-md-8">
-                            <h4>${word.word}</h4>
+                            <h4>${word.word} 
+                                <button onclick="speakWord('${word.word}')" class="btn btn-sm btn-primary ml-2">
+                                    <i class="fas fa-volume-up"></i> Phát âm
+                                </button>
+                            </h4>
+                            <p><strong>Phát âm:</strong> <span class="pronunciation">${word.pronunciation || ''}</span></p>
                             <p><strong>Nghĩa:</strong> ${word.meaning}</p>
                             <p><strong>Ví dụ:</strong> ${word.example}</p>
                             <p><strong>Nghĩa ví dụ:</strong> ${word.exampleMeaning}</p>
@@ -1810,6 +1890,15 @@ function showVocabularyContent(contentArea) {
             `).join('')}
         </div>
     `;
+}
+
+// Function to speak the word using Web Speech API
+function speakWord(word) {
+    const speech = new SpeechSynthesisUtterance(word);
+    speech.lang = 'en-US';
+    speech.rate = 0.8; // Slightly slower speed for better pronunciation
+    speech.pitch = 1;
+    window.speechSynthesis.speak(speech);
 }
 
 // Show exercises content
