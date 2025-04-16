@@ -541,832 +541,1142 @@ const units = [
     },
     {
         id: 7,
-        title: "Bài 7: Du lịch và Phương tiện",
+        title: "Unit 7: Television",
         grammar: {
-            title: "Will và Be going to",
+            title: "Grammar",
             content: [
-                "Will: dùng để:",
-                "- Dự đoán tương lai",
-                "- Quyết định tức thì",
-                "- Hứa hẹn",
+                "1. Wh-questions:",
+                "- When: hỏi về thời gian",
+                "- What: hỏi về sự vật/việc",
+                "- Where: hỏi về địa điểm",
+                "- Who: hỏi về người",
+                "- How often: hỏi về tần suất",
                 "",
-                "Be going to: dùng để:",
-                "- Kế hoạch đã định trước",
-                "- Dự đoán dựa trên bằng chứng hiện tại",
+                "2. Conjunctions in compound sentences:",
+                "- and: nối 2 ý cùng chiều",
+                "- but: nối 2 ý trái ngược",
+                "- so: nối 2 ý quan hệ nguyên nhân-kết quả",
                 "",
                 "Ví dụ:",
-                "- I will help you. (Tôi sẽ giúp bạn.)",
-                "- We are going to travel next week. (Chúng tôi sẽ đi du lịch tuần sau.)"
+                "- I like watching cartoons, but my brother likes watching sports.",
+                "- I enjoy sports, so I spend a lot of time outdoors.",
+                "- I'm helping decorate the house, and my brother is busy cooking."
             ]
         },
         vocabulary: {
-            title: "Du lịch và Phương tiện",
+            title: "Television",
             words: [
-                { 
-                    word: "travel", 
-                    meaning: "du lịch", 
-                    example: "I love to travel. (Tôi thích du lịch.)" 
+                {
+                    word: "talent show",
+                    meaning: "chương trình tài năng",
+                    example: "A competition to choose the best performer",
+                    exampleMeaning: "Cuộc thi chọn người biểu diễn xuất sắc nhất"
                 },
-                { 
-                    word: "transport", 
-                    meaning: "phương tiện giao thông", 
-                    example: "What transport do you use? (Bạn đi phương tiện gì?)" 
+                {
+                    word: "comedy",
+                    meaning: "phim hài",
+                    example: "A film/show which makes people laugh",
+                    exampleMeaning: "Phim/chương trình làm cho người xem cười"
                 },
-                { 
-                    word: "airplane", 
-                    meaning: "máy bay", 
-                    example: "We will go by airplane. (Chúng tôi sẽ đi bằng máy bay.)" 
+                {
+                    word: "educational programme",
+                    meaning: "chương trình giáo dục",
+                    example: "A programme which teaches maths, English, etc.",
+                    exampleMeaning: "Chương trình dạy toán, tiếng Anh, v.v."
                 },
-                { 
-                    word: "train", 
-                    meaning: "tàu hỏa", 
-                    example: "The train leaves at 9 AM. (Tàu khởi hành lúc 9 giờ sáng.)" 
+                {
+                    word: "character",
+                    meaning: "nhân vật",
+                    example: "An animal or a person in a film",
+                    exampleMeaning: "Một con vật hoặc người trong phim"
                 },
-                { 
-                    word: "bus", 
-                    meaning: "xe buýt", 
-                    example: "I take the bus to school. (Tôi đi xe buýt đến trường.)" 
+                {
+                    word: "viewer",
+                    meaning: "người xem",
+                    example: "A person who watches TV",
+                    exampleMeaning: "Người xem TV"
                 },
-                { 
-                    word: "taxi", 
-                    meaning: "taxi", 
-                    example: "Let's take a taxi. (Hãy đi taxi.)" 
+                {
+                    word: "animated films",
+                    meaning: "phim hoạt hình",
+                    example: "Movies made with animation",
+                    exampleMeaning: "Phim được làm bằng hoạt hình"
                 },
-                { 
-                    word: "ticket", 
-                    meaning: "vé", 
-                    example: "I need to buy a ticket. (Tôi cần mua vé.)" 
+                {
+                    word: "game show",
+                    meaning: "chương trình trò chơi",
+                    example: "A TV show where people play games and win prizes",
+                    exampleMeaning: "Chương trình TV nơi người chơi tham gia các trò chơi và giành giải thưởng"
                 },
-                { 
-                    word: "passport", 
-                    meaning: "hộ chiếu", 
-                    example: "Don't forget your passport. (Đừng quên hộ chiếu.)" 
+                {
+                    word: "channel",
+                    meaning: "kênh",
+                    example: "Different TV stations you can watch",
+                    exampleMeaning: "Các kênh TV khác nhau có thể xem"
                 },
-                { 
-                    word: "luggage", 
-                    meaning: "hành lý", 
-                    example: "My luggage is heavy. (Hành lý của tôi nặng.)" 
+                {
+                    word: "popular",
+                    meaning: "phổ biến",
+                    example: "Liked by many people",
+                    exampleMeaning: "Được nhiều người yêu thích"
                 },
-                { 
-                    word: "map", 
-                    meaning: "bản đồ", 
-                    example: "I need a map of the city. (Tôi cần bản đồ thành phố.)" 
+                {
+                    word: "boring",
+                    meaning: "nhàm chán",
+                    example: "Not interesting",
+                    exampleMeaning: "Không thú vị"
                 }
             ]
         },
         exercises: [
             {
-                question: "We _____ travel to Paris next month. (Chúng tôi sẽ du lịch Paris tháng sau.)",
-                answer: "are going to",
-                options: ["will", "are going to", "going to", "will to"]
+                question: "Complete the sentence: The most _____ channel for children is the Cartoon Network.",
+                answer: "popular",
+                options: ["popular", "boring", "educational", "funny"]
             },
             {
-                question: "The weather is bad. It _____ rain. (Thời tiết xấu. Trời sẽ mưa.)",
-                answer: "is going to",
-                options: ["will", "is going to", "going", "will to"]
+                question: "What do we call an animal or person in a film?",
+                answer: "character",
+                options: ["viewer", "character", "channel", "comedy"]
             },
             {
-                question: "I _____ help you with your luggage. (Tôi sẽ giúp bạn với hành lý.)",
-                answer: "will",
-                options: ["going to", "will", "am going to", "will to"]
+                question: "Which type of programme teaches subjects like maths and English?",
+                answer: "educational programme",
+                options: ["talent show", "comedy", "educational programme", "game show"]
+            },
+            {
+                question: "Complete: I love _____ like Happy Feet and Coco.",
+                answer: "animated films",
+                options: ["game show", "animated films", "channel", "talent show"]
+            },
+            {
+                question: "What do we call someone who watches TV?",
+                answer: "viewer",
+                options: ["character", "viewer", "channel", "comedy"]
             }
-        ]
+        ],
+        pronunciation: {
+            title: "Pronunciation",
+            content: [
+                "Sounds: /θ/ and /ð/",
+                "Words with /θ/: theatre, earth, anything, both, through",
+                "Words with /ð/: there, them, neither, weather, than"
+            ]
+        }
     },
     {
         id: 8,
-        title: "Bài 8: Công nghệ và Internet",
+        title: "Unit 8: Sports and Games",
         grammar: {
-            title: "Must/Mustn't và Should/Shouldn't",
+            title: "Grammar",
             content: [
-                "Must: phải (bắt buộc)",
-                "Mustn't: không được (cấm)",
-                "",
-                "Should: nên",
-                "Shouldn't: không nên",
-                "",
-                "Cấu trúc:",
-                "Subject + must/mustn't + V(nguyên thể)",
-                "Subject + should/shouldn't + V(nguyên thể)",
+                "1. Past Simple (Thì quá khứ đơn):",
+                "Dùng để nói về hành động đã xảy ra trong quá khứ",
+                "- Khẳng định: S + V-ed/V2",
+                "- Phủ định: S + didn't + V",
+                "- Câu hỏi: Did + S + V?",
                 "",
                 "Ví dụ:",
-                "- You must finish your homework. (Bạn phải làm xong bài tập.)",
-                "- You shouldn't play games too much. (Bạn không nên chơi game quá nhiều.)"
+                "- I played football yesterday (Tôi đã chơi bóng đá hôm qua)",
+                "- She didn't win the match (Cô ấy đã không thắng trận đấu)",
+                "- Did you watch the game? (Bạn đã xem trận đấu chưa?)",
+                "",
+                "2. Imperatives (Câu mệnh lệnh):",
+                "Dùng để đưa ra mệnh lệnh hoặc hướng dẫn",
+                "- Khẳng định: V (nguyên thể)",
+                "- Phủ định: Don't + V",
+                "",
+                "Ví dụ:",
+                "- Pass the ball! (Chuyền bóng đi!)",
+                "- Don't run in the pool! (Đừng chạy trong hồ bơi!)",
+                "- Follow the rules! (Hãy tuân thủ luật chơi!)"
             ]
         },
         vocabulary: {
-            title: "Công nghệ và Internet",
+            title: "Sports and Games",
             words: [
-                { 
-                    word: "computer", 
-                    meaning: "máy tính", 
-                    example: "I use a computer every day. (Tôi sử dụng máy tính mỗi ngày.)" 
+                {
+                    word: "ball",
+                    meaning: "quả bóng",
+                    example: "Kick the ball into the goal.",
+                    exampleMeaning: "Sút bóng vào khung thành."
                 },
-                { 
-                    word: "smartphone", 
-                    meaning: "điện thoại thông minh", 
-                    example: "Everyone has a smartphone nowadays. (Ngày nay ai cũng có điện thoại thông minh.)" 
+                {
+                    word: "boat",
+                    meaning: "thuyền",
+                    example: "They went boating on the lake.",
+                    exampleMeaning: "Họ đi thuyền trên hồ."
                 },
-                { 
-                    word: "internet", 
-                    meaning: "mạng internet", 
-                    example: "The internet is very fast. (Mạng internet rất nhanh.)" 
+                {
+                    word: "racket",
+                    meaning: "vợt",
+                    example: "You need a racket to play tennis.",
+                    exampleMeaning: "Bạn cần một cây vợt để chơi tennis."
                 },
-                { 
-                    word: "website", 
-                    meaning: "trang web", 
-                    example: "This is my favorite website. (Đây là trang web yêu thích của tôi.)" 
+                {
+                    word: "goggles",
+                    meaning: "kính bơi",
+                    example: "Wear goggles when you swim.",
+                    exampleMeaning: "Đeo kính bơi khi bạn bơi."
                 },
-                { 
-                    word: "email", 
-                    meaning: "thư điện tử", 
-                    example: "I sent you an email. (Tôi đã gửi cho bạn một email.)" 
+                {
+                    word: "sports shoes",
+                    meaning: "giày thể thao",
+                    example: "These sports shoes are comfortable.",
+                    exampleMeaning: "Đôi giày thể thao này rất thoải mái."
                 },
-                { 
-                    word: "password", 
-                    meaning: "mật khẩu", 
-                    example: "Don't forget your password. (Đừng quên mật khẩu.)" 
+                {
+                    word: "champion",
+                    meaning: "nhà vô địch",
+                    example: "He became the world tennis champion.",
+                    exampleMeaning: "Anh ấy đã trở thành nhà vô địch tennis thế giới."
                 },
-                { 
-                    word: "download", 
-                    meaning: "tải xuống", 
-                    example: "I need to download this file. (Tôi cần tải tệp này xuống.)" 
+                {
+                    word: "competition",
+                    meaning: "cuộc thi đấu",
+                    example: "She won an international sports competition.",
+                    exampleMeaning: "Cô ấy đã thắng một cuộc thi đấu thể thao quốc tế."
                 },
-                { 
-                    word: "upload", 
-                    meaning: "tải lên", 
-                    example: "Please upload your homework. (Hãy tải bài tập lên.)" 
+                {
+                    word: "sporty",
+                    meaning: "năng động",
+                    example: "My friend David is very sporty.",
+                    exampleMeaning: "Bạn David của tôi rất năng động."
                 },
-                { 
-                    word: "social media", 
-                    meaning: "mạng xã hội", 
-                    example: "Facebook is a social media platform. (Facebook là một nền tảng mạng xã hội.)" 
+                {
+                    word: "marathon",
+                    meaning: "cuộc chạy marathon",
+                    example: "The first marathon took place in 1896.",
+                    exampleMeaning: "Cuộc chạy marathon đầu tiên diễn ra vào năm 1896."
                 },
-                { 
-                    word: "online", 
-                    meaning: "trực tuyến", 
-                    example: "We can study online. (Chúng ta có thể học trực tuyến.)" 
+                {
+                    word: "congratulations",
+                    meaning: "chúc mừng",
+                    example: "Congratulations on winning the match!",
+                    exampleMeaning: "Chúc mừng bạn đã thắng trận đấu!"
+                },
+                {
+                    word: "cycling",
+                    meaning: "đạp xe",
+                    example: "I go cycling every weekend.",
+                    exampleMeaning: "Tôi đi đạp xe mỗi cuối tuần."
+                },
+                {
+                    word: "swimming",
+                    meaning: "bơi lội",
+                    example: "Swimming is good exercise.",
+                    exampleMeaning: "Bơi lội là bài tập tốt."
+                },
+                {
+                    word: "badminton",
+                    meaning: "cầu lông",
+                    example: "Let's play badminton after school.",
+                    exampleMeaning: "Hãy chơi cầu lông sau giờ học."
+                },
+                {
+                    word: "chess",
+                    meaning: "cờ vua",
+                    example: "We play chess every Saturday.",
+                    exampleMeaning: "Chúng tôi chơi cờ vua mỗi thứ Bảy."
+                },
+                {
+                    word: "match",
+                    meaning: "trận đấu",
+                    example: "They began the match very late.",
+                    exampleMeaning: "Họ bắt đầu trận đấu rất muộn."
                 }
             ]
         },
         exercises: [
             {
-                question: "You _____ protect your password. (Bạn phải bảo vệ mật khẩu.)",
-                answer: "must",
-                options: ["must", "should", "can", "may"]
+                question: "Complete the sentence: She won an international sports _____.",
+                answer: "competition",
+                options: ["champion", "competition", "sporty", "marathon"]
             },
             {
-                question: "Children _____ spend too much time online. (Trẻ em không nên dành quá nhiều thời gian online.)",
-                answer: "shouldn't",
-                options: ["mustn't", "shouldn't", "can't", "don't"]
+                question: "He _____ the world tennis champion when he was very young.",
+                answer: "became",
+                options: ["become", "became", "becomes", "becoming"]
             },
             {
-                question: "You _____ share your personal information online. (Bạn không được chia sẻ thông tin cá nhân online.)",
-                answer: "mustn't",
-                options: ["must", "mustn't", "should", "shouldn't"]
-            }
-        ]
-    },
-    {
-        id: 9,
-        title: "Bài 9: Môi trường",
-        grammar: {
-            title: "Câu điều kiện loại 1 (First Conditional)",
-            content: [
-                "Cấu trúc: If + S + V(hiện tại đơn), S + will + V(nguyên thể)",
-                "",
-                "Dùng để nói về:",
-                "- Điều kiện có thể xảy ra ở tương lai",
-                "- Kết quả có thể xảy ra nếu điều kiện được thỏa mãn",
-                "",
-                "Ví dụ:",
-                "- If we don't protect the environment, many animals will die.",
-                "(Nếu chúng ta không bảo vệ môi trường, nhiều động vật sẽ chết.)"
-            ]
-        },
-        vocabulary: {
-            title: "Môi trường",
-            words: [
-                { 
-                    word: "environment", 
-                    meaning: "môi trường", 
-                    example: "We must protect our environment. (Chúng ta phải bảo vệ môi trường.)" 
-                },
-                { 
-                    word: "pollution", 
-                    meaning: "ô nhiễm", 
-                    example: "Air pollution is a serious problem. (Ô nhiễm không khí là vấn đề nghiêm trọng.)" 
-                },
-                { 
-                    word: "recycle", 
-                    meaning: "tái chế", 
-                    example: "We should recycle paper and plastic. (Chúng ta nên tái chế giấy và nhựa.)" 
-                },
-                { 
-                    word: "waste", 
-                    meaning: "rác thải", 
-                    example: "Don't throw waste on the street. (Đừng vứt rác ra đường.)" 
-                },
-                { 
-                    word: "clean", 
-                    meaning: "sạch sẽ", 
-                    example: "We need clean water to live. (Chúng ta cần nước sạch để sống.)" 
-                },
-                { 
-                    word: "plant", 
-                    meaning: "trồng cây", 
-                    example: "Let's plant more trees. (Hãy trồng thêm nhiều cây.)" 
-                },
-                { 
-                    word: "energy", 
-                    meaning: "năng lượng", 
-                    example: "Solar energy is clean energy. (Năng lượng mặt trời là năng lượng sạch.)" 
-                },
-                { 
-                    word: "forest", 
-                    meaning: "rừng", 
-                    example: "We must protect our forests. (Chúng ta phải bảo vệ rừng.)" 
-                },
-                { 
-                    word: "climate", 
-                    meaning: "khí hậu", 
-                    example: "The climate is changing. (Khí hậu đang thay đổi.)" 
-                },
-                { 
-                    word: "save", 
-                    meaning: "tiết kiệm", 
-                    example: "We should save water. (Chúng ta nên tiết kiệm nước.)" 
-                }
-            ]
-        },
-        exercises: [
-            {
-                question: "If we _____ trees, the air will be cleaner. (Nếu chúng ta trồng cây, không khí sẽ sạch hơn.)",
-                answer: "plant",
-                options: ["plant", "plants", "will plant", "planted"]
+                question: "Can you send my _____ to the winner of the contest?",
+                answer: "congratulations",
+                options: ["champion", "competition", "congratulations", "sporty"]
             },
             {
-                question: "If people don't stop pollution, many animals _____ extinct. (Nếu người ta không ngừng ô nhiễm, nhiều động vật sẽ tuyệt chủng.)",
-                answer: "will become",
-                options: ["become", "will become", "becomes", "became"]
+                question: "My friend David is very _____. He does exercise every day.",
+                answer: "sporty",
+                options: ["champion", "competition", "sporty", "marathon"]
             },
             {
-                question: "The environment _____ better if we recycle more. (Môi trường sẽ tốt hơn nếu chúng ta tái chế nhiều hơn.)",
-                answer: "will be",
-                options: ["is", "will be", "would be", "was"]
-            }
-        ]
-    },
-    {
-        id: 10,
-        title: "Bài 10: Nghề nghiệp",
-        grammar: {
-            title: "Be going to (Dự định tương lai)",
-            content: [
-                "Cấu trúc: Subject + be + going to + V(nguyên thể)",
-                "",
-                "Dùng để nói về:",
-                "- Kế hoạch trong tương lai",
-                "- Dự định đã được quyết định trước",
-                "",
-                "Ví dụ:",
-                "- I am going to be a doctor. (Tôi sẽ trở thành bác sĩ.)",
-                "- What are you going to do after school? (Bạn định làm gì sau khi học xong?)"
-            ]
-        },
-        vocabulary: {
-            title: "Nghề nghiệp",
-            words: [
-                { 
-                    word: "job", 
-                    meaning: "công việc", 
-                    example: "She loves her job. (Cô ấy yêu công việc của mình.)" 
-                },
-                { 
-                    word: "doctor", 
-                    meaning: "bác sĩ", 
-                    example: "My sister is a doctor. (Chị tôi là bác sĩ.)" 
-                },
-                { 
-                    word: "teacher", 
-                    meaning: "giáo viên", 
-                    example: "Teachers help students learn. (Giáo viên giúp học sinh học.)" 
-                },
-                { 
-                    word: "engineer", 
-                    meaning: "kỹ sư", 
-                    example: "He works as an engineer. (Anh ấy làm kỹ sư.)" 
-                },
-                { 
-                    word: "police officer", 
-                    meaning: "cảnh sát", 
-                    example: "Police officers protect people. (Cảnh sát bảo vệ mọi người.)" 
-                },
-                { 
-                    word: "chef", 
-                    meaning: "đầu bếp", 
-                    example: "The chef cooks delicious food. (Đầu bếp nấu đồ ăn ngon.)" 
-                },
-                { 
-                    word: "artist", 
-                    meaning: "nghệ sĩ", 
-                    example: "She wants to be an artist. (Cô ấy muốn trở thành nghệ sĩ.)" 
-                },
-                { 
-                    word: "businessman", 
-                    meaning: "doanh nhân", 
-                    example: "My father is a businessman. (Bố tôi là doanh nhân.)" 
-                },
-                { 
-                    word: "nurse", 
-                    meaning: "y tá", 
-                    example: "Nurses work in hospitals. (Y tá làm việc trong bệnh viện.)" 
-                },
-                { 
-                    word: "pilot", 
-                    meaning: "phi công", 
-                    example: "He dreams of becoming a pilot. (Anh ấy mơ ước trở thành phi công.)" 
-                }
-            ]
-        },
-        exercises: [
-            {
-                question: "What _____ you going to be in the future? (Bạn định làm gì trong tương lai?)",
-                answer: "are",
-                options: ["is", "are", "am", "be"]
+                question: "The first _____ took place in 1896.",
+                answer: "marathon",
+                options: ["champion", "competition", "sporty", "marathon"]
             },
             {
-                question: "She _____ going to work as a teacher. (Cô ấy sẽ làm giáo viên.)",
-                answer: "is",
-                options: ["is", "are", "am", "be"]
+                question: "What do you need to play tennis?",
+                answer: "racket",
+                options: ["ball", "boat", "racket", "goggles"]
             },
             {
-                question: "They _____ going to study medicine. (Họ sẽ học ngành y.)",
-                answer: "are",
-                options: ["is", "are", "am", "be"]
-            }
-        ]
-    },
-    {
-        id: 11,
-        title: "Bài 11: Thể thao và Sức khỏe",
-        grammar: {
-            title: "Have to/Has to (Phải)",
-            content: [
-                "Cấu trúc:",
-                "- Khẳng định: Subject + have to/has to + V(nguyên thể)",
-                "- Phủ định: Subject + don't/doesn't + have to + V(nguyên thể)",
-                "- Câu hỏi: Do/Does + Subject + have to + V(nguyên thể)?",
-                "",
-                "Dùng để nói về:",
-                "- Nghĩa vụ, bổn phận phải làm",
-                "- Sự cần thiết phải làm gì đó",
-                "",
-                "Ví dụ:",
-                "- I have to exercise every day. (Tôi phải tập thể dục mỗi ngày.)",
-                "- She has to go to the doctor. (Cô ấy phải đi gặp bác sĩ.)"
-            ]
-        },
-        vocabulary: {
-            title: "Thể thao và Sức khỏe",
-            words: [
-                { 
-                    word: "exercise", 
-                    meaning: "tập thể dục", 
-                    example: "Exercise is good for health. (Tập thể dục tốt cho sức khỏe.)" 
-                },
-                { 
-                    word: "healthy", 
-                    meaning: "khỏe mạnh", 
-                    example: "Eating vegetables keeps you healthy. (Ăn rau củ giúp bạn khỏe mạnh.)" 
-                },
-                { 
-                    word: "sports", 
-                    meaning: "thể thao", 
-                    example: "I love playing sports. (Tôi thích chơi thể thao.)" 
-                },
-                { 
-                    word: "fitness", 
-                    meaning: "thể hình", 
-                    example: "He goes to the fitness center. (Anh ấy đi đến trung tâm thể hình.)" 
-                },
-                { 
-                    word: "diet", 
-                    meaning: "chế độ ăn", 
-                    example: "A good diet is important. (Chế độ ăn tốt rất quan trọng.)" 
-                },
-                { 
-                    word: "rest", 
-                    meaning: "nghỉ ngơi", 
-                    example: "You need to rest after exercise. (Bạn cần nghỉ ngơi sau khi tập thể dục.)" 
-                },
-                { 
-                    word: "strength", 
-                    meaning: "sức mạnh", 
-                    example: "Swimming builds strength. (Bơi lội rèn luyện sức mạnh.)" 
-                },
-                { 
-                    word: "team", 
-                    meaning: "đội", 
-                    example: "I play in a football team. (Tôi chơi trong một đội bóng đá.)" 
-                },
-                { 
-                    word: "coach", 
-                    meaning: "huấn luyện viên", 
-                    example: "Our coach is very strict. (Huấn luyện viên của chúng tôi rất nghiêm khắc.)" 
-                },
-                { 
-                    word: "practice", 
-                    meaning: "luyện tập", 
-                    example: "We practice every morning. (Chúng tôi luyện tập mỗi sáng.)" 
-                }
-            ]
-        },
-        exercises: [
-            {
-                question: "You _____ exercise regularly. (Bạn phải tập thể dục thường xuyên.)",
-                answer: "have to",
-                options: ["have to", "has to", "must", "should"]
-            },
-            {
-                question: "She _____ go to the gym today. (Cô ấy phải đi phòng tập hôm nay.)",
-                answer: "has to",
-                options: ["have to", "has to", "must", "had to"]
-            },
-            {
-                question: "_____ they have to practice every day? (Họ có phải luyện tập mỗi ngày không?)",
-                answer: "Do",
-                options: ["Do", "Does", "Are", "Is"]
-            }
-        ]
-    },
-    {
-        id: 12,
-        title: "Bài 12: Kỳ nghỉ",
-        grammar: {
-            title: "Past Simple (Thì quá khứ đơn)",
-            content: [
-                "Cấu trúc:",
-                "- Khẳng định: Subject + V(quá khứ)",
-                "- Phủ định: Subject + didn't + V(nguyên thể)",
-                "- Câu hỏi: Did + Subject + V(nguyên thể)?",
-                "",
-                "Dùng để nói về:",
-                "- Hành động đã xảy ra và kết thúc trong quá khứ",
-                "- Thói quen trong quá khứ",
-                "",
-                "Ví dụ:",
-                "- I visited my grandparents last summer. (Tôi đã thăm ông bà hè năm ngoái.)",
-                "- We didn't go to the beach yesterday. (Chúng tôi đã không đi biển hôm qua.)"
-            ]
-        },
-        vocabulary: {
-            title: "Kỳ nghỉ",
-            words: [
-                { 
-                    word: "holiday", 
-                    meaning: "kỳ nghỉ", 
-                    example: "We had a great holiday. (Chúng tôi có một kỳ nghỉ tuyệt vời.)" 
-                },
-                { 
-                    word: "trip", 
-                    meaning: "chuyến đi", 
-                    example: "They planned a trip to the mountains. (Họ lên kế hoạch đi núi.)" 
-                },
-                { 
-                    word: "beach", 
-                    meaning: "bãi biển", 
-                    example: "The beach was beautiful. (Bãi biển rất đẹp.)" 
-                },
-                { 
-                    word: "hotel", 
-                    meaning: "khách sạn", 
-                    example: "We stayed in a nice hotel. (Chúng tôi ở một khách sạn đẹp.)" 
-                },
-                { 
-                    word: "sightseeing", 
-                    meaning: "tham quan", 
-                    example: "We went sightseeing in the city. (Chúng tôi đi tham quan thành phố.)" 
-                },
-                { 
-                    word: "souvenir", 
-                    meaning: "quà lưu niệm", 
-                    example: "I bought some souvenirs. (Tôi đã mua vài món quà lưu niệm.)" 
-                },
-                { 
-                    word: "photograph", 
-                    meaning: "ảnh", 
-                    example: "We took many photographs. (Chúng tôi chụp nhiều ảnh.)" 
-                },
-                { 
-                    word: "relax", 
-                    meaning: "thư giãn", 
-                    example: "I like to relax on holiday. (Tôi thích thư giãn trong kỳ nghỉ.)" 
-                },
-                { 
-                    word: "enjoy", 
-                    meaning: "thưởng thức", 
-                    example: "We enjoyed our vacation. (Chúng tôi thích kỳ nghỉ của mình.)" 
-                },
-                { 
-                    word: "return", 
-                    meaning: "trở về", 
-                    example: "We returned home yesterday. (Chúng tôi đã trở về nhà hôm qua.)" 
-                }
-            ]
-        },
-        exercises: [
-            {
-                question: "We _____ to the beach last weekend. (Chúng tôi đã đi biển cuối tuần trước.)",
-                answer: "went",
-                options: ["go", "went", "gone", "going"]
-            },
-            {
-                question: "_____ you visit the museum? (Bạn có thăm bảo tàng không?)",
+                question: "_____ you play football yesterday?",
                 answer: "Did",
                 options: ["Do", "Did", "Does", "Done"]
             },
             {
-                question: "They _____ like the hotel. (Họ đã không thích khách sạn.)",
-                answer: "didn't",
-                options: ["not", "didn't", "don't", "doesn't"]
+                question: "Don't _____ in the swimming pool!",
+                answer: "run",
+                options: ["running", "runs", "run", "ran"]
             }
-        ]
+        ],
+        pronunciation: {
+            title: "Pronunciation",
+            content: [
+                "Sounds: /e/ and /æ/",
+                "",
+                "Words with /e/:",
+                "- chess",
+                "- tennis",
+                "- exercise",
+                "- contest",
+                "",
+                "Words with /æ/:",
+                "- racket",
+                "- match",
+                "- marathon",
+                "- active"
+            ]
+        }
     },
     {
-        id: 13,
-        title: "Bài 13: Mua sắm",
+        id: 9,
+        title: "Unit 9: Cities of the World",
         grammar: {
-            title: "How much/How many",
+            title: "Grammar",
             content: [
-                "How much: dùng với danh từ không đếm được",
-                "How many: dùng với danh từ đếm được",
-                "",
-                "Cấu trúc:",
-                "- How much + danh từ không đếm được...?",
-                "- How many + danh từ đếm được số nhiều...?",
+                "1. Possessive Adjectives (Tính từ sở hữu):",
+                "Dùng để chỉ sự sở hữu của một người/vật nào đó",
+                "- my (của tôi)",
+                "- your (của bạn)",
+                "- his (của anh ấy)",
+                "- her (của cô ấy)",
+                "- its (của nó)",
+                "- our (của chúng tôi)",
+                "- their (của họ)",
                 "",
                 "Ví dụ:",
-                "- How much money do you have? (Bạn có bao nhiêu tiền?)",
-                "- How many books did you buy? (Bạn đã mua bao nhiêu quyển sách?)"
+                "- This is my city. (Đây là thành phố của tôi)",
+                "- Their landmarks are famous. (Các địa danh của họ nổi tiếng)",
+                "",
+                "2. Possessive Pronouns (Đại từ sở hữu):",
+                "Dùng để thay thế danh từ chỉ sự sở hữu",
+                "- mine (của tôi)",
+                "- yours (của bạn)",
+                "- his (của anh ấy)",
+                "- hers (của cô ấy)",
+                "- its (của nó)",
+                "- ours (của chúng tôi)",
+                "- theirs (của họ)",
+                "",
+                "Ví dụ:",
+                "- This postcard is mine. (Tấm bưu thiếp này là của tôi)",
+                "- That city map is yours. (Bản đồ thành phố đó là của bạn)"
             ]
         },
         vocabulary: {
-            title: "Mua sắm",
+            title: "Cities and Landmarks",
             words: [
-                { 
-                    word: "shop", 
-                    meaning: "cửa hàng", 
-                    example: "Let's go to the shop. (Hãy đi đến cửa hàng.)" 
+                {
+                    word: "city",
+                    meaning: "thành phố",
+                    example: "London is a big city.",
+                    exampleMeaning: "London là một thành phố lớn."
                 },
-                { 
-                    word: "price", 
-                    meaning: "giá cả", 
-                    example: "What's the price of this? (Cái này giá bao nhiêu?)" 
+                {
+                    word: "palace",
+                    meaning: "cung điện",
+                    example: "The palace is very beautiful.",
+                    exampleMeaning: "Cung điện rất đẹp."
                 },
-                { 
-                    word: "cheap", 
-                    meaning: "rẻ", 
-                    example: "These shoes are cheap. (Những đôi giày này rẻ.)" 
+                {
+                    word: "street food",
+                    meaning: "đồ ăn đường phố",
+                    example: "Ha Noi is famous for its street food.",
+                    exampleMeaning: "Hà Nội nổi tiếng với đồ ăn đường phố."
                 },
-                { 
-                    word: "expensive", 
-                    meaning: "đắt", 
-                    example: "That bag is expensive. (Cái túi đó đắt.)" 
+                {
+                    word: "floating market",
+                    meaning: "chợ nổi",
+                    example: "There are many floating markets in the Mekong Delta.",
+                    exampleMeaning: "Có nhiều chợ nổi ở đồng bằng sông Cửu Long."
                 },
-                { 
-                    word: "buy", 
-                    meaning: "mua", 
-                    example: "I want to buy a new shirt. (Tôi muốn mua áo mới.)" 
+                {
+                    word: "stall",
+                    meaning: "quầy hàng",
+                    example: "The market has many food stalls.",
+                    exampleMeaning: "Chợ có nhiều quầy bán đồ ăn."
                 },
-                { 
-                    word: "sell", 
-                    meaning: "bán", 
-                    example: "They sell fresh fruit. (Họ bán trái cây tươi.)" 
+                {
+                    word: "landmark",
+                    meaning: "địa danh",
+                    example: "Big Ben is a famous landmark in London.",
+                    exampleMeaning: "Big Ben là một địa danh nổi tiếng ở London."
                 },
-                { 
-                    word: "money", 
-                    meaning: "tiền", 
-                    example: "How much money do you need? (Bạn cần bao nhiêu tiền?)" 
+                {
+                    word: "crowded",
+                    meaning: "đông đúc",
+                    example: "The streets are crowded at rush hour.",
+                    exampleMeaning: "Đường phố đông đúc vào giờ cao điểm."
                 },
-                { 
-                    word: "discount", 
-                    meaning: "giảm giá", 
-                    example: "This shirt is on discount. (Cái áo này đang giảm giá.)" 
+                {
+                    word: "exciting",
+                    meaning: "thú vị",
+                    example: "New York is an exciting city.",
+                    exampleMeaning: "New York là một thành phố thú vị."
                 },
-                { 
-                    word: "size", 
-                    meaning: "kích cỡ", 
-                    example: "What size do you wear? (Bạn mặc size nào?)" 
+                {
+                    word: "friendly",
+                    meaning: "thân thiện",
+                    example: "The people in my city are friendly.",
+                    exampleMeaning: "Người dân trong thành phố của tôi rất thân thiện."
                 },
-                { 
-                    word: "try on", 
-                    meaning: "thử", 
-                    example: "Can I try on these shoes? (Tôi có thể thử đôi giày này không?)" 
+                {
+                    word: "delicious",
+                    meaning: "ngon",
+                    example: "The food here is delicious.",
+                    exampleMeaning: "Đồ ăn ở đây rất ngon."
+                },
+                {
+                    word: "sunny",
+                    meaning: "nắng",
+                    example: "Sydney has many sunny days.",
+                    exampleMeaning: "Sydney có nhiều ngày nắng."
+                },
+                {
+                    word: "rainy",
+                    meaning: "mưa",
+                    example: "London is often rainy.",
+                    exampleMeaning: "London thường hay mưa."
+                },
+                {
+                    word: "helpful",
+                    meaning: "hay giúp đỡ",
+                    example: "The local people are very helpful.",
+                    exampleMeaning: "Người dân địa phương rất hay giúp đỡ."
+                },
+                {
+                    word: "old",
+                    meaning: "cổ xưa",
+                    example: "Edinburgh has many old buildings.",
+                    exampleMeaning: "Edinburgh có nhiều tòa nhà cổ."
+                },
+                {
+                    word: "tasty",
+                    meaning: "ngon miệng",
+                    example: "The street food is very tasty.",
+                    exampleMeaning: "Đồ ăn đường phố rất ngon miệng."
                 }
             ]
         },
         exercises: [
             {
-                question: "_____ money do you have? (Bạn có bao nhiêu tiền?)",
-                answer: "How much",
-                options: ["How many", "How much", "What", "How"]
+                question: "Complete the sentence: The Eiffel Tower is _____ famous landmark.",
+                answer: "a",
+                options: ["a", "an", "the", "this"]
             },
             {
-                question: "_____ shirts did you buy? (Bạn đã mua bao nhiêu cái áo?)",
-                answer: "How many",
-                options: ["How much", "How many", "What", "How"]
+                question: "Is this _____ book about London?",
+                answer: "your",
+                options: ["you", "your", "yours", "you're"]
             },
             {
-                question: "_____ does this cost? (Cái này giá bao nhiêu?)",
-                answer: "How much",
-                options: ["How many", "How much", "What", "How"]
+                question: "The lion has three cubs. _____ cubs are playing under a big tree.",
+                answer: "Its",
+                options: ["It's", "Its", "Their", "Theirs"]
+            },
+            {
+                question: "This map is _____. I found it in my bag.",
+                answer: "mine",
+                options: ["my", "mine", "me", "I"]
+            },
+            {
+                question: "We are from Switzerland. _____ country is famous for chocolate.",
+                answer: "Our",
+                options: ["We", "Our", "Ours", "Us"]
+            },
+            {
+                question: "What's the weather like in Sydney in summer? It's _____ and dry.",
+                answer: "sunny",
+                options: ["sun", "sunny", "sunshine", "sunning"]
+            },
+            {
+                question: "The people in my city are _____ and helpful.",
+                answer: "friendly",
+                options: ["friend", "friends", "friendly", "friendship"]
+            },
+            {
+                question: "Ha Noi is famous for its _____ street food.",
+                answer: "delicious",
+                options: ["delicious", "deliciously", "delight", "delighting"]
             }
-        ]
+        ],
+        pronunciation: {
+            title: "Pronunciation",
+            content: [
+                "Sounds: /əʊ/ and /aʊ/",
+                "",
+                "Words with /əʊ/:",
+                "- boat",
+                "- coast",
+                "- home",
+                "- road",
+                "",
+                "Words with /aʊ/:",
+                "- town",
+                "- house",
+                "- around",
+                "- crowded"
+            ]
+        }
     },
     {
-        id: 14,
-        title: "Bài 14: Động vật",
+        id: 10,
+        title: "Unit 10: Our Houses in the Future",
         grammar: {
-            title: "So sánh nhất (Superlative)",
+            title: "Grammar",
             content: [
-                "Cấu trúc với tính từ ngắn:",
-                "- the + tính từ + est",
-                "Ví dụ: tall → the tallest",
+                "1. Future Simple (Will/'ll):",
+                "Dùng để nói về dự đoán hoặc quyết định tức thời trong tương lai",
+                "- Khẳng định: S + will/('ll) + V",
+                "- Phủ định: S + won't + V",
+                "- Câu hỏi: Will + S + V?",
                 "",
-                "Cấu trúc với tính từ dài:",
-                "- the most + tính từ",
-                "Ví dụ: beautiful → the most beautiful",
+                "Ví dụ:",
+                "- It'll be a large house (Nó sẽ là một ngôi nhà lớn)",
+                "- It'll have twenty rooms (Nó sẽ có hai mươi phòng)",
+                "- My house will have solar energy (Nhà tôi sẽ có năng lượng mặt trời)",
                 "",
-                "Một số tính từ đặc biệt:",
+                "2. Might for Future Possibility:",
+                "Dùng để nói về khả năng có thể xảy ra trong tương lai",
+                "- Khẳng định: S + might + V",
+                "- Phủ định: S + might not + V",
+                "",
+                "Ví dụ:",
+                "- My house might have some smart TVs (Nhà tôi có thể sẽ có vài TV thông minh)",
+                "- It might be in the mountains (Nó có thể sẽ ở trên núi)",
+                "- They might not come back today (Họ có thể sẽ không quay lại hôm nay)"
+            ]
+        },
+        vocabulary: {
+            title: "Houses and Appliances",
+            words: [
+                {
+                    word: "electric cooker",
+                    meaning: "bếp điện",
+                    example: "The electric cooker helps us cook rice.",
+                    exampleMeaning: "Bếp điện giúp chúng ta nấu cơm."
+                },
+                {
+                    word: "dishwasher",
+                    meaning: "máy rửa bát",
+                    example: "The dishwasher can wash and dry dishes.",
+                    exampleMeaning: "Máy rửa bát có thể rửa và làm khô bát đĩa."
+                },
+                {
+                    word: "washing machine",
+                    meaning: "máy giặt",
+                    example: "The washing machine washes our clothes.",
+                    exampleMeaning: "Máy giặt giặt quần áo của chúng ta."
+                },
+                {
+                    word: "wireless TV",
+                    meaning: "TV không dây",
+                    example: "We can watch wireless TV anywhere.",
+                    exampleMeaning: "Chúng ta có thể xem TV không dây ở bất cứ đâu."
+                },
+                {
+                    word: "fridge",
+                    meaning: "tủ lạnh",
+                    example: "The fridge keeps food fresh.",
+                    exampleMeaning: "Tủ lạnh giữ thức ăn tươi ngon."
+                },
+                {
+                    word: "electric fan",
+                    meaning: "quạt điện",
+                    example: "Turn on the electric fan, please.",
+                    exampleMeaning: "Hãy bật quạt điện lên."
+                },
+                {
+                    word: "computer",
+                    meaning: "máy tính",
+                    example: "I use the computer to do homework.",
+                    exampleMeaning: "Tôi dùng máy tính để làm bài tập."
+                },
+                {
+                    word: "smart clock",
+                    meaning: "đồng hồ thông minh",
+                    example: "The smart clock can show the weather.",
+                    exampleMeaning: "Đồng hồ thông minh có thể hiển thị thời tiết."
+                },
+                {
+                    word: "robot",
+                    meaning: "người máy",
+                    example: "The robot helps me do the housework.",
+                    exampleMeaning: "Người máy giúp tôi làm việc nhà."
+                },
+                {
+                    word: "solar energy",
+                    meaning: "năng lượng mặt trời",
+                    example: "Our house uses solar energy.",
+                    exampleMeaning: "Nhà chúng tôi sử dụng năng lượng mặt trời."
+                },
+                {
+                    word: "bedroom",
+                    meaning: "phòng ngủ",
+                    example: "My bedroom is very comfortable.",
+                    exampleMeaning: "Phòng ngủ của tôi rất thoải mái."
+                },
+                {
+                    word: "living room",
+                    meaning: "phòng khách",
+                    example: "We watch TV in the living room.",
+                    exampleMeaning: "Chúng tôi xem TV trong phòng khách."
+                },
+                {
+                    word: "kitchen",
+                    meaning: "nhà bếp",
+                    example: "Mom is cooking in the kitchen.",
+                    exampleMeaning: "Mẹ đang nấu ăn trong nhà bếp."
+                },
+                {
+                    word: "smart TV",
+                    meaning: "TV thông minh",
+                    example: "We can watch YouTube on our smart TV.",
+                    exampleMeaning: "Chúng ta có thể xem YouTube trên TV thông minh."
+                },
+                {
+                    word: "housework",
+                    meaning: "việc nhà",
+                    example: "The robot helps with the housework.",
+                    exampleMeaning: "Robot giúp làm việc nhà."
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "Complete the sentence: I think I _____ stay at home tonight.",
+                answer: "'ll",
+                options: ["'ll", "will", "won't", "might"]
+            },
+            {
+                question: "My friends _____ go to the library this afternoon.",
+                answer: "will",
+                options: ["will", "won't", "might", "'ll"]
+            },
+            {
+                question: "The computer _____ do my homework in the future.",
+                answer: "will",
+                options: ["will", "won't", "might", "'ll"]
+            },
+            {
+                question: "Our family _____ move to the new house next week.",
+                answer: "will",
+                options: ["will", "won't", "might", "'ll"]
+            },
+            {
+                question: "The robot _____ help us with housework.",
+                answer: "might",
+                options: ["will", "won't", "might", "'ll"]
+            },
+            {
+                question: "Match the appliance with its function: What can an electric cooker help us to do?",
+                answer: "cook rice",
+                options: ["wash clothes", "cook rice", "keep food fresh", "wash dishes"]
+            },
+            {
+                question: "Which appliance keeps food fresh?",
+                answer: "fridge",
+                options: ["electric cooker", "dishwasher", "fridge", "washing machine"]
+            },
+            {
+                question: "What will houses use for energy in the future?",
+                answer: "solar energy",
+                options: ["electric energy", "solar energy", "wind energy", "water energy"]
+            }
+        ],
+        pronunciation: {
+            title: "Pronunciation",
+            content: [
+                "Stress in two-syllable words:",
+                "",
+                "Words with stress on first syllable:",
+                "- 'picture",
+                "- 'robot",
+                "- 'bedroom",
+                "- 'kitchen",
+                "- 'housework",
+                "",
+                "Words with stress on second syllable:",
+                "- ma'chine",
+                "- e'lectric",
+                "- ro'botic"
+            ]
+        }
+    },
+    {
+        id: 11,
+        title: "Unit 11: Our Greener World",
+        grammar: {
+            title: "Grammar",
+            content: [
+                "1. Articles (a/an/the):",
+                "- Use 'a/an' with singular countable nouns when talking about them in general",
+                "- Use 'the' with singular or plural nouns when they are specific",
+                "Examples:",
+                "- A reusable bag is better than a plastic one.",
+                "- The Earth needs our protection.",
+                "- The air will be cleaner if more people cycle.",
+                "",
+                "2. First Conditional:",
+                "Used to talk about possible situations and their results in the present or future",
+                "Structure: If + present simple, will/won't + verb",
+                "Examples:",
+                "- If we use reusable bags, we will help the environment.",
+                "- If more people cycle, the air will be cleaner.",
+                "- If we don't protect nature, many animals will disappear."
+            ]
+        },
+        vocabulary: {
+            title: "Environmental Protection",
+            words: [
+                {
+                    word: "reduce",
+                    meaning: "giảm thiểu",
+                    example: "We should reduce the use of plastic bags.",
+                    exampleMeaning: "Chúng ta nên giảm việc sử dụng túi nhựa."
+                },
+                {
+                    word: "reuse",
+                    meaning: "tái sử dụng",
+                    example: "You can reuse glass bottles many times.",
+                    exampleMeaning: "Bạn có thể tái sử dụng chai thủy tinh nhiều lần."
+                },
+                {
+                    word: "recycle",
+                    meaning: "tái chế",
+                    example: "We recycle paper to save trees.",
+                    exampleMeaning: "Chúng ta tái chế giấy để bảo vệ cây."
+                },
+                {
+                    word: "environment",
+                    meaning: "môi trường",
+                    example: "We need to protect our environment.",
+                    exampleMeaning: "Chúng ta cần bảo vệ môi trường."
+                },
+                {
+                    word: "green",
+                    meaning: "thân thiện với môi trường",
+                    example: "Let's go green by using less plastic.",
+                    exampleMeaning: "Hãy sống xanh bằng cách dùng ít nhựa hơn."
+                },
+                {
+                    word: "rubbish",
+                    meaning: "rác",
+                    example: "Please don't throw rubbish on the street.",
+                    exampleMeaning: "Xin đừng vứt rác ra đường."
+                },
+                {
+                    word: "plant",
+                    meaning: "trồng (cây)",
+                    example: "We plant trees in our garden.",
+                    exampleMeaning: "Chúng tôi trồng cây trong vườn."
+                },
+                {
+                    word: "clean",
+                    meaning: "sạch sẽ",
+                    example: "We want clean air and water.",
+                    exampleMeaning: "Chúng ta muốn không khí và nước sạch."
+                },
+                {
+                    word: "pollution",
+                    meaning: "ô nhiễm",
+                    example: "Air pollution is a serious problem.",
+                    exampleMeaning: "Ô nhiễm không khí là vấn đề nghiêm trọng."
+                },
+                {
+                    word: "protect",
+                    meaning: "bảo vệ",
+                    example: "We must protect our planet.",
+                    exampleMeaning: "Chúng ta phải bảo vệ hành tinh của mình."
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "If we _____ reusable bags, we will help the environment.",
+                answer: "use",
+                options: ["uses", "using", "use", "used"]
+            },
+            {
+                question: "_____ Earth needs our protection.",
+                answer: "The",
+                options: ["A", "An", "The", ""]
+            },
+            {
+                question: "We can _____ glass bottles many times.",
+                answer: "reuse",
+                options: ["reduce", "reuse", "recycle", "remove"]
+            },
+            {
+                question: "If more people cycle, the air _____ cleaner.",
+                answer: "will be",
+                options: ["is", "are", "will be", "being"]
+            },
+            {
+                question: "Which one is NOT a way to help the environment?",
+                answer: "throw rubbish on streets",
+                options: ["plant trees", "use reusable bags", "throw rubbish on streets", "reduce plastic use"]
+            }
+        ],
+        pronunciation: {
+            title: "Rhythm in sentences",
+            content: [
+                "In English sentences, some words are stressed and others are not.",
+                "Examples of stressed syllables in environmental sentences:",
+                "- If you CYcle, it'll HELP the EARTH.",
+                "- WAter is GOOD for your BOdy.",
+                "- The STUdents are PLANting TREES in the GARden."
+            ]
+        }
+    },
+    {
+        id: "review3",
+        title: "Review 3 (Units 7-8-9)",
+        grammar: {
+            title: "Grammar Review",
+            content: [
+                "1. Past Simple:",
+                "- Dùng để nói về hành động đã xảy ra trong quá khứ",
+                "- Khẳng định: S + V-ed/V2",
+                "- Phủ định: S + didn't + V",
+                "- Câu hỏi: Did + S + V?",
+                "",
+                "2. Imperatives:",
+                "- Khẳng định: V (nguyên thể)",
+                "- Phủ định: Don't + V",
+                "",
+                "3. Possessive Adjectives & Pronouns:",
+                "- Tính từ sở hữu: my, your, his, her, its, our, their",
+                "- Đại từ sở hữu: mine, yours, his, hers, its, ours, theirs"
+            ]
+        },
+        vocabulary: {
+            title: "Vocabulary Review",
+            words: [
+                {
+                    word: "television",
+                    meaning: "truyền hình",
+                    example: "There are many educational programmes on television.",
+                    exampleMeaning: "Có nhiều chương trình giáo dục trên truyền hình."
+                },
+                {
+                    word: "sports",
+                    meaning: "thể thao",
+                    example: "Summer sports are very popular in countries with sunshine.",
+                    exampleMeaning: "Các môn thể thao mùa hè rất phổ biến ở các nước có nắng."
+                },
+                {
+                    word: "city",
+                    meaning: "thành phố",
+                    example: "The Eiffel Tower is a famous landmark in Paris.",
+                    exampleMeaning: "Tháp Eiffel là một địa danh nổi tiếng ở Paris."
+                }
+            ]
+        },
+        exercises: [
+            {
+                section: "Language",
+                title: "Pronunciation",
+                questions: [
+                    {
+                        question: "Circle the word with the different underlined sound:",
+                        type: "sound-identification",
+                        groups: [
+                            {
+                                sounds: ["tower", "how", "snow"],
+                                answer: "snow"
+                            },
+                            {
+                                sounds: ["symbol", "opening", "postcard"],
+                                answer: "postcard"
+                            },
+                            {
+                                sounds: ["farther", "earth", "both"],
+                                answer: "both"
+                            },
+                            {
+                                sounds: ["Saturday", "racket", "game"],
+                                answer: "game"
+                            },
+                            {
+                                sounds: ["tennis", "prepare", "chess"],
+                                answer: "chess"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                section: "Vocabulary",
+                title: "Fill in the gaps",
+                text: "Most children love (1)_____ activities when the weather is good. They play football, go skateboarding or go (2)_____. In countries with a lot of snow like (3)_____, children go skiing with their parents to practise skiing. When they are not skiing, they can stay at home and watch interesting (4)_____ on TV or visit (5)_____ in the area.",
+                options: [
+                    {
+                        id: 1,
+                        choices: ["outdoor", "indoor", "school"],
+                        answer: "outdoor"
+                    },
+                    {
+                        id: 2,
+                        choices: ["tennis", "karate", "swimming"],
+                        answer: "swimming"
+                    },
+                    {
+                        id: 3,
+                        choices: ["Sweden", "India", "Brazil"],
+                        answer: "Sweden"
+                    },
+                    {
+                        id: 4,
+                        choices: ["characters", "viewers", "programmes"],
+                        answer: "programmes"
+                    },
+                    {
+                        id: 5,
+                        choices: ["sports", "city", "landmarks"],
+                        answer: "landmarks"
+                    }
+                ]
+            },
+            {
+                section: "Grammar",
+                questions: [
+                    {
+                        question: "Choose the correct answer A, B, or C:",
+                        items: [
+                            {
+                                question: "John, you are late. The match _____ ten minutes ago.",
+                                options: ["starts", "started", "is starting"],
+                                answer: "started"
+                            },
+                            {
+                                question: "Ben wrote his parents a postcard _____ he was on holiday.",
+                                options: ["because", "and", "while"],
+                                answer: "while"
+                            },
+                            {
+                                question: "Hong Kong is famous for _____ double-decker buses.",
+                                options: ["its", "it", "it's"],
+                                answer: "its"
+                            },
+                            {
+                                question: "Sports and games _____ an important part in our lives.",
+                                options: ["play", "plays", "played"],
+                                answer: "play"
+                            },
+                            {
+                                question: "The USA first _____ colour TV in 1953.",
+                                options: ["has", "have", "had"],
+                                answer: "had"
+                            },
+                            {
+                                question: "We are now in the city museum. _____ any objects on display.",
+                                options: ["Not touch", "Don't touch", "Don't touching"],
+                                answer: "Don't touch"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                section: "Communication",
+                title: "Question Words Review",
+                questions: [
+                    {
+                        question: "Correct these questions if needed:",
+                        items: [
+                            {
+                                question: "Who sports do you like?",
+                                answer: "What sports do you like?"
+                            },
+                            {
+                                question: "What time do you have English class?",
+                                answer: "What time do you have English class?"
+                            },
+                            {
+                                question: "What do you like Hoi An?",
+                                answer: "Why do you like Hoi An?"
+                            },
+                            {
+                                question: "What tall are the Twin Towers in Kuala Lumpur?",
+                                answer: "How tall are the Twin Towers in Kuala Lumpur?"
+                            },
+                            {
+                                question: "When is the Great Wall in China or in Korea?",
+                                answer: "Where is the Great Wall in China or in Korea?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        skills: {
+            reading: {
+                title: "Strange Sports",
+                content: [
+                    {
+                        title: "Toe Wrestling",
+                        description: "A sport where players try to pin down their opponent's toes."
+                    },
+                    {
+                        title: "Cheese Rolling",
+                        description: "People chase a wheel of cheese down a steep hill."
+                    }
+                ]
+            }
+        }
+    },
+    {
+        id: 12,
+        title: "Unit 12: Robots",
+        grammar: {
+            title: "Superlative Adjectives",
+            content: [
+                "We use superlative adjectives to compare three or more people or things.",
+                "",
+                "1. For short adjectives (one syllable):",
+                "- Add -est to the adjective",
+                "Examples:",
+                "- tall → tallest",
+                "- fast → fastest",
+                "- strong → strongest",
+                "",
+                "2. For long adjectives (two or more syllables):",
+                "- Add 'the most' before the adjective",
+                "Examples:",
+                "- intelligent → the most intelligent",
+                "- beautiful → the most beautiful",
+                "",
+                "3. Special cases:",
                 "- good → the best",
-                "- bad → the worst"
+                "- bad → the worst",
+                "- far → the farthest/furthest"
             ]
         },
         vocabulary: {
-            title: "Động vật",
+            title: "Robots and Activities",
             words: [
-                { 
-                    word: "animal", 
-                    meaning: "động vật", 
-                    example: "I love animals. (Tôi yêu động vật.)" 
+                {
+                    word: "robot",
+                    meaning: "người máy",
+                    example: "H8 is a home robot.",
+                    exampleMeaning: "H8 là một người máy gia đình."
                 },
-                { 
-                    word: "elephant", 
-                    meaning: "voi", 
-                    example: "The elephant is very big. (Con voi rất to.)" 
+                {
+                    word: "useful",
+                    meaning: "hữu ích",
+                    example: "This robot is very useful in the house.",
+                    exampleMeaning: "Người máy này rất hữu ích trong nhà."
                 },
-                { 
-                    word: "lion", 
-                    meaning: "sư tử", 
-                    example: "The lion is the king of the jungle. (Sư tử là chúa tể rừng xanh.)" 
+                {
+                    word: "smart",
+                    meaning: "thông minh",
+                    example: "Shifa is the smartest robot in the show.",
+                    exampleMeaning: "Shifa là người máy thông minh nhất trong buổi triển lãm."
                 },
-                { 
-                    word: "tiger", 
-                    meaning: "hổ", 
-                    example: "Tigers are dangerous animals. (Hổ là động vật nguy hiểm.)" 
+                {
+                    word: "strong",
+                    meaning: "mạnh mẽ",
+                    example: "WB2 is the strongest robot here.",
+                    exampleMeaning: "WB2 là người máy mạnh nhất ở đây."
                 },
-                { 
-                    word: "giraffe", 
-                    meaning: "hươu cao cổ", 
-                    example: "The giraffe has a long neck. (Hươu cao cổ có cổ dài.)" 
+                {
+                    word: "fast",
+                    meaning: "nhanh",
+                    example: "This robot is very fast at cleaning.",
+                    exampleMeaning: "Người máy này dọn dẹp rất nhanh."
                 },
-                { 
-                    word: "monkey", 
-                    meaning: "khỉ", 
-                    example: "Monkeys like bananas. (Khỉ thích chuối.)" 
+                {
+                    word: "do the dishes",
+                    meaning: "rửa bát đĩa",
+                    example: "The robot can do the dishes.",
+                    exampleMeaning: "Người máy có thể rửa bát đĩa."
                 },
-                { 
-                    word: "penguin", 
-                    meaning: "chim cánh cụt", 
-                    example: "Penguins live in Antarctica. (Chim cánh cụt sống ở Nam Cực.)" 
+                {
+                    word: "iron clothes",
+                    meaning: "ủi quần áo",
+                    example: "H8 can iron clothes very well.",
+                    exampleMeaning: "H8 có thể ủi quần áo rất tốt."
                 },
-                { 
-                    word: "dolphin", 
-                    meaning: "cá heo", 
-                    example: "Dolphins are very intelligent. (Cá heo rất thông minh.)" 
+                {
+                    word: "make meals",
+                    meaning: "nấu ăn",
+                    example: "The robot can make delicious meals.",
+                    exampleMeaning: "Người máy có thể nấu những bữa ăn ngon."
                 },
-                { 
-                    word: "kangaroo", 
-                    meaning: "chuột túi", 
-                    example: "Kangaroos live in Australia. (Chuột túi sống ở Úc.)" 
+                {
+                    word: "repair",
+                    meaning: "sửa chữa",
+                    example: "WB2 can repair broken machines.",
+                    exampleMeaning: "WB2 có thể sửa chữa máy móc hỏng."
                 },
-                { 
-                    word: "panda", 
-                    meaning: "gấu trúc", 
-                    example: "Pandas eat bamboo. (Gấu trúc ăn tre.)" 
+                {
+                    word: "put toys away",
+                    meaning: "dọn đồ chơi",
+                    example: "The robot helps put toys away.",
+                    exampleMeaning: "Người máy giúp dọn đồ chơi."
                 }
             ]
         },
         exercises: [
             {
-                question: "The elephant is _____ animal in the zoo. (Voi là động vật lớn nhất trong sở thú.)",
-                answer: "the biggest",
-                options: ["bigger", "the bigger", "the biggest", "biggest"]
+                question: "WB2 is _____ robot in the show. (strong)",
+                answer: "the strongest",
+                options: ["stronger", "the strongest", "most strong", "strongest"]
             },
             {
-                question: "The cheetah is _____ animal in the world. (Báo săn là động vật nhanh nhất thế giới.)",
-                answer: "the fastest",
-                options: ["fast", "faster", "the fastest", "fastest"]
+                question: "Shifa is _____ robot. It can help sick people. (smart)",
+                answer: "the smartest",
+                options: ["smarter", "the smartest", "most smart", "smartest"]
             },
             {
-                question: "The blue whale is _____ animal on Earth. (Cá voi xanh là động vật lớn nhất trên Trái Đất.)",
-                answer: "the largest",
-                options: ["large", "larger", "the largest", "largest"]
+                question: "H8 is _____ home robot. It can do many things. (useful)",
+                answer: "a very useful",
+                options: ["the usefulest", "more useful", "a very useful", "the most useful"]
+            },
+            {
+                question: "Which robot can _____ broken machines?",
+                answer: "repair",
+                options: ["repair", "make", "do", "put"]
+            },
+            {
+                question: "The robot helps me _____ after dinner.",
+                answer: "do the dishes",
+                options: ["make meals", "iron clothes", "do the dishes", "put toys away"]
             }
-        ]
-    },
-    {
-        id: 15,
-        title: "Bài 15: Lễ hội và Ngày lễ",
-        grammar: {
-            title: "Prepositions of Time (Giới từ chỉ thời gian)",
+        ],
+        pronunciation: {
+            title: "Tones in statements",
             content: [
-                "in: dùng với:",
-                "- Tháng (in January)",
-                "- Mùa (in summer)",
-                "- Năm (in 2024)",
-                "",
-                "on: dùng với:",
-                "- Ngày cụ thể (on Monday)",
-                "- Ngày lễ (on Christmas Day)",
-                "",
-                "at: dùng với:",
-                "- Giờ cụ thể (at 8 o'clock)",
-                "- Thời điểm trong ngày (at night)"
+                "In English statements, our voice often goes down at the end.",
+                "Examples:",
+                "- I often water plants after school.",
+                "- Shifa can do many things like humans.",
+                "- My dad makes delicious meals at weekends.",
+                "- WB2 is the strongest of all the robots.",
+                "- H8 is a home robot."
             ]
-        },
-        vocabulary: {
-            title: "Lễ hội và Ngày lễ",
-            words: [
-                { 
-                    word: "festival", 
-                    meaning: "lễ hội", 
-                    example: "We celebrate many festivals. (Chúng tôi tổ chức nhiều lễ hội.)" 
-                },
-                { 
-                    word: "celebrate", 
-                    meaning: "tổ chức", 
-                    example: "How do you celebrate New Year? (Bạn đón năm mới như thế nào?)" 
-                },
-                { 
-                    word: "holiday", 
-                    meaning: "ngày lễ", 
-                    example: "Christmas is a popular holiday. (Giáng sinh là một ngày lễ phổ biến.)" 
-                },
-                { 
-                    word: "tradition", 
-                    meaning: "truyền thống", 
-                    example: "Every country has its traditions. (Mỗi quốc gia có truyền thống riêng.)" 
-                },
-                { 
-                    word: "decoration", 
-                    meaning: "trang trí", 
-                    example: "The decorations are beautiful. (Những đồ trang trí rất đẹp.)" 
-                },
-                { 
-                    word: "gift", 
-                    meaning: "quà tặng", 
-                    example: "We exchange gifts at Christmas. (Chúng tôi tặng quà vào dịp Giáng sinh.)" 
-                },
-                { 
-                    word: "party", 
-                    meaning: "tiệc", 
-                    example: "Let's have a party! (Hãy tổ chức một bữa tiệc!)" 
-                },
-                { 
-                    word: "costume", 
-                    meaning: "trang phục", 
-                    example: "Children wear costumes on Halloween. (Trẻ em mặc trang phục vào Halloween.)" 
-                },
-                { 
-                    word: "firework", 
-                    meaning: "pháo hoa", 
-                    example: "There are fireworks on New Year's Eve. (Có pháo hoa vào đêm giao thừa.)" 
-                },
-                { 
-                    word: "parade", 
-                    meaning: "diễu hành", 
-                    example: "We watched the parade. (Chúng tôi xem diễu hành.)" 
-                }
-            ]
-        },
-        exercises: [
-            {
-                question: "The festival is _____ July. (Lễ hội diễn ra vào tháng 7.)",
-                answer: "in",
-                options: ["in", "on", "at", "by"]
-            },
-            {
-                question: "We celebrate Christmas _____ December 25th. (Chúng ta tổ chức Giáng sinh vào ngày 25 tháng 12.)",
-                answer: "on",
-                options: ["in", "on", "at", "by"]
-            },
-            {
-                question: "The fireworks start _____ midnight. (Pháo hoa bắt đầu vào lúc nửa đêm.)",
-                answer: "at",
-                options: ["in", "on", "at", "by"]
-            }
-        ]
+        }
     }
 ];
 
