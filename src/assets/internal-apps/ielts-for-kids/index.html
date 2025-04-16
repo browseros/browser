@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS for Kids - Grade 6</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        .unit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .unit-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .unit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .unit-sections {
+            margin-top: 10px;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .unit-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .unit-content.active {
+            display: block;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .word-item {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .practice-section audio {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .reading-section .passage {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .writing-section img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .speaking-section .question-item {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .grammar-point {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .example-item {
+            margin: 10px 0;
+            padding: 10px;
+            border-left: 3px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+                    <div class="container-fluid">
+                        <button id="backButton" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <h1 class="navbar-brand mb-0 mx-3">IELTS for Kids - Grade 6</h1>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <!-- Unit Grid View -->
+                <div id="unitGrid" class="unit-grid"></div>
+
+                <!-- Unit Content View -->
+                <div id="unitContent" class="unit-content">
+                    <h2 id="unitTitle" class="mb-4"></h2>
+                    <div class="nav-buttons">
+                        <button class="btn btn-primary nav-btn" data-section="listening">
+                            <i class="fas fa-headphones"></i> Listening
+                        </button>
+                        <button class="btn btn-success nav-btn" data-section="reading">
+                            <i class="fas fa-book-reader"></i> Reading
+                        </button>
+                        <button class="btn btn-info nav-btn" data-section="writing">
+                            <i class="fas fa-pen"></i> Writing
+                        </button>
+                        <button class="btn btn-warning nav-btn" data-section="speaking">
+                            <i class="fas fa-microphone"></i> Speaking
+                        </button>
+                        <button class="btn btn-danger nav-btn" data-section="vocabulary">
+                            <i class="fas fa-book"></i> Vocabulary
+                        </button>
+                        <button class="btn btn-secondary nav-btn" data-section="grammar">
+                            <i class="fas fa-graduation-cap"></i> Grammar
+                        </button>
+                    </div>
+                    <div id="contentArea"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="ielts-for-kids.js"></script>
+</body>
+</html> 

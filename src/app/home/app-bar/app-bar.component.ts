@@ -539,6 +539,22 @@ export class AppBarComponent {
                 this.store.dispatch(new appActions.AddTabAction(newTab));
             }
         }));
+        internalAppsSubmenu.append(new MenuItem({
+            label: 'IELTS for Kids',
+            accelerator: 'CmdOrCtrl+Alt+I',
+            click: () => {
+                const url = 'http://localhost:4200/assets/internal-apps/ielts-for-kids/index.html';
+                const hostName = StateHelper.extractHostname(url);
+                const newTab: ITab = {
+                    id: 0,
+                    appId: 0,
+                    hostName,
+                    title: 'IELTS for Kids',
+                    url: url
+                };
+                this.store.dispatch(new appActions.AddTabAction(newTab));
+            }
+        }));
 
         appsMenu.append(new MenuItem({
             label: 'Internal Apps',
