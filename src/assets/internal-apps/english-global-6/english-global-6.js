@@ -752,27 +752,102 @@ const units = [
             {
                 question: "Complete the sentence: The most _____ channel for children is the Cartoon Network.",
                 answer: "popular",
-                options: ["popular", "boring", "educational", "funny"]
+                options: ["popular", "boring", "educational", "funny"],
+                explanation: "Cartoon Network là kênh được trẻ em yêu thích nhất, nên dùng 'popular' (phổ biến, được ưa thích). Các từ khác không phù hợp với ngữ cảnh: boring (nhàm chán), educational (giáo dục), funny (hài hước)"
             },
             {
                 question: "What do we call an animal or person in a film?",
                 answer: "character",
-                options: ["viewer", "character", "channel", "comedy"]
+                options: ["viewer", "character", "channel", "comedy"],
+                explanation: "Trong phim, người hoặc động vật được gọi là 'character' (nhân vật). Viewer (người xem), channel (kênh), comedy (hài kịch) không phù hợp với định nghĩa này"
             },
             {
                 question: "Which type of programme teaches subjects like maths and English?",
                 answer: "educational programme",
-                options: ["talent show", "comedy", "educational programme", "game show"]
+                options: ["talent show", "comedy", "educational programme", "game show"],
+                explanation: "Chương trình dạy các môn học như toán và tiếng Anh là 'educational programme' (chương trình giáo dục). Các loại chương trình khác như talent show (cuộc thi tài năng), comedy (hài kịch), game show (chương trình trò chơi) không tập trung vào việc dạy học"
             },
             {
                 question: "Complete: I love _____ like Happy Feet and Coco.",
                 answer: "animated films",
-                options: ["game show", "animated films", "channel", "talent show"]
+                options: ["game show", "animated films", "channel", "talent show"],
+                explanation: "Happy Feet và Coco là những bộ phim hoạt hình, nên đáp án là 'animated films'. Các lựa chọn khác không phải là thể loại của những bộ phim này"
             },
             {
                 question: "What do we call someone who watches TV?",
                 answer: "viewer",
-                options: ["character", "viewer", "channel", "comedy"]
+                options: ["character", "viewer", "channel", "comedy"],
+                explanation: "Người xem TV được gọi là 'viewer'. Character (nhân vật trong phim), channel (kênh), comedy (hài kịch) không chỉ người xem TV"
+            },
+            {
+                question: "_____ do you usually watch TV? (Bạn thường xem TV khi nào?)",
+                answer: "When",
+                options: ["What", "When", "Where", "Who"],
+                explanation: "Dùng 'When' để hỏi về thời gian"
+            },
+            {
+                question: "_____ is your favorite TV show? (Chương trình TV yêu thích của bạn là gì?)",
+                answer: "What",
+                options: ["When", "What", "Where", "Who"],
+                explanation: "Dùng 'What' để hỏi về sự vật/việc"
+            },
+            {
+                question: "_____ presents the news program? (Ai dẫn chương trình tin tức?)",
+                answer: "Who",
+                options: ["When", "What", "Where", "Who"],
+                explanation: "Dùng 'Who' để hỏi về người"
+            },
+            {
+                question: "_____ do you watch movies? (Bạn xem phim ở đâu?)",
+                answer: "Where",
+                options: ["When", "What", "Where", "Who"],
+                explanation: "Dùng 'Where' để hỏi về địa điểm"
+            },
+            {
+                question: "_____ do you watch educational programs? (Bạn xem chương trình giáo dục thường xuyên như thế nào?)",
+                answer: "How often",
+                options: ["When", "How often", "Where", "Who"],
+                explanation: "Dùng 'How often' để hỏi về tần suất"
+            },
+            {
+                question: "I like documentaries _____ my sister prefers cartoons. (Tôi thích phim tài liệu nhưng chị tôi thích phim hoạt hình hơn.)",
+                answer: "but",
+                options: ["and", "but", "so", "or"],
+                explanation: "Dùng 'but' để nối 2 ý trái ngược"
+            },
+            {
+                question: "The show was interesting _____ I watched all episodes. (Chương trình rất hay nên tôi đã xem tất cả các tập.)",
+                answer: "so",
+                options: ["and", "but", "so", "or"],
+                explanation: "Dùng 'so' để nối quan hệ nguyên nhân-kết quả"
+            },
+            {
+                question: "We watch movies _____ play video games together. (Chúng tôi xem phim và chơi game cùng nhau.)",
+                answer: "and",
+                options: ["and", "but", "so", "or"],
+                explanation: "Dùng 'and' để nối 2 ý cùng chiều"
+            },
+            {
+                question: "Choose the correct sentence: (Chọn câu đúng)",
+                answer: "What do you like watching, and when do you usually watch TV?",
+                options: [
+                    "What you like watching, and when you usually watch TV?",
+                    "What do you like watching, and when do you usually watch TV?",
+                    "What do you like watching, but when do you usually watch TV?",
+                    "What you like watching, so when you usually watch TV?"
+                ],
+                explanation: "Câu hỏi WH cần có trợ động từ 'do/does' và dùng 'and' để nối 2 câu hỏi cùng chủ đề"
+            },
+            {
+                question: "Arrange the words to make a question: (Sắp xếp từ để tạo câu hỏi)\n'watch / where / movies / you / do / ?'",
+                answer: "Where do you watch movies?",
+                options: [
+                    "Where you watch movies do?",
+                    "Where do you watch movies?",
+                    "Where you do watch movies?",
+                    "Where watch you do movies?"
+                ],
+                explanation: "Thứ tự từ trong câu hỏi WH: Wh-word + do/does + subject + verb"
             }
         ],
         pronunciation: {
@@ -917,42 +992,92 @@ const units = [
             {
                 question: "Complete the sentence: She won an international sports _____.",
                 answer: "competition",
-                options: ["champion", "competition", "sporty", "marathon"]
+                options: ["champion", "competition", "sporty", "marathon"],
+                explanation: "Câu này nói về một cuộc thi thể thao quốc tế, nên dùng 'competition' (cuộc thi). Champion (nhà vô địch), sporty (thích thể thao), marathon (cuộc đua marathon) không phù hợp với ngữ cảnh này."
             },
             {
                 question: "He _____ the world tennis champion when he was very young.",
                 answer: "became",
-                options: ["become", "became", "becomes", "becoming"]
+                options: ["become", "became", "becomes", "becoming"],
+                explanation: "Câu này nói về sự kiện trong quá khứ (when he was very young), nên dùng quá khứ đơn 'became'. 'Become' là dạng nguyên thể, 'becomes' là hiện tại đơn, 'becoming' là hiện tại phân từ."
             },
             {
                 question: "Can you send my _____ to the winner of the contest?",
                 answer: "congratulations",
-                options: ["champion", "competition", "congratulations", "sporty"]
+                options: ["champion", "competition", "congratulations", "sporty"],
+                explanation: "Khi muốn gửi lời chúc mừng tới người chiến thắng, ta dùng từ 'congratulations' (lời chúc mừng). Các từ khác không phù hợp với ngữ cảnh gửi lời chúc."
             },
             {
                 question: "My friend David is very _____. He does exercise every day.",
                 answer: "sporty",
-                options: ["champion", "competition", "sporty", "marathon"]
+                options: ["champion", "competition", "sporty", "marathon"],
+                explanation: "Để mô tả một người thích và thường xuyên tập thể thao, ta dùng tính từ 'sporty'. Các từ khác là danh từ và không dùng để mô tả tính cách/sở thích."
             },
             {
                 question: "The first _____ took place in 1896.",
                 answer: "marathon",
-                options: ["champion", "competition", "sporty", "marathon"]
+                options: ["champion", "competition", "sporty", "marathon"],
+                explanation: "Câu này nói về sự kiện marathon đầu tiên, nên dùng 'marathon'. Đây là một sự kiện lịch sử cụ thể - Marathon hiện đại đầu tiên được tổ chức tại Olympic 1896."
             },
             {
                 question: "What do you need to play tennis?",
                 answer: "racket",
-                options: ["ball", "boat", "racket", "goggles"]
+                options: ["ball", "boat", "racket", "goggles"],
+                explanation: "Để chơi tennis, dụng cụ không thể thiếu là 'racket' (vợt tennis). Ball (bóng) cũng cần nhưng câu hỏi yêu cầu chọn một đáp án, và vợt là dụng cụ đặc trưng nhất."
             },
             {
                 question: "_____ you play football yesterday?",
                 answer: "Did",
-                options: ["Do", "Did", "Does", "Done"]
+                options: ["Do", "Did", "Does", "Done"],
+                explanation: "Câu hỏi về hành động trong quá khứ (yesterday), nên dùng 'Did' để tạo câu hỏi ở thì quá khứ đơn. 'Do/Does' dùng cho hiện tại đơn, 'Done' là quá khứ phân từ."
             },
             {
                 question: "Don't _____ in the swimming pool!",
                 answer: "run",
-                options: ["running", "runs", "run", "ran"]
+                options: ["running", "runs", "run", "ran"],
+                explanation: "Trong câu mệnh lệnh phủ định (Don't...), động từ phải ở dạng nguyên thể 'run'. Các dạng khác như running (V-ing), runs (V-s), ran (V2) không dùng sau 'don't'."
+            },
+            {
+                question: "She _____ three gold medals in the last Olympics.",
+                answer: "won",
+                options: ["win", "won", "wins", "winning"],
+                explanation: "Sự kiện xảy ra trong quá khứ (last Olympics), nên dùng quá khứ đơn 'won'. 'Win' là hiện tại, 'wins' là hiện tại với chủ ngữ số ít, 'winning' là hiện tại phân từ."
+            },
+            {
+                question: "_____ your equipment before the game starts.",
+                answer: "Check",
+                options: ["Checking", "Checked", "Check", "Checks"],
+                explanation: "Đây là câu mệnh lệnh (đưa ra chỉ dẫn), nên dùng động từ nguyên thể 'Check'. Không dùng các dạng khác trong câu mệnh lệnh."
+            },
+            {
+                question: "The gym _____ at 6:00 AM every morning.",
+                answer: "opens",
+                options: ["open", "opens", "opened", "opening"],
+                explanation: "Đây là thói quen/sự việc lặp lại (every morning), dùng hiện tại đơn. Với chủ ngữ số ít (the gym), động từ thêm 's': 'opens'."
+            },
+            {
+                question: "They _____ basketball twice a week.",
+                answer: "play",
+                options: ["plays", "play", "played", "playing"],
+                explanation: "Với chủ ngữ số nhiều (they) ở hiện tại đơn, dùng động từ nguyên thể 'play'. Không thêm 's' vì chủ ngữ không phải số ít."
+            },
+            {
+                question: "_____ carefully when you ride a bicycle.",
+                answer: "Go",
+                options: ["Going", "Gone", "Go", "Goes"],
+                explanation: "Đây là câu mệnh lệnh đưa ra lời khuyên, nên dùng động từ nguyên thể 'Go'. Câu mệnh lệnh luôn dùng động từ nguyên thể."
+            },
+            {
+                question: "We _____ to the fitness center last week.",
+                answer: "went",
+                options: ["go", "went", "gone", "going"],
+                explanation: "Hành động xảy ra trong quá khứ (last week), nên dùng quá khứ đơn 'went'. 'Go' là hiện tại, 'gone' là quá khứ phân từ, 'going' là hiện tại phân từ."
+            },
+            {
+                question: "The swimming pool _____ for maintenance tomorrow.",
+                answer: "will close",
+                options: ["closes", "closed", "will close", "closing"],
+                explanation: "Sự việc sẽ xảy ra trong tương lai (tomorrow), nên dùng 'will close'. Đây là cách diễn đạt kế hoạch đã được sắp xếp trước."
             }
         ],
         pronunciation: {
@@ -1103,42 +1228,92 @@ const units = [
             {
                 question: "Complete the sentence: The Eiffel Tower is _____ famous landmark.",
                 answer: "a",
-                options: ["a", "an", "the", "this"]
+                options: ["a", "an", "the", "this"],
+                explanation: "Chúng ta dùng mạo từ 'a' trước danh từ đếm được số ít bắt đầu bằng phụ âm (famous landmark). 'An' dùng trước nguyên âm, 'the' dùng cho vật cụ thể đã biết, 'this' không phù hợp ngữ cảnh"
             },
             {
                 question: "Is this _____ book about London?",
                 answer: "your",
-                options: ["you", "your", "yours", "you're"]
+                options: ["you", "your", "yours", "you're"],
+                explanation: "Chúng ta cần tính từ sở hữu 'your' để chỉ sở hữu của người nghe. 'You' là đại từ nhân xưng, 'yours' là đại từ sở hữu, 'you're' là dạng viết tắt của 'you are'"
             },
             {
                 question: "The lion has three cubs. _____ cubs are playing under a big tree.",
                 answer: "Its",
-                options: ["It's", "Its", "Their", "Theirs"]
+                options: ["It's", "Its", "Their", "Theirs"],
+                explanation: "Chúng ta dùng tính từ sở hữu 'Its' để chỉ sở hữu của con sư tử (it). 'It's' là viết tắt của 'it is', 'Their/Theirs' dùng cho số nhiều"
             },
             {
                 question: "This map is _____. I found it in my bag.",
                 answer: "mine",
-                options: ["my", "mine", "me", "I"]
+                options: ["my", "mine", "me", "I"],
+                explanation: "Chúng ta dùng đại từ sở hữu 'mine' vì nó đứng một mình thay thế cho danh từ. 'My' là tính từ sở hữu phải đi kèm danh từ, 'me/I' là đại từ nhân xưng"
             },
             {
                 question: "We are from Switzerland. _____ country is famous for chocolate.",
                 answer: "Our",
-                options: ["We", "Our", "Ours", "Us"]
+                options: ["We", "Our", "Ours", "Us"],
+                explanation: "Chúng ta dùng tính từ sở hữu 'Our' vì nó đứng trước danh từ 'country'. 'We/Us' là đại từ nhân xưng, 'Ours' là đại từ sở hữu đứng một mình"
             },
             {
                 question: "What's the weather like in Sydney in summer? It's _____ and dry.",
                 answer: "sunny",
-                options: ["sun", "sunny", "sunshine", "sunning"]
+                options: ["sun", "sunny", "sunshine", "sunning"],
+                explanation: "Chúng ta cần tính từ 'sunny' để mô tả thời tiết. 'Sun' là danh từ, 'sunshine' là danh từ, 'sunning' là động từ dạng -ing"
             },
             {
                 question: "The people in my city are _____ and helpful.",
                 answer: "friendly",
-                options: ["friend", "friends", "friendly", "friendship"]
+                options: ["friend", "friends", "friendly", "friendship"],
+                explanation: "Chúng ta cần tính từ 'friendly' để mô tả tính cách của người dân. 'Friend' là danh từ số ít, 'friends' là danh từ số nhiều, 'friendship' là danh từ chỉ tình bạn"
             },
             {
                 question: "Ha Noi is famous for its _____ street food.",
                 answer: "delicious",
-                options: ["delicious", "deliciously", "delight", "delighting"]
+                options: ["delicious", "deliciously", "delight", "delighting"],
+                explanation: "Chúng ta cần tính từ 'delicious' để mô tả đồ ăn đường phố. 'Deliciously' là trạng từ, 'delight' là danh từ, 'delighting' là động từ dạng -ing"
+            },
+            {
+                question: "Choose the correct possessive adjective: _____ parents are from Tokyo. (Tom)",
+                answer: "His",
+                options: ["He", "His", "Him", "Himself"],
+                explanation: "Khi nói về sở hữu của Tom (nam), chúng ta dùng tính từ sở hữu 'his'"
+            },
+            {
+                question: "These are _____ tickets for the museum tour. (we)",
+                answer: "our",
+                options: ["we", "our", "ours", "us"],
+                explanation: "Khi nói về sở hữu của 'we' (chúng tôi), chúng ta dùng tính từ sở hữu 'our'"
+            },
+            {
+                question: "The red bicycle is _____. (Sarah)",
+                answer: "hers",
+                options: ["her", "hers", "she", "herself"],
+                explanation: "Khi thay thế cho danh từ sở hữu của Sarah (nữ), chúng ta dùng đại từ sở hữu 'hers'"
+            },
+            {
+                question: "That camera belongs to the tourists. It's _____.",
+                answer: "theirs",
+                options: ["they", "their", "theirs", "them"],
+                explanation: "Khi thay thế cho danh từ sở hữu của 'the tourists', chúng ta dùng đại từ sở hữu 'theirs'"
+            },
+            {
+                question: "Complete the sentence: The backpack is (I) _____.",
+                answer: "mine",
+                options: ["my", "mine", "me", "myself"],
+                explanation: "Khi thay thế cho danh từ sở hữu của 'I' (tôi), chúng ta dùng đại từ sở hữu 'mine'"
+            },
+            {
+                question: "Choose the correct form: This is _____ house, and that is _____. (we, they)",
+                answer: "our, theirs",
+                options: ["our, their", "ours, their", "our, theirs", "we, they"],
+                explanation: "Câu thứ nhất cần tính từ sở hữu 'our', câu thứ hai cần đại từ sở hữu 'theirs'"
+            },
+            {
+                question: "The blue car is (you) _____.",
+                answer: "yours",
+                options: ["your", "yours", "you", "yourself"],
+                explanation: "Khi thay thế cho danh từ sở hữu của 'you' (bạn), chúng ta dùng đại từ sở hữu 'yours'"
             }
         ],
         pronunciation: {
@@ -1272,42 +1447,115 @@ const units = [
             {
                 question: "Complete the sentence: I think I _____ stay at home tonight.",
                 answer: "'ll",
-                options: ["'ll", "will", "won't", "might"]
+                options: ["'ll", "will", "won't", "might"],
+                explanation: "Chúng ta dùng ''ll' (viết tắt của 'will') vì đây là quyết định được đưa ra ngay lúc nói ('I think'). Khi đưa ra quyết định tức thời, chúng ta thường dùng will hoặc dạng viết tắt 'll."
             },
             {
                 question: "My friends _____ go to the library this afternoon.",
                 answer: "will",
-                options: ["will", "won't", "might", "'ll"]
+                options: ["will", "won't", "might", "'ll"],
+                explanation: "Chúng ta dùng 'will' vì đây là một dự định chắc chắn cho tương lai gần (this afternoon). 'Will' thường được dùng khi nói về kế hoạch đã được quyết định."
             },
             {
                 question: "The computer _____ do my homework in the future.",
                 answer: "will",
-                options: ["will", "won't", "might", "'ll"]
+                options: ["will", "won't", "might", "'ll"],
+                explanation: "Chúng ta dùng 'will' vì đây là dự đoán về khả năng của công nghệ trong tương lai. 'Will' thường được dùng để nói về những dự đoán hoặc niềm tin về tương lai."
             },
             {
                 question: "Our family _____ move to the new house next week.",
                 answer: "will",
-                options: ["will", "won't", "might", "'ll"]
+                options: ["will", "won't", "might", "'ll"],
+                explanation: "Chúng ta dùng 'will' vì đây là kế hoạch đã được xác định rõ ràng với thời gian cụ thể (next week). 'Will' được dùng khi nói về quyết định đã được đưa ra."
             },
             {
                 question: "The robot _____ help us with housework.",
                 answer: "might",
-                options: ["will", "won't", "might", "'ll"]
+                options: ["will", "won't", "might", "'ll"],
+                explanation: "Chúng ta dùng 'might' vì đây là một khả năng không chắc chắn. 'Might' thể hiện sự không chắc chắn hoặc khả năng có thể xảy ra trong tương lai."
             },
             {
                 question: "Match the appliance with its function: What can an electric cooker help us to do?",
                 answer: "cook rice",
-                options: ["wash clothes", "cook rice", "keep food fresh", "wash dishes"]
+                options: ["wash clothes", "cook rice", "keep food fresh", "wash dishes"],
+                explanation: "Nồi cơm điện (electric cooker) được dùng để nấu cơm (cook rice). Các chức năng khác như giặt quần áo (wash clothes), giữ thức ăn tươi (keep food fresh), và rửa bát đĩa (wash dishes) là của các thiết bị khác."
             },
             {
                 question: "Which appliance keeps food fresh?",
                 answer: "fridge",
-                options: ["electric cooker", "dishwasher", "fridge", "washing machine"]
+                options: ["electric cooker", "dishwasher", "fridge", "washing machine"],
+                explanation: "Tủ lạnh (fridge) có chức năng giữ thức ăn tươi. Các thiết bị khác có chức năng khác: nồi cơm điện (electric cooker) để nấu, máy rửa bát (dishwasher) để rửa bát, máy giặt (washing machine) để giặt quần áo."
             },
             {
                 question: "What will houses use for energy in the future?",
                 answer: "solar energy",
-                options: ["electric energy", "solar energy", "wind energy", "water energy"]
+                options: ["electric energy", "solar energy", "wind energy", "water energy"],
+                explanation: "Năng lượng mặt trời (solar energy) là nguồn năng lượng được dự đoán sẽ được sử dụng phổ biến trong tương lai vì đây là nguồn năng lượng sạch, tái tạo và thân thiện với môi trường."
+            },
+            {
+                question: "Choose the correct form: Our house _____ have a robot vacuum cleaner next year.",
+                answer: "is going to",
+                options: ["will", "is going to", "might", "shall"],
+                explanation: "Chúng ta dùng 'is going to' vì đây là một kế hoạch đã được quyết định cho tương lai (next year). Khi nói về kế hoạch hoặc ý định đã được định trước, chúng ta dùng 'be going to' thay vì 'will'."
+            },
+            {
+                question: "In the future, houses _____ use more renewable energy.",
+                answer: "will",
+                options: ["going to", "will", "might", "shall"],
+                explanation: "Chúng ta dùng 'will' vì đây là một dự đoán chung về tương lai, không phải kế hoạch cụ thể. 'Will' thường được dùng để nói về dự đoán hoặc xu hướng trong tương lai."
+            },
+            {
+                question: "The weather _____ be suitable for installing solar panels tomorrow.",
+                answer: "might",
+                options: ["will", "is going to", "might", "shall"],
+                explanation: "Chúng ta dùng 'might' vì đây là dự đoán không chắc chắn về thời tiết ngày mai. 'Might' thể hiện khả năng có thể xảy ra nhưng không chắc chắn."
+            },
+            {
+                question: "We _____ move to a smart home next month. Everything is arranged.",
+                answer: "are going to",
+                options: ["will", "are going to", "might", "going"],
+                explanation: "Chúng ta dùng 'are going to' vì đây là kế hoạch đã được sắp xếp ('Everything is arranged'). 'Be going to' được dùng cho kế hoạch đã được chuẩn bị trước."
+            },
+            {
+                question: "Smart homes of the future _____ be controlled entirely by voice commands.",
+                answer: "will",
+                options: ["are going to", "will", "might", "shall"],
+                explanation: "Chúng ta dùng 'will' vì đây là dự đoán chung về tính năng của nhà thông minh trong tương lai, không phải kế hoạch cụ thể."
+            },
+            {
+                question: "Match the technology with its function: What does a smart thermostat do?",
+                answer: "controls temperature",
+                options: ["controls lights", "controls temperature", "controls security", "controls music"],
+                explanation: "Bộ điều nhiệt thông minh (smart thermostat) có chức năng điều khiển nhiệt độ tự động trong nhà. Đây là một trong những tính năng cơ bản của nhà thông minh."
+            },
+            {
+                question: "Which feature is NOT typically found in a smart home?",
+                answer: "manual door locks",
+                options: ["voice control", "automatic lighting", "manual door locks", "security cameras"],
+                explanation: "Khóa cửa thủ công (manual door locks) không phải là tính năng điển hình của nhà thông minh, vì nhà thông minh thường sử dụng hệ thống khóa tự động hoặc khóa thông minh."
+            },
+            {
+                question: "The builders _____ finish our smart home by December. The work has already started.",
+                answer: "are going to",
+                options: ["will", "are going to", "might", "shall"],
+                explanation: "Chúng ta dùng 'are going to' vì công việc đã bắt đầu và có kế hoạch hoàn thành rõ ràng (by December). Đây là kế hoạch đang trong tiến trình thực hiện."
+            },
+            {
+                question: "Which sentence shows a definite future plan?",
+                answer: "We are going to install solar panels next week.",
+                options: [
+                    "We will probably have a smart home.",
+                    "We are going to install solar panels next week.",
+                    "We might buy a robot vacuum.",
+                    "The house will be expensive."
+                ],
+                explanation: "Câu 'We are going to install solar panels next week' thể hiện kế hoạch chắc chắn trong tương lai gần với thời gian cụ thể (next week). Các câu khác thể hiện dự đoán ('will probably'), khả năng ('might') hoặc nhận định chung ('will be')."
+            },
+            {
+                question: "Choose the most environmentally friendly feature:",
+                answer: "solar energy system",
+                options: ["traditional lighting", "solar energy system", "standard heating", "manual appliances"],
+                explanation: "Hệ thống năng lượng mặt trời (solar energy system) là tính năng thân thiện với môi trường nhất vì sử dụng nguồn năng lượng tái tạo, không gây ô nhiễm và tiết kiệm tài nguyên thiên nhiên."
             }
         ],
         pronunciation: {
@@ -1435,27 +1683,92 @@ const units = [
             {
                 question: "If we _____ reusable bags, we will help the environment.",
                 answer: "use",
-                options: ["uses", "using", "use", "used"]
+                options: ["uses", "using", "use", "used"],
+                explanation: "Trong câu điều kiện loại 1 (First Conditional), mệnh đề IF luôn dùng động từ ở thì hiện tại đơn (use). Chúng ta không dùng 'uses' vì chủ ngữ là 'we', không dùng 'using' vì không dùng V-ing, và không dùng 'used' vì không dùng quá khứ."
             },
             {
                 question: "_____ Earth needs our protection.",
                 answer: "The",
-                options: ["A", "An", "The", ""]
+                options: ["A", "An", "The", ""],
+                explanation: "Chúng ta dùng 'The' với từ 'Earth' vì đây là danh từ duy nhất chỉ hành tinh của chúng ta. Không dùng 'A/An' vì Earth không phải là một trong nhiều, và không thể bỏ trống mạo từ trong trường hợp này."
             },
             {
                 question: "We can _____ glass bottles many times.",
                 answer: "reuse",
-                options: ["reduce", "reuse", "recycle", "remove"]
+                options: ["reduce", "reuse", "recycle", "remove"],
+                explanation: "Động từ 'reuse' (tái sử dụng) phù hợp nhất vì nói về việc sử dụng lại chai thủy tinh nhiều lần. 'Reduce' là giảm thiểu, 'recycle' là tái chế (quy trình phức tạp hơn), và 'remove' là loại bỏ."
             },
             {
                 question: "If more people cycle, the air _____ cleaner.",
                 answer: "will be",
-                options: ["is", "are", "will be", "being"]
+                options: ["is", "are", "will be", "being"],
+                explanation: "Trong câu điều kiện loại 1, mệnh đề kết quả dùng 'will + V'. Ở đây, 'will be' diễn tả kết quả trong tương lai nếu điều kiện ở hiện tại được thực hiện."
             },
             {
-                question: "Which one is NOT a way to help the environment?",
-                answer: "throw rubbish on streets",
-                options: ["plant trees", "use reusable bags", "throw rubbish on streets", "reduce plastic use"]
+                question: "If we plant more trees, they _____ absorb more CO2.",
+                answer: "will",
+                options: ["would", "will", "may", "might"],
+                explanation: "Trong câu điều kiện loại 1 diễn tả điều có thể xảy ra trong tương lai, chúng ta dùng 'will' ở mệnh đề kết quả. 'Would' dùng cho điều kiện loại 2, còn 'may/might' thể hiện sự không chắc chắn."
+            },
+            {
+                question: "Choose the correct article: I saw _____ interesting documentary about climate change.",
+                answer: "an",
+                options: ["a", "an", "the", ""],
+                explanation: "Chúng ta dùng 'an' trước từ bắt đầu bằng nguyên âm 'interesting'. Đây là lần đầu nhắc đến documentary này nên không dùng 'the', và 'a' chỉ dùng trước phụ âm."
+            },
+            {
+                question: "_____ ozone layer protects us from harmful UV rays.",
+                answer: "The",
+                options: ["A", "An", "The", ""],
+                explanation: "Dùng 'The' vì tầng ozone là duy nhất. Đây là danh từ xác định, chỉ một thứ cụ thể và duy nhất, không dùng 'A/An' vì không phải là một trong nhiều."
+            },
+            {
+                question: "If we don't reduce pollution, many species _____ extinct.",
+                answer: "will become",
+                options: ["become", "becomes", "will become", "becoming"],
+                explanation: "Trong câu điều kiện loại 1, mệnh đề kết quả dùng 'will + V' (will become). 'Become/becomes' sai vì thiếu will, 'becoming' là dạng V-ing không phù hợp với cấu trúc."
+            },
+            {
+                question: "Which action is most environmentally friendly?",
+                answer: "Using public transport",
+                options: ["Driving alone to work", "Using public transport", "Leaving lights on", "Using plastic bags"],
+                explanation: "Sử dụng phương tiện công cộng (Using public transport) là lựa chọn thân thiện với môi trường nhất vì giảm lượng khí thải từ phương tiện cá nhân, tiết kiệm năng lượng và giảm ùn tắc."
+            },
+            {
+                question: "If you turn off _____ lights when leaving a room, you will save energy.",
+                answer: "the",
+                options: ["a", "an", "the", ""],
+                explanation: "Dùng 'the' vì đề cập đến những bóng đèn cụ thể trong phòng. Đây là trường hợp xác định rõ đối tượng nói đến."
+            },
+            {
+                question: "What happens if we _____ too much water?",
+                answer: "waste",
+                options: ["wastes", "wasting", "waste", "wasted"],
+                explanation: "Trong câu điều kiện loại 1, sau 'if' dùng động từ ở hiện tại đơn (waste). Chủ ngữ là 'we' nên không thêm -s, không dùng V-ing hoặc quá khứ."
+            },
+            {
+                question: "Choose the best way to save energy:",
+                answer: "Using LED light bulbs",
+                options: ["Using old appliances", "Keeping windows open with AC on", "Using LED light bulbs", "Taking long showers"],
+                explanation: "Sử dụng bóng đèn LED (Using LED light bulbs) là cách tốt nhất để tiết kiệm năng lượng vì LED tiêu thụ ít điện hơn, tuổi thọ cao hơn và hiệu quả năng lượng tốt hơn các loại bóng đèn khác."
+            },
+            {
+                question: "If everyone _____ their part, the world will be cleaner.",
+                answer: "does",
+                options: ["do", "does", "doing", "done"],
+                explanation: "Trong câu điều kiện loại 1, sau 'if' dùng động từ ở hiện tại đơn. Chủ ngữ 'everyone' là số ít nên động từ phải thêm -s (does). 'Do' dùng cho số nhiều, 'doing/done' không phù hợp với cấu trúc."
+            },
+            {
+                question: "Which material takes the longest to decompose?",
+                answer: "Plastic",
+                options: ["Paper", "Food waste", "Plastic", "Leaves"],
+                explanation: "Nhựa (Plastic) mất thời gian phân hủy lâu nhất, có thể lên đến hàng trăm năm. Giấy, rác thực phẩm và lá cây là các vật liệu hữu cơ, phân hủy tự nhiên nhanh hơn nhiều."
+            },
+            {
+                question: "If we recycle paper, we will save _____ trees.",
+                answer: "many",
+                options: ["much", "many", "a lot", "lots"],
+                explanation: "Dùng 'many' vì 'trees' là danh từ đếm được số nhiều. 'Much' dùng với danh từ không đếm được, 'a lot/lots' cũng đúng nhưng 'many' là lựa chọn chính xác và tự nhiên nhất trong ngữ cảnh này."
             }
         ],
         pronunciation: {
@@ -1776,27 +2089,92 @@ const units = [
             {
                 question: "WB2 is _____ robot in the show. (strong)",
                 answer: "the strongest",
-                options: ["stronger", "the strongest", "most strong", "strongest"]
+                options: ["stronger", "the strongest", "most strong", "strongest"],
+                explanation: "Chúng ta dùng 'the strongest' vì đây là dạng so sánh nhất của tính từ ngắn 'strong'. Khi so sánh với tất cả, ta thêm 'the' và '-est'. 'Stronger' là dạng so sánh hơn, 'most strong' không đúng với tính từ ngắn, 'strongest' thiếu 'the'."
             },
             {
                 question: "Shifa is _____ robot. It can help sick people. (smart)",
                 answer: "the smartest",
-                options: ["smarter", "the smartest", "most smart", "smartest"]
+                options: ["smarter", "the smartest", "most smart", "smartest"],
+                explanation: "Dùng 'the smartest' vì đây là so sánh nhất của tính từ ngắn 'smart'. Câu ngụ ý Shifa là robot thông minh nhất trong số các robot. 'Smarter' là so sánh hơn, 'most smart' không dùng cho tính từ ngắn."
             },
             {
-                question: "H8 is _____ home robot. It can do many things. (useful)",
-                answer: "a very useful",
-                options: ["the usefulest", "more useful", "a very useful", "the most useful"]
+                question: "This is _____ advanced robot I have ever seen.",
+                answer: "the most",
+                options: ["more", "most", "the most", "the more"],
+                explanation: "Dùng 'the most' vì đây là so sánh nhất của tính từ dài 'advanced'. Với tính từ nhiều hơn một âm tiết, ta dùng 'the most + tính từ'. 'More' dùng cho so sánh hơn, 'most' thiếu 'the'."
             },
             {
-                question: "Which robot can _____ broken machines?",
-                answer: "repair",
-                options: ["repair", "make", "do", "put"]
+                question: "The AI system in this robot is _____ than the previous version.",
+                answer: "better",
+                options: ["good", "better", "best", "more good"],
+                explanation: "Dùng 'better' vì đây là dạng so sánh hơn của tính từ bất quy tắc 'good'. Khi so sánh với một đối tượng (previous version), ta dùng dạng so sánh hơn. 'More good' không đúng vì 'good' là tính từ bất quy tắc."
             },
             {
-                question: "The robot helps me _____ after dinner.",
-                answer: "do the dishes",
-                options: ["make meals", "iron clothes", "do the dishes", "put toys away"]
+                question: "Industrial robots are _____ efficient than human workers in repetitive tasks.",
+                answer: "more",
+                options: ["most", "more", "much", "very"],
+                explanation: "Dùng 'more' vì đây là so sánh hơn với tính từ dài 'efficient'. Với tính từ dài, ta dùng 'more + tính từ' để so sánh hơn. 'Most' dùng cho so sánh nhất, 'much/very' không dùng trong cấu trúc so sánh."
+            },
+            {
+                question: "The Mars rover is one of _____ successful space robots ever built.",
+                answer: "the most",
+                options: ["more", "most", "the most", "much"],
+                explanation: "Dùng 'the most' trong cấu trúc 'one of the most + tính từ' để chỉ một trong những cái nhất. Đây là cách diễn đạt so sánh nhất nhưng không phải là duy nhất."
+            },
+            {
+                question: "Modern robots are becoming _____ sophisticated every year.",
+                answer: "more and more",
+                options: ["more", "the more", "more and more", "most and most"],
+                explanation: "Cấu trúc 'more and more + tính từ' diễn tả sự gia tăng dần dần theo thời gian. Đây là cách diễn đạt sự tiến bộ liên tục của robot hiện đại."
+            },
+            {
+                question: "This robot vacuum is _____ expensive but also _____ efficient.",
+                answer: "more, more",
+                options: ["more, more", "the most, the most", "more, most", "most, more"],
+                explanation: "Dùng 'more...more' trong cấu trúc song song để so sánh hai đặc điểm. Cả hai tính từ 'expensive' và 'efficient' đều là tính từ dài nên dùng 'more' để so sánh hơn."
+            },
+            {
+                question: "The humanoid robot moves _____ naturally than the older models.",
+                answer: "more",
+                options: ["more", "most", "much", "very"],
+                explanation: "Dùng 'more' với trạng từ 'naturally' vì đây là trạng từ dài (3 âm tiết). Khi so sánh hơn với trạng từ dài, ta dùng 'more + trạng từ'."
+            },
+            {
+                question: "Which robot feature is the _____ important for factory work?",
+                answer: "most",
+                options: ["more", "most", "much", "very"],
+                explanation: "Dùng 'most' trong cấu trúc so sánh nhất với tính từ dài 'important'. Câu hỏi tìm tính năng quan trọng nhất, nên dùng dạng so sánh nhất."
+            },
+            {
+                question: "The latest robot model works _____ efficiently than its predecessor.",
+                answer: "more",
+                options: ["more", "most", "much", "the most"],
+                explanation: "Dùng 'more' với trạng từ 'efficiently' trong so sánh hơn. So sánh với một đối tượng cụ thể (predecessor) nên dùng dạng so sánh hơn, không dùng so sánh nhất."
+            },
+            {
+                question: "This is _____ complex robot we have designed so far.",
+                answer: "the most",
+                options: ["more", "most", "the most", "much"],
+                explanation: "Dùng 'the most' với tính từ dài 'complex' trong cấu trúc so sánh nhất. 'So far' chỉ ra đây là so sánh với tất cả robot đã thiết kế đến nay."
+            },
+            {
+                question: "The new AI system processes information _____ than before.",
+                answer: "faster",
+                options: ["fast", "faster", "fastest", "more fast"],
+                explanation: "Dùng 'faster' vì đây là dạng so sánh hơn của trạng từ ngắn 'fast'. Với trạng từ một âm tiết, ta thêm '-er' để tạo dạng so sánh hơn. 'More fast' không đúng vì 'fast' là trạng từ ngắn."
+            },
+            {
+                question: "Among all our robots, the cleaning robot is the _____ useful for daily tasks.",
+                answer: "most",
+                options: ["more", "most", "much", "very"],
+                explanation: "Dùng 'most' trong cấu trúc so sánh nhất vì đang so sánh với tất cả robot ('among all our robots'). Tính từ 'useful' là tính từ dài nên dùng 'most' chứ không thêm '-est'."
+            },
+            {
+                question: "The industrial robot arm is _____ precise than human hands.",
+                answer: "more",
+                options: ["more", "most", "the most", "much"],
+                explanation: "Dùng 'more' với tính từ 'precise' vì đây là tính từ dài trong cấu trúc so sánh hơn. So sánh với 'human hands' nên dùng dạng so sánh hơn, không phải so sánh nhất."
             }
         ],
         pronunciation: {
@@ -1945,9 +2323,17 @@ function showExercisesContent(contentArea) {
                             </div>
                         `).join('')}
                     </div>
+                    <div class="explanation mt-2" id="explanation${index}" style="display: none;">
+                        <div class="alert alert-info">
+                            <strong>Giải thích:</strong> ${exercise.explanation}
+                        </div>
+                    </div>
                 </div>
             `).join('')}
-            <button type="button" class="btn btn-primary" onclick="checkExercises()">Kiểm tra đáp án</button>
+            <div class="button-group">
+                <button type="button" class="btn btn-primary me-2" onclick="checkExercises()">Kiểm tra đáp án</button>
+                <button type="button" class="btn btn-info" onclick="toggleExplanations()">Hiện/Ẩn giải thích</button>
+            </div>
         </form>
         <div id="exerciseResults" class="mt-3"></div>
     `;
@@ -2046,6 +2432,14 @@ function checkExercises() {
             Bạn đã làm đúng ${correct}/${currentUnit.exercises.length} câu!
         </div>
     `;
+}
+
+// Add new function to toggle explanations
+function toggleExplanations() {
+    const explanations = document.querySelectorAll('[id^="explanation"]');
+    explanations.forEach(explanation => {
+        explanation.style.display = explanation.style.display === 'none' ? 'block' : 'none';
+    });
 }
 
 // Initialize the app when the page loads
