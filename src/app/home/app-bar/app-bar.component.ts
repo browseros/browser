@@ -524,6 +524,22 @@ export class AppBarComponent {
             }
         }));
         internalAppsSubmenu.append(new MenuItem({
+            label: 'Tin Học Lớp 6',
+            accelerator: 'CmdOrCtrl+Alt+T',
+            click: () => {
+                const url = 'http://localhost:4200/assets/internal-apps/tinHoc-lop6/tinHoc-lop6.html';
+                const hostName = StateHelper.extractHostname(url);
+                const newTab: ITab = {
+                    id: 0,
+                    appId: 0,
+                    hostName,
+                    title: 'Tin Học Lớp 6',
+                    url: url
+                };
+                this.store.dispatch(new appActions.AddTabAction(newTab));
+            }
+        }));
+        internalAppsSubmenu.append(new MenuItem({
             label: 'Une Petite Grenouille',
             accelerator: 'CmdOrCtrl+Alt+F',
             click: () => {
