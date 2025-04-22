@@ -2189,6 +2189,489 @@ const units = [
                 "- H8 is a home robot."
             ]
         }
+    },
+    {
+        id: 15,
+        title: "Ôn tập Học kỳ 2",
+        grammar: {
+            title: "Ôn tập Ngữ pháp",
+            content: [
+                "<h4>1. Câu hỏi WH</h4>",
+                "- What: hỏi về vật, sự việc, công việc",
+                "- When: hỏi về thời gian",
+                "- Where: hỏi về địa điểm, nơi chốn",
+                "- Who: hỏi về người",
+                "- Why: hỏi về lý do",
+                "- How: hỏi về cách thức, phương tiện",
+                "- How often: hỏi về tần suất",
+                "<h4>2. Thì hiện tại tiếp diễn</h4>",
+                "- Cấu trúc: Subject + am/is/are + V-ing",
+                "- Dùng để diễn tả hành động đang diễn ra ở hiện tại",
+                "<h4>3. Thì quá khứ đơn</h4>",
+                "- Cấu trúc: Subject + V-ed/V2",
+                "- Dùng để diễn tả hành động đã xảy ra và kết thúc trong quá khứ",
+                "<h4>4. Thì tương lai đơn</h4>",
+                "- Cấu trúc: Subject + will + V",
+                "- Cấu trúc: Subject + be going to + V",
+                "- Dùng để diễn tả hành động sẽ xảy ra trong tương lai",
+                "<h4>5. Mạo từ: a/an, the</h4>",
+                "- a/an: dùng trước danh từ số ít, có thể đếm được (a trước phụ âm, an trước nguyên âm)",
+                "- the: dùng trước danh từ đã được xác định rõ ràng",
+                "<h4>6. Câu điều kiện loại 1</h4>",
+                "- Cấu trúc: If + S + V (hiện tại đơn), S + will + V",
+                "- Dùng để diễn tả điều kiện có thể xảy ra ở hiện tại hoặc tương lai",
+                "<h4>7. Tính từ so sánh</h4>",
+                "- So sánh hơn: adj-er/more + adj + than",
+                "- So sánh nhất: the + adj-est/most + adj",
+                "<h4>8. Động từ khiếm khuyết</h4>",
+                "- must/mustn't: phải/không được",
+                "- have to/don't have to: phải/không cần phải",
+                "- should/shouldn't: nên/không nên",
+                "<h4>9. Tính từ sở hữu và đại từ sở hữu</h4>",
+                "- Tính từ sở hữu: my, your, his, her, its, our, their",
+                "- Đại từ sở hữu: mine, yours, his, hers, its, ours, theirs",
+                "<h4>10. Liên từ trong câu ghép</h4>",
+                "- and: và, nối hai sự việc cùng chiều",
+                "- but: nhưng, nối hai sự việc trái chiều",
+                "- so: vì vậy, nối nguyên nhân và kết quả"
+            ]
+        },
+        vocabulary: {
+            title: "Ôn tập Từ vựng",
+            words: [
+                {
+                    word: "television",
+                    meaning: "ti vi",
+                    example: "We watch television every evening.",
+                    exampleMeaning: "Chúng tôi xem ti vi mỗi tối.",
+                    pronunciation: "/ˈtelɪvɪʒən/",
+                    image: "https://www.example.com/images/television.jpg"
+                },
+                {
+                    word: "channel",
+                    meaning: "kênh truyền hình",
+                    example: "What channel is the news on?",
+                    exampleMeaning: "Tin tức đang chiếu trên kênh nào?",
+                    pronunciation: "/ˈtʃænl/",
+                    image: "https://www.example.com/images/channel.jpg"
+                },
+                {
+                    word: "match",
+                    meaning: "trận đấu",
+                    example: "I watched the football match last night.",
+                    exampleMeaning: "Tôi đã xem trận đấu bóng đá tối qua.",
+                    pronunciation: "/mætʃ/",
+                    image: "https://www.example.com/images/match.jpg"
+                },
+                {
+                    word: "badminton",
+                    meaning: "cầu lông",
+                    example: "They play badminton twice a week.",
+                    exampleMeaning: "Họ chơi cầu lông hai lần một tuần.",
+                    pronunciation: "/ˈbædmɪntən/",
+                    image: "https://www.example.com/images/badminton.jpg"
+                },
+                {
+                    word: "cycling",
+                    meaning: "đạp xe",
+                    example: "Cycling is good for your health.",
+                    exampleMeaning: "Đạp xe có lợi cho sức khỏe của bạn.",
+                    pronunciation: "/ˈsaɪklɪŋ/",
+                    image: "https://www.example.com/images/cycling.jpg"
+                },
+                {
+                    word: "landmark",
+                    meaning: "địa danh nổi tiếng",
+                    example: "The Eiffel Tower is a famous landmark in Paris.",
+                    exampleMeaning: "Tháp Eiffel là một địa danh nổi tiếng ở Paris.",
+                    pronunciation: "/ˈlændmɑːrk/",
+                    image: "https://www.example.com/images/landmark.jpg"
+                },
+                {
+                    word: "palace",
+                    meaning: "cung điện",
+                    example: "The royal family lives in the palace.",
+                    exampleMeaning: "Gia đình hoàng gia sống trong cung điện.",
+                    pronunciation: "/ˈpælɪs/",
+                    image: "https://www.example.com/images/palace.jpg"
+                },
+                {
+                    word: "capital city",
+                    meaning: "thủ đô",
+                    example: "Hanoi is the capital city of Vietnam.",
+                    exampleMeaning: "Hà Nội là thủ đô của Việt Nam.",
+                    pronunciation: "/ˈkæpɪtl ˈsɪti/",
+                    image: "https://www.example.com/images/capital.jpg"
+                },
+                {
+                    word: "robot",
+                    meaning: "rô-bốt",
+                    example: "The robot can do many tasks automatically.",
+                    exampleMeaning: "Rô-bốt có thể thực hiện nhiều nhiệm vụ một cách tự động.",
+                    pronunciation: "/ˈroʊbɒt/",
+                    image: "https://www.example.com/images/robot.jpg"
+                },
+                {
+                    word: "smart home",
+                    meaning: "nhà thông minh",
+                    example: "In a smart home, you can control devices with your voice.",
+                    exampleMeaning: "Trong nhà thông minh, bạn có thể điều khiển thiết bị bằng giọng nói.",
+                    pronunciation: "/smɑːrt hoʊm/",
+                    image: "https://www.example.com/images/smart-home.jpg"
+                },
+                {
+                    word: "solar panel",
+                    meaning: "tấm năng lượng mặt trời",
+                    example: "We installed solar panels on our roof last year.",
+                    exampleMeaning: "Chúng tôi đã lắp đặt tấm năng lượng mặt trời trên mái nhà năm ngoái.",
+                    pronunciation: "/ˈsoʊlər ˈpænl/",
+                    image: "https://www.example.com/images/solar-panel.jpg"
+                },
+                {
+                    word: "environment",
+                    meaning: "môi trường",
+                    example: "We need to protect the environment.",
+                    exampleMeaning: "Chúng ta cần bảo vệ môi trường.",
+                    pronunciation: "/ɪnˈvaɪrənmənt/",
+                    image: "https://www.example.com/images/environment.jpg"
+                }
+            ]
+        },
+        pronunciation: {
+            title: "Ôn tập Ngữ âm",
+            sections: [
+                {
+                    title: "Âm /θ/",
+                    examples: ["math", "bathroom", "birthday", "thirty", "think", "thank"],
+                    explanation: "Đặt lưỡi giữa hai hàm răng và thổi khí nhẹ ra."
+                },
+                {
+                    title: "Âm /ð/",
+                    examples: ["the", "this", "mother", "brother", "father", "those"],
+                    explanation: "Tương tự âm /θ/ nhưng có rung thanh quản."
+                },
+                {
+                    title: "Âm /e/",
+                    examples: ["bed", "leg", "pen", "desk", "letter", "many"],
+                    explanation: "Mở miệng vừa phải, lưỡi đẩy về phía trước."
+                },
+                {
+                    title: "Âm /æ/",
+                    examples: ["cat", "map", "hat", "apple", "happy", "family"],
+                    explanation: "Mở miệng khá rộng, lưỡi hạ thấp."
+                },
+                {
+                    title: "Âm /əʊ/",
+                    examples: ["go", "phone", "home", "know", "slow", "boat"],
+                    explanation: "Bắt đầu với âm /ə/ và trượt đến /ʊ/."
+                },
+                {
+                    title: "Âm /aʊ/",
+                    examples: ["house", "now", "town", "brown", "cloud", "ground"],
+                    explanation: "Bắt đầu với âm /a/ và trượt đến /ʊ/."
+                },
+                {
+                    title: "Âm cuối -s",
+                    examples: ["books", "maps", "beds", "pens", "cats", "dogs"],
+                    explanation: "Phát âm /s/ sau âm vô thanh, /z/ sau âm hữu thanh và nguyên âm, /iz/ sau âm rít."
+                },
+                {
+                    title: "Trọng âm trong từ hai âm tiết",
+                    examples: ["teacher", "student", "robot", "mother", "window", "garden"],
+                    explanation: "Trong tiếng Anh, trọng âm thường rơi vào âm tiết đầu tiên của từ hai âm tiết."
+                }
+            ]
+        },
+        exercises: [
+            {
+                question: "When _____ your family usually watch TV? (Khi nào gia đình bạn thường xem TV?)",
+                answer: "does",
+                options: ["do", "does", "is", "are"],
+                explanation: "Sử dụng 'does' với chủ ngữ 'your family' (ngôi thứ 3 số ít) khi đặt câu hỏi WH- ở thì hiện tại đơn. Cấu trúc: WH-word + do/does + S + V?"
+            },
+            {
+                question: "What _____ she doing now? (Cô ấy đang làm gì bây giờ?)",
+                answer: "is",
+                options: ["is", "are", "do", "does"],
+                explanation: "Sử dụng 'is' với chủ ngữ 'she' khi đặt câu hỏi WH- ở thì hiện tại tiếp diễn. Cấu trúc: WH-word + be + S + V-ing?"
+            },
+            {
+                question: "Where _____ you yesterday? (Hôm qua bạn ở đâu?)",
+                answer: "were",
+                options: ["was", "were", "did", "are"],
+                explanation: "Sử dụng 'were' với chủ ngữ 'you' khi đặt câu hỏi WH- với to be ở thì quá khứ đơn. Cấu trúc: WH-word + was/were + S + ...?"
+            },
+            {
+                question: "They _____ playing football when it started to rain. (Họ đang chơi bóng đá khi trời bắt đầu mưa.)",
+                answer: "were",
+                options: ["was", "were", "are", "is"],
+                explanation: "Sử dụng 'were' với chủ ngữ 'they' trong thì quá khứ tiếp diễn. Cấu trúc: S + was/were + V-ing."
+            },
+            {
+                question: "I _____ to the cinema last weekend. (Tôi đã đi xem phim cuối tuần trước.)",
+                answer: "went",
+                options: ["go", "goes", "went", "going"],
+                explanation: "Sử dụng 'went' (quá khứ của 'go') trong thì quá khứ đơn. Cấu trúc: S + V2/V-ed."
+            },
+            {
+                question: "They _____ badminton next week. (Họ sẽ chơi cầu lông vào tuần tới.)",
+                answer: "will play",
+                options: ["plays", "played", "are playing", "will play"],
+                explanation: "Sử dụng 'will play' cho hành động sẽ xảy ra trong tương lai. Cấu trúc: S + will + V."
+            },
+            {
+                question: "If the weather _____ fine, we _____ camping tomorrow. (Nếu thời tiết đẹp, chúng tôi sẽ đi cắm trại vào ngày mai.)",
+                answer: "is, will go",
+                options: ["is, will go", "will be, go", "is, go", "was, will go"],
+                explanation: "Đây là câu điều kiện loại 1, diễn đạt điều kiện có thể xảy ra trong tương lai. Cấu trúc: If + S + V (hiện tại đơn), S + will + V."
+            },
+            {
+                question: "I bought _____ new pencil case yesterday. _____ pencil case was blue. (Tôi đã mua một chiếc hộp bút mới hôm qua. Chiếc hộp bút đó màu xanh.)",
+                answer: "a, The",
+                options: ["a, A", "an, The", "a, The", "the, The"],
+                explanation: "Sử dụng 'a' trước danh từ số ít lần đầu nhắc đến và 'the' khi nhắc lại lần thứ hai vì nó đã được xác định."
+            },
+            {
+                question: "My sister's got _____ hair but my brother's got dark hair. (Chị gái tôi có mái tóc ___ nhưng em trai tôi có mái tóc đen.)",
+                answer: "blonde",
+                options: ["short", "curly", "wavy", "blonde"],
+                explanation: "Từ 'blonde' (vàng hoe) đối lập với 'dark' (đen) khi nói về màu tóc, phù hợp với ngữ cảnh của câu."
+            },
+            {
+                question: "Vietnam's population reached more than 99 million in 2022. (Từ nào trong câu có nghĩa là số dân?)",
+                answer: "population",
+                options: ["Vietnam", "population", "million", "reached"],
+                explanation: "'Population' có nghĩa là 'dân số/số dân', là từ chính trong câu này nói về số lượng người dân."
+            },
+            {
+                question: "The robot will _____ the flowers in the garden. (Robot sẽ ___ những bông hoa trong vườn.)",
+                answer: "look after",
+                options: ["look after", "look at", "look out", "look in"],
+                explanation: "'Look after' có nghĩa là 'chăm sóc', phù hợp với ngữ cảnh chăm sóc hoa trong vườn."
+            },
+            {
+                question: "_____ you have a test tomorrow morning? (_____ bạn có bài kiểm tra vào sáng mai không?)",
+                answer: "Do",
+                options: ["Will", "Do", "Are", "Is"],
+                explanation: "Sử dụng 'Do' để đặt câu hỏi ở thì hiện tại đơn với chủ ngữ 'you'. Cấu trúc: Do/Does + S + V?"
+            },
+            {
+                question: "I like cycling, _____ I will save money to buy a good bicycle. (Tôi thích đạp xe, _____ tôi sẽ tiết kiệm tiền để mua một chiếc xe đạp tốt.)",
+                answer: "so",
+                options: ["and", "but", "so", "because"],
+                explanation: "Sử dụng 'so' để nối nguyên nhân (thích đạp xe) với kết quả (tiết kiệm tiền mua xe). 'So' có nghĩa là 'vì vậy'."
+            },
+            {
+                question: "He wants to get high marks in the final exam, _____ he is trying his best. (Anh ấy muốn đạt điểm cao trong kỳ thi cuối kỳ, _____ anh ấy đang cố gắng hết sức.)",
+                answer: "so",
+                options: ["but", "so", "and", "because"],
+                explanation: "Sử dụng 'so' để nối nguyên nhân (muốn đạt điểm cao) với kết quả (đang cố gắng hết sức). 'So' có nghĩa là 'vì vậy'."
+            },
+            {
+                question: "My headache is _____ than it was last week. (Cơn đau đầu của tôi _____ so với tuần trước.)",
+                answer: "better",
+                options: ["good", "better", "worse", "worst"],
+                explanation: "Sử dụng 'better' (tính từ so sánh hơn của 'good') để so sánh tình trạng hiện tại với quá khứ. Cấu trúc: S + V + adj-er + than."
+            },
+            {
+                question: "Why don't you _____ karate? It can help you protect yourself.",
+                answer: "play",
+                options: ["jump", "play", "go", "do"],
+                explanation: "In English, we typically use 'do' with martial arts, but among the options given, 'play' is the closest choice. The correct phrase would be 'do karate', but since that's not an option, 'play karate' is selected as the answer."
+            },
+            {
+                question: "Vietnam's _____ reached more than 99 million in 2022.",
+                answer: "population",
+                options: ["capital city", "population", "flag", "language"],
+                explanation: "The sentence is about a numerical figure (more than 99 million) associated with Vietnam. Among the options, 'population' is the only one that would be measured in millions of people."
+            },
+            {
+                question: "My cousin doesn't like _____ Math and Chemistry.",
+                answer: "studying",
+                options: ["study", "studies", "studying", "studied"],
+                explanation: "After 'like', 'enjoy', 'love', and similar verbs, we often use the gerund (verb + -ing). Therefore, 'studying' is the correct form after 'doesn't like'."
+            },
+            {
+                question: "I'm really _____ on sport – especially volleyball.",
+                answer: "keen",
+                options: ["keen", "interested", "play", "like"],
+                explanation: "The phrase 'keen on something' means to be very interested in or enthusiastic about it. This is a common collocation in English, making 'keen' the most appropriate choice for the blank."
+            },
+            {
+                question: "I bought _____ pencil case yesterday. _____ pencil case was blue.",
+                answer: "a/ The",
+                options: ["some/ The", "an/ A", "a/ The", "the/ The"],
+                explanation: "We use 'a' for the first mention of a singular countable noun (when introducing it). We use 'the' for subsequent mentions of the same noun (when it becomes specific). Therefore, 'a/The' is correct."
+            },
+            {
+                question: "Nam often _____ TV in the evening.",
+                answer: "watches",
+                options: ["watch", "watches", "watched", "is watching"],
+                explanation: "For the present simple tense with a third-person singular subject (he, she, it, or a name like Nam), we add -s or -es to the verb. Therefore, 'watches' is the correct form for a habitual action."
+            },
+            {
+                question: "They _____ in Hanoi from 1970 to 1999.",
+                answer: "lived",
+                options: ["live", "lived", "are living", "were lived"],
+                explanation: "For a completed action in the past with a specific time period that has ended ('from 1970 to 1999'), we use the past simple tense. Therefore, 'lived' is the correct form."
+            },
+            {
+                question: "I need someone who can play _____ guitar, I'll sing a song now.",
+                answer: "the",
+                options: ["a", "an", "the", "Ø"],
+                explanation: "We typically use 'the' with musical instruments when talking about playing them. Therefore, 'the guitar' is the correct form in this context."
+            },
+            {
+                question: "They _____ badminton next week.",
+                answer: "will play",
+                options: ["play", "played", "playing", "will play"],
+                explanation: "For a future action with a specific time reference ('next week'), we can use 'will + verb'. Therefore, 'will play' is the correct form to express a future action."
+            },
+            {
+                question: "I think he _____ at home by 8 pm tonight.",
+                answer: "will be",
+                options: ["will be", "was", "is", "be"],
+                explanation: "For a prediction about the future with a specific time reference ('by 8 pm tonight'), we use 'will + be'. Therefore, 'will be' is the correct form to express a future state."
+            },
+            {
+                question: "If the weather _____ fine, we _____ camping tomorrow.",
+                answer: "is/ will go",
+                options: ["be/ will go", "is/ will go", "are/ go", "was/went"],
+                explanation: "In first conditional sentences (for possible future situations), we use 'if + present simple, will + infinitive'. Therefore, 'is/will go' is the correct combination."
+            },
+            {
+                question: "If I _____ a terrible headache, I _____ some medicines.",
+                answer: "have/ will take",
+                options: ["have/ take", "have/ will take", "am having/ take", "had/ took"],
+                explanation: "In first conditional sentences (for possible future situations), we use 'if + present simple, will + infinitive'. Therefore, 'have/will take' is the correct combination."
+            },
+            {
+                question: "Our school football team _____ the match with Nguyen Du school last Saturday.",
+                answer: "won",
+                options: ["wins", "won", "scores", "scored"],
+                explanation: "For a completed action in the past with a specific time reference ('last Saturday'), we use the past simple tense. Therefore, 'won' is the correct form for a completed past action."
+            },
+            {
+                question: "_____ do you do judo? - Twice a week.",
+                answer: "How often",
+                options: ["Why", "How often", "Where", "When"],
+                explanation: "When asking about frequency (how many times something happens), we use 'How often'. The answer 'Twice a week' indicates frequency, making 'How often' the correct question word."
+            },
+            {
+                question: "Music channel attracts millions of _____ throughout the country.",
+                answer: "viewers",
+                options: ["characters", "writers", "reporters", "viewers"],
+                explanation: "People who watch television channels are called 'viewers'. Since we're talking about a TV channel (music channel), 'viewers' is the most appropriate term."
+            },
+            {
+                question: "William is very _____ - he runs five kilometres every day.",
+                answer: "fit",
+                options: ["fit", "helpful", "smart", "shy"],
+                explanation: "Someone who exercises regularly and is in good physical condition is described as 'fit'. Running five kilometers daily indicates physical fitness, making 'fit' the most appropriate term."
+            },
+            {
+                question: "My father is playing _____ with his friend now.",
+                answer: "chess",
+                options: ["fishing", "exercise", "karate", "chess"],
+                explanation: "Among the options, only 'chess' is a game that you can 'play' with one other person. 'Fishing' is an activity, not typically described as being 'played with a friend'."
+            },
+            {
+                question: "It was _____ beautiful day. _____ sun shone brightly in _____ sky.",
+                answer: "a/The/the",
+                options: ["a/The/the", "the/The/the", "a/A/a", "the/A/a"],
+                explanation: "We use 'a' for the first mention of a day (indefinite). We use 'the' for unique things like 'the sun' and 'the sky' (there's only one sun and one sky in our context)."
+            },
+            {
+                question: "There is _____ umbrella in _____ corner of the house.",
+                answer: "an/the",
+                options: ["a/a", "a/the", "an/the", "an/a"],
+                explanation: "We use 'an' before words beginning with a vowel sound (umbrella starts with a vowel sound). We use 'the' for a specific location ('the corner' specifies which corner we're talking about)."
+            },
+            {
+                question: "Please give me _____ cup of _____ coffee with cream and less sugar.",
+                answer: "a/ Ø",
+                options: ["a/a", "a/the", "the/Ø", "a/ Ø"],
+                explanation: "We use 'a' for a single, countable item (one cup). We use no article (Ø) for uncountable nouns in general (coffee in general, not a specific coffee)."
+            },
+            {
+                question: "My headache is _____ than it was last week.",
+                answer: "better",
+                options: ["good", "better", "worst", "badder"],
+                explanation: "When comparing two states (current headache vs. last week's headache), we use the comparative form. The comparative of 'good' is 'better', not 'gooder'."
+            },
+            {
+                question: "The robot will _____ the flowers in the garden.",
+                answer: "look after",
+                options: ["look after", "look at", "look out", "look in"],
+                explanation: "The phrasal verb 'look after' means to take care of or be responsible for something. This makes the most sense in the context of a robot tending to flowers."
+            },
+            {
+                question: "_____ you have a test tomorrow morning?",
+                answer: "Do",
+                options: ["Will", "Do", "Are", "Is"],
+                explanation: "To form a question in the present simple tense, we use 'Do' + subject + verb for the second person ('you'). Therefore, 'Do' is the correct auxiliary verb for this question."
+            },
+            {
+                question: "The word CLOSEST in meaning to 'clever' is:",
+                answer: "intelligent",
+                options: ["stupid", "intelligent", "helpful", "kind"],
+                explanation: "'Clever' means having or showing intelligence or skill. Among the options, 'intelligent' is closest in meaning to 'clever'."
+            },
+            {
+                question: "The word CLOSEST in meaning to 'learning' is:",
+                answer: "studying",
+                options: ["studying", "changing", "joining", "building"],
+                explanation: "'Learning' refers to acquiring knowledge or skills through study or experience. Among the options, 'studying' is closest in meaning to 'learning'."
+            },
+            {
+                question: "The word CLOSEST in meaning to 'began' is:",
+                answer: "started",
+                options: ["sold", "started", "thought", "understood"],
+                explanation: "'Began' means to start or initiate something. Among the options, 'started' is closest in meaning to 'began'."
+            },
+            {
+                question: "The word CLOSEST in meaning to 'rude' is:",
+                answer: "bad",
+                options: ["strong", "bad", "dangerous", "polite"],
+                explanation: "'Rude' means impolite or disrespectful. Among the options, 'bad' is closest in meaning to 'rude', although 'impolite' would be even closer."
+            },
+            {
+                question: "The word CLOSEST in meaning to 'dangerous' is:",
+                answer: "risky",
+                options: ["risky", "normal", "brave", "usual"],
+                explanation: "'Dangerous' means likely to cause harm or injury. Among the options, 'risky' is closest in meaning to 'dangerous'."
+            },
+            {
+                question: "The word OPPOSITE in meaning to 'excellent' is:",
+                answer: "terrible",
+                options: ["good", "brilliant", "delicious", "terrible"],
+                explanation: "'Excellent' means extremely good. Among the options, 'terrible' (extremely bad) is the opposite of 'excellent'."
+            },
+            {
+                question: "The word OPPOSITE in meaning to 'outdoor' is:",
+                answer: "indoor",
+                options: ["outside", "underdoor", "indoor", "ondoor"],
+                explanation: "'Outdoor' refers to activities or things that exist, happen, or are used outside a building. 'Indoor' (inside a building) is the opposite."
+            },
+            {
+                question: "The word OPPOSITE in meaning to 'dangerous' is:",
+                answer: "safe",
+                options: ["risky", "unsafe", "scary", "safe"],
+                explanation: "'Dangerous' means likely to cause harm or injury. Among the options, 'safe' (free from harm or risk) is the opposite of 'dangerous'."
+            },
+            {
+                question: "The word OPPOSITE in meaning to 'buy' is:",
+                answer: "sell",
+                options: ["sell", "play", "wear", "take"],
+                explanation: "'Buy' means to acquire something by paying money for it. 'Sell' (to give something in exchange for money) is the opposite."
+            },
+            {
+                question: "The word OPPOSITE in meaning to 'send' is:",
+                answer: "receive",
+                options: ["order", "buy", "receive", "sell"],
+                explanation: "'Send' means to cause something to go or be taken to a destination. 'Receive' (to get or be given something) is the opposite."
+            }
+        ]
     }
 ];
 
@@ -2323,6 +2806,7 @@ function showExercisesContent(contentArea) {
                             </div>
                         `).join('')}
                     </div>
+                    <button type="button" class="btn btn-sm btn-outline-info mt-2" onclick="toggleSingleExplanation(${index})">Xem giải thích</button>
                     <div class="explanation mt-2" id="explanation${index}" style="display: none;">
                         <div class="alert alert-info">
                             <strong>Giải thích:</strong> ${exercise.explanation}
@@ -2332,7 +2816,7 @@ function showExercisesContent(contentArea) {
             `).join('')}
             <div class="button-group">
                 <button type="button" class="btn btn-primary me-2" onclick="checkExercises()">Kiểm tra đáp án</button>
-                <button type="button" class="btn btn-info" onclick="toggleExplanations()">Hiện/Ẩn giải thích</button>
+                <button type="button" class="btn btn-info" onclick="toggleExplanations()">Hiện/Ẩn tất cả giải thích</button>
             </div>
         </form>
         <div id="exerciseResults" class="mt-3"></div>
@@ -2434,7 +2918,13 @@ function checkExercises() {
     `;
 }
 
-// Add new function to toggle explanations
+// Add new function to toggle single explanation
+function toggleSingleExplanation(index) {
+    const explanation = document.getElementById(`explanation${index}`);
+    explanation.style.display = explanation.style.display === 'none' ? 'block' : 'none';
+}
+
+// Rename the existing function to be clearer
 function toggleExplanations() {
     const explanations = document.querySelectorAll('[id^="explanation"]');
     explanations.forEach(explanation => {
