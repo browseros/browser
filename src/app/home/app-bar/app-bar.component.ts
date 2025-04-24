@@ -556,6 +556,22 @@ export class AppBarComponent {
             }
         }));
         internalAppsSubmenu.append(new MenuItem({
+            label: 'Ôn Tập Pháp Kỳ 2',
+            accelerator: 'CmdOrCtrl+Alt+P',
+            click: () => {
+                const url = 'http://localhost:4200/assets/internal-apps/ontap-phap-ky2/ontap-phap-ky2.html';
+                const hostName = StateHelper.extractHostname(url);
+                const newTab: ITab = {
+                    id: 0,
+                    appId: 0,
+                    hostName,
+                    title: 'Ôn Tập Pháp Kỳ 2',
+                    url: url
+                };
+                this.store.dispatch(new appActions.AddTabAction(newTab));
+            }
+        }));
+        internalAppsSubmenu.append(new MenuItem({
             label: 'IELTS for Kids',
             accelerator: 'CmdOrCtrl+Alt+I',
             click: () => {

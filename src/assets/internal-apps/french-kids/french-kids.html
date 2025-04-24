@@ -168,6 +168,66 @@
             padding-bottom: 60px;
         }
 
+        /* Pronunciation Styles */
+        .pronunciation-content {
+            margin-top: 20px;
+        }
+
+        .pronunciation-section {
+            background-color: var(--light-bg);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .pronunciation-example {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .pronunciation-example:hover {
+            background-color: var(--primary-color);
+        }
+
+        .examples {
+            margin-top: 10px;
+        }
+
+        /* Tab Styles */
+        #tabsContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            background-color: var(--light-bg);
+            border: 1px solid var(--secondary-color);
+            color: var(--text-color);
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
         @media (max-width: 768px) {
             .app-container {
                 padding: 10px;
@@ -189,6 +249,14 @@
             .nav-buttons button {
                 width: 100%;
             }
+
+            #tabsContainer {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -204,13 +272,10 @@
         <div id="unitContent">
             <div class="nav-buttons">
                 <button onclick="showUnitGrid()">← Quay lại</button>
-                <button onclick="showSection('grammar')">Ngữ pháp</button>
-                <button onclick="showSection('vocabulary')">Từ vựng</button>
-                <button onclick="showSection('exercises')">Bài tập</button>
-                <button onclick="showSection('quiz')">Kiểm tra</button>
             </div>
 
             <h2 id="unitTitle"></h2>
+            <div id="tabsContainer"></div>
             <div id="contentArea"></div>
         </div>
     </div>

@@ -104,6 +104,31 @@ const units = [
                 exampleMeaning: "Không có gì, rất vui được giúp."
             }
         ],
+        pronunciation: {
+            title: "Phát âm tiếng Pháp cơ bản",
+            sections: [
+                {
+                    title: "Âm 'r' tiếng Pháp",
+                    explanation: "Âm 'r' trong tiếng Pháp được phát âm từ phía sau họng, khác với âm 'r' trong tiếng Việt. Khi phát âm, hãy cố gắng tạo âm thanh rung nhẹ ở cuống họng.",
+                    examples: ["bonjour", "au revoir", "merci", "français"]
+                },
+                {
+                    title: "Nguyên âm mũi",
+                    explanation: "Tiếng Pháp có những nguyên âm mũi đặc biệt, khi phát âm, không khí đi qua cả mũi và miệng.",
+                    examples: ["bonjour", "enchanté", "en", "un", "on"]
+                },
+                {
+                    title: "Âm cuối câu",
+                    explanation: "Trong tiếng Pháp, thường không phát âm các phụ âm cuối từ, trừ khi từ tiếp theo bắt đầu bằng nguyên âm.",
+                    examples: ["comment", "s'il vous plaît", "petit"]
+                },
+                {
+                    title: "Ngữ điệu chào hỏi",
+                    explanation: "Khi chào hỏi, ngữ điệu tiếng Pháp thường cao lên ở cuối câu khi hỏi và giảm xuống khi khẳng định.",
+                    examples: ["Bonjour!", "Comment allez-vous?", "Comment vas-tu?", "Ça va bien?"]
+                }
+            ]
+        },
         exercises: [
             {
                 type: "multiple-choice",
@@ -186,6 +211,28 @@ const units = [
                 exampleMeaning: "Chị/em gái tôi là sinh viên."
             }
         ],
+        pronunciation: {
+            title: "Phát âm từ vựng gia đình",
+            content: [
+                "1. Phát âm mạnh các phụ âm đầu:",
+                "- La famille /la famij/ - nhấn mạnh âm 'f'",
+                "- Le père /lə pɛʁ/ - nhấn mạnh âm 'p'",
+                "- La mère /la mɛʁ/ - nhấn mạnh âm 'm'",
+                "",
+                "2. Chú ý cách phát âm 'è' (ɛ):",
+                "- frère /fʁɛʁ/",
+                "- mère /mɛʁ/",
+                "- père /pɛʁ/",
+                "",
+                "3. Phát âm 'œu' (œ):",
+                "- sœur /sœʁ/",
+                "",
+                "4. Chú ý phát âm 'on' và 'en' trong:",
+                "- mon /mɔ̃/",
+                "- ton /tɔ̃/",
+                "- son /sɔ̃/"
+            ]
+        },
         exercises: [
             {
                 type: "multiple-choice",
@@ -1655,6 +1702,877 @@ const units = [
                 correct: 0
             }
         ]
+    },
+    {
+        id: 13,
+        title: "Révision - Ôn tập cuối kỳ 2",
+        sections: ["grammar", "vocabulary", "exercises", "listening", "reading", "writing", "speaking"],
+        grammar: {
+            title: "Ngữ pháp",
+            content: [
+                {
+                    topic: "WH-question words",
+                    explanation: "Trong tiếng Pháp, từ nghi vấn WH được sử dụng để đặt câu hỏi:",
+                    examples: [
+                        "Quand - Khi nào (hỏi về thời gian)",
+                        "Où - Ở đâu (hỏi về địa điểm)",
+                        "Que/Quoi - Cái gì (hỏi về vật)",
+                        "Qui - Ai (hỏi về người)",
+                        "Comment - Như thế nào/Làm sao (hỏi về cách thức)",
+                        "Pourquoi - Tại sao (hỏi về lý do)",
+                        "Quel/Quelle - Cái nào (hỏi về sự lựa chọn)"
+                    ]
+                },
+                {
+                    topic: "Thì hiện tại liên tục",
+                    explanation: "Thì hiện tại liên tục trong tiếng Pháp dùng để diễn tả một hành động đang diễn ra vào thời điểm nói:",
+                    examples: [
+                        "Je suis en train de manger - Tôi đang ăn",
+                        "Elle est en train de lire - Cô ấy đang đọc sách",
+                        "Nous sommes en train de jouer - Chúng tôi đang chơi",
+                        "Tu es en train d'écouter - Bạn đang nghe",
+                        "Ils sont en train de parler - Họ đang nói chuyện"
+                    ]
+                },
+                {
+                    topic: "Thì quá khứ đơn",
+                    explanation: "Thì quá khứ đơn (Passé composé) được dùng để diễn tả một hành động đã xảy ra và kết thúc trong quá khứ:",
+                    examples: [
+                        "J'ai mangé - Tôi đã ăn",
+                        "Elle a lu - Cô ấy đã đọc",
+                        "Nous avons joué - Chúng tôi đã chơi",
+                        "Tu as écouté - Bạn đã nghe",
+                        "Ils ont parlé - Họ đã nói"
+                    ]
+                },
+                {
+                    topic: "Thì tương lai đơn",
+                    explanation: "Thì tương lai đơn trong tiếng Pháp dùng để diễn tả một hành động sẽ xảy ra trong tương lai:",
+                    examples: [
+                        "Je mangerai - Tôi sẽ ăn",
+                        "Elle lira - Cô ấy sẽ đọc",
+                        "Nous jouerons - Chúng tôi sẽ chơi",
+                        "Tu écouteras - Bạn sẽ nghe",
+                        "Ils parleront - Họ sẽ nói"
+                    ]
+                },
+                {
+                    topic: "Mạo từ (a/an, the)",
+                    explanation: "Trong tiếng Pháp, mạo từ không xác định và xác định là:",
+                    examples: [
+                        "Un/Une - Một (không xác định, dùng cho nam/nữ)",
+                        "Des - Nhiều (không xác định, số nhiều)",
+                        "Le/La - Cái/con... (xác định, dùng cho nam/nữ)",
+                        "Les - Những (xác định, số nhiều)",
+                        "L' - Dùng trước danh từ bắt đầu bằng nguyên âm hoặc h câm"
+                    ]
+                },
+                {
+                    topic: "Câu điều kiện loại 1",
+                    explanation: "Câu điều kiện loại 1 diễn tả một điều kiện có thể xảy ra ở hiện tại hoặc tương lai:",
+                    examples: [
+                        "Si tu étudies, tu réussiras - Nếu bạn học, bạn sẽ thành công",
+                        "Si elle vient, je serai content - Nếu cô ấy đến, tôi sẽ vui",
+                        "Si nous partons tôt, nous arriverons à l'heure - Nếu chúng ta khởi hành sớm, chúng ta sẽ đến đúng giờ"
+                    ]
+                },
+                {
+                    topic: "So sánh hơn",
+                    explanation: "Cấu trúc so sánh hơn trong tiếng Pháp:",
+                    examples: [
+                        "Plus + adj + que - ... hơn ...",
+                        "Moins + adj + que - ... kém hơn ...",
+                        "Aussi + adj + que - ... bằng ...",
+                        "Il est plus grand que moi - Anh ấy cao hơn tôi",
+                        "Elle est moins rapide que lui - Cô ấy chậm hơn anh ấy"
+                    ]
+                },
+                {
+                    topic: "Động từ khiếm khuyết",
+                    explanation: "Các động từ khiếm khuyết trong tiếng Pháp:",
+                    examples: [
+                        "Devoir - Phải: Je dois étudier - Tôi phải học",
+                        "Pouvoir - Có thể: Tu peux venir - Bạn có thể đến",
+                        "Vouloir - Muốn: Elle veut manger - Cô ấy muốn ăn",
+                        "Falloir - Cần: Il faut partir - Cần phải đi"
+                    ]
+                },
+                {
+                    topic: "Tính từ và đại từ sở hữu",
+                    explanation: "Tính từ sở hữu đứng trước danh từ, đại từ sở hữu thay thế danh từ:",
+                    examples: [
+                        "Mon, ma, mes - Của tôi",
+                        "Ton, ta, tes - Của bạn",
+                        "Son, sa, ses - Của anh ấy/cô ấy",
+                        "Notre, nos - Của chúng tôi",
+                        "Votre, vos - Của các bạn",
+                        "Leur, leurs - Của họ",
+                        "Le mien, la mienne, les miens, les miennes - Cái của tôi"
+                    ]
+                },
+                {
+                    topic: "Liên từ trong câu ghép",
+                    explanation: "Liên từ dùng để nối các mệnh đề trong câu ghép:",
+                    examples: [
+                        "Et - Và",
+                        "Mais - Nhưng",
+                        "Ou - Hoặc",
+                        "Donc - Vì vậy",
+                        "Car - Bởi vì",
+                        "J'aime le chocolat et les bonbons - Tôi thích sô cô la và kẹo",
+                        "Elle est intelligente mais paresseuse - Cô ấy thông minh nhưng lười biếng"
+                    ]
+                }
+            ]
+        },
+        vocabulary: [
+            {
+                word: "La télévision",
+                meaning: "Ti vi",
+                example: "Je regarde la télévision tous les soirs.",
+                exampleMeaning: "Tôi xem ti vi mỗi tối."
+            },
+            {
+                word: "Le sport",
+                meaning: "Thể thao",
+                example: "J'aime faire du sport.",
+                exampleMeaning: "Tôi thích chơi thể thao."
+            },
+            {
+                word: "Le jeu",
+                meaning: "Trò chơi",
+                example: "Les enfants aiment les jeux.",
+                exampleMeaning: "Trẻ em thích trò chơi."
+            },
+            {
+                word: "La ville",
+                meaning: "Thành phố",
+                example: "Paris est une grande ville.",
+                exampleMeaning: "Paris là một thành phố lớn."
+            },
+            {
+                word: "Le pays",
+                meaning: "Đất nước",
+                example: "La France est un beau pays.",
+                exampleMeaning: "Nước Pháp là một đất nước đẹp."
+            },
+            {
+                word: "La technologie",
+                meaning: "Công nghệ",
+                example: "La technologie évolue rapidement.",
+                exampleMeaning: "Công nghệ phát triển nhanh chóng."
+            },
+            {
+                word: "Le robot",
+                meaning: "Robot",
+                example: "Les robots aident dans les usines.",
+                exampleMeaning: "Robot giúp đỡ trong các nhà máy."
+            },
+            {
+                word: "La maison",
+                meaning: "Ngôi nhà",
+                example: "J'habite dans une grande maison.",
+                exampleMeaning: "Tôi sống trong một ngôi nhà lớn."
+            },
+            {
+                word: "L'environnement",
+                meaning: "Môi trường",
+                example: "Nous devons protéger l'environnement.",
+                exampleMeaning: "Chúng ta phải bảo vệ môi trường."
+            },
+            {
+                word: "Le croissant",
+                meaning: "Bánh sừng bò",
+                example: "Je mange un croissant au petit déjeuner.",
+                exampleMeaning: "Tôi ăn bánh sừng bò vào bữa sáng."
+            },
+            {
+                word: "Le lait",
+                meaning: "Sữa",
+                example: "Je bois du lait tous les matins.",
+                exampleMeaning: "Tôi uống sữa mỗi sáng."
+            },
+            {
+                word: "Le supermarché",
+                meaning: "Siêu thị",
+                example: "Nous allons au supermarché le dimanche.",
+                exampleMeaning: "Chúng tôi đi siêu thị vào Chủ nhật."
+            },
+            {
+                word: "Le bus",
+                meaning: "Xe buýt",
+                example: "Je vais à l'école en bus.",
+                exampleMeaning: "Tôi đi học bằng xe buýt."
+            },
+            {
+                word: "Le restaurant",
+                meaning: "Nhà hàng",
+                example: "Nous mangeons au restaurant.",
+                exampleMeaning: "Chúng tôi ăn ở nhà hàng."
+            },
+            {
+                word: "La poupée",
+                meaning: "Búp bê",
+                example: "Marie aime jouer avec sa poupée.",
+                exampleMeaning: "Marie thích chơi với búp bê của mình."
+            },
+            {
+                word: "Le gâteau",
+                meaning: "Bánh ngọt",
+                example: "Le gâteau au chocolat est délicieux.",
+                exampleMeaning: "Bánh sô cô la rất ngon."
+            }
+        ],
+        exercises: [
+            {
+                type: "multiple-choice",
+                question: "Quelle heure est-il? (Mấy giờ rồi?)",
+                options: ["Décembre", "Jeudi", "Weekend", "7 heures"],
+                correct: 3
+            },
+            {
+                type: "multiple-choice",
+                question: "Quel âge as-tu? (Bạn bao nhiêu tuổi?)",
+                options: ["Sophie", "Je vais bien", "J'ai 7 ans", "J'aime le français"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Au petit déjeuner, je mange _______ croissants. (Vào bữa sáng, tôi ăn ___ bánh sừng bò.)",
+                options: ["un", "des", "du", "les"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "_______ habites-tu? J'habite à Hanoi. (_____ bạn sống? Tôi sống ở Hà Nội.)",
+                options: ["Quand", "Quel", "Où", "Que"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Chez Oribilis, il ne faut pas _________. (Ở nhà Oribilis, không được _____.)",
+                options: ["pleure", "pleurer", "pleurez", "pleuré"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Lucie va à la gare ________ train. (Lucie đi đến ga bằng ____ tàu.)",
+                options: ["à", "la", "en", "une"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Nous allons ________ école ______ voiture. (Chúng tôi đi đến ____ trường bằng ____ ô tô.)",
+                options: ["à/en", "à la/en", "la/le", "à l'/en"],
+                correct: 3
+            },
+            {
+                type: "multiple-choice",
+                question: "Nous ____________ à la mer avec nos amis. (Chúng tôi ____ đến biển với bạn bè.)",
+                options: ["vont", "allons", "allez", "allont"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Qu'est-ce que vous ___________ après l'école? (Bạn ____ gì sau giờ học?)",
+                options: ["faire", "faisez", "faites", "font"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Les enfants ____________ dans la cour d'école. (Những đứa trẻ ___ ở sân trường.)",
+                options: ["a", "sont", "est", "sommes"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "____________ heure est-il? (_____ giờ rồi?)",
+                options: ["Quel", "Quelle", "Quels", "Quelles"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Ma mère est __________. (Mẹ tôi rất _____.)",
+                options: ["gentile", "gentil", "gentille", "gentilles"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Mère Lion a fait un __________ gâteau. (Mẹ Sư tử đã làm một cái bánh ____.)",
+                options: ["bel", "beau", "grande", "bonne"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "La tête d'Oribilis est _________ comme une pastèque. (Đầu của Oribilis ___ như một quả dưa hấu.)",
+                options: ["gros", "grosse", "grosses", "grossesses"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Tous les soirs, M. Lampion passe dans la rue avec sa ________ lampe. (Mỗi tối, ông Lampion đi qua phố với cái đèn ___ của ông ấy.)",
+                options: ["petit", "petite", "petits", "petites"],
+                correct: 1
+            }
+        ],
+        listening: [
+            {
+                title: "Compréhension Orale - Nghe hiểu",
+                content: "Nghe các đoạn hội thoại nhỏ và chọn hình ảnh phù hợp với nội dung nghe được.",
+                exercises: [
+                    {
+                        title: "Exercice 1: Regarde les dessins. Écoute les petits dialogues et entoure comme dans l'exemple.",
+                        dialogues: [
+                            {
+                                name: "Dialogue 1",
+                                audio: "dialogue1.mp3",
+                                images: ["cake.jpg", "cake_with_candle.jpg", "plate_with_cake.jpg"],
+                                correct: 1,
+                                text: "Le garçon regarde le gâteau avec une bougie."
+                            },
+                            {
+                                name: "Dialogue 2", 
+                                audio: "dialogue2.mp3",
+                                images: ["kids_playing_soccer.jpg", "kids_cycling.jpg", "kids_in_classroom.jpg"],
+                                correct: 0,
+                                text: "Les enfants jouent au football dans le jardin."
+                            },
+                            {
+                                name: "Dialogue 3",
+                                audio: "dialogue3.mp3", 
+                                images: ["kids_watching_tv.jpg", "kids_swimming.jpg", "kids_studying.jpg"],
+                                correct: 1,
+                                text: "Les enfants nagent dans la piscine."
+                            },
+                            {
+                                name: "Dialogue 4",
+                                audio: "dialogue4.mp3",
+                                images: ["clock_11h.jpg", "clock_13h.jpg", "clock_15h.jpg"],
+                                correct: 2,
+                                text: "Il est quinze heures."
+                            },
+                            {
+                                name: "Dialogue 5",
+                                audio: "dialogue5.mp3",
+                                images: ["boy_breakfast.jpg", "boy_with_fruits.jpg", "boy_eating_sandwich.jpg"],
+                                correct: 0,
+                                text: "Le garçon prend son petit déjeuner."
+                            }
+                        ]
+                    },
+                    {
+                        title: "Exercice 2: Regarde les dessins. Écoute les messages et note le numéro du message sous le dessin correspondant.",
+                        messages: [
+                            {
+                                number: 1,
+                                audio: "message1.mp3",
+                                text: "Lève les bras en l'air!",
+                                image: "boy_arms_up.jpg" 
+                            },
+                            {
+                                number: 2,
+                                audio: "message2.mp3",
+                                text: "Tourne-toi!",
+                                image: "boy_turning.jpg"
+                            },
+                            {
+                                number: 3,
+                                audio: "message3.mp3",
+                                text: "Saute!",
+                                image: "boy_jumping.jpg"
+                            },
+                            {
+                                number: 4,
+                                audio: "message4.mp3",
+                                text: "Assieds-toi!",
+                                image: "boy_sitting.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Exercice 3: Regarde les dessins. Écoute les dialogues et entoure les dessins correspondants.",
+                        dialogues: [
+                            {
+                                name: "Dialogue 1",
+                                audio: "dialogue_clothes1.mp3",
+                                description: "Description des vêtements",
+                                options: [
+                                    "Chemise noire/pantalon noir/cheveux noirs",
+                                    "Chemise rouge/pantalon noir/cheveux blonds",
+                                    "Chemise verte/pantalon noir/cheveux blonds",
+                                    "Chemise rouge/pantalon noir/cheveux blonds"
+                                ],
+                                correct: 1
+                            },
+                            {
+                                name: "Dialogue 2",
+                                audio: "dialogue_room.mp3",
+                                description: "Description de la chambre",
+                                options: [
+                                    "Armoire: rouge/lit: jaune",
+                                    "Armoire et lit: jaune",
+                                    "Armoire/lit: rouge",
+                                    "Armoire: rouge, lit: jaune"
+                                ],
+                                correct: 3
+                            },
+                            {
+                                name: "Dialogue 3",
+                                audio: "dialogue_animals.mp3",
+                                description: "Description des animaux",
+                                options: [
+                                    "Girafe",
+                                    "Perroquet",
+                                    "Éléphant",
+                                    "Requin"
+                                ],
+                                correct: 0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        reading: [
+            {
+                title: "Compréhension des Écrits - Đọc hiểu",
+                content: "Đọc và hiểu văn bản, sau đó trả lời các câu hỏi.",
+                text: "À 6 heures le dimanche matin, Marie se réveille. Elle se brosse les dents, elle se lave, elle mange un croissant et elle boit du lait au petit déjeuner puis elle met une belle robe rouge pour aller au supermarché à la ville.\n\n« Ton cousin Nicolas veut aller avec toi ! dit maman. »\n\nLes enfants montent dans un bus et il roule très vite.\n\nDeux heures plus tard, le bus s'arrête devant un supermarché. C'est le plus grand marché de la ville. On y trouve de tout ! Des vêtements, des fruits, des légumes, du poisson, de la viande, des tissus et des jouets.\n\nMarie achète une belle poupée. Nicolas achète un gâteau au chocolat pour son grand-père Max. Maman achète une chemise et une jupe.\n\n« Maintenant, nous allons au restaurant ! Papa nous y attend à 17 heures » dit maman.",
+                exercises: [
+                    {
+                        question: "Comment s'appelle la petite fille du texte?",
+                        options: ["Paul", "Marie", "Papa", "Max"],
+                        correct: 1,
+                        explanation: "Le texte dit: 'Marie se réveille'."
+                    },
+                    {
+                        question: "À quelle heure elle se réveille?",
+                        options: ["à 6 heures", "à 17 heures", "à midi"],
+                        correct: 0,
+                        explanation: "Le texte commence par: 'À 6 heures le dimanche matin, Marie se réveille'."
+                    },
+                    {
+                        question: "Que fait-elle le matin?",
+                        options: ["va au restaurant", "prend le petit déjeuner", "achète une lampe"],
+                        correct: 1,
+                        explanation: "Le texte dit: 'elle mange un croissant et elle boit du lait au petit déjeuner'."
+                    },
+                    {
+                        question: "Qu'est-ce qu'elle met comme habits?",
+                        options: ["une robe rouge", "une chemise", "une jupe", "un tee-shirt"],
+                        correct: 0,
+                        explanation: "Le texte dit: 'elle met une belle robe rouge'."
+                    },
+                    {
+                        question: "Où va-t-elle?",
+                        options: ["à l'école", "à la ville", "au village", "au musée"],
+                        correct: 1,
+                        explanation: "Le texte dit: 'pour aller au supermarché à la ville'."
+                    },
+                    {
+                        question: "Est-ce que la famille de Marie habite à la ville?",
+                        options: ["Oui", "Non"],
+                        correct: 1,
+                        explanation: "Ils doivent prendre le bus pour aller à la ville, donc ils n'habitent pas à la ville."
+                    },
+                    {
+                        question: "Comment les enfants vont au supermarché?",
+                        options: ["en voiture", "en train", "à pied", "en bus"],
+                        correct: 3,
+                        explanation: "Le texte dit: 'Les enfants montent dans un bus'."
+                    },
+                    {
+                        question: "Qu'est-ce que Nicolas achète au supermarché pour son grand-père?",
+                        options: ["un tee-shirt", "des légumes", "une lampe", "un gâteau"],
+                        correct: 3,
+                        explanation: "Le texte dit: 'Nicolas achète un gâteau au chocolat pour son grand-père Max'."
+                    },
+                    {
+                        question: "À quelle heure papa attend ses enfants?",
+                        options: ["À 6 heures", "À midi", "À 17 heures"],
+                        correct: 2,
+                        explanation: "Le texte dit: 'Papa nous y attend à 17 heures'."
+                    },
+                    {
+                        question: "Où est-ce que les enfants vont pour voir leur papa?",
+                        options: ["au marché", "à la gare", "à l'école", "au restaurant"],
+                        correct: 3,
+                        explanation: "Le texte dit: 'Maintenant, nous allons au restaurant! Papa nous y attend'."
+                    }
+                ]
+            }
+        ],
+        writing: [
+            {
+                title: "Expression Écrite - Viết",
+                content: "Phần này bao gồm các bài tập viết giờ, hoàn thành câu, viết số thành chữ và viết từ có chứa âm.",
+                exercises: [
+                    {
+                        title: "1. Quelle heure est-il?",
+                        items: [
+                            {
+                                question: "Viết thời gian bằng tiếng Pháp",
+                                image: "clock_9h.jpg",
+                                answer: "Il est neuf heures.",
+                                hint: "9:00"
+                            },
+                            {
+                                question: "Viết thời gian bằng tiếng Pháp",
+                                image: "clock_12h.jpg",
+                                answer: "Il est midi.",
+                                hint: "12:00"
+                            }
+                        ]
+                    },
+                    {
+                        title: "2. Complète la phrase:",
+                        items: [
+                            {
+                                question: "Au petit déjeuner, nous mangeons _______.",
+                                image: "croissants.jpg",
+                                answer: "des croissants"
+                            },
+                            {
+                                question: "Le matin, Jean boit _______.",
+                                image: "milk.jpg",
+                                answer: "du lait"
+                            },
+                            {
+                                question: "Nous mangeons _______ au dîner.",
+                                image: "bread.jpg",
+                                answer: "du pain"
+                            },
+                            {
+                                question: "Mon petit frère va à l'école _______.",
+                                image: "school_bus.jpg",
+                                answer: "en bus"
+                            }
+                        ]
+                    },
+                    {
+                        title: "3. Écris les nombres en lettre:",
+                        items: [
+                            {
+                                question: "12",
+                                answer: "douze"
+                            },
+                            {
+                                question: "32",
+                                answer: "trente-deux"
+                            },
+                            {
+                                question: "20",
+                                answer: "vingt"
+                            },
+                            {
+                                question: "45",
+                                answer: "quarante-cinq"
+                            }
+                        ]
+                    },
+                    {
+                        title: "4. Cite un mot qui contient du son:",
+                        items: [
+                            {
+                                question: "ch",
+                                examples: ["chat", "chocolat", "chien", "vache"],
+                                answer: "Variable"
+                            },
+                            {
+                                question: "f",
+                                examples: ["femme", "fille", "frère", "fleur"],
+                                answer: "Variable"
+                            },
+                            {
+                                question: "j",
+                                examples: ["jardin", "jouer", "jupe", "jour"],
+                                answer: "Variable"
+                            },
+                            {
+                                question: "v",
+                                examples: ["voiture", "vache", "vent", "vélo"],
+                                answer: "Variable"
+                            }
+                        ]
+                    },
+                    {
+                        title: "5. Que fais-tu à l'école aujourd'hui? (Écris 4 activités)",
+                        question: "Viết 4 hoạt động bạn làm ở trường hôm nay.",
+                        examples: [
+                            "Je lis un livre.",
+                            "J'écris dans mon cahier.",
+                            "Je dessine un chat.",
+                            "Je chante avec mes amis.",
+                            "Je joue dans la cour.",
+                            "J'écoute le professeur."
+                        ],
+                        answer: "Variable (4 activités)"
+                    }
+                ]
+            }
+        ],
+        speaking: [
+            {
+                title: "Expression Orale - Nói",
+                content: "Bài tập thực hành kỹ năng nói và trả lời câu hỏi.",
+                exercises: [
+                    {
+                        title: "A. Lecture expressive",
+                        text: "Toutes les nuits, M. Lampion passe dans la rue. Il chante et Lucie écoute. Une nuit, M. Lampion ne vient pas. Lucie le cherche dans la ville. Elle va à la gare. Elle va au marché d'un petit village. M. Lampion n'est pas là.",
+                        instructions: "Đọc to đoạn văn trên và chú ý phát âm đúng."
+                    },
+                    {
+                        title: "B. Réponds aux questions",
+                        questions: [
+                            "1. Tu te lèves à quelle heure?",
+                            "2. Tu es né quand?",
+                            "3. Quel âge a ton père?",
+                            "4. Comment vas-tu aujourd'hui?",
+                            "5. Que fais-tu à l'école?",
+                            "6. Que fais-tu après l'école?",
+                            "7. Comment vas-tu aujourd'hui?",
+                            "8. Que fais-tu dimanche?",
+                            "9. Que manges-tu au petit déjeuner?",
+                            "10. Quelle est ta couleur préférée?"
+                        ],
+                        sample_answers: [
+                            "Je me lève à 6 heures.",
+                            "Je suis né le 10 janvier.",
+                            "Mon père a 40 ans.",
+                            "Je vais bien, merci.",
+                            "À l'école, j'étudie le français et je joue avec mes amis.",
+                            "Après l'école, je fais mes devoirs et je regarde la télévision.",
+                            "Je vais bien, merci.",
+                            "Dimanche, je reste à la maison et je joue avec mes cousins.",
+                            "Au petit déjeuner, je mange des croissants et je bois du lait.",
+                            "Ma couleur préférée est le bleu."
+                        ]
+                    },
+                    {
+                        title: "C. Qu'est-ce qu'elle fait?",
+                        images: [
+                            "girl_in_bed.jpg",
+                            "girl_writing.jpg",
+                            "girl_eating.jpg",
+                            "girl_biking.jpg",
+                            "girl_studying.jpg",
+                            "girl_sleeping.jpg"
+                        ],
+                        sample_answers: [
+                            "Elle est dans son lit. Elle est malade.",
+                            "Elle écrit dans son cahier.",
+                            "Elle mange un repas.",
+                            "Elle fait du vélo.",
+                            "Elle étudie à son bureau.",
+                            "Elle dort dans son lit."
+                        ]
+                    }
+                ]
+            }
+        ],
+        exercises: [
+            {
+                type: "multiple-choice",
+                question: "1. Quelle heure est-il? Il est _______.",
+                options: ["décembre", "jeudi", "weekend", "7 heures"],
+                correct: 3,
+                explanation: "La question demande l'heure. Seule l'option '7 heures' indique une heure."
+            },
+            {
+                type: "multiple-choice",
+                question: "2. Quel âge as-tu?",
+                options: ["Sophie", "Je vais bien", "J'ai 7 ans", "J'aime le français"],
+                correct: 2,
+                explanation: "Pour répondre à la question sur l'âge, on utilise 'J'ai ... ans'."
+            },
+            {
+                type: "multiple-choice",
+                question: "3. Au petit déjeuner, je mange _______ croissants.",
+                options: ["un", "des", "du", "les"],
+                correct: 1,
+                explanation: "Pour les noms pluriels comptables (croissants), on utilise l'article indéfini 'des'."
+            },
+            {
+                type: "multiple-choice",
+                question: "4. _______ habites-tu? J'habite à Hanoi.",
+                options: ["Quand", "Quel", "Où", "Que"],
+                correct: 2,
+                explanation: "'Où' est le mot interrogatif utilisé pour demander un lieu."
+            },
+            {
+                type: "multiple-choice",
+                question: "5. Chez Oribilis, il ne faut pas _________.",
+                options: ["pleure", "pleurer", "pleurez", "pleuré"],
+                correct: 1,
+                explanation: "Après 'il ne faut pas', on utilise l'infinitif du verbe. L'infinitif de 'pleurer' est 'pleurer'."
+            },
+            {
+                type: "multiple-choice",
+                question: "6. Lucie va à la gare ________ train.",
+                options: ["à", "la", "en", "une"],
+                correct: 2,
+                explanation: "Pour indiquer le moyen de transport, on utilise la préposition 'en' (en train, en voiture, en bus)."
+            },
+            {
+                type: "multiple-choice",
+                question: "7. Nous allons ________ école ______ voiture.",
+                options: ["à/en", "à la/en", "la/le", "à l'/en"],
+                correct: 3,
+                explanation: "Pour l'école qui commence par une voyelle, on dit 'à l'école', et pour le moyen de transport, 'en voiture'."
+            },
+            {
+                type: "multiple-choice",
+                question: "8. Nous ____________ à la mer avec nos amis.",
+                options: ["vont", "allons", "allez", "allont"],
+                correct: 1,
+                explanation: "Avec 'nous', la forme correcte du verbe 'aller' au présent est 'allons'."
+            },
+            {
+                type: "multiple-choice",
+                question: "9. Qu'est-ce que vous ___________ après l'école?",
+                options: ["faire", "faisez", "faites", "font"],
+                correct: 2,
+                explanation: "Avec 'vous', la forme correcte du verbe 'faire' au présent est 'faites'."
+            },
+            {
+                type: "multiple-choice",
+                question: "10. Les enfants ____________ dans la cour d'école.",
+                options: ["a", "sont", "est", "sommes"],
+                correct: 1,
+                explanation: "Avec le sujet pluriel 'les enfants', on utilise 'sont' (forme de 'être')."
+            },
+            {
+                type: "multiple-choice",
+                question: "11. ____________ heure est-il?",
+                options: ["Quel", "Quelle", "Quels", "Quelles"],
+                correct: 1,
+                explanation: "Le mot 'heure' est féminin, donc on utilise 'quelle' (féminin singulier)."
+            },
+            {
+                type: "multiple-choice",
+                question: "12. Ma mère est __________.",
+                options: ["gentile", "gentil", "gentille", "gentilles"],
+                correct: 2,
+                explanation: "Pour une femme, l'adjectif 'gentil' devient 'gentille' (féminin)."
+            },
+            {
+                type: "multiple-choice",
+                question: "13. Mère Lion a fait un __________ gâteau.",
+                options: ["bel", "beau", "grande", "bonne"],
+                correct: 1,
+                explanation: "L'adjectif 'beau' s'utilise avec un nom masculin comme 'gâteau'."
+            },
+            {
+                type: "multiple-choice",
+                question: "14. La tête d'Oribilis est _________ comme une pastèque.",
+                options: ["gros", "grosse", "grosses", "grossesses"],
+                correct: 1,
+                explanation: "Pour 'la tête' (féminin), l'adjectif 'gros' devient 'grosse'."
+            },
+            {
+                type: "multiple-choice",
+                question: "15. Tous les soirs, M. Lampion passe dans la rue avec sa ________ lampe.",
+                options: ["petit", "petite", "petits", "petites"],
+                correct: 1,
+                explanation: "Pour 'lampe' (féminin), l'adjectif 'petit' devient 'petite'."
+            },
+            {
+                type: "multiple-choice",
+                question: "16. Je vais à l'école _________ pied.",
+                options: ["le", "la", "en", "à"],
+                correct: 3,
+                explanation: "L'expression correcte est 'à pied' (à + pied)."
+            },
+            {
+                type: "multiple-choice",
+                question: "17. Je ____________ à 6 heures du matin.",
+                options: ["te lèves", "se lève", "nous levons", "me lève"],
+                correct: 3,
+                explanation: "Pour 'je', le verbe pronominal 'se lever' devient 'me lève'."
+            },
+            {
+                type: "multiple-choice",
+                question: "18. Elle aime __________ de la pizza.",
+                options: ["manges", "mangeons", "mangent", "manger"],
+                correct: 3,
+                explanation: "Après le verbe 'aimer', on utilise l'infinitif, donc 'manger'."
+            },
+            {
+                type: "multiple-choice",
+                question: "19. Nous ____________ l'avion pour aller à Paris.",
+                options: ["prennent", "prendre", "prenons", "prennons"],
+                correct: 2,
+                explanation: "Avec 'nous', la forme correcte du verbe 'prendre' au présent est 'prenons'."
+            },
+            {
+                type: "multiple-choice",
+                question: "20. Les enfants mangent _________ viande et boivent _________ lait.",
+                options: ["de/de", "la/le", "de la/du", "le/la"],
+                correct: 2,
+                explanation: "Pour les noms non comptables, on utilise 'de la' pour le féminin (viande) et 'du' pour le masculin (lait)."
+            }
+        ]
+    },
+    {
+        id: 14,
+        title: "Phát âm - Phát âm",
+        pronunciation: {
+            title: "Phát âm tiếng Pháp cơ bản",
+            sections: [
+                {
+                    title: "Âm 'r' tiếng Pháp",
+                    explanation: "Âm 'r' trong tiếng Pháp được phát âm từ phía sau họng, khác với âm 'r' trong tiếng Việt. Khi phát âm, hãy cố gắng tạo âm thanh rung nhẹ ở cuống họng.",
+                    examples: ["bonjour", "au revoir", "merci", "français"]
+                },
+                {
+                    title: "Nguyên âm mũi",
+                    explanation: "Tiếng Pháp có những nguyên âm mũi đặc biệt, khi phát âm, không khí đi qua cả mũi và miệng.",
+                    examples: ["bonjour", "enchanté", "en", "un", "on"]
+                },
+                {
+                    title: "Âm cuối câu",
+                    explanation: "Trong tiếng Pháp, thường không phát âm các phụ âm cuối từ, trừ khi từ tiếp theo bắt đầu bằng nguyên âm.",
+                    examples: ["comment", "s'il vous plaît", "petit"]
+                },
+                {
+                    title: "Ngữ điệu chào hỏi",
+                    explanation: "Khi chào hỏi, ngữ điệu tiếng Pháp thường cao lên ở cuối câu khi hỏi và giảm xuống khi khẳng định.",
+                    examples: ["Bonjour!", "Comment allez-vous?", "Comment vas-tu?", "Ça va bien?"]
+                }
+            ]
+        },
+        exercises: [
+            {
+                type: "multiple-choice",
+                question: "Comment dit-on 'Xin chào' en français?",
+                options: ["Au revoir", "Bonjour", "Merci", "S'il vous plaît"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Que signifie 'Merci'?",
+                options: ["Xin lỗi", "Tạm biệt", "Cảm ơn", "Xin chào"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Quelle expression utilise-t-on le soir?",
+                options: ["Bonjour", "Bonsoir", "Au revoir", "Salut"],
+                correct: 1
+            },
+            {
+                type: "multiple-choice",
+                question: "Comment dit-on 'Chúc ngủ ngon' en français?",
+                options: ["Bonsoir", "Au revoir", "Bonne nuit", "À bientôt"],
+                correct: 2
+            },
+            {
+                type: "multiple-choice",
+                question: "Que répond-on quand quelqu'un dit 'Merci'?",
+                options: ["Bonjour", "Au revoir", "De rien", "S'il vous plaît"],
+                correct: 2
+            }
+        ]
     }
 ];
 
@@ -1697,8 +2615,75 @@ function showUnit(unitId) {
     unitContent.classList.add('active');
     document.getElementById('unitTitle').textContent = `Bài ${unit.id}: ${unit.title}`;
     
+    // Display tabs for navigation
+    displayUnitTabs();
+    
     // Mặc định hiển thị phần từ vựng
     showSection('vocabulary');
+}
+
+// Function to display unit tabs
+function displayUnitTabs() {
+    const tabsContainer = document.getElementById('tabsContainer');
+    tabsContainer.innerHTML = '';
+    
+    // Define default sections
+    let sections = ['grammar', 'vocabulary', 'exercises', 'quiz'];
+    
+    // Use unit-specific sections if available
+    if (currentUnit.sections && currentUnit.sections.length > 0) {
+        sections = currentUnit.sections;
+    }
+    
+    // Create tab for each section
+    sections.forEach(section => {
+        const tabButton = document.createElement('button');
+        tabButton.className = 'tab-button';
+        tabButton.dataset.section = section;
+        
+        // Set tab text based on section type
+        let tabText = '';
+        switch(section) {
+            case 'grammar':
+                tabText = 'Ngữ pháp';
+                break;
+            case 'vocabulary':
+                tabText = 'Từ vựng';
+                break;
+            case 'exercises':
+                tabText = 'Bài tập';
+                break;
+            case 'quiz':
+                tabText = 'Kiểm tra';
+                break;
+            case 'listening':
+                tabText = 'Nghe hiểu';
+                break;
+            case 'reading':
+                tabText = 'Đọc hiểu';
+                break;
+            case 'writing':
+                tabText = 'Viết';
+                break;
+            case 'speaking':
+                tabText = 'Nói';
+                break;
+            case 'pronunciation':
+                tabText = 'Phát âm';
+                break;
+            default:
+                tabText = section.charAt(0).toUpperCase() + section.slice(1);
+        }
+        
+        tabButton.textContent = tabText;
+        tabButton.onclick = () => showSection(section);
+        tabsContainer.appendChild(tabButton);
+    });
+    
+    // Highlight the first tab as active
+    if (tabsContainer.firstChild) {
+        tabsContainer.firstChild.classList.add('active');
+    }
 }
 
 // Show unit grid
@@ -1714,18 +2699,51 @@ function showSection(section) {
     currentSection = section;
     const contentArea = document.getElementById('contentArea');
     
+    // Update active tab
+    const tabs = document.querySelectorAll('.tab-button');
+    tabs.forEach(tab => {
+        if (tab.dataset.section === section) {
+            tab.classList.add('active');
+        } else {
+            tab.classList.remove('active');
+        }
+    });
+    
+    // Check if section exists in current unit
+    if (!currentUnit) return;
+    
+    // Clear content area
+    contentArea.innerHTML = '';
+    
+    // Display section content
     switch(section) {
         case 'grammar':
-            displayGrammar(currentUnit.grammar);
+            if (currentUnit.grammar) {
+                displayGrammar(currentUnit.grammar);
+            } else {
+                contentArea.innerHTML = '<p>Không có nội dung ngữ pháp cho bài học này.</p>';
+            }
             break;
         case 'vocabulary':
-            displayVocabulary(currentUnit.vocabulary);
+            if (currentUnit.vocabulary && currentUnit.vocabulary.length > 0) {
+                displayVocabulary(currentUnit.vocabulary);
+            } else {
+                contentArea.innerHTML = '<p>Không có nội dung từ vựng cho bài học này.</p>';
+            }
             break;
         case 'exercises':
-            displayExercises(currentUnit.exercises);
+            if (currentUnit.exercises && currentUnit.exercises.length > 0) {
+                displayExercises(currentUnit.exercises);
+            } else {
+                contentArea.innerHTML = '<p>Không có bài tập cho bài học này.</p>';
+            }
             break;
         case 'quiz':
-            displayQuiz(currentUnit.vocabulary);
+            if (currentUnit.vocabulary && currentUnit.vocabulary.length > 0) {
+                displayQuiz(currentUnit.vocabulary);
+            } else {
+                contentArea.innerHTML = '<p>Không có nội dung kiểm tra cho bài học này.</p>';
+            }
             break;
         case 'grammarReview':
             displayGrammarReview();
@@ -1733,6 +2751,43 @@ function showSection(section) {
         case 'vocabularyReview':
             displayVocabularyReview();
             break;
+        case 'listening':
+            if (currentUnit.listening && currentUnit.listening.length > 0) {
+                displayListening(currentUnit.listening);
+            } else {
+                contentArea.innerHTML = '<p>Không có nội dung nghe hiểu cho bài học này.</p>';
+            }
+            break;
+        case 'reading':
+            if (currentUnit.reading && currentUnit.reading.length > 0) {
+                displayReading(currentUnit.reading);
+            } else {
+                contentArea.innerHTML = '<p>Không có nội dung đọc hiểu cho bài học này.</p>';
+            }
+            break;
+        case 'writing':
+            if (currentUnit.writing && currentUnit.writing.length > 0) {
+                displayWriting(currentUnit.writing);
+            } else {
+                contentArea.innerHTML = '<p>Không có nội dung viết cho bài học này.</p>';
+            }
+            break;
+        case 'speaking':
+            if (currentUnit.speaking && currentUnit.speaking.length > 0) {
+                displaySpeaking(currentUnit.speaking);
+            } else {
+                contentArea.innerHTML = '<p>Không có nội dung luyện nói cho bài học này.</p>';
+            }
+            break;
+        case 'pronunciation':
+            if (currentUnit.pronunciation) {
+                displayPronunciation(currentUnit.pronunciation);
+            } else {
+                contentArea.innerHTML = '<p>Không có nội dung phát âm cho bài học này.</p>';
+            }
+            break;
+        default:
+            contentArea.innerHTML = '<p>Vui lòng chọn một phần để xem nội dung.</p>';
     }
 }
 
@@ -2016,3 +3071,452 @@ function showVocabularyContent(contentArea) {
         </div>
     `;
 }
+
+// Display listening content
+function displayListening(listening) {
+    const contentArea = document.getElementById('contentArea');
+    let html = '';
+    
+    if (!listening || listening.length === 0) {
+        html = '<p>Không có nội dung nghe hiểu cho bài học này.</p>';
+    } else {
+        listening.forEach(section => {
+            html += `
+                <div class="listening-section mb-4">
+                    <h3>${section.title}</h3>
+                    <p>${section.content}</p>
+                    
+                    ${section.exercises.map((exercise, index) => `
+                        <div class="exercise-container mb-4">
+                            <h4>${exercise.title}</h4>
+                            
+                            ${exercise.dialogues ? `
+                                <div class="dialogues-container">
+                                    ${exercise.dialogues.map((dialogue, dIndex) => `
+                                        <div class="dialogue-item mb-3">
+                                            <h5>${dialogue.name}</h5>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <button class="btn btn-sm btn-primary me-2" onclick="speakWord('${dialogue.text || ''}')">
+                                                    <i class="fas fa-volume-up"></i> Écouter
+                                                </button>
+                                                <span class="text-muted small">(Click để nghe)</span>
+                                            </div>
+                                            
+                                            ${dialogue.images ? `
+                                                <div class="images-container d-flex flex-wrap">
+                                                    ${dialogue.images.map((img, imgIndex) => `
+                                                        <div class="image-option m-2 ${imgIndex === dialogue.correct ? 'border border-success' : ''}">
+                                                            <img src="${img}" alt="Option ${imgIndex + 1}" class="img-fluid" style="max-height: 150px;">
+                                                        </div>
+                                                    `).join('')}
+                                                </div>
+                                            ` : ''}
+                                            
+                                            ${dialogue.options ? `
+                                                <div class="options-container">
+                                                    ${dialogue.options.map((opt, optIndex) => `
+                                                        <div class="option-item ${optIndex === dialogue.correct ? 'text-success fw-bold' : ''}">
+                                                            ${opt}
+                                                        </div>
+                                                    `).join('')}
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                            
+                            ${exercise.messages ? `
+                                <div class="messages-container d-flex flex-wrap">
+                                    ${exercise.messages.map((message, mIndex) => `
+                                        <div class="message-item m-2">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <button class="btn btn-sm btn-primary me-2" onclick="speakWord('${message.text || ''}')">
+                                                    <i class="fas fa-volume-up"></i> Message ${message.number}
+                                                </button>
+                                            </div>
+                                            <div class="image-container">
+                                                <img src="${message.image}" alt="Message ${message.number}" class="img-fluid" style="max-height: 150px;">
+                                                <div class="text-center mt-2">Message ${message.number}</div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        });
+    }
+    
+    contentArea.innerHTML = html;
+}
+
+// Display reading content
+function displayReading(reading) {
+    const contentArea = document.getElementById('contentArea');
+    let html = '';
+    
+    if (!reading || reading.length === 0) {
+        html = '<p>Không có nội dung đọc hiểu cho bài học này.</p>';
+    } else {
+        reading.forEach(section => {
+            html += `
+                <div class="reading-section mb-4">
+                    <h3>${section.title}</h3>
+                    <p>${section.content}</p>
+                    
+                    <div class="reading-text p-3 bg-light rounded mb-4">
+                        <h4>Texte à lire:</h4>
+                        <p style="white-space: pre-line;">${section.text}</p>
+                    </div>
+                    
+                    <h4>Exercices:</h4>
+                    <form id="readingForm">
+                        ${section.exercises.map((exercise, index) => `
+                            <div class="exercise-item mb-3">
+                                <p><strong>${index + 1}. ${exercise.question}</strong></p>
+                                <div class="options">
+                                    ${exercise.options.map((option, optIndex) => `
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" 
+                                                   name="r${index}" 
+                                                   value="${option}" 
+                                                   id="r${index}_${optIndex}">
+                                            <label class="form-check-label" for="r${index}_${optIndex}">
+                                                ${option}
+                                            </label>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div class="explanation mt-2" id="r_explanation${index}" style="display: none;">
+                                    <div class="alert alert-info">
+                                        <strong>Explication:</strong> ${exercise.explanation || ''}
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-info mt-2" 
+                                        onclick="document.getElementById('r_explanation${index}').style.display = 
+                                                 document.getElementById('r_explanation${index}').style.display === 'none' ? 'block' : 'none'">
+                                    Voir l'explication
+                                </button>
+                            </div>
+                        `).join('')}
+                        <button type="button" class="btn btn-primary" onclick="checkReadingAnswers()">Vérifier les réponses</button>
+                    </form>
+                    <div id="readingResults" class="mt-3"></div>
+                </div>
+            `;
+        });
+    }
+    
+    contentArea.innerHTML = html;
+}
+
+// Display writing content
+function displayWriting(writing) {
+    const contentArea = document.getElementById('contentArea');
+    let html = '';
+    
+    if (!writing || writing.length === 0) {
+        html = '<p>Không có nội dung viết cho bài học này.</p>';
+    } else {
+        writing.forEach(section => {
+            html += `
+                <div class="writing-section mb-4">
+                    <h3>${section.title}</h3>
+                    <p>${section.content}</p>
+                    
+                    <form id="writingForm">
+                        ${section.exercises.map((exercise, exIndex) => `
+                            <div class="exercise-group mb-4">
+                                <h4>${exercise.title}</h4>
+                                
+                                ${exercise.items ? 
+                                    exercise.items.map((item, itemIndex) => `
+                                        <div class="writing-item mb-3">
+                                            <p><strong>${itemIndex + 1}. ${item.question}</strong></p>
+                                            ${item.image ? `<img src="${item.image}" alt="Image" class="img-fluid mb-2" style="max-height: 150px;">` : ''}
+                                            ${item.hint ? `<p class="text-muted small">(Hint: ${item.hint})</p>` : ''}
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" 
+                                                       id="w_${exIndex}_${itemIndex}" 
+                                                       placeholder="Ta réponse ici...">
+                                                <button type="button" class="btn btn-outline-primary" 
+                                                        onclick="checkWritingAnswer('w_${exIndex}_${itemIndex}', '${item.answer}')">
+                                                    Vérifier
+                                                </button>
+                                            </div>
+                                            <div id="w_feedback_${exIndex}_${itemIndex}" class="mt-2"></div>
+                                            ${item.examples ? `
+                                                <div class="mt-2">
+                                                    <button type="button" class="btn btn-sm btn-outline-info" 
+                                                            onclick="document.getElementById('w_examples_${exIndex}_${itemIndex}').style.display = 
+                                                                     document.getElementById('w_examples_${exIndex}_${itemIndex}').style.display === 'none' ? 'block' : 'none'">
+                                                        Voir des exemples
+                                                    </button>
+                                                    <div id="w_examples_${exIndex}_${itemIndex}" class="mt-2" style="display: none;">
+                                                        <div class="alert alert-info">
+                                                            <strong>Exemples:</strong>
+                                                            <ul>
+                                                                ${item.examples.map(ex => `<li>${ex}</li>`).join('')}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    `).join('') :
+                                    
+                                    `<div class="writing-item mb-3">
+                                        <p><strong>${exercise.question}</strong></p>
+                                        <textarea class="form-control" id="w_${exIndex}_text" rows="4" 
+                                                  placeholder="Écris ta réponse ici..."></textarea>
+                                        ${exercise.examples ? `
+                                            <div class="mt-2">
+                                                <button type="button" class="btn btn-sm btn-outline-info" 
+                                                        onclick="document.getElementById('w_examples_${exIndex}').style.display = 
+                                                                 document.getElementById('w_examples_${exIndex}').style.display === 'none' ? 'block' : 'none'">
+                                                    Voir des exemples
+                                                </button>
+                                                <div id="w_examples_${exIndex}" class="mt-2" style="display: none;">
+                                                    <div class="alert alert-info">
+                                                        <strong>Exemples:</strong>
+                                                        <ul>
+                                                            ${exercise.examples.map(ex => `<li>${ex}</li>`).join('')}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ` : ''}
+                                    </div>`
+                                }
+                            </div>
+                        `).join('')}
+                    </form>
+                </div>
+            `;
+        });
+    }
+    
+    contentArea.innerHTML = html;
+}
+
+// Function to check writing answer
+function checkWritingAnswer(inputId, correctAnswer) {
+    const input = document.getElementById(inputId);
+    const feedback = document.getElementById('w_feedback_' + inputId.substring(2));
+    
+    if (!input || !feedback) return;
+    
+    const userAnswer = input.value.trim().toLowerCase();
+    const answer = correctAnswer.toLowerCase();
+    
+    if (userAnswer === answer || (correctAnswer === "Variable" && userAnswer.length > 0)) {
+        feedback.innerHTML = '<div class="alert alert-success">Correct! Bravo!</div>';
+    } else if (userAnswer.length === 0) {
+        feedback.innerHTML = '<div class="alert alert-warning">Écris ta réponse.</div>';
+    } else {
+        feedback.innerHTML = '<div class="alert alert-danger">Essaie encore. Vérifie ton orthographe.</div>';
+    }
+}
+
+// Check all writing answers
+function checkWritingAnswers() {
+    const writingForm = document.getElementById('writingForm');
+    const inputs = writingForm.querySelectorAll('input[type="text"]');
+    
+    inputs.forEach(input => {
+        const id = input.id;
+        const sections = id.split('_');
+        const exIndex = parseInt(sections[1]);
+        const itemIndex = parseInt(sections[2]);
+        
+        const correctAnswer = currentUnit.writing[0].exercises[exIndex].items[itemIndex].answer;
+        checkWritingAnswer(id, correctAnswer);
+    });
+}
+
+// Display speaking content
+function displaySpeaking(speaking) {
+    const contentArea = document.getElementById('contentArea');
+    let html = '';
+    
+    if (!speaking || speaking.length === 0) {
+        html = '<p>Không có nội dung luyện nói cho bài học này.</p>';
+    } else {
+        speaking.forEach(section => {
+            html += `
+                <div class="speaking-section mb-4">
+                    <h3>${section.title}</h3>
+                    <p>${section.content}</p>
+                    
+                    ${section.exercises.map((exercise, index) => `
+                        <div class="exercise-container mb-4">
+                            <h4>${exercise.title}</h4>
+                            
+                            ${exercise.text ? `
+                                <div class="reading-text p-3 bg-light rounded mb-3">
+                                    <p style="white-space: pre-line;">${exercise.text}</p>
+                                    <button class="btn btn-primary mt-2" onclick="speakWord(\`${exercise.text}\`)">
+                                        <i class="fas fa-volume-up"></i> Écouter
+                                    </button>
+                                </div>
+                                <p>${exercise.instructions || ''}</p>
+                            ` : ''}
+                            
+                            ${exercise.questions ? `
+                                <div class="questions-container">
+                                    <h5>Questions:</h5>
+                                    <ol>
+                                        ${exercise.questions.map((question, qIndex) => `
+                                            <li class="mb-2">
+                                                ${question}
+                                                <button class="btn btn-sm btn-outline-primary ms-2" onclick="speakWord('${question}')">
+                                                    <i class="fas fa-volume-up"></i>
+                                                </button>
+                                                ${exercise.sample_answers ? `
+                                                    <div class="mt-2">
+                                                        <button type="button" class="btn btn-sm btn-outline-info" 
+                                                                onclick="document.getElementById('s_answer_${index}_${qIndex}').style.display = 
+                                                                         document.getElementById('s_answer_${index}_${qIndex}').style.display === 'none' ? 'block' : 'none'">
+                                                            Voir exemple de réponse
+                                                        </button>
+                                                        <div id="s_answer_${index}_${qIndex}" class="mt-2" style="display: none;">
+                                                            <div class="alert alert-info">
+                                                                ${exercise.sample_answers[qIndex]}
+                                                                <button class="btn btn-sm btn-outline-primary ms-2" 
+                                                                        onclick="speakWord('${exercise.sample_answers[qIndex]}')">
+                                                                    <i class="fas fa-volume-up"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ` : ''}
+                                            </li>
+                                        `).join('')}
+                                    </ol>
+                                </div>
+                            ` : ''}
+                            
+                            ${exercise.images ? `
+                                <div class="images-container">
+                                    <h5>Qu'est-ce qu'elle fait? / Que fait-elle?</h5>
+                                    <div class="d-flex flex-wrap">
+                                        ${exercise.images.map((img, imgIndex) => `
+                                            <div class="image-item m-2 text-center">
+                                                <img src="${img}" alt="Activity ${imgIndex + 1}" class="img-fluid mb-2" style="max-height: 150px;">
+                                                ${exercise.sample_answers ? `
+                                                    <div>
+                                                        <button type="button" class="btn btn-sm btn-outline-info" 
+                                                                onclick="document.getElementById('s_img_answer_${index}_${imgIndex}').style.display = 
+                                                                         document.getElementById('s_img_answer_${index}_${imgIndex}').style.display === 'none' ? 'block' : 'none'">
+                                                            Voir exemple
+                                                        </button>
+                                                        <div id="s_img_answer_${index}_${imgIndex}" class="mt-2" style="display: none;">
+                                                            <div class="alert alert-info">
+                                                                ${exercise.sample_answers[imgIndex]}
+                                                                <button class="btn btn-sm btn-outline-primary ms-2" 
+                                                                        onclick="speakWord('${exercise.sample_answers[imgIndex]}')">
+                                                                    <i class="fas fa-volume-up"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        });
+    }
+    
+    contentArea.innerHTML = html;
+}
+
+// Display pronunciation content
+function displayPronunciation(pronunciation) {
+    const contentArea = document.getElementById('contentArea');
+    
+    if (!pronunciation || !pronunciation.content) {
+        contentArea.innerHTML = '<p>Không có nội dung phát âm cho bài học này.</p>';
+        return;
+    }
+    
+    let html = `
+        <h3>${pronunciation.title || 'Phát âm'}</h3>
+        <div class="pronunciation-content">
+    `;
+    
+    // Add pronunciation content
+    pronunciation.content.forEach((item, index) => {
+        html += `<p>${item}</p>`;
+    });
+    
+    // Add button to play all examples
+    html += `
+        <button class="btn btn-primary mt-3" onclick="speakPronunciationExamples()">
+            <i class="fas fa-volume-up"></i> Nghe tất cả ví dụ
+        </button>
+    `;
+    
+    // If there are sections, display them
+    if (pronunciation.sections && pronunciation.sections.length > 0) {
+        pronunciation.sections.forEach(section => {
+            html += `
+                <div class="pronunciation-section mt-4">
+                    <h4>${section.title}</h4>
+                    <p>${section.explanation || ''}</p>
+                    <div class="examples">
+                        ${section.examples.map(example => `
+                            <span class="pronunciation-example" onclick="speakWord('${example}')">
+                                ${example} <i class="fas fa-volume-up"></i>
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        });
+    }
+    
+    html += '</div>';
+    contentArea.innerHTML = html;
+}
+
+// Helper function to speak pronunciation examples
+function speakPronunciationExamples() {
+    if (!currentUnit.pronunciation || !currentUnit.pronunciation.content) return;
+    
+    // Extract example words from the content
+    const content = currentUnit.pronunciation.content.join(' ');
+    const exampleMatches = content.match(/:\s([a-zA-Z,\s]+)/g);
+    
+    if (exampleMatches && exampleMatches.length > 0) {
+        // Get words from matches
+        const words = exampleMatches
+            .map(match => match.replace(/:\s/, '').split(','))
+            .flat()
+            .map(word => word.trim())
+            .filter(word => word.length > 0);
+        
+        // Speak each word with a delay
+        speakExampleGroup(words);
+    }
+}
+
+// Helper function to speak a group of examples with delay
+function speakExampleGroup(examples) {
+    examples.forEach((word, index) => {
+        setTimeout(() => {
+            speakWord(word);
+        }, index * 1200);
+    });
+}
+
+// Initialize the app when the page loads
+document.addEventListener('DOMContentLoaded', initializeApp);
