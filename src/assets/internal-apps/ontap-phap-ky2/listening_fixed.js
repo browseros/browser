@@ -22,7 +22,7 @@ const listeningData = {
                 {
                     id: "dialogue2",
                     audioText: "Les enfants jouent au football dans le parc.",
-                    correctOption: 1,
+                    correctOption: 3,
                     explanation: "Những đứa trẻ đang chơi bóng đá trong công viên.",
                     options: [
                         { id: 1, description: "Jouer au football", imageUrl: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=150&h=150&fit=crop" },
@@ -33,10 +33,10 @@ const listeningData = {
                 {
                     id: "dialogue3",
                     audioText: "La famille regarde la télévision dans le salon.",
-                    correctOption: 1,
+                    correctOption: 3,
                     explanation: "Cả gia đình đang xem ti vi trong phòng khách.",
                     options: [
-                        { id: 1, description: "Regarder la télévision", imageUrl: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=150&h=150&fit=crop" },
+                        { id: 1, description: "Regarder la télévision", imageUrl: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=150&h=150&fit=crop" },
                         { id: 2, description: "Nager dans la piscine", imageUrl: "https://images.unsplash.com/photo-1560090995-01632a28895b?w=150&h=150&fit=crop" },
                         { id: 3, description: "Lire un livre", imageUrl: "https://images.unsplash.com/photo-1512045482940-f37f5216f639?w=150&h=150&fit=crop" }
                     ]
@@ -83,7 +83,7 @@ const listeningData = {
                 {
                     id: "dialogue1",
                     audioText: "- Comment s'appelle le garçon avec une chemise noire ? - C'est Pierre. Il joue au tennis.",
-                    correctOption: 1,
+                    correctOption: 3,
                     explanation: "Cậu bé mặc áo sơ mi đen tên là Pierre. Cậu ấy chơi tennis.",
                     options: [
                         { id: 1, description: "Chemise noire / pantalon noir, cheveux noirs", imageUrl: "https://images.unsplash.com/photo-1617957743096-28c8d1fcda6f?w=150&h=150&fit=crop" },
@@ -97,9 +97,9 @@ const listeningData = {
                     correctOption: 3,
                     explanation: "Quyển sách ở trong phòng ngủ với tủ quần áo màu đỏ và giường màu vàng.",
                     options: [
-                        { id: 1, description: "Armoire: rouge / lit : jaune", imageUrl: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=150&h=150&fit=crop" },
-                        { id: 2, description: "Armoire et lit : jaune", imageUrl: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=150&h=150&fit=crop" },
-                        { id: 3, description: "Armoire / lit : rouge", imageUrl: "https://images.unsplash.com/photo-1617325247661-675ab4b64ae2?w=150&h=150&fit=crop" }
+                        { id: 1, description: "Armoire: rouge / lit : jaune", imageUrl: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=150&h=150&fit=crop" },
+                        { id: 2, description: "Armoire et lit : jaune", imageUrl: "https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=150&h=150&fit=crop" },
+                        { id: 3, description: "Armoire / lit : rouge", imageUrl: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=150&h=150&fit=crop" }
                     ]
                 },
                 {
@@ -186,7 +186,7 @@ function speakText(text) {
         utterance.lang = 'fr-FR';
         
         // Optional: adjust voice parameters
-        utterance.rate = 0.9; // Slightly slower rate for language learning
+        utterance.rate = 0.6; // Giảm tốc độ đọc xuống rất chậm cho trẻ em lớp 2
         utterance.pitch = 1;
         
         // Get French voice if available
@@ -317,6 +317,10 @@ function createImageSelectionExercise(exercise) {
                 this.style.backgroundColor = '#e6f2ff';
                 this.style.borderColor = '#5D9CEC';
                 this.style.boxShadow = '0 0 5px rgba(93, 156, 236, 0.5)';
+
+                // Thêm data attribute để dễ dàng xác định lựa chọn đã chọn
+                this.setAttribute('data-selected', 'true');
+                siblings.forEach(sib => sib.removeAttribute('data-selected'));
             });
             
             optionsContainer.appendChild(optionElement);

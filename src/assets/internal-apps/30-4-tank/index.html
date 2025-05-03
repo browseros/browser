@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30/4 Tank Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #333;
+            font-family: Arial, sans-serif;
+        }
+        #gameContainer {
+            position: relative;
+        }
+        canvas {
+            border: 2px solid #666;
+            background: #000;
+        }
+        #ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 20px;
+        }
+        #menu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+        button {
+            background: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui">
+            <div id="score">Score: <span id="scoreValue">0</span></div>
+            <div id="time">Time: <span id="timeValue">0</span></div>
+        </div>
+        <div id="menu">
+            <h1>30/4 Tank Game</h1>
+            <button id="startButton">Start Game</button>
+            <button id="restartButton" style="display: none;">Play Again</button>
+            <p id="finalScore" style="color: white; display: none;"></p>
+        </div>
+    </div>
+
+    <!-- Game Engine -->
+    <script src="js/engine/gameEngine.js"></script>
+    <script src="js/engine/inputHandler.js"></script>
+    <script src="js/engine/soundManager.js"></script>
+    <script src="js/engine/spriteManager.js"></script>
+
+    <!-- Game Objects -->
+    <script src="js/objects/gameObject.js"></script>
+    <script src="js/objects/background.js"></script>
+    <script src="js/objects/tank.js"></script>
+    <script src="js/objects/palace.js"></script>
+    <script src="js/objects/obstacle.js"></script>
+    <script src="js/objects/explosion.js"></script>
+
+    <!-- Game States -->
+    <script src="js/states/gameState.js"></script>
+    <script src="js/states/menuState.js"></script>
+    <script src="js/states/playState.js"></script>
+    <script src="js/states/gameOverState.js"></script>
+
+    <!-- Main Game -->
+    <script src="js/game.js"></script>
+</body>
+</html> 

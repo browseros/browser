@@ -523,6 +523,27 @@ export class AppBarComponent {
                 this.store.dispatch(new appActions.AddTabAction(newTab));
             }
         }));
+
+        // Games
+        internalAppsSubmenu.append(new MenuItem({ type: 'separator' }));
+        internalAppsSubmenu.append(new MenuItem({
+            label: '30/4 Tank Game',
+            accelerator: 'CmdOrCtrl+Alt+G',
+            click: () => {
+                const url = 'http://localhost:4200/assets/internal-apps/30-4-tank/index.html';
+                const hostName = StateHelper.extractHostname(url);
+                const newTab: ITab = {
+                    id: 0,
+                    appId: 0,
+                    hostName,
+                    title: '30/4 Tank Game',
+                    url: url
+                };
+                this.store.dispatch(new appActions.AddTabAction(newTab));
+            }
+        }));
+
+        // Tin Học Lớp 6
         internalAppsSubmenu.append(new MenuItem({
             label: 'Tin Học Lớp 6',
             accelerator: 'CmdOrCtrl+Alt+T',
