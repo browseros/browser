@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30/4 Tank Game 3D</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        canvas {
+            display: block;
+        }
+        #ui {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-family: Arial, sans-serif;
+            pointer-events: none;
+        }
+        #menu {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .hidden {
+            display: none;
+        }
+        button {
+            background: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="ui">
+        <div id="score">Score: <span id="scoreValue">0</span></div>
+    </div>
+    <div id="menu">
+        <h1>30/4 Tank Game 3D</h1>
+        <button id="startButton">Start Game</button>
+        <button id="restartButton" class="hidden">Play Again</button>
+        <p id="finalScore" class="hidden"></p>
+    </div>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Game Engine -->
+    <script src="js/engine/Game.js"></script>
+    <script src="js/engine/InputHandler.js"></script>
+    <script src="js/engine/PhysicsEngine.js"></script>
+    <script src="js/engine/CollisionDetector.js"></script>
+
+    <!-- Game States -->
+    <script src="js/states/GameState.js"></script>
+    <script src="js/states/MenuState.js"></script>
+    <script src="js/states/PlayState.js"></script>
+    <script src="js/states/GameOverState.js"></script>
+
+    <!-- Models -->
+    <script src="js/models/Tank.js"></script>
+    <script src="js/models/Palace.js"></script>
+    <script src="js/models/Ground.js"></script>
+    <script src="js/models/PalmTree.js"></script>
+    <script src="js/models/Gate.js"></script>
+    <script src="js/models/Debris.js"></script>
+
+    <!-- Effects -->
+    <script src="js/effects/Explosion.js"></script>
+    <script src="js/effects/Smoke.js"></script>
+    <script src="js/effects/ParticleSystem.js"></script>
+
+    <!-- Main -->
+    <script src="js/main.js"></script>
+</body>
+</html> 

@@ -609,6 +609,24 @@ export class AppBarComponent {
             }
         }));
 
+        // 30/4 Tank Game 3D
+        internalAppsSubmenu.append(new MenuItem({
+            label: '30/4 Tank Game 3D',
+            accelerator: 'CmdOrCtrl+Alt+G',
+            click: () => {
+                const url = 'http://localhost:4200/assets/internal-apps/30-4-tank-3d/index.html';
+                const hostName = StateHelper.extractHostname(url);
+                const newTab: ITab = {
+                    id: 0,
+                    appId: 0,
+                    hostName,
+                    title: '30/4 Tank Game 3D',
+                    url: url
+                };
+                this.store.dispatch(new appActions.AddTabAction(newTab));
+            }
+        }));
+
         appsMenu.append(new MenuItem({
             label: 'Internal Apps',
             submenu: internalAppsSubmenu
