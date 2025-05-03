@@ -7,23 +7,28 @@ class Palace extends GameObject {
             260,  // Make palace wider
             300   // Make palace taller
         );
-        this.health = 100;
-        this.isDestroyed = false;
         this.gateHealth = 100;
         this.cracks = [];
         this.gateCollapsed = false;
         this.gateDebris = [];
-        this.debrisPhysics = true; // Enable physics for debris
+        this.debrisPhysics = true;
+        this.lastHitTime = 0;
         
         // Create palace shape
-        this.canvas = document.createElement('canvas');
-        this.canvas.width = this.width;
-        this.canvas.height = this.height;
+        this.mainCanvas = document.createElement('canvas');
+        this.mainCanvas.width = this.width;
+        this.mainCanvas.height = this.height;
+        
+        this.gateCanvas = document.createElement('canvas');
+        this.gateCanvas.width = this.width;
+        this.gateCanvas.height = this.height;
+        
         this.drawPalaceShape();
+        this.drawInitialGate();
     }
 
     drawPalaceShape() {
-        const ctx = this.canvas.getContext('2d');
+        const ctx = this.mainCanvas.getContext('2d');
         
         // Draw grass area
         ctx.fillStyle = '#4CAF50';
@@ -81,52 +86,16 @@ class Palace extends GameObject {
             );
             ctx.stroke();
         }
-
-        // Draw gate area
-        this.drawGate(ctx);
         
         // Draw palm trees
         this.drawPalmTree(ctx, 10, 200);
         this.drawPalmTree(ctx, 230, 200);
     }
 
-    drawPalmTree(ctx, x, y) {
-        // Trunk
-        ctx.fillStyle = '#795548';
-        ctx.fillRect(x, y, 8, 30);
+    drawInitialGate() {
+        const ctx = this.gateCanvas.getContext('2d');
+        ctx.clearRect(0, 0, this.width, this.height);
         
-        // Leaves
-        ctx.fillStyle = '#2E7D32';
-        for (let angle = -Math.PI/3; angle <= Math.PI/3; angle += Math.PI/6) {
-            ctx.beginPath();
-            ctx.moveTo(x + 4, y);
-            ctx.lineTo(
-                x + 4 + Math.cos(angle) * 20,
-                y + Math.sin(angle) * 20
-            );
-            ctx.lineTo(
-                x + 4 + Math.cos(angle) * 25,
-                y + Math.sin(angle) * 15
-            );
-            ctx.closePath();
-            ctx.fill();
-        }
-    }
-
-    drawGate(ctx) {
-        if (this.gateCollapsed) {
-            // Draw fallen gate debris
-            this.gateDebris.forEach(debris => {
-                ctx.save();
-                ctx.translate(debris.x, debris.y);
-                ctx.rotate(debris.rotation);
-                ctx.fillStyle = debris.color;
-                ctx.fillRect(-debris.width/2, -debris.height/2, debris.width, debris.height);
-                ctx.restore();
-            });
-            return;
-        }
-
         // Gate pillars
         ctx.fillStyle = '#9E9E9E';
         ctx.fillRect(80, 200, 15, 50);  // Left pillar
@@ -158,14 +127,28 @@ class Palace extends GameObject {
         for (let y = 215; y < 245; y += 15) {
             ctx.fillRect(95, y, 70, 2);
         }
+    }
 
-        // Draw cracks if gate is damaged
-        if (this.cracks.length > 0) {
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = 2;
-            this.cracks.forEach(crack => {
-                this.drawCrack(ctx, crack.x, crack.y, crack.length, crack.angle);
-            });
+    drawPalmTree(ctx, x, y) {
+        // Trunk
+        ctx.fillStyle = '#795548';
+        ctx.fillRect(x, y, 8, 30);
+        
+        // Leaves
+        ctx.fillStyle = '#2E7D32';
+        for (let angle = -Math.PI/3; angle <= Math.PI/3; angle += Math.PI/6) {
+            ctx.beginPath();
+            ctx.moveTo(x + 4, y);
+            ctx.lineTo(
+                x + 4 + Math.cos(angle) * 20,
+                y + Math.sin(angle) * 20
+            );
+            ctx.lineTo(
+                x + 4 + Math.cos(angle) * 25,
+                y + Math.sin(angle) * 15
+            );
+            ctx.closePath();
+            ctx.fill();
         }
     }
 
@@ -196,8 +179,16 @@ class Palace extends GameObject {
         };
         this.cracks.push(crack);
         
-        // Redraw palace with new crack
-        this.drawPalaceShape();
+        // Redraw gate with new crack
+        const ctx = this.gateCanvas.getContext('2d');
+        this.drawInitialGate();
+        
+        // Draw all cracks
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 2;
+        this.cracks.forEach(crack => {
+            this.drawCrack(ctx, crack.x, crack.y, crack.length, crack.angle);
+        });
     }
 
     collapseGate() {
@@ -208,7 +199,7 @@ class Palace extends GameObject {
         
         // Create more detailed debris
         const colors = ['#795548', '#5D4037', '#9E9E9E']; // Gate colors
-        const numDebris = 15; // More debris pieces
+        const numDebris = 20; // More debris pieces
         
         // Gate area coordinates
         const gateArea = {
@@ -226,11 +217,11 @@ class Palace extends GameObject {
                 width: Math.random() * 15 + 8,
                 height: Math.random() * 10 + 5,
                 rotation: Math.random() * Math.PI * 2,
-                velocityY: -Math.random() * 200, // Initial upward velocity
-                velocityX: (Math.random() - 0.5) * 300,
-                rotationSpeed: (Math.random() - 0.5) * Math.PI * 2,
+                velocityY: -Math.random() * 300, // Stronger initial upward velocity
+                velocityX: (Math.random() - 0.5) * 400,
+                rotationSpeed: (Math.random() - 0.5) * Math.PI * 3,
                 color: colors[Math.floor(Math.random() * colors.length)],
-                gravity: 500 // Gravity constant
+                gravity: 800 // Stronger gravity
             };
             this.gateDebris.push(debris);
         }
@@ -245,22 +236,26 @@ class Palace extends GameObject {
                     width: 15,
                     height: 10,
                     rotation: Math.random() * Math.PI * 0.5,
-                    velocityY: -Math.random() * 150,
-                    velocityX: (pos[0] < 100 ? -1 : 1) * (Math.random() * 100 + 50),
-                    rotationSpeed: (Math.random() - 0.5) * Math.PI,
+                    velocityY: -Math.random() * 250,
+                    velocityX: (pos[0] < 100 ? -1 : 1) * (Math.random() * 150 + 50),
+                    rotationSpeed: (Math.random() - 0.5) * Math.PI * 2,
                     color: '#9E9E9E',
-                    gravity: 500
+                    gravity: 800
                 };
                 this.gateDebris.push(debris);
             }
         });
+        
+        // Clear gate canvas
+        const ctx = this.gateCanvas.getContext('2d');
+        ctx.clearRect(0, 0, this.width, this.height);
         
         // Play destruction sound
         this.game.soundManager.play('explosion');
         
         // Screen shake effect
         if (this.game.camera && typeof this.game.camera.shake === 'function') {
-            this.game.camera.shake(1.5, 15);
+            this.game.camera.shake(2, 20);
         }
     }
 
@@ -296,53 +291,52 @@ class Palace extends GameObject {
                 debris.rotationSpeed *= (1 - Math.min(1, deltaTime));
             });
         }
-        
-        if (this.health <= 0 && !this.isDestroyed) {
-            this.destroy();
-        }
     }
 
     render(ctx) {
-        // Draw palace
-        ctx.drawImage(this.canvas, this.x, this.y);
-
-        // Draw health bar
-        const healthBarWidth = 100;
-        const healthBarHeight = 10;
-        const healthBarX = this.x + (this.width - healthBarWidth) / 2;
-        const healthBarY = this.y - 20;
-
-        // Background
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-        ctx.fillRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
-
-        // Health
-        ctx.fillStyle = `rgb(${255 - (this.health * 2.55)}, ${this.health * 2.55}, 0)`;
-        ctx.fillRect(
-            healthBarX,
-            healthBarY,
-            healthBarWidth * (this.health / 100),
-            healthBarHeight
-        );
-
-        // Gate health bar
-        const gateHealthBarY = this.y + 145;
+        // Draw main palace structure
+        ctx.drawImage(this.mainCanvas, this.x, this.y);
         
-        // Background
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-        ctx.fillRect(healthBarX, gateHealthBarY, healthBarWidth, healthBarHeight);
+        if (!this.gateCollapsed) {
+            // Draw gate and cracks
+            ctx.drawImage(this.gateCanvas, this.x, this.y);
+            
+            // Draw gate health bar
+            const healthBarWidth = 100;
+            const healthBarHeight = 10;
+            const healthBarX = this.x + (this.width - healthBarWidth) / 2;
+            const gateHealthBarY = this.y + 145;
+            
+            // Background
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.fillRect(healthBarX, gateHealthBarY, healthBarWidth, healthBarHeight);
 
-        // Health
-        ctx.fillStyle = `rgb(${255 - (this.gateHealth * 2.55)}, ${this.gateHealth * 2.55}, 0)`;
-        ctx.fillRect(
-            healthBarX,
-            gateHealthBarY,
-            healthBarWidth * (this.gateHealth / 100),
-            healthBarHeight
-        );
+            // Health
+            ctx.fillStyle = `rgb(${255 - (this.gateHealth * 2.55)}, ${this.gateHealth * 2.55}, 0)`;
+            ctx.fillRect(
+                healthBarX,
+                gateHealthBarY,
+                healthBarWidth * (this.gateHealth / 100),
+                healthBarHeight
+            );
+        } else {
+            // Draw debris
+            this.gateDebris.forEach(debris => {
+                ctx.save();
+                ctx.translate(this.x + debris.x, this.y + debris.y);
+                ctx.rotate(debris.rotation);
+                ctx.fillStyle = debris.color;
+                ctx.fillRect(-debris.width/2, -debris.height/2, debris.width, debris.height);
+                ctx.restore();
+            });
+        }
     }
 
     takeDamage(amount) {
+        const now = Date.now();
+        if (now - this.lastHitTime < 100) return; // Prevent too frequent hits
+        this.lastHitTime = now;
+
         // Check if tank is hitting the gate area
         const gateArea = {
             x: this.x + 50,
@@ -354,7 +348,8 @@ class Palace extends GameObject {
         const tank = this.game.currentState.tank;
         const tankBounds = tank.getBounds();
 
-        if (tankBounds.x < gateArea.x + gateArea.width &&
+        if (!this.gateCollapsed &&
+            tankBounds.x < gateArea.x + gateArea.width &&
             tankBounds.x + tankBounds.width > gateArea.x &&
             tankBounds.y < gateArea.y + gateArea.height &&
             tankBounds.y + tankBounds.height > gateArea.y) {
@@ -368,7 +363,7 @@ class Palace extends GameObject {
             }
             
             // Collapse gate when health reaches 0
-            if (this.gateHealth <= 0 && !this.gateCollapsed) {
+            if (this.gateHealth <= 0) {
                 this.collapseGate();
             }
             
@@ -376,32 +371,6 @@ class Palace extends GameObject {
             if (this.game.camera && typeof this.game.camera.shake === 'function') {
                 this.game.camera.shake(0.3, 3);
             }
-        } else {
-            // Normal damage to palace
-            this.health = Math.max(0, this.health - amount);
         }
-    }
-
-    destroy() {
-        super.destroy();
-        this.isDestroyed = true;
-        this.game.soundManager.play('explosion');
-        
-        // Create multiple explosions
-        for (let i = 0; i < 5; i++) {
-            setTimeout(() => {
-                new Explosion(
-                    this.game,
-                    this.x + Math.random() * this.width,
-                    this.y + Math.random() * this.height
-                );
-            }, i * 200);
-        }
-
-        // Play victory sound after explosions
-        setTimeout(() => {
-            this.game.soundManager.play('victory');
-            this.game.endGame();
-        }, 1500);
     }
 } 
