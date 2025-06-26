@@ -13,7 +13,7 @@ A modern, feature-rich browser built with Angular and Electron, designed to prov
 - 🔍 Powerful search functionality
 - 📚 Bookmark and history management
 - 🎨 Theme customization
-- �� Extension support
+- 🎨 Extension support
 - 🤖 AI Assistant Integration:
   - Natural language chat with AI
   - Smart webpage summarization
@@ -57,6 +57,66 @@ npm start
 ```bash
 npm run build
 ```
+
+## Running the Application
+
+### Development Mode (Recommended for development)
+
+**Option A: Using the main development script (Recommended)**
+```bash
+npm run electron:serve
+```
+This command will:
+- Start the Angular development server on `http://localhost:4200`
+- Wait for the server to be ready
+- Launch the Electron app
+- Run both processes concurrently
+
+**Option B: Using the custom start script**
+```bash
+node start-electron.js
+```
+This script will:
+- Start the Angular dev server
+- Wait 5 seconds for it to initialize
+- Launch Electron
+
+**Option C: Manual step-by-step**
+```bash
+# Terminal 1: Start Angular dev server
+npm start
+
+# Terminal 2: In a new terminal, run Electron
+npm run electron:dev
+```
+
+### Production Build
+To build and run the production version:
+```bash
+npm run electron:build
+```
+
+### Available Scripts
+From the `package.json`, here are all the available scripts:
+
+- `npm start` - Start Angular development server
+- `npm run electron:serve` - Start both Angular dev server and Electron (recommended)
+- `npm run electron:dev` - Start Electron (requires Angular server to be running)
+- `npm run electron:build` - Build for production and create distributable
+- `npm run electron:compile` - Compile TypeScript for Electron
+- `npm run electron:test` - Run tests
+- `npm run electron:e2e` - Run end-to-end tests
+
+### What the App Does
+This is a **Browser OS** application that provides:
+- A modern web browser interface
+- AI Assistant integration with chat capabilities
+- Webpage summarization and analysis
+- Screenshot and image analysis
+- Advanced tab management
+- Cross-platform support (Windows, macOS, Linux)
+
+The app combines Angular for the UI and Electron for the desktop application wrapper, giving you a full-featured browser experience with AI capabilities.
 
 ## Project Structure
 

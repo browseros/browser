@@ -49,12 +49,14 @@ class Tank extends GameObject {
 
         // Movement
         if (input.isKeyPressed('KeyW')) {
+            // W key - move forward in direction of cannon
             this.speed = Math.min(this.speed + this.acceleration * deltaTime, this.maxSpeed);
             if (!this.engineSound) {
                 this.game.soundManager.play('engine', true);
                 this.engineSound = true;
             }
         } else if (input.isKeyPressed('KeyS')) {
+            // S key - move backward
             this.speed = Math.max(this.speed - this.acceleration * deltaTime, -this.maxSpeed/2);
             if (!this.engineSound) {
                 this.game.soundManager.play('engine', true);
@@ -74,9 +76,10 @@ class Tank extends GameObject {
             }
         }
 
-        // Update position
-        this.velocity.x = Math.cos(this.rotation) * this.speed;
-        this.velocity.y = Math.sin(this.rotation) * this.speed;
+        // Update position - changed direction calculation
+        const angle = this.rotation + Math.PI; // Add PI to reverse direction
+        this.velocity.x = Math.cos(angle) * this.speed;
+        this.velocity.y = Math.sin(angle) * this.speed;
         
         this.x += this.velocity.x * deltaTime;
         this.y += this.velocity.y * deltaTime;
