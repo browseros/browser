@@ -39,8 +39,8 @@ A modern, feature-rich browser built with Angular and Electron, designed to prov
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/browser-os.git
-cd browser-os
+git clone https://github.com/browseros/browser.git
+cd browser
 ```
 
 2. Install dependencies:
@@ -121,7 +121,7 @@ The app combines Angular for the UI and Electron for the desktop application wra
 ## Project Structure
 
 ```
-browser-os/
+browser/
 ├── src/
 │   ├── app/
 │   │   ├── actions/            # Redux actions
@@ -354,7 +354,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For support, please:
 1. Check the [documentation](Architect/)
-2. Search existing [issues](https://github.com/yourusername/browser-os/issues)
+2. Search existing [issues](https://github.com/browseros/browser/issues)
 3. Create a new issue if needed
 
 ## Roadmap
@@ -377,9 +377,9 @@ For support, please:
 
 ## Contact
 
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter) - email@example.com
+Dung Luong - vietdung.luong@gmail.com
 
-Project Link: [https://github.com/yourusername/browser-os](https://github.com/yourusername/browser-os)
+Project Link: [https://github.com/browseros/browser](https://github.com/browseros/browser)
 
 ### AI Assistant Features
 
