@@ -29,7 +29,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
     @Input() public screenHeight: number = 0;
     @Input() public screenWidth: number = 0;
     @Input() public tabIds: number[] = [];
-    @Output() public onTitleChanged = new EventEmitter<string>();
+    @Output() public onTitleChanged = new EventEmitter<{ title: string }>();
     @Output() public onIconChanged = new EventEmitter<string>();
     @Output() public onNewUrl = new EventEmitter<string>();
     @Output() public onUrlChanged = new EventEmitter<string>();
@@ -303,7 +303,8 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
 
                 webviewElm.addEventListener('page-title-updated', (e: any) => {
                     console.log(`[AppWebview] Title updated for tab ${tabId}:`, e.title);
-                    this.onTitleChanged.emit(e.title);
+                    // Emit với format mà home.component.ts mong đợi
+                    this.onTitleChanged.emit({ title: e.title });
                 });
 
                 webviewElm.addEventListener('page-favicon-updated', (e: any) => {
@@ -539,7 +540,9 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
 
     // Event handler methods
     public handleTitleUpdated(event: any): void {
-        this.onTitleChanged.emit(event.title);
+        console.log(`[AppWebview] Title updated:`, event.title);
+        // Emit với format mà home.component.ts mong đợi
+        this.onTitleChanged.emit({ title: event.title });
     }
 
     public handleFaviconUpdated(event: any): void {
