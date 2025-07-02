@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import * as appActions from '../../actions/app.actions';
 import { StateHelper } from '../../utils/state.helper';
 import { HistoryService } from '../../services/history.service';
+import { FaviconService } from '../../services/favicon.service';
 import * as fromRoot from '../../reducers';
 
 declare const window: any;
@@ -45,7 +46,7 @@ export class AppBarComponent {
     public showRecentApps: boolean = false;
     public recentApps: IHistoryItem[] = [];
 
-    constructor(private store: Store<fromRoot.State>, private historyService: HistoryService) {
+    constructor(private store: Store<fromRoot.State>, private historyService: HistoryService, private faviconService: FaviconService) {
         // Add click outside listener to close dropdown
         document.addEventListener('click', (event) => {
             if (this.isDropdownOpen) {
@@ -250,181 +251,6 @@ export class AppBarComponent {
         menu.append(new MenuItem({
             label: 'Browser OS',
             submenu: browserOSMenu
-        }));
-        
-        // File Menu
-        const fileMenu = new Menu();
-        fileMenu.append(new MenuItem({
-            label: 'New Tab',
-            accelerator: 'CmdOrCtrl+T',
-            click: () => {
-                this.handleNewTab();
-            }
-        }));
-        fileMenu.append(new MenuItem({
-            label: 'New Window',
-            accelerator: 'CmdOrCtrl+N',
-            click: () => {
-                // TODO: Implement new window
-            }
-        }));
-        fileMenu.append(new MenuItem({
-            label: 'New Private Window',
-            accelerator: 'CmdOrCtrl+Shift+N',
-            click: () => {
-                // TODO: Implement private window
-            }
-        }));
-        fileMenu.append(new MenuItem({ type: 'separator' }));
-        fileMenu.append(new MenuItem({
-            label: 'Close Tab',
-            accelerator: 'CmdOrCtrl+W',
-            click: () => {
-                if (this.currentTab) {
-                    this.store.dispatch(new appActions.CloseTabAction(this.currentTab));
-                }
-            }
-        }));
-        fileMenu.append(new MenuItem({
-            label: 'Close Window',
-            accelerator: 'CmdOrCtrl+Shift+W',
-            click: () => {
-                const win = BrowserWindow.getFocusedWindow();
-                if (win) win.close();
-            }
-        }));
-        menu.append(new MenuItem({
-            label: 'File',
-            submenu: fileMenu
-        }));
-
-        // Edit Menu
-        const editMenu = new Menu();
-        editMenu.append(new MenuItem({
-            label: 'Undo',
-            accelerator: 'CmdOrCtrl+Z',
-            role: 'undo'
-        }));
-        editMenu.append(new MenuItem({
-            label: 'Redo',
-            accelerator: 'CmdOrCtrl+Shift+Z',
-            role: 'redo'
-        }));
-        editMenu.append(new MenuItem({ type: 'separator' }));
-        editMenu.append(new MenuItem({
-            label: 'Cut',
-            accelerator: 'CmdOrCtrl+X',
-            role: 'cut'
-        }));
-        editMenu.append(new MenuItem({
-            label: 'Copy',
-            accelerator: 'CmdOrCtrl+C',
-            role: 'copy'
-        }));
-        editMenu.append(new MenuItem({
-            label: 'Paste',
-            accelerator: 'CmdOrCtrl+V',
-            role: 'paste'
-        }));
-        editMenu.append(new MenuItem({
-            label: 'Paste and Match Style',
-            accelerator: 'CmdOrCtrl+Shift+V',
-            role: 'pasteAndMatchStyle'
-        }));
-        editMenu.append(new MenuItem({
-            label: 'Delete',
-            role: 'delete'
-        }));
-        editMenu.append(new MenuItem({
-            label: 'Select All',
-            accelerator: 'CmdOrCtrl+A',
-            role: 'selectAll'
-        }));
-        editMenu.append(new MenuItem({ type: 'separator' }));
-        editMenu.append(new MenuItem({
-            label: 'Find',
-            accelerator: 'CmdOrCtrl+F',
-            click: () => {
-                // TODO: Implement find
-            }
-        }));
-        menu.append(new MenuItem({
-            label: 'Edit',
-            submenu: editMenu
-        }));
-
-        // View Menu
-        const viewMenu = new Menu();
-        viewMenu.append(new MenuItem({
-            label: 'Always Show Bookmarks Bar',
-            type: 'checkbox',
-            checked: true,
-            click: () => {
-                // TODO: Toggle bookmarks bar
-            }
-        }));
-        viewMenu.append(new MenuItem({
-            label: 'Always Show Full URLs',
-            type: 'checkbox',
-            checked: false,
-            click: () => {
-                // TODO: Toggle full URLs
-            }
-        }));
-        viewMenu.append(new MenuItem({ type: 'separator' }));
-        viewMenu.append(new MenuItem({
-            label: 'Actual Size',
-            accelerator: 'CmdOrCtrl+0',
-            role: 'resetZoom'
-        }));
-        viewMenu.append(new MenuItem({
-            label: 'Zoom In',
-            accelerator: 'CmdOrCtrl+Plus',
-            role: 'zoomIn'
-        }));
-        viewMenu.append(new MenuItem({
-            label: 'Zoom Out',
-            accelerator: 'CmdOrCtrl+-',
-            role: 'zoomOut'
-        }));
-        viewMenu.append(new MenuItem({ type: 'separator' }));
-        viewMenu.append(new MenuItem({
-            label: 'Enter Full Screen',
-            accelerator: 'Ctrl+Command+F',
-            role: 'togglefullscreen'
-        }));
-        menu.append(new MenuItem({
-            label: 'View',
-            submenu: viewMenu
-        }));
-
-        // History Menu
-        const historyMenu = new Menu();
-        historyMenu.append(new MenuItem({
-            label: 'Back',
-            accelerator: 'CmdOrCtrl+[',
-            click: () => {
-                // TODO: Implement back
-            }
-        }));
-        historyMenu.append(new MenuItem({
-            label: 'Forward',
-            accelerator: 'CmdOrCtrl+]',
-            click: () => {
-                // TODO: Implement forward
-            }
-        }));
-        historyMenu.append(new MenuItem({ type: 'separator' }));
-        historyMenu.append(new MenuItem({
-            label: 'Show Full History',
-            accelerator: 'CmdOrCtrl+Y',
-            click: () => {
-                // TODO: Show history
-            }
-        }));
-        menu.append(new MenuItem({
-            label: 'History',
-            submenu: historyMenu
         }));
 
         // Apps Menu
@@ -632,46 +458,9 @@ export class AppBarComponent {
             submenu: internalAppsSubmenu
         }));
 
-        // Add Apps menu to main menu
         menu.append(new MenuItem({
             label: 'Apps',
             submenu: appsMenu
-        }));
-
-        // Window Menu
-        const windowMenu = new Menu();
-        windowMenu.append(new MenuItem({
-            label: 'Minimize',
-            accelerator: 'CmdOrCtrl+M',
-            role: 'minimize'
-        }));
-        windowMenu.append(new MenuItem({
-            label: 'Zoom',
-            role: 'zoom'
-        }));
-        windowMenu.append(new MenuItem({ type: 'separator' }));
-        windowMenu.append(new MenuItem({
-            label: 'Show Previous Tab',
-            accelerator: 'CmdOrCtrl+Shift+[',
-            click: () => {
-                // TODO: Show previous tab
-            }
-        }));
-        windowMenu.append(new MenuItem({
-            label: 'Show Next Tab',
-            accelerator: 'CmdOrCtrl+Shift+]',
-            click: () => {
-                // TODO: Show next tab
-            }
-        }));
-        windowMenu.append(new MenuItem({ type: 'separator' }));
-        windowMenu.append(new MenuItem({
-            label: 'Bring All to Front',
-            role: 'front'
-        }));
-        menu.append(new MenuItem({
-            label: 'Window',
-            submenu: windowMenu
         }));
 
         // Help Menu
@@ -1000,35 +789,38 @@ export class AppBarComponent {
             .sort((a, b) => (b.weight || 0) - (a.weight || 0));
     }
 
-    public handleRecentAppClick(app: IHistoryItem): void {
+    public async handleRecentAppClick(app: IHistoryItem): Promise<void> {
         if (!app || !app.link) return;
-        
-        // Create a new tab with the app's URL
         const hostname = StateHelper.extractHostname(app.link);
+        let icon = app.icon || '';
+        if (app.link !== 'about:blank') {
+            try {
+                icon = await this.faviconService.getBestFavicon(app.link);
+            } catch {}
+        }
         const newTab: ITab = {
             id: StateHelper.getNewTabId(this.tabs),
-            appId: 0,  // Will be set by the reducer
+            appId: 0,
             title: app.title || hostname,
             url: app.link,
             hostName: hostname,
-            icon: app.icon || ''
+            icon
         };
-        
-        // Dispatch action to add the tab
         this.store.dispatch(new appActions.AddTabAction(newTab));
-        
-        // Close the recent apps dropdown
         this.showRecentApps = false;
     }
 
-    public handleNewTab(): void {
+    public async handleNewTab(): Promise<void> {
+        let icon = '';
+        const url = 'about:blank';
+        // Nếu muốn lấy icon cho new tab đặc biệt, có thể xử lý ở đây
         const newTab: ITab = {
-            id: 0,  // Will be set by the reducer
-            appId: 0,  // Will be set by the reducer
+            id: 0,
+            appId: 0,
             title: 'New Tab',
-            url: 'about:blank',
+            url,
             hostName: 'New Tab',
-            icon: ''
+            icon
         };
         this.store.dispatch(new appActions.AddTabAction(newTab));
     }

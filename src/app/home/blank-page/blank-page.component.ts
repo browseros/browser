@@ -7,6 +7,7 @@ import type { IHistoryItem } from '../../models/history-item.model';
 import { HistoryService } from '../../services/history.service';
 import * as appActions from '../../actions/app.actions';
 import { StateHelper } from '../../utils/state.helper';
+import { FaviconService } from '../../services/favicon.service';
 
 @Component({
     selector: 'blank-page',
@@ -20,15 +21,24 @@ export class BlankPageComponent implements OnInit, OnDestroy {
 
     constructor(
         private store: Store<fromRoot.State>,
-        private historyService: HistoryService
+        private historyService: HistoryService,
+        private faviconService: FaviconService
     ) {}
 
     ngOnInit(): void {
         // Subscribe to history updates
         this.subscriptions.push(
-            this.historyService.history$.subscribe(histories => {
+            this.historyService.history$.subscribe(async histories => {
                 if (histories) {
                     this.recentApps = this.historyService.getTopItems(8);
+                    // Cập nhật icon lớn cho từng app nếu cần
+                    for (const app of this.recentApps) {
+                        if (!app.icon || app.icon.includes('default') || app.icon.includes('google.com/s2/favicons')) {
+                            try {
+                                app.icon = await this.faviconService.getBestFavicon(app.link);
+                            } catch {}
+                        }
+                    }
                 }
             })
         );
