@@ -64,7 +64,7 @@
     "@types/jquery": "^3.5.32",
     "@types/node": "^20.11.16",
     "concurrently": "^9.1.2",
-    "electron": "^28.1.0",
+    "electron": "^38.0.0",
     "electron-builder": "^24.9.1",
     "jasmine-core": "~5.1.1",
     "karma": "~6.4.2",
