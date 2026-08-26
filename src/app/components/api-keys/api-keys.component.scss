@@ -29,6 +29,21 @@ h2 {
   appearance: auto;
 }
 
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: #333;
+  font-weight: 500;
+
+  input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+}
+
 .form-group {
   margin-bottom: 1.5rem;
 }

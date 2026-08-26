@@ -52,6 +52,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
     public tabIdsInternal: number[] = [];
     private tabIdsSub: Subscription;
     public currentTabInternal: ITab | null = null;
+    private loadedTabIds = new Set<number>();
 
     isAIAssistantOpen: boolean = false;
     private subscription: Subscription = new Subscription();
@@ -91,6 +92,9 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
         ).subscribe(tab => {
             console.log('[AppWebview] Current tab updated:', tab);
             this.currentTabInternal = tab;
+            if (tab && tab.id) {
+                this.loadedTabIds.add(tab.id);
+            }
             this.cdr.detectChanges();
         });
 
@@ -368,7 +372,14 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
         });
     }
 
+    public isTabLoaded(tabId: number): boolean {
+        return this.loadedTabIds.has(tabId);
+    }
+
     public getTabUrl(tabId: number): string {
+        if (!this.isTabLoaded(tabId)) {
+            return '';
+        }
         const tab = this.tabs.find(t => t.id === tabId);
         console.log(`[AppWebview] Getting URL for tab ${tabId}:`, tab?.url);
         return tab?.url || '';

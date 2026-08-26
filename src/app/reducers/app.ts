@@ -362,6 +362,43 @@ export function reducer(state = initialState, action: Actions): State {
       };
     }
 
+    case app.RESTORE_SESSION: {
+      const payload = action.payload;
+      const apps = payload.apps || [];
+      const tabs = payload.tabs || [];
+      const host2Apps: { [host: string]: number } = {};
+      const app2Hosts: { [id: number]: string } = {};
+      const currentTabs: { [id: number]: number } = {};
+
+      apps.forEach(restoredApp => {
+        const hostname = StateHelper.extractHostname(restoredApp.url) || restoredApp.title || '';
+        if (hostname) {
+          host2Apps[hostname] = restoredApp.id;
+        }
+        app2Hosts[restoredApp.id] = hostname;
+      });
+
+      tabs.forEach(tab => {
+        currentTabs[tab.appId] = tab.id;
+      });
+
+      if (payload.currentTab) {
+        currentTabs[payload.currentTab.appId] = payload.currentTab.id;
+      }
+
+      return {
+        ...state,
+        apps,
+        tabs,
+        currentApp: payload.currentApp,
+        currentTab: payload.currentTab,
+        host2Apps,
+        app2Hosts,
+        currentTabs,
+        tabIds: tabs.map(tab => tab.id)
+      };
+    }
+
     case app.SHOW_BLANK_PAGE: {
       return Object.assign({}, state, {
         currentApp: null,

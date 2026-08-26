@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { ClipboardService } from '../../services/clipboard.service';
 import { I18nService } from '../../services/i18n.service';
 import { LanguageCode } from '../../i18n/translations';
+import { TabPersistenceService } from '../../services/tab-persistence.service';
 
 @Component({
   selector: 'app-api-keys',
@@ -16,11 +17,13 @@ export class ApiKeysComponent implements OnInit, AfterViewInit {
   showSuccessMessage = false;
   showOpenAIKey = false;
   showGeminiKey = false;
+  continueWhereYouLeftOff = true;
 
   constructor(
     private fb: FormBuilder,
     private clipboardService: ClipboardService,
-    public i18n: I18nService
+    public i18n: I18nService,
+    private tabPersistence: TabPersistenceService
   ) {
     this.apiKeysForm = this.fb.group({
       openaiApiKey: ['', Validators.required],
@@ -29,6 +32,7 @@ export class ApiKeysComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.continueWhereYouLeftOff = this.tabPersistence.getContinueWhereYouLeftOff();
     // Load saved keys from localStorage
     const savedKeys = localStorage.getItem('apiKeys');
     if (savedKeys) {
@@ -96,5 +100,10 @@ export class ApiKeysComponent implements OnInit, AfterViewInit {
 
   onLanguageChange(lang: LanguageCode) {
     this.i18n.setLanguage(lang);
+  }
+
+  onContinueWhereYouLeftOffChange(enabled: boolean) {
+    this.continueWhereYouLeftOff = enabled;
+    this.tabPersistence.setContinueWhereYouLeftOff(enabled);
   }
 } 

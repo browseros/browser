@@ -3,6 +3,7 @@
     <div [hidden]="!currentTabInternal || tabId !== currentTabInternal.id" [style.width.px]="screenWidth">
       <webview
         #webview
+        *ngIf="isTabLoaded(tabId)"
         [id]="'webview-' + tabId"
         [style.height.px]="screenHeight"
         [style.width.px]="screenWidth"

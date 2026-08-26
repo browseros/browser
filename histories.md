@@ -259,3 +259,27 @@
   - `src/app/services/clipboard.service.ts`
   - `src/app/no-content/no-content.component.ts`
 - Reason: To make Browser OS accessible to Chinese-speaking users as requested in https://github.com/browseros/browser/issues/51
+
+## 2026-08-26
+### Added
+- Session restore for windows, apps, and the last active tab (GitHub issue #52)
+  - Added "Continue where you left off" setting (on by default) under Customize Browser OS
+  - Persist each window's apps/tabs and restore them on startup
+  - Closing every window with X now restores all of those windows, not only the last one
+  - Background tabs are not loaded until selected, so grouped apps do not all fetch pages at startup
+  - Added New Window (Cmd/Ctrl+N)
+- Files added/updated:
+  - `src/app/services/tab-persistence.service.ts`
+  - `src/app/actions/app.actions.ts`
+  - `src/app/reducers/app.ts`
+  - `src/electron/main.ts`
+  - `src/app/home/home.component.ts`
+  - `src/app/home/app-webview/app-webview.component.ts`
+  - `src/app/home/app-webview/app-webview.component.html`
+  - `src/app/home/app-bar/app-bar.component.ts`
+  - `src/app/components/api-keys/api-keys.component.ts`
+  - `src/app/components/api-keys/api-keys.component.html`
+  - `src/app/components/api-keys/api-keys.component.scss`
+  - `src/app/i18n/translations.ts`
+- Reason: To fix https://github.com/browseros/browser/issues/52 so Browser OS remembers tab group state and all windows after a normal close
+

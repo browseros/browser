@@ -38,6 +38,7 @@ export const GET_SUGGESTIONS = '[App] Get Suggestions';
 export const GET_SUGGESTIONS_COMPLETE = '[App] Get Suggestions Complete';
 export const ADD_APP = '[App] Add App';
 export const SHOW_BLANK_PAGE = '[App] Show Blank Page';
+export const RESTORE_SESSION = '[App] Restore Session';
 
 // tslint:disable-next-line:max-classes-per-file
 export class GotoAppAction implements Action {
@@ -275,6 +276,17 @@ export class ShowBlankPageAction implements Action {
   public readonly type = SHOW_BLANK_PAGE;
 }
 
+export class RestoreSessionAction implements Action {
+  public readonly type = RESTORE_SESSION;
+
+  constructor(public payload: {
+    apps: IApp[];
+    tabs: ITab[];
+    currentApp: IApp | null;
+    currentTab: ITab | null;
+  }) { }
+}
+
 export type Actions =
   | GotoAppAction
   | AddTabAction
@@ -309,4 +321,5 @@ export type Actions =
   | GetSuggestionsAction
   | GetSuggestionsCompleteAction
   | AddAppAction
-  | ShowBlankPageAction;
+  | ShowBlankPageAction
+  | RestoreSessionAction;

@@ -11,6 +11,8 @@ import { FaviconService } from '../../services/favicon.service';
 import * as fromRoot from '../../reducers';
 import { I18nService } from '../../services/i18n.service';
 
+const { ipcRenderer } = require('electron');
+
 declare const window: any;
 
 @Component({
@@ -229,6 +231,13 @@ export class AppBarComponent {
             accelerator: 'CmdOrCtrl+,',
             click: () => {
                 this.onBtnSettings.emit();
+            }
+        }));
+        browserOSMenu.append(new MenuItem({
+            label: this.i18n.t('menu.newWindow'),
+            accelerator: 'CmdOrCtrl+N',
+            click: () => {
+                ipcRenderer.invoke('session:create-window');
             }
         }));
         browserOSMenu.append(new MenuItem({ type: 'separator' }));

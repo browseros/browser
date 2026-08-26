@@ -18,6 +18,7 @@ import { ScreenshotService } from '../services/screenshot.service';
 import { AIAssistantService } from '../services/ai-assistant.service';
 import { HistoryService } from '../services/history.service';
 import { I18nService } from '../services/i18n.service';
+import { TabPersistenceService } from '../services/tab-persistence.service';
 
 // Get ipcRenderer from electron
 const { ipcRenderer } = require('electron');
@@ -78,7 +79,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private screenshotService: ScreenshotService,
     public aiAssistantService: AIAssistantService,
     private historyService: HistoryService,
-    private i18n: I18nService
+    private i18n: I18nService,
+    private tabPersistence: TabPersistenceService
   ) {
     console.log('[HomeComponent] Constructor called');
     this.subscriptions.push(
@@ -120,11 +122,18 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('[HomeComponent] ngOnInit called');
+    this.tabPersistence.initialize();
   }
 
   ngOnDestroy() {
     console.log('[HomeComponent] ngOnDestroy called');
+    this.tabPersistence.saveThisWindow();
     this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  @HostListener('window:beforeunload')
+  onBeforeUnload() {
+    this.tabPersistence.saveThisWindow();
   }
 
   @HostListener('window:resize')
