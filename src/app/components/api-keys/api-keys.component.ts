@@ -2,6 +2,8 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { ClipboardService } from '../../services/clipboard.service';
+import { I18nService } from '../../services/i18n.service';
+import { LanguageCode } from '../../i18n/translations';
 
 @Component({
   selector: 'app-api-keys',
@@ -17,7 +19,8 @@ export class ApiKeysComponent implements OnInit, AfterViewInit {
 
   constructor(
     private fb: FormBuilder,
-    private clipboardService: ClipboardService
+    private clipboardService: ClipboardService,
+    public i18n: I18nService
   ) {
     this.apiKeysForm = this.fb.group({
       openaiApiKey: ['', Validators.required],
@@ -89,5 +92,9 @@ export class ApiKeysComponent implements OnInit, AfterViewInit {
     this.apiKeysForm.reset();
     environment.openaiApiKey = '';
     environment.geminiApiKey = '';
+  }
+
+  onLanguageChange(lang: LanguageCode) {
+    this.i18n.setLanguage(lang);
   }
 } 

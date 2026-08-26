@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Menu, MenuItem, clipboard, nativeImage } from '@electron/remote';
 import { ipcRenderer } from 'electron';
+import { I18nService } from './i18n.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClipboardService {
-  constructor() {}
+  constructor(private i18n: I18nService) {}
 
   async copy(text: string): Promise<void> {
     try {
@@ -116,7 +117,7 @@ export class ClipboardService {
       if (isImage) {
         // Add image-specific menu items
         menu.append(new MenuItem({
-          label: 'Copy Image',
+          label: this.i18n.t('context.copyImage'),
           click: async () => {
             const imgElement = target as HTMLImageElement;
             if (imgElement.src) {
@@ -129,14 +130,14 @@ export class ClipboardService {
       }
 
       menu.append(new MenuItem({
-        label: 'Select All',
+          label: this.i18n.t('context.selectAll'),
         click: () => {
           this.selectAll(element);
         }
       }));
 
       menu.append(new MenuItem({
-        label: 'Copy',
+          label: this.i18n.t('context.copy'),
         click: async () => {
           const selectedText = element.value.substring(
             element.selectionStart || 0,
@@ -149,7 +150,7 @@ export class ClipboardService {
       }));
 
       menu.append(new MenuItem({
-        label: 'Paste',
+          label: this.i18n.t('context.paste'),
         click: async () => {
           // Try to paste image first
           if (onImagePaste) {

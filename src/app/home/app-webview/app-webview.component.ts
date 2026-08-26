@@ -11,6 +11,7 @@ import { ipcRenderer } from 'electron';
 import * as appActions from '../../actions/app.actions';
 import { map } from 'rxjs/operators';
 import { AIAssistantService } from '../../services/ai-assistant.service';
+import { I18nService } from '../../services/i18n.service';
 
 interface IContextMenuItem {
     id: string;
@@ -58,7 +59,8 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
     constructor(
         public store: Store<fromRoot.State>,
         private cdr: ChangeDetectorRef,
-        private aiAssistantService: AIAssistantService
+        private aiAssistantService: AIAssistantService,
+        private i18n: I18nService
     ) {
         console.log('[AppWebview] Constructor called');
         this.tabsSub = new Subscription();
@@ -216,7 +218,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
                                 const menuItems: IContextMenuItem[] = [
                                     {
                                         id: 'screenshot',
-                                        label: 'Chụp ảnh màn hình',
+                                        label: this.i18n.t('context.screenshot'),
                                         visible: true
                                     }
                                 ];
@@ -226,7 +228,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
                                     menuItems.unshift(
                                         {
                                             id: 'copy',
-                                            label: 'Copy',
+                                            label: this.i18n.t('context.copy'),
                                             role: 'copy',
                                             visible: true
                                         }
@@ -238,12 +240,12 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
                                     menuItems.unshift(
                                         {
                                             id: 'openLink',
-                                            label: 'Open link in new tab',
+                                            label: this.i18n.t('context.openLinkNewTab'),
                                             visible: true
                                         },
                                         {
                                             id: 'copyLink',
-                                            label: 'Copy link address',
+                                            label: this.i18n.t('context.copyLink'),
                                             visible: true
                                         }
                                     );
@@ -338,7 +340,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
                     // Add AI Assistant option for images
                     if (isImage) {
                         menu.append(new MenuItem({
-                            label: 'Send to AI Assistant',
+                            label: this.i18n.t('context.sendToAI'),
                             click: () => {
                                 this.onImageToAI.emit({
                                     imageUrl: e.params.srcURL,
@@ -386,7 +388,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
                     const menuItems: IContextMenuItem[] = [
                         {
                             id: 'screenshot',
-                            label: 'Chụp ảnh màn hình',
+                            label: this.i18n.t('context.screenshot'),
                             visible: true
                         }
                     ];
@@ -396,7 +398,7 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
                         menuItems.unshift(
                             {
                                 id: 'copy',
-                                label: 'Copy',
+                                label: this.i18n.t('context.copy'),
                                 role: 'copy',
                                 visible: true
                             }
@@ -408,12 +410,12 @@ export class AppWebviewComponent implements AfterViewInit, OnDestroy {
                         menuItems.unshift(
                             {
                                 id: 'openLink',
-                                label: 'Open link in new tab',
+                                label: this.i18n.t('context.openLinkNewTab'),
                                 visible: true
                             },
                             {
                                 id: 'copyLink',
-                                label: 'Copy link address',
+                                label: this.i18n.t('context.copyLink'),
                                 visible: true
                             }
                         );

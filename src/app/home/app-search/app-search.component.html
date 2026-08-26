@@ -1,7 +1,7 @@
 <div class="search-modal" [class.show]="isVisible">
     <div class="search-container" #searchBox>
         <div class="search-header">
-            <button type="button" class="close" (click)="hide()" aria-label="Close">
+            <button type="button" class="close" (click)="hide()" [attr.aria-label]="'search.close' | t">
                 <span aria-hidden="true">&times;</span>
             </button>
             <div class="search-input-wrapper">
@@ -12,7 +12,7 @@
                     [(ngModel)]="searchText"
                     (input)="onInput($event)"
                     (keyup)="keyUp($event)"
-                    placeholder="Type to search..."
+                    [placeholder]="'search.placeholder' | t"
                 >
                 <i class="bi bi-search"></i>
             </div>
@@ -24,14 +24,14 @@
                 <div class="search-item" [class.active]="isCurrentSelectedSearchItem(0)" (click)="doGoogleSearch(searchText)">
                     <i class="bi bi-google search-item-icon"></i>
                     <div class="search-item-content">
-                        <div class="search-item-title">Search Google for "{{searchText}}"</div>
+                        <div class="search-item-title">{{ 'search.googleFor' | t:{text: searchText} }}</div>
                     </div>
                 </div>
             </div>
 
             <!-- Search Suggestions -->
             <div class="search-section" *ngIf="suggestions.length > 0">
-                <div class="search-section-title">Suggestions</div>
+                <div class="search-section-title">{{ 'search.suggestions' | t }}</div>
                 <div class="search-item" *ngFor="let suggestion of suggestions; let i = index"
                      [class.active]="isCurrentSelectedSearchItem(i + 1)"
                      (click)="handleSuggestionClick(suggestion)">
@@ -46,7 +46,7 @@
 
             <!-- History Results -->
             <div class="search-section" *ngIf="historiesSearched.length > 0">
-                <div class="search-section-title">Recent</div>
+                <div class="search-section-title">{{ 'search.recent' | t }}</div>
                 <div class="search-item" *ngFor="let item of historiesSearched"
                      (click)="selectHistoryItem(item)">
                     <img [src]="item.icon" *ngIf="item.icon" class="search-item-icon" alt="">
@@ -60,7 +60,7 @@
 
             <!-- Top Apps -->
             <div class="search-section" *ngIf="!searchText && topApps.length > 0">
-                <div class="search-section-title">Frequently Used</div>
+                <div class="search-section-title">{{ 'search.frequentlyUsed' | t }}</div>
                 <div class="search-item" *ngFor="let app of topApps"
                      (click)="selectHistoryItem(app)">
                     <img [src]="app.icon" *ngIf="app.icon" class="search-item-icon" alt="">
@@ -75,14 +75,14 @@
 
         <div class="search-footer">
             <div class="keyboard-hint">
-                <kbd>↑</kbd><kbd>↓</kbd> to navigate
-                <kbd>Enter</kbd> to select
-                <kbd>Esc</kbd> to close
+                <kbd>↑</kbd><kbd>↓</kbd> {{ 'search.navigate' | t }}
+                <kbd>Enter</kbd> {{ 'search.select' | t }}
+                <kbd>Esc</kbd> {{ 'search.closeHint' | t }}
             </div>
             <div>
-                <button type="button" class="btn btn-default" (click)="hide()">Cancel</button>
+                <button type="button" class="btn btn-default" (click)="hide()">{{ 'search.cancel' | t }}</button>
                 <button type="button" class="btn btn-primary" (click)="doSearch(searchText)">
-                    <i class="bi bi-search"></i>Search
+                    <i class="bi bi-search"></i>{{ 'search.search' | t }}
                 </button>
             </div>
         </div>

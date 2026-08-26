@@ -13,6 +13,7 @@ import { AppSearchComponent } from './app-search/app-search.component';
 import { AIAssistantComponent } from '../components/ai-assistant/ai-assistant.component';
 import { ApiKeysComponent } from '../components/api-keys/api-keys.component';
 import { BlankPageComponent } from './blank-page/blank-page.component';
+import { I18nModule } from '../i18n/i18n.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { BlankPageComponent } from './blank-page/blank-page.component';
     ReactiveFormsModule,
     RouterModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    I18nModule
   ],
   exports: [
     HomeComponent,

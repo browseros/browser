@@ -226,3 +226,36 @@
   - `src/app/home/app-nav/app-nav.component.html`
   - `src/app/home/app-nav/app-nav.component.scss`
 - Reason: To provide users with intuitive zoom controls in the navigation bar for better webpage viewing experience
+
+## 2026-08-26
+### Added
+- Chinese (Simplified) language support for the Browser OS UI (GitHub issue #51)
+  - Added i18n service, translation maps (English default + 简体中文), and `t` pipe
+  - Added language selector under Settings → Customize Browser OS
+  - Localized navigation, search, blank page, settings, AI Assistant, about dialog, and context menus
+  - Language preference is saved in localStorage
+- Files added:
+  - `src/app/i18n/translations.ts`
+  - `src/app/i18n/i18n.module.ts`
+  - `src/app/services/i18n.service.ts`
+  - `src/app/pipes/translate.pipe.ts`
+- Files modified:
+  - `src/app/app.module.ts`
+  - `src/app/app.component.ts`
+  - `src/app/home/home.module.ts`
+  - `src/app/home/home.component.ts`
+  - `src/app/home/home.component.html`
+  - `src/app/home/app-bar/app-bar.component.ts`
+  - `src/app/home/app-bar/app-bar.component.html`
+  - `src/app/home/app-nav/app-nav.component.html`
+  - `src/app/home/app-search/app-search.component.html`
+  - `src/app/home/blank-page/blank-page.component.html`
+  - `src/app/home/app-webview/app-webview.component.ts`
+  - `src/app/components/api-keys/api-keys.component.ts`
+  - `src/app/components/api-keys/api-keys.component.html`
+  - `src/app/components/api-keys/api-keys.component.scss`
+  - `src/app/components/ai-assistant/ai-assistant.component.ts`
+  - `src/app/components/ai-assistant/ai-assistant.component.html`
+  - `src/app/services/clipboard.service.ts`
+  - `src/app/no-content/no-content.component.ts`
+- Reason: To make Browser OS accessible to Chinese-speaking users as requested in https://github.com/browseros/browser/issues/51

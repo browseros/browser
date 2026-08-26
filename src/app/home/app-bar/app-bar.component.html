@@ -1,13 +1,13 @@
 <div class="app-bar">
     <div class="app-bar-left">
         <div class="app-actions">
-            <button class="action-button" (click)="handleMainMenuClick($event)" title="Main Menu">
+            <button class="action-button" (click)="handleMainMenuClick($event)" [title]="'appBar.mainMenu' | t">
                 <i class="bi bi-list"></i>
             </button>
-            <button class="action-button" (click)="onBtnAIAssistant.emit()" title="AI Assistant">
+            <button class="action-button" (click)="onBtnAIAssistant.emit()" [title]="'appBar.aiAssistant' | t">
                 <i class="bi bi-robot"></i>
             </button>
-            <button class="action-button" (click)="toggleRecentApps($event)" title="Recent Apps">
+            <button class="action-button recent-apps-btn" (click)="toggleRecentApps($event)" [title]="'appBar.recentApps' | t">
                 <i class="bi bi-clock-history"></i>
             </button>
         </div>
@@ -18,10 +18,10 @@
             <i class="bi bi-search search-icon"></i>
             <input type="text" 
                    class="search-input" 
-                   placeholder="Search URL or App"
+                   [placeholder]="'appBar.searchPlaceholder' | t"
                    [value]="currentTab?.url || ''"
                    (click)="onEnteredSearchBox.emit()"/>
-            <button type="button" class="btn btn-add" (click)="onBtnAddApp.emit()" title="Add new app">
+            <button type="button" class="btn btn-add" (click)="onBtnAddApp.emit()" [title]="'appBar.addNewApp' | t">
                 <i class="bi bi-plus"></i>
             </button>
         </div>
@@ -42,7 +42,7 @@
                         <span class="app-title">{{getHost(app)}}</span>
                         <button class="app-close" 
                                 (click)="handleAppClose($event, app)"
-                                title="Close app">
+                                [title]="'appBar.closeApp' | t">
                             <i class="bi bi-x"></i>
                         </button>
                     </div>
@@ -60,11 +60,11 @@
                                 <span class="tab-title">{{tab.title || tab.hostName}}</span>
                                 <button class="tab-close"
                                         (click)="handleTabClose($event, tab)"
-                                        title="Close tab">
+                                        [title]="'appBar.closeTab' | t">
                                     <i class="bi bi-x"></i>
                                 </button>
                             </div>
-                            <button class="new-tab-btn" (click)="handleNewTab()" title="New Tab">
+                            <button class="new-tab-btn" (click)="handleNewTab()" [title]="'appBar.newTab' | t">
                                 <i class="bi bi-plus-lg"></i>
                             </button>
                         </div>
@@ -75,13 +75,13 @@
     </div>
 
     <div class="window-controls" (contextmenu)="handleWindowControlsContextMenu($event)">
-        <button class="window-button minimize" title="Minimize" (click)="handleMinimize()">
+        <button class="window-button minimize" [title]="'appBar.minimize' | t" (click)="handleMinimize()">
             <i class="bi bi-dash-lg"></i>
         </button>
-        <button class="window-button maximize" title="Maximize" (click)="handleMaximize()">
+        <button class="window-button maximize" [title]="'appBar.maximize' | t" (click)="handleMaximize()">
             <i class="bi bi-square"></i>
         </button>
-        <button class="window-button close" title="Close" (click)="handleClose()">
+        <button class="window-button close" [title]="'appBar.close' | t" (click)="handleClose()">
             <i class="bi bi-x-lg"></i>
         </button>
     </div>
@@ -89,7 +89,7 @@
 
 <div class="recent-apps-dropdown" *ngIf="showRecentApps">
     <div class="recent-apps-header">
-        <h3>Recent Apps</h3>
+        <h3>{{ 'appBar.recentApps' | t }}</h3>
         <button class="close-button" (click)="toggleRecentApps($event)">
             <i class="bi bi-x"></i>
         </button>
@@ -106,7 +106,7 @@
         </div>
         <div class="no-recent-apps" *ngIf="recentApps.length === 0">
             <i class="bi bi-clock"></i>
-            <p>No recent apps</p>
+            <p>{{ 'appBar.noRecentApps' | t }}</p>
         </div>
     </div>
 </div>

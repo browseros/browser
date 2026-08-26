@@ -11,21 +11,21 @@
              [style.width]="getTabWidth()">
             <button class="tab-close" 
                     (click)="$event.stopPropagation(); onCloseTab.emit(tab)"
-                    title="Close tab">
+                    [title]="'appBar.closeTab' | t">
                 <i class="bi bi-x"></i>
             </button>
-            <span class="tab-title">{{tab.title || 'New Tab'}}</span>
+            <span class="tab-title">{{tab.title || ('nav.newTab' | t)}}</span>
         </div>
     </span>
     
     <div class="nav-actions">
-        <button class="nav-button" (click)="onReload()" [disabled]="!currentApp?.id" title="Reload">
+        <button class="nav-button" (click)="onReload()" [disabled]="!currentApp?.id" [title]="'nav.reload' | t">
             <i class="bi bi-arrow-clockwise"></i>
         </button>
-        <button class="nav-button" (click)="onBack()" [disabled]="!currentApp?.id" title="Back">
+        <button class="nav-button" (click)="onBack()" [disabled]="!currentApp?.id" [title]="'nav.back' | t">
             <i class="bi bi-chevron-left"></i>
         </button>
-        <button class="nav-button" (click)="onNext()" [disabled]="!currentApp?.id" title="Forward">
+        <button class="nav-button" (click)="onNext()" [disabled]="!currentApp?.id" [title]="'nav.forward' | t">
             <i class="bi bi-chevron-right"></i>
         </button>
         
@@ -35,8 +35,8 @@
                     data-bs-toggle="dropdown" 
                     aria-expanded="false"
                     (click)="updateHistories()"
-                    title="Recent">
-                <span>Recent</span>
+                    [title]="'nav.recent' | t">
+                <span>{{ 'nav.recent' | t }}</span>
                 <i class="bi bi-chevron-down"></i>
             </button>
             <ul class="dropdown-menu">
@@ -44,12 +44,12 @@
                     <a class="dropdown-item recent-item" 
                        (click)="selectHistoryItem(item)" 
                        [title]="item.title || item.link">
-                        <div class="recent-item-title">{{item.title || 'Untitled'}}</div>
+                        <div class="recent-item-title">{{item.title || ('nav.untitled' | t)}}</div>
                         <div class="recent-item-link" [title]="item.link">{{getShortenedUrl(item.link)}}</div>
                     </a>
                 </li>
                 <li *ngIf="filteredHistories.length === 0">
-                    <span class="dropdown-item disabled">No recent items</span>
+                    <span class="dropdown-item disabled">{{ 'nav.noRecentItems' | t }}</span>
                 </li>
             </ul>
         </div>
@@ -59,7 +59,7 @@
                     type="button" 
                     data-bs-toggle="dropdown" 
                     aria-expanded="false"
-                    title="Zoom">
+                    [title]="'nav.zoom' | t">
                 {{(currentZoom * 100).toFixed(0)}}%
                 <i class="bi bi-chevron-down"></i>
             </button>
@@ -67,19 +67,19 @@
                 <li>
                     <a class="dropdown-item zoom-item" (click)="onZoomIn($event)">
                         <i class="bi bi-search"></i>
-                        Zoom in +5%
+                        {{ 'nav.zoomIn' | t }}
                     </a>
                 </li>
                 <li>
                     <a class="dropdown-item zoom-item" (click)="onZoomOut($event)">
                         <i class="bi bi-search"></i>
-                        Zoom out -5%
+                        {{ 'nav.zoomOut' | t }}
                     </a>
                 </li>
                 <li>
                     <a class="dropdown-item zoom-item" (click)="onZoomReset($event)">
                         <i class="bi bi-arrow-counterclockwise"></i>
-                        Reset zoom 100%
+                        {{ 'nav.zoomReset' | t }}
                     </a>
                 </li>
             </ul>

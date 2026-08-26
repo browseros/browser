@@ -3,15 +3,15 @@
     <!-- Header -->
     <div class="chat-header">
       <div class="title-bar">
-        <span class="title">AI Assistant</span>
+        <span class="title">{{ 'ai.title' | t }}</span>
         <div class="header-actions">
-          <button class="header-button" (click)="createNewChat()" title="Tạo chat mới">
+          <button class="header-button" (click)="createNewChat()" [title]="'ai.newChat' | t">
             <i class="bi bi-plus-lg"></i>
           </button>
-          <button class="header-button" (click)="showHelp()" title="Help">
+          <button class="header-button" (click)="showHelp()" [title]="'ai.help' | t">
             <i class="bi bi-question-circle"></i>
           </button>
-          <button class="header-button" (click)="close()" title="Close">
+          <button class="header-button" (click)="close()" [title]="'ai.close' | t">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
@@ -51,10 +51,10 @@
             {{ message.timestamp | date:'short' }}
           </div>
           <div class="message-actions">
-            <button class="action-button" (click)="copyMessage(message.content)" title="Copy message">
+            <button class="action-button" (click)="copyMessage(message.content)" [title]="'ai.copyMessage' | t">
               <i class="bi bi-clipboard"></i>
             </button>
-            <button class="action-button" (click)="shareMessage(message.content)" title="Share message">
+            <button class="action-button" (click)="shareMessage(message.content)" [title]="'ai.shareMessage' | t">
               <i class="bi bi-share"></i>
             </button>
           </div>
@@ -73,7 +73,7 @@
     <div class="current-url" *ngIf="currentUrl && ['summarize', 'translate', 'explain'].includes(currentAction)">
       <div class="current-url-header">
         <i class="bi bi-link-45deg"></i>
-        <span>Đang xử lý trang:</span>
+        <span>{{ 'ai.processingPage' | t }}</span>
       </div>
       <div class="current-url-content">{{ currentUrl }}</div>
     </div>
@@ -91,7 +91,7 @@
         <textarea 
           [(ngModel)]="newMessage"
           (keydown.enter)="handleEnterKey($event)"
-          [placeholder]="pendingImage ? 'Add a message about this image...' : 'Type your message...'"
+          [placeholder]="pendingImage ? ('ai.placeholderImage' | t) : ('ai.placeholder' | t)"
           [disabled]="isLoading">
         </textarea>
         <button 
@@ -102,4 +102,4 @@
       </div>
     </div>
   </div>
-</div> 
+</div>

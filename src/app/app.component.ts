@@ -3,6 +3,7 @@
  */
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { I18nService } from './services/i18n.service';
 
 /*
  * App Component
@@ -25,8 +26,9 @@ export class AppComponent implements OnInit, OnDestroy {
   currentRoute: string = '';
   routerState: string = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private i18n: I18nService) {
     console.log('[AppComponent] Constructor called');
+    console.log('[AppComponent] Language:', this.i18n.language);
   }
 
   ngOnInit() {

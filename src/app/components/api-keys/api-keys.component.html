@@ -1,17 +1,35 @@
 <div class="api-keys-container">
   <div class="card">
-    <h2>API Keys Management</h2>
+    <h2>{{ 'settings.customize' | t }}</h2>
+    <p class="section-description">{{ 'settings.languageDescription' | t }}</p>
+    <div class="form-group">
+      <label for="language">{{ 'settings.language' | t }}</label>
+      <select
+        id="language"
+        class="form-control language-select"
+        [ngModel]="i18n.language"
+        (ngModelChange)="onLanguageChange($event)"
+      >
+        <option *ngFor="let lang of i18n.supportedLanguages" [value]="lang.code">
+          {{ lang.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>{{ 'settings.apiKeys' | t }}</h2>
     
     <form [formGroup]="apiKeysForm" (ngSubmit)="onSubmit()" class="api-keys-form">
       <div class="form-group">
-        <label for="openaiApiKey">OpenAI API Key</label>
+        <label for="openaiApiKey">{{ 'settings.openaiKey' | t }}</label>
         <div class="input-group">
           <input 
             [type]="showOpenAIKey ? 'text' : 'password'"
             id="openaiApiKey"
             formControlName="openaiApiKey"
             class="form-control"
-            placeholder="Enter your OpenAI API key"
+            [placeholder]="'settings.openaiPlaceholder' | t"
           >
           <button 
             type="button" 
@@ -24,14 +42,14 @@
       </div>
 
       <div class="form-group">
-        <label for="geminiApiKey">Gemini API Key</label>
+        <label for="geminiApiKey">{{ 'settings.geminiKey' | t }}</label>
         <div class="input-group">
           <input 
             [type]="showGeminiKey ? 'text' : 'password'"
             id="geminiApiKey"
             formControlName="geminiApiKey"
             class="form-control"
-            placeholder="Enter your Gemini API key"
+            [placeholder]="'settings.geminiPlaceholder' | t"
           >
           <button 
             type="button" 
@@ -44,13 +62,13 @@
       </div>
 
       <div class="button-group">
-        <button type="submit" class="btn btn-primary" [disabled]="!apiKeysForm.valid">Save Keys</button>
-        <button type="button" class="btn btn-danger" (click)="clearKeys()">Clear Keys</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!apiKeysForm.valid">{{ 'settings.saveKeys' | t }}</button>
+        <button type="button" class="btn btn-danger" (click)="clearKeys()">{{ 'settings.clearKeys' | t }}</button>
       </div>
 
       <div *ngIf="showSuccessMessage" class="alert alert-success mt-3">
-        API keys saved successfully!
+        {{ 'settings.keysSaved' | t }}
       </div>
     </form>
   </div>
-</div> 
+</div>

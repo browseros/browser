@@ -17,6 +17,7 @@ import { webContents } from '@electron/remote';
 import { ScreenshotService } from '../services/screenshot.service';
 import { AIAssistantService } from '../services/ai-assistant.service';
 import { HistoryService } from '../services/history.service';
+import { I18nService } from '../services/i18n.service';
 
 // Get ipcRenderer from electron
 const { ipcRenderer } = require('electron');
@@ -76,7 +77,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private store: Store<fromRoot.State>,
     private screenshotService: ScreenshotService,
     public aiAssistantService: AIAssistantService,
-    private historyService: HistoryService
+    private historyService: HistoryService,
+    private i18n: I18nService
   ) {
     console.log('[HomeComponent] Constructor called');
     this.subscriptions.push(
@@ -296,7 +298,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // Add screenshot option
     menu.append(new MenuItem({
-      label: 'Capture full page',
+      label: this.i18n.t('context.captureFullPage'),
       click: async () => {
         try {
           const webview = document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag;
@@ -321,7 +323,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }));
 
     menu.append(new MenuItem({
-      label: 'Capture visible area',
+      label: this.i18n.t('context.captureVisible'),
       click: async () => {
         try {
           const webview = document.querySelector(`webview#webview-${this.currentTab.id}`) as Electron.WebviewTag;
@@ -348,7 +350,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Handle link context menu
     if (params.linkURL) {
       menu.append(new MenuItem({
-        label: 'Open link in new tab',
+        label: this.i18n.t('context.openLinkNewTab'),
         click: () => {
           const hostName = StateHelper.extractHostname(params.linkURL);
           this.store.dispatch(new appActions.AddTabAction({
@@ -362,7 +364,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
 
       menu.append(new MenuItem({
-        label: 'Copy link address',
+        label: this.i18n.t('context.copyLink'),
         click: () => {
           clipboard.writeText(params.linkURL);
         }
@@ -418,7 +420,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
 
       menu.append(new MenuItem({
-        label: 'Search with',
+        label: this.i18n.t('context.searchWith'),
         submenu: searchSubmenu
       }));
 
@@ -427,21 +429,21 @@ export class HomeComponent implements OnInit, OnDestroy {
       
       // Common languages
       const languages = [
-        { code: 'en', name: 'English' },
-        { code: 'vi', name: 'Vietnamese' },
-        { code: 'ja', name: 'Japanese' },
-        { code: 'ko', name: 'Korean' },
-        { code: 'zh', name: 'Chinese' },
-        { code: 'fr', name: 'French' },
-        { code: 'de', name: 'German' },
-        { code: 'es', name: 'Spanish' },
-        { code: 'ru', name: 'Russian' },
-        { code: 'pt', name: 'Portuguese' },
-        { code: 'it', name: 'Italian' },
-        { code: 'nl', name: 'Dutch' },
-        { code: 'pl', name: 'Polish' },
-        { code: 'ar', name: 'Arabic' },
-        { code: 'hi', name: 'Hindi' }
+        { code: 'en', name: this.i18n.t('lang.en') },
+        { code: 'vi', name: this.i18n.t('lang.vi') },
+        { code: 'ja', name: this.i18n.t('lang.ja') },
+        { code: 'ko', name: this.i18n.t('lang.ko') },
+        { code: 'zh', name: this.i18n.t('lang.zh') },
+        { code: 'fr', name: this.i18n.t('lang.fr') },
+        { code: 'de', name: this.i18n.t('lang.de') },
+        { code: 'es', name: this.i18n.t('lang.es') },
+        { code: 'ru', name: this.i18n.t('lang.ru') },
+        { code: 'pt', name: this.i18n.t('lang.pt') },
+        { code: 'it', name: this.i18n.t('lang.it') },
+        { code: 'nl', name: this.i18n.t('lang.nl') },
+        { code: 'pl', name: this.i18n.t('lang.pl') },
+        { code: 'ar', name: this.i18n.t('lang.ar') },
+        { code: 'hi', name: this.i18n.t('lang.hi') }
       ];
 
       languages.forEach(lang => {
@@ -461,12 +463,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
 
       menu.append(new MenuItem({
-        label: 'Translate to',
+        label: this.i18n.t('context.translateTo'),
         submenu: translateSubmenu
       }));
 
       menu.append(new MenuItem({
-        label: 'Copy',
+        label: this.i18n.t('context.copy'),
         click: () => {
           clipboard.writeText(params.selectionText);
         }
@@ -477,7 +479,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (params.mediaType === 'image' && params.srcURL) {
       // Add AI Assistant option at the top
       menu.append(new MenuItem({
-        label: 'Send to AI Assistant',
+        label: this.i18n.t('context.sendToAI'),
         click: () => {
           // Open AI Assistant if not already open
           this.aiAssistantService.toggleAssistant();
@@ -495,7 +497,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       // Rest of the image context menu items
       menu.append(new MenuItem({
-        label: 'Search image with Google',
+        label: this.i18n.t('context.searchImageGoogle'),
         click: () => {
           const imageUrl = encodeURIComponent(params.srcURL);
           const hostName = StateHelper.extractHostname(`https://lens.google.com/uploadbyurl?url=${imageUrl}`);
@@ -510,7 +512,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
 
       menu.append(new MenuItem({
-        label: 'Download image to "Downloads"',
+        label: this.i18n.t('context.downloadImage'),
         click: async () => {
           const downloadsFolder = app.getPath('downloads');
           if (!downloadsFolder) return;
@@ -525,7 +527,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
 
       menu.append(new MenuItem({
-        label: 'Save image to...',
+        label: this.i18n.t('context.saveImage'),
         click: async () => {
           const win = BrowserWindow.getFocusedWindow();
           if (!win) return;
@@ -533,8 +535,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           const { canceled, filePath } = await dialog.showSaveDialog(win, {
             defaultPath: require('path').join(app.getPath('downloads'), 'image.png'),
             filters: [
-              { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'webp'] },
-              { name: 'All Files', extensions: ['*'] }
+              { name: this.i18n.t('dialog.images'), extensions: ['jpg', 'jpeg', 'png', 'gif', 'webp'] },
+              { name: this.i18n.t('dialog.allFiles'), extensions: ['*'] }
             ]
           });
 
@@ -545,7 +547,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
 
       menu.append(new MenuItem({
-        label: 'Copy image',
+        label: this.i18n.t('context.copyImage'),
         click: async () => {
           try {
             console.log('[Home] Attempting to copy image:', params.srcURL);
@@ -605,7 +607,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Handle video context menu
     if (params.mediaType === 'video' && params.srcURL) {
       menu.append(new MenuItem({
-        label: 'Download video to "Downloads"',
+        label: this.i18n.t('context.downloadVideo'),
         click: async () => {
           const downloadsFolder = app.getPath('downloads');
           if (!downloadsFolder) return;
@@ -620,7 +622,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
 
       menu.append(new MenuItem({
-        label: 'Save video to...',
+        label: this.i18n.t('context.saveVideo'),
         click: async () => {
           const win = BrowserWindow.getFocusedWindow();
           if (!win) return;
@@ -628,8 +630,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           const { canceled, filePath } = await dialog.showSaveDialog(win, {
             defaultPath: require('path').join(app.getPath('downloads'), 'video.mp4'),
             filters: [
-              { name: 'Videos', extensions: ['mp4', 'webm', 'ogg'] },
-              { name: 'All Files', extensions: ['*'] }
+              { name: this.i18n.t('dialog.videos'), extensions: ['mp4', 'webm', 'ogg'] },
+              { name: this.i18n.t('dialog.allFiles'), extensions: ['*'] }
             ]
           });
 
@@ -643,7 +645,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // If no menu items were added, add a default "Copy" option
     if (menu.items.length === 0) {
       menu.append(new MenuItem({
-        label: 'Copy',
+        label: this.i18n.t('context.copy'),
         click: () => {
           clipboard.writeText(params.selectionText || '');
         }

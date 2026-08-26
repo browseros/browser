@@ -21,6 +21,7 @@ import { HomeModule } from './home/home.module';
 import { reducers } from './reducers';
 import { AppEffects } from './effects/app.effects';
 import { GoogleSuggestionService } from './services/google-suggestion.service';
+import { I18nModule } from './i18n/i18n.module';
 
 const routes: Routes = [
   { path: '**', component: NoContentComponent }
@@ -40,6 +41,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     AppRoutingModule,
     HomeModule,
+    I18nModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AppEffects]),
     StoreDevtoolsModule.instrument({

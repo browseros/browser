@@ -9,6 +9,7 @@ import { StateHelper } from '../../utils/state.helper';
 import { HistoryService } from '../../services/history.service';
 import { FaviconService } from '../../services/favicon.service';
 import * as fromRoot from '../../reducers';
+import { I18nService } from '../../services/i18n.service';
 
 declare const window: any;
 
@@ -46,7 +47,12 @@ export class AppBarComponent {
     public showRecentApps: boolean = false;
     public recentApps: IHistoryItem[] = [];
 
-    constructor(private store: Store<fromRoot.State>, private historyService: HistoryService, private faviconService: FaviconService) {
+    constructor(
+        private store: Store<fromRoot.State>,
+        private historyService: HistoryService,
+        private faviconService: FaviconService,
+        private i18n: I18nService
+    ) {
         // Add click outside listener to close dropdown
         document.addEventListener('click', (event) => {
             if (this.isDropdownOpen) {
@@ -94,13 +100,13 @@ export class AppBarComponent {
     public handleContextMenu(app: IApp): void {
         const menu = new Menu();
         menu.append(new MenuItem({
-            label: 'Close app',
+            label: this.i18n.t('appBar.closeApp'),
             click: () => {
                 this.store.dispatch(new appActions.CloseAppAction(app));
             }
         }));
         menu.append(new MenuItem({
-            label: 'Close other apps',
+            label: this.i18n.t('appBar.closeOtherApps'),
             click: () => {
                 this.store.dispatch(new appActions.CloseOtherAppsAction(app));
             }
@@ -125,19 +131,19 @@ export class AppBarComponent {
         event.preventDefault();
         const menu = new Menu();
         menu.append(new MenuItem({
-            label: 'Close tab',
+            label: this.i18n.t('appBar.closeTab'),
             click: () => {
                 this.store.dispatch(new appActions.CloseTabAction(tab));
             }
         }));
         menu.append(new MenuItem({
-            label: 'Close other tabs of this app',
+            label: this.i18n.t('appBar.closeOtherTabsThisApp'),
             click: () => {
                 this.store.dispatch(new appActions.CloseOtherTabsAction(tab));
             }
         }));
         menu.append(new MenuItem({
-            label: 'Close other tabs of all apps',
+            label: this.i18n.t('appBar.closeOtherTabsAllApps'),
             click: () => {
                 this.store.dispatch(new appActions.CloseOtherTabsAllAppsAction(tab));
             }
@@ -148,21 +154,21 @@ export class AppBarComponent {
     public handleWindowControlsContextMenu(event: MouseEvent): void {
         const menu = new Menu();
         menu.append(new MenuItem({
-            label: 'Close window',
+            label: this.i18n.t('appBar.closeWindow'),
             click: () => {
                 const win = BrowserWindow.getFocusedWindow();
                 if (win) win.close();
             }
         }));
         menu.append(new MenuItem({
-            label: 'Minimize',
+            label: this.i18n.t('appBar.minimize'),
             click: () => {
                 const win = BrowserWindow.getFocusedWindow();
                 if (win) win.minimize();
             }
         }));
         menu.append(new MenuItem({
-            label: 'Maximize',
+            label: this.i18n.t('appBar.maximize'),
             click: () => {
                 const win = BrowserWindow.getFocusedWindow();
                 if (win) {
@@ -212,14 +218,14 @@ export class AppBarComponent {
         // Browser OS Menu (like Apple Menu)
         const browserOSMenu = new Menu();
         browserOSMenu.append(new MenuItem({
-            label: 'About Browser OS',
+            label: this.i18n.t('menu.about'),
             click: () => {
                 this.showAboutDialog();
             }
         }));
         browserOSMenu.append(new MenuItem({ type: 'separator' }));
         browserOSMenu.append(new MenuItem({
-            label: 'System Settings...',
+            label: this.i18n.t('menu.systemSettings'),
             accelerator: 'CmdOrCtrl+,',
             click: () => {
                 this.onBtnSettings.emit();
@@ -227,13 +233,13 @@ export class AppBarComponent {
         }));
         browserOSMenu.append(new MenuItem({ type: 'separator' }));
         browserOSMenu.append(new MenuItem({
-            label: 'Sleep',
+            label: this.i18n.t('menu.sleep'),
             click: () => {
                 // TODO: Implement sleep mode
             }
         }));
         browserOSMenu.append(new MenuItem({
-            label: 'Restart...',
+            label: this.i18n.t('menu.restart'),
             click: () => {
                 const win = BrowserWindow.getFocusedWindow();
                 if (win) {
@@ -243,13 +249,13 @@ export class AppBarComponent {
             }
         }));
         browserOSMenu.append(new MenuItem({
-            label: 'Shut Down...',
+            label: this.i18n.t('menu.shutDown'),
             click: () => {
                 app.quit();
             }
         }));
         menu.append(new MenuItem({
-            label: 'Browser OS',
+            label: this.i18n.t('menu.browserOS'),
             submenu: browserOSMenu
         }));
 
@@ -261,7 +267,7 @@ export class AppBarComponent {
         
         // Productivity
         internalAppsSubmenu.append(new MenuItem({
-            label: 'Calculator',
+            label: this.i18n.t('apps.calculator'),
             accelerator: 'CmdOrCtrl+Alt+C',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/calculator/calculator.html';
@@ -270,14 +276,14 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: 'Calculator',
+                    title: this.i18n.t('apps.calculator'),
                     url: url
                 };
                 this.store.dispatch(new appActions.AddTabAction(newTab));
             }
         }));
         internalAppsSubmenu.append(new MenuItem({
-            label: 'Calendar',
+            label: this.i18n.t('apps.calendar'),
             accelerator: 'CmdOrCtrl+Alt+L',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/calendar/calendar.html';
@@ -286,7 +292,7 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: 'Calendar',
+                    title: this.i18n.t('apps.calendar'),
                     url: url
                 };
                 this.store.dispatch(new appActions.AddTabAction(newTab));
@@ -296,7 +302,7 @@ export class AppBarComponent {
         // Media
         internalAppsSubmenu.append(new MenuItem({ type: 'separator' }));
         internalAppsSubmenu.append(new MenuItem({
-            label: 'Camera',
+            label: this.i18n.t('apps.camera'),
             accelerator: 'CmdOrCtrl+Alt+M',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/camera/camera.html';
@@ -305,7 +311,7 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: 'Camera',
+                    title: this.i18n.t('apps.camera'),
                     url: url
                 };
                 this.store.dispatch(new appActions.AddTabAction(newTab));
@@ -315,7 +321,7 @@ export class AppBarComponent {
         // Utilities
         internalAppsSubmenu.append(new MenuItem({ type: 'separator' }));
         internalAppsSubmenu.append(new MenuItem({
-            label: 'Weather',
+            label: this.i18n.t('apps.weather'),
             accelerator: 'CmdOrCtrl+Alt+W',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/weather/weather.html';
@@ -324,7 +330,7 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: 'Weather',
+                    title: this.i18n.t('apps.weather'),
                     url: url
                 };
                 this.store.dispatch(new appActions.AddTabAction(newTab));
@@ -334,7 +340,7 @@ export class AppBarComponent {
         // Education
         internalAppsSubmenu.append(new MenuItem({ type: 'separator' }));
         internalAppsSubmenu.append(new MenuItem({
-            label: 'English Global Success 6',
+            label: this.i18n.t('apps.englishGlobal6'),
             accelerator: 'CmdOrCtrl+Alt+E',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/english-global-6/english-global-6.html';
@@ -343,7 +349,7 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: 'English Global Success 6',
+                    title: this.i18n.t('apps.englishGlobal6'),
                     url: url
                 };
                 this.store.dispatch(new appActions.AddTabAction(newTab));
@@ -353,7 +359,7 @@ export class AppBarComponent {
         // Games
         internalAppsSubmenu.append(new MenuItem({ type: 'separator' }));
         internalAppsSubmenu.append(new MenuItem({
-            label: '30/4 Tank Game',
+            label: this.i18n.t('apps.tankGame'),
             accelerator: 'CmdOrCtrl+Alt+G',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/30-4-tank/index.html';
@@ -362,7 +368,7 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: '30/4 Tank Game',
+                    title: this.i18n.t('apps.tankGame'),
                     url: url
                 };
                 this.store.dispatch(new appActions.AddTabAction(newTab));
@@ -371,7 +377,7 @@ export class AppBarComponent {
 
         // Tin Học Lớp 6
         internalAppsSubmenu.append(new MenuItem({
-            label: 'Tin Học Lớp 6',
+            label: this.i18n.t('apps.tinHocLop6'),
             accelerator: 'CmdOrCtrl+Alt+T',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/tinHoc-lop6/tinHoc-lop6.html';
@@ -380,14 +386,14 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: 'Tin Học Lớp 6',
+                    title: this.i18n.t('apps.tinHocLop6'),
                     url: url
                 };
                 this.store.dispatch(new appActions.AddTabAction(newTab));
             }
         }));
         internalAppsSubmenu.append(new MenuItem({
-            label: 'Une Petite Grenouille',
+            label: this.i18n.t('apps.frenchKids'),
             accelerator: 'CmdOrCtrl+Alt+F',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/french-kids/french-kids.html';
@@ -396,14 +402,14 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: 'Une Petite Grenouille',
+                    title: this.i18n.t('apps.frenchKids'),
                     url: url
                 };
                 this.store.dispatch(new appActions.AddTabAction(newTab));
             }
         }));
         internalAppsSubmenu.append(new MenuItem({
-            label: 'Ôn Tập Pháp Kỳ 2',
+            label: this.i18n.t('apps.ontapPhapKy2'),
             accelerator: 'CmdOrCtrl+Alt+P',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/ontap-phap-ky2/ontap-phap-ky2.html';
@@ -412,14 +418,14 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: 'Ôn Tập Pháp Kỳ 2',
+                    title: this.i18n.t('apps.ontapPhapKy2'),
                     url: url
                 };
                 this.store.dispatch(new appActions.AddTabAction(newTab));
             }
         }));
         internalAppsSubmenu.append(new MenuItem({
-            label: 'IELTS for Kids',
+            label: this.i18n.t('apps.ieltsForKids'),
             accelerator: 'CmdOrCtrl+Alt+I',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/ielts-for-kids/index.html';
@@ -428,7 +434,7 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: 'IELTS for Kids',
+                    title: this.i18n.t('apps.ieltsForKids'),
                     url: url
                 };
                 this.store.dispatch(new appActions.AddTabAction(newTab));
@@ -437,7 +443,7 @@ export class AppBarComponent {
 
         // 30/4 Tank Game 3D
         internalAppsSubmenu.append(new MenuItem({
-            label: '30/4 Tank Game 3D',
+            label: this.i18n.t('apps.tankGame3d'),
             accelerator: 'CmdOrCtrl+Alt+G',
             click: () => {
                 const url = 'http://localhost:4200/assets/internal-apps/30-4-tank-3d/index.html';
@@ -446,7 +452,7 @@ export class AppBarComponent {
                     id: 0,
                     appId: 0,
                     hostName,
-                    title: '30/4 Tank Game 3D',
+                    title: this.i18n.t('apps.tankGame3d'),
                     url: url
                 };
                 this.store.dispatch(new appActions.AddTabAction(newTab));
@@ -454,19 +460,19 @@ export class AppBarComponent {
         }));
 
         appsMenu.append(new MenuItem({
-            label: 'Internal Apps',
+            label: this.i18n.t('menu.internalApps'),
             submenu: internalAppsSubmenu
         }));
 
         menu.append(new MenuItem({
-            label: 'Apps',
+            label: this.i18n.t('menu.apps'),
             submenu: appsMenu
         }));
 
         // Help Menu
         const helpMenu = new Menu();
         helpMenu.append(new MenuItem({
-            label: 'Browser OS Help',
+            label: this.i18n.t('menu.helpItem'),
             accelerator: 'CmdOrCtrl+?',
             click: () => {
                 // TODO: Show help
@@ -474,26 +480,26 @@ export class AppBarComponent {
         }));
         helpMenu.append(new MenuItem({ type: 'separator' }));
         helpMenu.append(new MenuItem({
-            label: 'Release Notes',
+            label: this.i18n.t('menu.releaseNotes'),
             click: () => {
                 // TODO: Show release notes
             }
         }));
         helpMenu.append(new MenuItem({
-            label: 'Report an Issue',
+            label: this.i18n.t('menu.reportIssue'),
             click: () => {
                 // TODO: Open issue reporter
             }
         }));
         helpMenu.append(new MenuItem({ type: 'separator' }));
         helpMenu.append(new MenuItem({
-            label: 'Privacy Policy',
+            label: this.i18n.t('menu.privacyPolicy'),
             click: () => {
                 // TODO: Show privacy policy
             }
         }));
         menu.append(new MenuItem({
-            label: 'Help',
+            label: this.i18n.t('menu.help'),
             submenu: helpMenu
         }));
 
@@ -503,63 +509,62 @@ export class AppBarComponent {
     private showAboutDialog(): void {
         const dialog = document.createElement('div');
         dialog.className = 'about-dialog-overlay';
-        dialog.innerHTML = `
+                dialog.innerHTML = `
             <div class="about-dialog">
                 <img src="assets/icons/browser-os-logo.png" alt="Browser OS Logo" class="logo">
                 <h1>Browser OS</h1>
-                <div class="version">Version 0.1.0</div>
+                <div class="version">${this.i18n.t('about.version', { version: '0.1.1' })}</div>
                 
                 <div class="content">
                     <div class="description">
-                        Browser OS is a modern, feature-rich browser built with Angular and Electron, 
-                        designed to provide a seamless and powerful web browsing experience with integrated AI capabilities.
+                        ${this.i18n.t('about.description')}
                     </div>
 
                     <div class="features-grid">
                         <div class="feature-item">
                             <i class="bi bi-robot"></i>
-                            <h3>AI Assistant</h3>
-                            <p>Smart AI-powered features and chat</p>
+                            <h3>${this.i18n.t('about.feature.ai')}</h3>
+                            <p>${this.i18n.t('about.feature.aiDesc')}</p>
                         </div>
                         <div class="feature-item">
                             <i class="bi bi-rocket"></i>
-                            <h3>Fast & Efficient</h3>
-                            <p>Optimized for speed and performance</p>
+                            <h3>${this.i18n.t('about.feature.fast')}</h3>
+                            <p>${this.i18n.t('about.feature.fastDesc')}</p>
                         </div>
                         <div class="feature-item">
                             <i class="bi bi-shield-check"></i>
-                            <h3>Enhanced Security</h3>
-                            <p>Sandboxed processes & secure browsing</p>
+                            <h3>${this.i18n.t('about.feature.security')}</h3>
+                            <p>${this.i18n.t('about.feature.securityDesc')}</p>
                         </div>
                         <div class="feature-item">
                             <i class="bi bi-window-stack"></i>
-                            <h3>Advanced Tabs</h3>
-                            <p>Smart tab management & organization</p>
+                            <h3>${this.i18n.t('about.feature.tabs')}</h3>
+                            <p>${this.i18n.t('about.feature.tabsDesc')}</p>
                         </div>
                         <div class="feature-item">
                             <i class="bi bi-translate"></i>
-                            <h3>AI Translation</h3>
-                            <p>Smart content translation & analysis</p>
+                            <h3>${this.i18n.t('about.feature.translation')}</h3>
+                            <p>${this.i18n.t('about.feature.translationDesc')}</p>
                         </div>
                         <div class="feature-item">
                             <i class="bi bi-camera"></i>
-                            <h3>Visual Analysis</h3>
-                            <p>Screenshot analysis & problem solving</p>
+                            <h3>${this.i18n.t('about.feature.visual')}</h3>
+                            <p>${this.i18n.t('about.feature.visualDesc')}</p>
                         </div>
                         <div class="feature-item">
                             <i class="bi bi-search"></i>
-                            <h3>Smart Search</h3>
-                            <p>AI-powered search with suggestions</p>
+                            <h3>${this.i18n.t('about.feature.search')}</h3>
+                            <p>${this.i18n.t('about.feature.searchDesc')}</p>
                         </div>
                         <div class="feature-item">
                             <i class="bi bi-bookmark-star"></i>
-                            <h3>Smart Bookmarks</h3>
-                            <p>Advanced bookmark & history management</p>
+                            <h3>${this.i18n.t('about.feature.bookmarks')}</h3>
+                            <p>${this.i18n.t('about.feature.bookmarksDesc')}</p>
                         </div>
                         <div class="feature-item">
                             <i class="bi bi-palette"></i>
-                            <h3>Customizable</h3>
-                            <p>Themes and personalization options</p>
+                            <h3>${this.i18n.t('about.feature.customizable')}</h3>
+                            <p>${this.i18n.t('about.feature.customizableDesc')}</p>
                         </div>
                     </div>
 
@@ -573,14 +578,14 @@ export class AppBarComponent {
                     </div>
 
                     <div class="copyright">
-                        Copyright © 2024 Browser OS. All rights reserved.<br>
-                        <a href="https://github.com/yourusername/browser-os" target="_blank">GitHub</a> · 
-                        <a href="#" onclick="window.open('Architect/Home.md')">Documentation</a> · 
-                        <a href="#" onclick="window.open('LICENSE')">License</a>
+                        ${this.i18n.t('about.copyright')}<br>
+                        <a href="https://github.com/browseros/browser" target="_blank">${this.i18n.t('about.github')}</a> · 
+                        <a href="#" onclick="window.open('Architect/Home.md')">${this.i18n.t('about.docs')}</a> · 
+                        <a href="#" onclick="window.open('LICENSE')">${this.i18n.t('about.license')}</a>
                     </div>
                 </div>
 
-                <button class="close-btn">Close</button>
+                <button class="close-btn">${this.i18n.t('about.close')}</button>
             </div>
         `;
 
@@ -761,7 +766,7 @@ export class AppBarComponent {
     private handleClickOutside = (event: MouseEvent) => {
         const target = event.target as HTMLElement;
         const dropdown = document.querySelector('.recent-apps-dropdown');
-        const button = document.querySelector('.action-button[title="Recent Apps"]');
+        const button = document.querySelector('.action-button.recent-apps-btn');
 
         if (dropdown && button && 
             !dropdown.contains(target) && 
@@ -817,9 +822,9 @@ export class AppBarComponent {
         const newTab: ITab = {
             id: 0,
             appId: 0,
-            title: 'New Tab',
+            title: this.i18n.t('appBar.newTab'),
             url,
-            hostName: 'New Tab',
+            hostName: this.i18n.t('appBar.newTab'),
             icon
         };
         this.store.dispatch(new appActions.AddTabAction(newTab));

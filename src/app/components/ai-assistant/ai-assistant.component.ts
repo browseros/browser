@@ -9,6 +9,7 @@ import { Menu, MenuItem } from '@electron/remote';
 import { marked } from 'marked';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { AIAssistantService, ImageToChat, ChatMessage } from '../../services/ai-assistant.service';
+import { I18nService } from '../../services/i18n.service';
 
 interface Action {
   id: string;
@@ -49,38 +50,40 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
   selectedModel = 'gpt-4';
   pendingImage: ChatMessage | null = null;
 
-  actions: Action[] = [
+  get actions(): Action[] {
+    return [
     { 
       id: 'chat', 
       icon: 'bi-chat', 
-      label: 'Chat với AI',
-      description: 'Trò chuyện tự nhiên với AI về mọi chủ đề'
+      label: this.i18n.t('ai.action.chat'),
+      description: this.i18n.t('ai.action.chatDesc')
     },
     { 
       id: 'summarize', 
       icon: 'bi-file-text', 
-      label: 'Tóm tắt với AI',
-      description: 'Tóm tắt nội dung trang web hiện tại'
+      label: this.i18n.t('ai.action.summarize'),
+      description: this.i18n.t('ai.action.summarizeDesc')
     },
     { 
       id: 'translate', 
       icon: 'bi-translate', 
-      label: 'Dịch với AI',
-      description: 'Dịch nội dung trang web hiện tại'
+      label: this.i18n.t('ai.action.translate'),
+      description: this.i18n.t('ai.action.translateDesc')
     },
     { 
       id: 'explain', 
       icon: 'bi-code-slash', 
-      label: 'Giải thích code với AI',
-      description: 'Phân tích và giải thích code trên trang'
+      label: this.i18n.t('ai.action.explain'),
+      description: this.i18n.t('ai.action.explainDesc')
     },
     { 
       id: 'search', 
       icon: 'bi-search', 
-      label: 'Tìm kiếm với AI',
-      description: 'Tìm kiếm thông minh với gợi ý từ AI'
+      label: this.i18n.t('ai.action.search'),
+      description: this.i18n.t('ai.action.searchDesc')
     }
-  ];
+    ];
+  }
 
   constructor(
     private chatGPTService: ChatGPTService,
@@ -90,7 +93,8 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     private clipboardService: ClipboardService,
     private sanitizer: DomSanitizer,
     private aiAssistantService: AIAssistantService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private i18n: I18nService
   ) {
     // Configure marked options
     marked.setOptions({
@@ -175,7 +179,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
           e.preventDefault();
           const menu = new Menu();
           menu.append(new MenuItem({
-            label: 'Copy',
+            label: this.i18n.t('ai.copy'),
             click: () => {
               const selectedText = (textarea as HTMLTextAreaElement).value.substring(
                 (textarea as HTMLTextAreaElement).selectionStart,
@@ -187,7 +191,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
             }
           }));
           menu.append(new MenuItem({
-            label: 'Paste',
+            label: this.i18n.t('ai.paste'),
             click: () => {
               navigator.clipboard.readText().then(text => {
                 const textareaEl = textarea as HTMLTextAreaElement;
@@ -224,7 +228,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
           (imageUrl: string) => {
             this.aiAssistantService.addImageToChat({
               imageUrl: imageUrl,
-              srcUrl: 'Pasted image'
+              srcUrl: this.i18n.t('ai.pastedImage')
             });
           }
         );
@@ -238,7 +242,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
           (imageUrl: string) => {
             this.aiAssistantService.addImageToChat({
               imageUrl: imageUrl,
-              srcUrl: 'Pasted image'
+              srcUrl: this.i18n.t('ai.pastedImage')
             });
           }
         );
@@ -262,7 +266,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
               (imageUrl: string) => {
                 this.aiAssistantService.addImageToChat({
                   imageUrl: imageUrl,
-                  srcUrl: 'Pasted image'
+                  srcUrl: this.i18n.t('ai.pastedImage')
                 });
               }
             );
@@ -629,13 +633,13 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
       await navigator.clipboard.writeText(content);
       // Show a temporary success message
       const originalContent = this.newMessage;
-      this.newMessage = 'Đã copy nội dung!';
+      this.newMessage = this.i18n.t('ai.copied');
       setTimeout(() => {
         this.newMessage = originalContent;
       }, 2000);
     } catch (err) {
       console.error('Failed to copy text: ', err);
-      this.error = 'Không thể copy nội dung. Vui lòng thử lại.';
+      this.error = this.i18n.t('ai.copyFailed');
     }
   }
 
@@ -643,21 +647,21 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     try {
       if (navigator.share) {
         await navigator.share({
-          title: 'Chia sẻ tin nhắn',
+          title: this.i18n.t('ai.shareTitle'),
           text: content
         });
       } else {
         // Fallback to clipboard if Web Share API is not available
         await navigator.clipboard.writeText(content);
         const originalContent = this.newMessage;
-        this.newMessage = 'Đã copy nội dung để chia sẻ!';
+        this.newMessage = this.i18n.t('ai.shareCopied');
         setTimeout(() => {
           this.newMessage = originalContent;
         }, 2000);
       }
     } catch (err) {
       console.error('Failed to share text: ', err);
-      this.error = 'Không thể chia sẻ nội dung. Vui lòng thử lại.';
+      this.error = this.i18n.t('ai.shareFailed');
     }
   }
 
@@ -669,72 +673,72 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     // Create help dialog content
     const helpContent = [
       { 
-        title: 'Chat with AI', 
-        description: 'Have natural conversations with AI about any topic',
+        title: this.i18n.t('ai.help.chat.title'), 
+        description: this.i18n.t('ai.help.chat.desc'),
         examples: [
-          'How does photosynthesis work?',
-          'What are the best practices for React?',
-          'Explain quantum computing'
+          this.i18n.t('ai.help.chat.ex1'),
+          this.i18n.t('ai.help.chat.ex2'),
+          this.i18n.t('ai.help.chat.ex3')
         ]
       },
       { 
-        title: 'Summarize Content', 
-        description: 'Get AI-powered summaries of web pages',
+        title: this.i18n.t('ai.help.summarize.title'), 
+        description: this.i18n.t('ai.help.summarize.desc'),
         examples: [
-          'Summarize this article',
-          'Give me the key points',
-          'What are the main ideas?'
+          this.i18n.t('ai.help.summarize.ex1'),
+          this.i18n.t('ai.help.summarize.ex2'),
+          this.i18n.t('ai.help.summarize.ex3')
         ]
       },
       { 
-        title: 'Translate Content', 
-        description: 'Translate web content using AI',
+        title: this.i18n.t('ai.help.translate.title'), 
+        description: this.i18n.t('ai.help.translate.desc'),
         examples: [
-          'Translate this page to Vietnamese',
-          'Translate the selected text to English',
-          'What does this mean in French?'
+          this.i18n.t('ai.help.translate.ex1'),
+          this.i18n.t('ai.help.translate.ex2'),
+          this.i18n.t('ai.help.translate.ex3')
         ]
       },
       { 
-        title: 'Explain Code', 
-        description: 'Get AI explanations of code on the page',
+        title: this.i18n.t('ai.help.explain.title'), 
+        description: this.i18n.t('ai.help.explain.desc'),
         examples: [
-          'Explain this function',
-          'How does this code work?',
-          'What does this algorithm do?'
+          this.i18n.t('ai.help.explain.ex1'),
+          this.i18n.t('ai.help.explain.ex2'),
+          this.i18n.t('ai.help.explain.ex3')
         ]
       },
       { 
-        title: 'Capture and Chat', 
-        description: 'Automatically capture screen and discuss with AI about the content',
+        title: this.i18n.t('ai.help.capture.title'), 
+        description: this.i18n.t('ai.help.capture.desc'),
         examples: [
-          'Take a photo and help me solve this math problem',
-          'Capture this exercise and explain how to solve it',
-          'Take a screenshot and tell me what\'s wrong with this code',
-          'Capture this error message and help me fix it',
-          'Take a photo of this diagram and explain it to me',
-          'Screenshot this and help me understand the concept'
+          this.i18n.t('ai.help.capture.ex1'),
+          this.i18n.t('ai.help.capture.ex2'),
+          this.i18n.t('ai.help.capture.ex3'),
+          this.i18n.t('ai.help.capture.ex4'),
+          this.i18n.t('ai.help.capture.ex5'),
+          this.i18n.t('ai.help.capture.ex6')
         ]
       },
       { 
-        title: 'Full Page Capture and Analysis', 
-        description: 'Capture entire webpage for comprehensive AI analysis',
+        title: this.i18n.t('ai.help.fullPage.title'), 
+        description: this.i18n.t('ai.help.fullPage.desc'),
         examples: [
-          'Capture full page and help me with these exercises',
-          'Take a full screenshot and analyze all the problems',
-          'Save the complete page and guide me through each question',
-          'Capture everything and help me understand this tutorial',
-          'Take a full page photo and explain each section'
+          this.i18n.t('ai.help.fullPage.ex1'),
+          this.i18n.t('ai.help.fullPage.ex2'),
+          this.i18n.t('ai.help.fullPage.ex3'),
+          this.i18n.t('ai.help.fullPage.ex4'),
+          this.i18n.t('ai.help.fullPage.ex5')
         ]
       },
       { 
-        title: 'Fill Input Fields', 
-        description: 'Automatically fill form inputs with appropriate values',
+        title: this.i18n.t('ai.help.fill.title'), 
+        description: this.i18n.t('ai.help.fill.desc'),
         examples: [
-          'Fill in email with test@example.com',
-          'Enter phone number in phone field',
-          'Fill name in name field',
-          'Enter password in password field'
+          this.i18n.t('ai.help.fill.ex1'),
+          this.i18n.t('ai.help.fill.ex2'),
+          this.i18n.t('ai.help.fill.ex3'),
+          this.i18n.t('ai.help.fill.ex4')
         ]
       }
     ];
@@ -744,14 +748,14 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
     dialog.className = 'help-dialog';
     dialog.innerHTML = `
       <div class="help-content">
-        <h2>AI Assistant Features</h2>
+        <h2>${this.i18n.t('ai.helpTitle')}</h2>
         <div class="help-items">
           ${helpContent.map(item => `
             <div class="help-item">
               <h3>${item.title}</h3>
               <p>${item.description}</p>
               <div class="examples">
-                <h4>Example queries:</h4>
+                <h4>${this.i18n.t('ai.exampleQueries')}</h4>
                 <ul>
                   ${item.examples.map(example => `
                     <li>${example}</li>
@@ -761,7 +765,7 @@ export class AIAssistantComponent implements OnInit, AfterViewChecked, OnDestroy
             </div>
           `).join('')}
         </div>
-        <button class="close-help">Close</button>
+        <button class="close-help">${this.i18n.t('ai.close')}</button>
       </div>
     `;
 
